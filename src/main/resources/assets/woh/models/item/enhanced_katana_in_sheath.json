@@ -1,0 +1,51 @@
+{
+	"loader": "forge:separate_transforms",
+	"base":
+	{
+		"loader": "forge:obj",
+		"model": "woh:models/item/obj/enhanced_katana_in_sheath.obj",
+		"flip_v": true,
+		"display": {
+          "thirdperson_righthand":
+          {
+            "translation": [5.85, -3.75, 6.5],
+            "rotation": [98, 0, 0],
+            "scale": [0.8, 0.8, 0.8]
+          },
+          "firstperson_righthand":
+          {
+            "translation": [10,-1,-5],
+            "rotation": [ 85, -3, 0 ],
+            "scale": [0.45, 0.45, 0.45]
+          }
+		}
+	},
+	"perspectives":
+	{
+		"ground":
+		{
+			"parent": "item/generated",
+			"textures":
+			{
+				"layer0": "woh:item/enhanced_katana_display"
+			}
+		},
+		"gui":
+		{
+			"parent": "item/generated",
+			"textures":
+			{
+				"layer0": "woh:item/enhanced_katana_display"
+			},
+			"gui_light": "front"
+		},
+		"fixed":
+		{
+			"parent": "item/generated",
+			"textures":
+			{
+				"layer0": "woh:item/enhanced_katana_display"
+			}
+		}
+	}
+}
