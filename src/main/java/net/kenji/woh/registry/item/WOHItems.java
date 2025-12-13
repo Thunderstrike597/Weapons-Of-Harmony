@@ -17,9 +17,13 @@ public class WOHItems {
     public static final RegistryObject<Item> ENHANCED_KATANA_SHEATH = ITEMS.register("enhanced_katana_sheath", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ENHANCED_KATANA_IN_SHEATH = ITEMS.register("enhanced_katana_in_sheath", () -> new Item(new Item.Properties()));
 
-    public static final RegistryObject<Item> FOLDED_IRON_INGOT = ITEMS.register("folded_iron_ingot", () -> new Item(new Item.Properties().stacksTo(64)));
-    public static final RegistryObject<Item> STEEL_INGOT = ITEMS.register("steel_ingot", () -> new Item(new Item.Properties().stacksTo(64)));
-    public static final RegistryObject<Item> FOLDED_STEEL_INGOT = ITEMS.register("folded_steel_ingot", () -> new Item(new Item.Properties().stacksTo(64)));
+    public static final RegistryObject<Item> FOLDED_IRON = ITEMS.register("folded_iron", () -> new Item(new Item.Properties().stacksTo(64)));
+    public static final RegistryObject<Item> FOLDED_STEEL = ITEMS.register("folded_steel", () -> new Item(new Item.Properties().stacksTo(64)));
+    public static final RegistryObject<Item> HARDENED_STEEL_INGOT = ITEMS.register("hardened_steel_ingot", () -> new Item(new Item.Properties().stacksTo(64)));
+
+    public static final RegistryObject<Item> HARDENED_BLADE = ITEMS.register("hardened_blade", () -> new Item(new Item.Properties().stacksTo(64)));
+    public static final RegistryObject<Item> PATTERNED_HANDLE = ITEMS.register("patterned_handle", () -> new Item(new Item.Properties().stacksTo(64)));
+    public static final RegistryObject<Item> GOLD_TSUBA = ITEMS.register("gold_tsuba", () -> new Item(new Item.Properties().stacksTo(64)));
 
 
     public static void register(IEventBus eventBus) {

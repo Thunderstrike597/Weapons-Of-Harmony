@@ -18,7 +18,7 @@ import yesman.epicfight.particle.EpicFightParticles;
 import yesman.epicfight.particle.HitParticleType;
 import yesman.epicfight.world.damagesource.StunType;
 
-public class EnhancedKatanaPreset extends BasicAttackAnimation {
+public class EnhancedKatanaPreset extends KatanaAttackAnimation {
 
     public static HumanoidArmature biped = Armatures.BIPED;
 

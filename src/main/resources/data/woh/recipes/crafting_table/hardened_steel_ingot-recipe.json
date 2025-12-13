@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "woh:folded_steel"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "A  ",
+    "   "
+  ],
+  "result": {
+    "item": "woh:hardened_steel_ingot"
+  }
+}

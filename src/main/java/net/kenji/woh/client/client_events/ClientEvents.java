@@ -10,6 +10,7 @@ import net.kenji.woh.render.EnhancedKatanaRender;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -29,9 +30,7 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void propertyOverrideRegistry(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> ItemProperties.register((Item) WOHItems.ENHANCED_KATANA.get(),
-                new ResourceLocation("woh", "unsheathed"),
-                (Stack, World, Entity, i) -> Stack.getTag() != null && Stack.getTag().getBoolean("unsheathed") ? 1.0F : 0.0F));
+
     }
 
     @SubscribeEvent
@@ -42,7 +41,17 @@ public class ClientEvents {
     public static void onClientSetup(FMLClientSetupEvent event) {
       event.enqueueWork(() -> {
           EntityRenderers.register(ModEntities.EXILED_RONIN.get(), ExiledRoninRenderer::new);
-          Log.info("IS REGISTERING CLIENT SETTUP");
+          ItemProperties.register(
+                  WOHItems.ENHANCED_KATANA.get(),
+                  new ResourceLocation("woh", "unsheathed"),
+                  (stack, level, entity, seed) -> {
+                      if(entity instanceof Player player) {
+
+                          return player.getMainHandItem().getItem() == stack.getItem() ? 1.0F : 0.0F;
+                      }
+                      return 0;
+                  }
+          );
       });
       }
 }

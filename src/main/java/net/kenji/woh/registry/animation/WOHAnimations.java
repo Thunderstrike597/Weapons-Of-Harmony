@@ -2,6 +2,7 @@ package net.kenji.woh.registry.animation;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.TimeStampManager;
 import net.kenji.woh.gameasset.animations.EnhancedKatanaPreset;
+import net.kenji.woh.registry.WOHSounds;
 import net.kenji.woh.render.EnhancedKatanaRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundEvent;
@@ -13,6 +14,7 @@ import org.jline.utils.Log;
 import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
+import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.model.armature.HumanoidArmature;
@@ -28,28 +30,85 @@ public class WOHAnimations {
     public static void registerAnimations(AnimationRegistryEvent event) {
         event.getRegistryMap().put(WeaponsOfHarmony.MODID, WOHAnimations::build);
     }
+    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_IDLE;
+    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_WALK;
+    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_RUN;
+
     public static StaticAnimation ENHANCED_KATANA_IDLE;
     public static StaticAnimation ENHANCED_KATANA_WALK;
-    public static StaticAnimation ENHANCED_KATANA_RUN;
+
     public static StaticAnimation ENHANCED_KATANA_SHEATH;
     public static StaticAnimation ENHANCED_KATANA_UNSHEATH;
-    public static StaticAnimation ENHANCED_KATANA_SHEATHED_IDLE;
-    public static StaticAnimation ENHANCED_KATANA_SHEATHED_WALK;
+
+    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_AUTO_1;
+    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_AUTO_2;
+    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_AUTO_3;
+    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_AUTO_4;
+    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_AUTO_5;
 
     public static StaticAnimation ENHANCED_KATANA_AUTO_1;
     public static StaticAnimation ENHANCED_KATANA_AUTO_2;
     public static StaticAnimation ENHANCED_KATANA_AUTO_3;
     public static StaticAnimation ENHANCED_KATANA_AUTO_4;
-    public static StaticAnimation ENHANCED_KATANA_AUTO_5;
 
 
-    public static StaticAnimation ENHANCED_KATANA_SHEATHED_AUTO_1;
-    public static StaticAnimation ENHANCED_KATANA_SHEATHED_AUTO_2;
-    public static StaticAnimation ENHANCED_KATANA_SHEATHED_AUTO_3;
+    public static StaticAnimation OLD_ENHANCED_KATANA_SHEATHED_AUTO_1;
+    public static StaticAnimation OLD_ENHANCED_KATANA_SHEATHED_AUTO_2;
+    public static StaticAnimation OLD_ENHANCED_KATANA_SHEATHED_AUTO_3;
 
-    public static StaticAnimation ENHANCED_KATANA_SHEATHED_DASH;
+    public static StaticAnimation ENHANCED_KATANA_DASH;
 
-    private static StaticAnimation createSheathedAttackAnimation(
+    private static StaticAnimation createLivingAnimation(
+            String path,
+            boolean isRepeat,
+            float convertTime,
+            float normalizedStart,
+            float normalizedEnd,
+            AnimationEvent.TimeStampedEvent[] extraEvents
+    ) {
+        StaticAnimation animation = (new StaticAnimation(convertTime, isRepeat, path, Armatures.BIPED));
+
+
+        boolean stopEndEvent = false;
+        boolean stopStartEvent = false;
+
+        if(normalizedEnd <= -1){
+            stopEndEvent = true;
+        }
+        if(normalizedStart <= -1){
+            stopStartEvent = true;
+        }
+
+        // Register timestamp
+        TimeStampManager.register(animation, normalizedStart, normalizedEnd);
+
+        float absoluteStart = animation.getTotalTime() * normalizedStart;
+        float absoluteEnd = animation.getTotalTime() * normalizedEnd;
+
+
+        if(!stopEndEvent && !stopStartEvent) {
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, unSheathEvent, AnimationEvent.Side.CLIENT),
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, sheathEvent, AnimationEvent.Side.CLIENT)
+            });
+        }
+        if(!stopEndEvent && stopStartEvent){
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, sheathEvent, AnimationEvent.Side.CLIENT)
+            });
+        }
+        if(!stopStartEvent && stopEndEvent) {
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, unSheathEvent, AnimationEvent.Side.CLIENT),
+            });
+        }
+        if(extraEvents != null){
+            animation.addEvents(extraEvents);
+        }
+        return animation;
+    }
+
+    private static StaticAnimation createAttackAnimation(
             String path,
             int phaseCount,
             float convertTime,
@@ -71,6 +130,16 @@ public class WOHAnimations {
                 hitSound, swingSound, hitParticle
         );
 
+        boolean stopEndEvent = false;
+        boolean stopStartEvent = false;
+
+        if(normalizedEnd <= -1){
+            stopEndEvent = true;
+        }
+        if(normalizedStart <= -1){
+            stopStartEvent = true;
+        }
+
         // Register timestamp
         TimeStampManager.register(animation, normalizedStart, normalizedEnd);
 
@@ -78,65 +147,69 @@ public class WOHAnimations {
         float absoluteEnd = animation.getTotalTime() * normalizedEnd;
 
         // Add events at those exact timestamps
-        animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                AnimationEvent.TimeStampedEvent.create(absoluteStart, sheathAttackBeginEvent, AnimationEvent.Side.CLIENT),
-                AnimationEvent.TimeStampedEvent.create(absoluteEnd, sheathAttackEndEvent, AnimationEvent.Side.CLIENT)
-        });
 
+        if(!stopEndEvent && !stopStartEvent) {
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, unSheathEvent, AnimationEvent.Side.CLIENT),
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, sheathEvent, AnimationEvent.Side.CLIENT)
+            });
+        }
+        if(!stopEndEvent && stopStartEvent){
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, sheathEvent, AnimationEvent.Side.CLIENT)
+            });
+        }
+        if(!stopStartEvent && stopEndEvent){
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, unSheathEvent, AnimationEvent.Side.CLIENT),
+            });
+
+        }
         return animation;
     }
 
-    static AnimationEvent.AnimationEventConsumer sheathSoundEvent = (
+
+    static AnimationEvent.AnimationEventConsumer unSheathEvent = (
             (livingEntityPatch, staticAnimation, objects) -> {
 
-                    assert Minecraft.getInstance().player != null;
-                    Minecraft.getInstance().player.playSound(
+                Player player = (Player)livingEntityPatch.getOriginal();
+                UUID playerId = player.getUUID();
+                EnhancedKatanaRender.sheathWeapon.put(playerId, false);
+            }
+    );
+    static AnimationEvent.AnimationEventConsumer sheathEvent = (
+            (livingEntityPatch, staticAnimation, objects) -> {
+                Player player = (Player) livingEntityPatch.getOriginal();
+                UUID playerId = player.getUUID();
+
+                if(player.level().isClientSide) {
+                    player.playSound(
                             EpicFightSounds.SWORD_IN.get(),
                             1.0f,
                             1.0f
                     );
-            });
-    static AnimationEvent.AnimationEventConsumer sheathAttackBeginEvent = (
-            (livingEntityPatch, staticAnimation, objects) -> {
-                Player player = (Player)livingEntityPatch.getOriginal();
-                UUID playerId = player.getUUID();
-                Log.info("IS ATTACKING");
-                EnhancedKatanaRender.attacking.put(playerId, true);
-            }
-    );
-    static AnimationEvent.AnimationEventConsumer sheathAttackEndEvent = (
-            (livingEntityPatch, staticAnimation, objects) -> {
-                Player player = (Player)livingEntityPatch.getOriginal();
-                UUID playerId = player.getUUID();
-                EnhancedKatanaRender.attacking.remove(playerId);
+                }
+                EnhancedKatanaRender.sheathWeapon.remove(playerId);
+                EnhancedKatanaRender.sheathWeapon.put(playerId, true);
             }
     );
 
     private static void build(){
         HumanoidArmature biped = Armatures.BIPED;
 
-        ENHANCED_KATANA_IDLE = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_idle", biped));
-        ENHANCED_KATANA_WALK = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_walk", biped));
-        ENHANCED_KATANA_RUN = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_run", biped));
-        ENHANCED_KATANA_SHEATH = (new StaticAnimation(0.1f, false, "biped/skill/enhanced_katana/enhanced_katana_sheathe", biped).addEvents(new AnimationEvent.TimeStampedEvent[]{AnimationEvent.TimeStampedEvent.create(1.225F,sheathSoundEvent, AnimationEvent.Side.CLIENT)}));
-        TimeStampManager.register(
-                ENHANCED_KATANA_SHEATH,
-                0.2f,   // normalized start
-                0.75f    // normalized end
-        );
-        ENHANCED_KATANA_UNSHEATH = (new StaticAnimation(0.1f, false, "biped/skill/enhanced_katana/enhanced_katana_unsheathe", biped));
-        TimeStampManager.register(
-                ENHANCED_KATANA_UNSHEATH,
-                0.23f,   // normalized start
-                0.65f    // normalized end
-        );
-        ENHANCED_KATANA_SHEATHED_IDLE = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_sheathed_idle", biped));
-        ENHANCED_KATANA_SHEATHED_WALK = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_sheathed_walk", biped));
+        ENHANCED_KATANA_UNSHEATHED_IDLE = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_idle", biped));
+        ENHANCED_KATANA_UNSHEATHED_WALK = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_walk", biped));
+        ENHANCED_KATANA_UNSHEATHED_RUN = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_run", biped));
+        ENHANCED_KATANA_SHEATH = createLivingAnimation("biped/skill/enhanced_katana/enhanced_katana_sheathe", false, 0.1f, -1, 0.7f, null);
+        ENHANCED_KATANA_UNSHEATH = createLivingAnimation("biped/skill/enhanced_katana/enhanced_katana_unsheathe", false, 0.1f, 0.23f, -1, null);
+
+        ENHANCED_KATANA_IDLE = createLivingAnimation("biped/living/enhanced_katana/enhanced_katana_sheathed_idle", true, 0.1f, -1f, -1, null);
+        ENHANCED_KATANA_WALK = createLivingAnimation("biped/living/enhanced_katana/enhanced_katana_sheathed_walk", true, 0.1f, -1f, -1, null);
 
 
 
-        ENHANCED_KATANA_AUTO_1 = (new EnhancedKatanaPreset(
-                "biped/combat/enhanced_katana/enhanced_katana_auto_1",
+        ENHANCED_KATANA_UNSHEATHED_AUTO_1 = (new EnhancedKatanaPreset(
+                "biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_1",
                 1,
                 0.1F,
                 1F,
@@ -151,8 +224,8 @@ public class WOHAnimations {
 
         ));
 
-        ENHANCED_KATANA_AUTO_2 = (new EnhancedKatanaPreset(
-                "biped/combat/enhanced_katana/enhanced_katana_auto_2",
+        ENHANCED_KATANA_UNSHEATHED_AUTO_2 = (new EnhancedKatanaPreset(
+                "biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_2",
                 2,
                 0.1F,
                 1.0F,
@@ -167,8 +240,8 @@ public class WOHAnimations {
 
         ));
 
-        ENHANCED_KATANA_AUTO_3 = (new EnhancedKatanaPreset(
-                "biped/combat/enhanced_katana/enhanced_katana_auto_3",
+        ENHANCED_KATANA_UNSHEATHED_AUTO_3 = (new EnhancedKatanaPreset(
+                "biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_3",
                 2,
                 0.1F,
                 1.0F,
@@ -182,8 +255,8 @@ public class WOHAnimations {
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE}
 
         ));
-        ENHANCED_KATANA_AUTO_4 = (new EnhancedKatanaPreset(
-                "biped/combat/enhanced_katana/enhanced_katana_auto_4",
+        ENHANCED_KATANA_UNSHEATHED_AUTO_4 = (new EnhancedKatanaPreset(
+                "biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_4",
                 1,
                 0.1F,
                 1.0F,
@@ -197,8 +270,8 @@ public class WOHAnimations {
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE}
 
         ));
-        ENHANCED_KATANA_AUTO_5 = (new EnhancedKatanaPreset(
-                "biped/combat/enhanced_katana/enhanced_katana_auto_5",
+        ENHANCED_KATANA_UNSHEATHED_AUTO_5 = (new EnhancedKatanaPreset(
+                "biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_5",
                 1,
                 0.1F,
                 1.0F,
@@ -213,7 +286,74 @@ public class WOHAnimations {
 
         ));
 
-        ENHANCED_KATANA_SHEATHED_AUTO_1 = createSheathedAttackAnimation(
+        ENHANCED_KATANA_AUTO_1 = createAttackAnimation(
+                "biped/combat/new/enhanced_katana/enhanced_katana_auto_1",
+                1,
+                0.1F,
+                1F,
+                new float[]{0.1F},
+                new float[]{0.3F},
+                new float[]{0.6F},
+                new float[]{1.2f},
+                new float[]{1.3f},
+                new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
+                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
+                0.2f,
+                0.7f
+        );
+        ENHANCED_KATANA_AUTO_2 = createAttackAnimation(
+                "biped/combat/new/enhanced_katana/enhanced_katana_auto_2",
+                1,
+                0.1F,
+                1F,
+                new float[]{0.0F},
+                new float[]{0.4F},
+                new float[]{0.6F},
+                new float[]{0.9F},
+                new float[]{1F},
+                new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
+                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
+                0.2f,
+                0.7f
+        );
+        ENHANCED_KATANA_AUTO_3 = createAttackAnimation(
+                "biped/combat/new/enhanced_katana/enhanced_katana_auto_3",
+                1,
+                0.1F,
+                1F,
+                new float[]{0.0F},
+                new float[]{0.4F},
+                new float[]{0.6F},
+                new float[]{0.9F},
+                new float[]{1F},
+                new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
+                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
+                0.2f,
+                0.7f
+        );
+        ENHANCED_KATANA_AUTO_4 = createAttackAnimation(
+                "biped/combat/new/enhanced_katana/enhanced_katana_auto_4",
+                1,
+                0.1F,
+                1F,
+                new float[]{0.0F},
+                new float[]{0.75F},
+                new float[]{1.1F},
+                new float[]{1.65f},
+                new float[]{1.8f},
+                new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
+                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
+                0.2f,
+                0.7f
+        );
+
+
+
+        OLD_ENHANCED_KATANA_SHEATHED_AUTO_1 = createAttackAnimation(
                 "biped/combat/enhanced_katana/enhanced_katana_sheathed_auto_1",
                 1,
                 0.45F,
@@ -230,7 +370,7 @@ public class WOHAnimations {
                 0.8f    // end timestamp
         );
 
-        ENHANCED_KATANA_SHEATHED_AUTO_2 = createSheathedAttackAnimation(
+        OLD_ENHANCED_KATANA_SHEATHED_AUTO_2 = createAttackAnimation(
                 "biped/combat/enhanced_katana/enhanced_katana_sheathed_auto_2",
                 1,
                 0.05F,
@@ -246,7 +386,7 @@ public class WOHAnimations {
                 0.0f,
                 0.9f
         );
-        ENHANCED_KATANA_SHEATHED_AUTO_3 = createSheathedAttackAnimation(
+        OLD_ENHANCED_KATANA_SHEATHED_AUTO_3 = createAttackAnimation(
                 "biped/combat/enhanced_katana/enhanced_katana_sheathed_auto_3",
                 2,
                 0.15F,
@@ -264,8 +404,8 @@ public class WOHAnimations {
         );
 
 
-        ENHANCED_KATANA_SHEATHED_DASH = (new EnhancedKatanaPreset(
-                "biped/combat/enhanced_katana/enhanced_katana_sheathed_dash",
+        ENHANCED_KATANA_DASH = createAttackAnimation(
+                "biped/combat/new/enhanced_katana/enhanced_katana_dash",
                 1,
                 0.05F,
                 1F,
@@ -276,12 +416,9 @@ public class WOHAnimations {
                 new float[]{3F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH_SHARP.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
-                new RegistryObject[]{EpicFightParticles.HIT_BLADE}
-        ));
-        TimeStampManager.register(
-                ENHANCED_KATANA_SHEATHED_DASH,
-                0.1f,   // normalized start
-                0.9f    // normalized end
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
+                0.1f,
+                0.9f
         );
     }
 }

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "woh:patterned_handle"
+    },
+    "B": {
+      "item": "woh:gold_tsuba"
+    },
+    "C": {
+      "item": "woh:hardened_blade"
+    }
+  },
+  "pattern": [
+    "  C",
+    " B ",
+    "A  "
+  ],
+  "result": {
+    "item": "woh:enhanced_katana"
+  }
+}

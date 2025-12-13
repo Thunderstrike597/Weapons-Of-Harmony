@@ -2,8 +2,7 @@ package net.kenji.woh.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.api.TimeStampManager;
-import net.kenji.woh.registry.WOHSkills;
+import net.kenji.woh.gameasset.animations.KatanaAttackAnimation;
 import net.kenji.woh.registry.animation.WOHAnimations;
 import net.kenji.woh.registry.item.WOHItems;
 import net.minecraft.client.Minecraft;
@@ -14,19 +13,20 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.animation.AnimationPlayer;
-import yesman.epicfight.api.animation.types.DynamicAnimation;
+import yesman.epicfight.api.animation.ServerAnimator;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.renderer.patched.item.RenderItemBase;
 import yesman.epicfight.model.armature.HumanoidArmature;
-import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,13 +34,16 @@ import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EnhancedKatanaRender extends RenderItemBase {
-    private static final Map<UUID, Boolean> canShowKatanaInSheath = new HashMap<>();
-    public static final Map<UUID, Boolean> attacking = new HashMap<>();
+    public static final Map<UUID, Boolean> sheathWeapon = new HashMap<>();
+    public static final Map<UUID, Boolean> hasSetupWeapon = new HashMap<>();
 
 
     private final ItemStack katana;
     private final ItemStack sheathStack;
     private final ItemStack sheathedWeaponStack;
+
+    private StaticAnimation idleSheathAnim = WOHAnimations.ENHANCED_KATANA_IDLE;
+    private StaticAnimation walkSheathAnim = WOHAnimations.ENHANCED_KATANA_WALK;
 
     private StaticAnimation sheathAnim = WOHAnimations.ENHANCED_KATANA_SHEATH;
     private StaticAnimation unsheathAnim = WOHAnimations.ENHANCED_KATANA_UNSHEATH;
@@ -54,64 +57,54 @@ public class EnhancedKatanaRender extends RenderItemBase {
         @SubscribeEvent
         public static void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
            UUID playerId = event.getEntity().getUUID();
-           canShowKatanaInSheath.remove(playerId);
+           sheathWeapon.remove(playerId);
+            hasSetupWeapon.remove(playerId);
         }
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        UUID playerId = event.player.getUUID();
+        boolean hasSetup = hasSetupWeapon.getOrDefault(playerId, false);
+        if(event.player.getMainHandItem().getItem() == WOHItems.ENHANCED_KATANA.get()){
+            if(!hasSetup){
+                sheathWeapon.put(playerId, true);
+                hasSetupWeapon.put(playerId, true);
+            }
+        }
+    }
+    @SubscribeEvent
+    public static void onDeath(PlayerEvent.PlayerRespawnEvent event) {
+        UUID playerId = event.getEntity().getUUID();
+        hasSetupWeapon.replace(playerId, false);
+
+    }
+
     private ItemStack getStack(LivingEntityPatch<?> entitypatch) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             if (sheathAnim == null || unsheathAnim == null)
                 return sheathStack;
-            // 1. Check if the stance/skill is actually active
-            SkillContainer skill = playerPatch.getSkill(WOHSkills.SHEATH_STANCE);
-            if (skill == null)
-                return sheathStack;
+            UUID playerID = playerPatch.getOriginal().getUUID();
+            boolean isSheathed = sheathWeapon.getOrDefault(playerID, false);
 
-            UUID playerId = entitypatch.getOriginal().getUUID();
+            AnimationPlayer animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.LOWEST).animationPlayer;
 
-            boolean isSheathed = canShowKatanaInSheath.getOrDefault(playerId, false);
-            boolean isAttacking = attacking.getOrDefault(playerId, false);
+            if(animPlayer.getAnimation() != idleSheathAnim && animPlayer.getAnimation() != walkSheathAnim) {
+                animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.MIDDLE).animationPlayer;
+            }
+            if(animPlayer.getAnimation() != idleSheathAnim && animPlayer.getAnimation() != walkSheathAnim) {
+                animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
+            }
 
-            AnimationPlayer livingPriorityPlayer =
-                    playerPatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
-
-            DynamicAnimation currentLivingAnim = livingPriorityPlayer.getAnimation();
-
-
-
-            if (skill.isActivated()) {
+            if(animPlayer.getAnimation() == idleSheathAnim || animPlayer.getAnimation() == walkSheathAnim) {
+               boolean isAttacking = KatanaAttackAnimation.isAttacking.getOrDefault(playerID, true);
                 if(!isAttacking) {
-                    if (currentLivingAnim instanceof StaticAnimation staticAnimation) {
+                   isSheathed = true;
+               }
+            }
 
-                        if (currentLivingAnim == sheathAnim) {
-                            if (!TimeStampManager.isLowerThanEnd(playerPatch, staticAnimation)) {
-                                canShowKatanaInSheath.put(playerId, true);
-                                return sheathedWeaponStack;
-                            }
-                        }
-                    }
-                    if (isSheathed) {
-                        return sheathedWeaponStack;
-                    }
-                }
-                else return sheathStack;
-            } else {
-
-
-                    if (currentLivingAnim instanceof StaticAnimation staticAnimation) {
-                        if (currentLivingAnim == unsheathAnim) {
-                            if (TimeStampManager.isHigherThanStart(playerPatch, staticAnimation)) {
-                                if (isSheathed)
-                                    canShowKatanaInSheath.remove(playerId);
-                            } else {
-                                return sheathedWeaponStack;
-                            }
-                        }
-                    }
-                    if (isSheathed) {
-                        return sheathedWeaponStack;
-                    }
+            if(isSheathed){
+                return sheathedWeaponStack;
             }
         }
-
         // Skill inactive → katana in hand
         return sheathStack;
     }

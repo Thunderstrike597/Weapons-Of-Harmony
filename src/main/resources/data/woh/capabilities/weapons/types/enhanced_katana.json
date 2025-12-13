@@ -14,7 +14,7 @@
     }
   },
   "styles": {
-    "default": "one_hand",
+    "default": "sheath",
     "cases": [
       {
         "conditions": [
@@ -23,7 +23,7 @@
             "skill": "woh:sheath_stance"
           }
         ],
-        "style": "sheath"
+        "style": "one_hand"
       }
     ]
   },
@@ -45,22 +45,22 @@
   "swing_sound": "epicfight:entity.weapon.whoosh",
   "combos": {
     "one_hand": [
-      "woh:biped/combat/enhanced_katana/enhanced_katana_auto_1",
-      "woh:biped/combat/enhanced_katana/enhanced_katana_auto_2",
-      "woh:biped/combat/enhanced_katana/enhanced_katana_auto_3",
-      "woh:biped/combat/enhanced_katana/enhanced_katana_auto_4",
-      "woh:biped/combat/enhanced_katana/enhanced_katana_auto_5",
+      "woh:biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_1",
+      "woh:biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_2",
+      "woh:biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_3",
+      "woh:biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_4",
+      "woh:biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_5",
 
       "cdmoveset:biped/new/yamato/yamato_dash",
       "cdmoveset:biped/new/katana/katana_airslash"
     ],
     "sheath": [
-      "woh:biped/combat/enhanced_katana/enhanced_katana_sheathed_auto_1",
-      "woh:biped/combat/enhanced_katana/enhanced_katana_sheathed_auto_2",
-      "woh:biped/combat/enhanced_katana/enhanced_katana_sheathed_auto_3",
+      "woh:biped/combat/new/enhanced_katana/enhanced_katana_auto_1",
+      "woh:biped/combat/new/enhanced_katana/enhanced_katana_auto_2",
+      "woh:biped/combat/new/enhanced_katana/enhanced_katana_auto_3",
+      "woh:biped/combat/new/enhanced_katana/enhanced_katana_auto_4",
 
-
-      "woh:biped/combat/enhanced_katana/enhanced_katana_sheathed_dash",
+      "woh:biped/combat/new/enhanced_katana/enhanced_katana_dash",
       "cdmoveset:biped/new/katana/katana_airslash"
     ]
   },

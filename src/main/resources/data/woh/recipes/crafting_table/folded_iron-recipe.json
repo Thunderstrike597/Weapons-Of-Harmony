@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "A": {
-      "item": "iron_ingot"
+      "item": "minecraft:iron_ingot"
     },
     "B": {
       "item": "minecraft:iron_block"
@@ -11,9 +11,10 @@
   "pattern": [
     "AAA",
     "BBB",
-    ""
+    "   "
   ],
   "result": {
-    "item": "woh:folded_iron_ingot"
+    "item": "woh:folded_iron",
+    "count": 2
   }
 }

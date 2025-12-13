@@ -3,6 +3,7 @@ package net.kenji.woh.gameasset;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.registry.WOHSkills;
 import net.kenji.woh.registry.animation.WOHAnimations;
+import net.kenji.woh.registry.item.WOHItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
@@ -10,7 +11,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jline.utils.Log;
@@ -43,6 +46,8 @@ public class EnhancedKatanaSkillInnate extends WeaponInnateSkill {
         return EpicFightSkills.PARRYING.getSkillTexture();
     }
 
+    public ItemStack lastMainHandItem = ItemStack.EMPTY;
+
     boolean isActivated;
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class EventHandler {
@@ -51,7 +56,7 @@ public class EnhancedKatanaSkillInnate extends WeaponInnateSkill {
         private static final Map<UUID, BasicAttackAnimation> storedOriginalAttacks = new HashMap<>();
 
 
-        @SubscribeEvent
+        /*@SubscribeEvent
         public static void onServerPlayerTick(TickEvent.PlayerTickEvent event) {
             Player player = event.player;
             if (player.level().isClientSide) return; // Check early
@@ -126,7 +131,7 @@ public class EnhancedKatanaSkillInnate extends WeaponInnateSkill {
                     }
                 }
             });
-        }
+        }*/
     }
 
     @Override
@@ -150,7 +155,7 @@ public class EnhancedKatanaSkillInnate extends WeaponInnateSkill {
             super.executeOnServer(executer, args);
             executer.getSkill(this).activate();
             executer.modifyLivingMotionByCurrentItem(false);
-            executer.playAnimationSynchronized(WOHAnimations.ENHANCED_KATANA_SHEATH, 0.1F);
+            executer.playAnimationSynchronized(WOHAnimations.ENHANCED_KATANA_UNSHEATH, 0.1F);
         }
 
     }
@@ -159,7 +164,7 @@ public class EnhancedKatanaSkillInnate extends WeaponInnateSkill {
         executer.getSkill(this).deactivate();
         super.cancelOnServer(executer, args);
         executer.modifyLivingMotionByCurrentItem(false);
-        executer.playAnimationSynchronized(WOHAnimations.ENHANCED_KATANA_UNSHEATH, 0.1F);
+        executer.playAnimationSynchronized(WOHAnimations.ENHANCED_KATANA_SHEATH, 0.1F);
         Log.info("Is Activated: " + executer.getSkill(this).isActivated()) ;
 
     }

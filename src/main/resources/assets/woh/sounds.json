@@ -1,0 +1,8 @@
+{
+  "entity.weapon.sword_unsheathe":
+  {
+    "category":"master",
+    "subtitle":"entity.weapon.sword_unsheathe",
+    "sounds":[{"name":"woh:entity/weapon/sword_unsheathe", "stream":true}]
+  }
+}

@@ -3,8 +3,10 @@ package net.kenji.woh;
 import com.mojang.logging.LogUtils;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.registry.WOHSkills;
+import net.kenji.woh.registry.WOHSounds;
 import net.kenji.woh.registry.animation.WOHAnimations;
 import net.kenji.woh.registry.item.WOHItems;
+import net.kenji.woh.tabs.WOHTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -25,9 +27,11 @@ public class WeaponsOfHarmony {
 
         // (Optional) register lifecycle listeners
         modEventBus.addListener(this::commonSetup);
-        WOHItems.register(modEventBus);
 
+        WOHItems.register(modEventBus);
+        WOHTabs.register(modEventBus);
         ModEntities.register(modEventBus);
+        WOHSounds.SOUNDS.register(modEventBus);
 
         modEventBus.addListener(WOHAnimations::registerAnimations);
         modEventBus.addListener(WOHSkills::buildSkillEvent);
