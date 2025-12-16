@@ -19,6 +19,7 @@ public class WOHTabs {
             .icon(() -> new ItemStack(WOHItems.ENHANCED_KATANA.get()))
             .displayItems((itemDisplayParameters, output) -> {
                 output.accept(WOHItems.ENHANCED_KATANA.get());
+                output.accept(WOHItems.MASTERS_WAKIZASHI.get());
                 output.accept(WOHItems.FOLDED_IRON.get());
                 output.accept(WOHItems.FOLDED_STEEL.get());
                 output.accept(WOHItems.HARDENED_STEEL_INGOT.get());

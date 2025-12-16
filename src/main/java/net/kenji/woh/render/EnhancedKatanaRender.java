@@ -2,8 +2,9 @@ package net.kenji.woh.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.gameasset.animations.KatanaAttackAnimation;
-import net.kenji.woh.registry.animation.WOHAnimations;
+import net.kenji.woh.gameasset.animations.BasisAirAttackAnimation;
+import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
+import net.kenji.woh.registry.animation.MastersKatanaAnimations;
 import net.kenji.woh.registry.item.WOHItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -18,7 +19,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.animation.AnimationPlayer;
-import yesman.epicfight.api.animation.ServerAnimator;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
@@ -26,7 +26,6 @@ import yesman.epicfight.client.renderer.patched.item.RenderItemBase;
 import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
-import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,11 +41,11 @@ public class EnhancedKatanaRender extends RenderItemBase {
     private final ItemStack sheathStack;
     private final ItemStack sheathedWeaponStack;
 
-    private StaticAnimation idleSheathAnim = WOHAnimations.ENHANCED_KATANA_IDLE;
-    private StaticAnimation walkSheathAnim = WOHAnimations.ENHANCED_KATANA_WALK;
+    private StaticAnimation idleSheathAnim = MastersKatanaAnimations.ENHANCED_KATANA_IDLE;
+    private StaticAnimation walkSheathAnim = MastersKatanaAnimations.ENHANCED_KATANA_WALK;
 
-    private StaticAnimation sheathAnim = WOHAnimations.ENHANCED_KATANA_SHEATH;
-    private StaticAnimation unsheathAnim = WOHAnimations.ENHANCED_KATANA_UNSHEATH;
+    private StaticAnimation sheathAnim = MastersKatanaAnimations.ENHANCED_KATANA_SHEATH;
+    private StaticAnimation unsheathAnim = MastersKatanaAnimations.ENHANCED_KATANA_UNSHEATH;
 
     public EnhancedKatanaRender() {
         this.katana = new ItemStack((ItemLike) WOHItems.ENHANCED_KATANA.get());
@@ -95,8 +94,9 @@ public class EnhancedKatanaRender extends RenderItemBase {
             }
 
             if(animPlayer.getAnimation() == idleSheathAnim || animPlayer.getAnimation() == walkSheathAnim) {
-               boolean isAttacking = KatanaAttackAnimation.isAttacking.getOrDefault(playerID, true);
-                if(!isAttacking) {
+               boolean isAttacking = BasisAttackAnimation.isAttacking.getOrDefault(playerID, true);
+               boolean isAirAttacking = BasisAirAttackAnimation.isAttacking.getOrDefault(playerID, true);
+                if(!isAttacking && !isAirAttacking) {
                    isSheathed = true;
                }
             }

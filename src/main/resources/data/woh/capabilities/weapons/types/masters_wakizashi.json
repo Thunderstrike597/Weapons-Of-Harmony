@@ -1,0 +1,77 @@
+{
+  "livingmotion_modifier": {
+    "one_hand": {
+      "idle": "woh:biped/living/masters_wakizashi/wakizashi_hold",
+      "run":  "woh:biped/living/masters_wakizashi/wakizashi_hold",
+      "block": "wom:biped/skill/katana_guard",
+      "walk":  "woh:biped/living/masters_wakizashi/wakizashi_hold"
+    },
+    "two_hand": {
+      "idle": "woh:biped/living/masters_wakizashi/wakizashi_dual_hold",
+      "run":  "woh:biped/living/masters_wakizashi/wakizashi_dual_hold",
+      "block": "wom:biped/skill/katana_guard",
+      "walk":  "woh:biped/living/masters_wakizashi/wakizashi_dual_hold"
+    }
+  },
+  "styles": {
+    "default": "one_hand",
+    "cases": [
+      {
+        "conditions": [
+          {
+            "predicate": "epicfight:offhand_item_category",
+            "category": "wakizashi"
+          }
+        ],
+        "style": "two_hand"
+      }
+    ]
+  },
+  "collider": {
+    "center": [
+      0.0,
+      0.0,
+      -0.7
+    ],
+    "number": 5,
+    "size": [
+      0.4,
+      0.4,
+      0.7
+    ]
+  },
+  "hit_particle": "epicfight:cut",
+  "category": "wakizashi",
+  "swing_sound": "epicfight:entity.weapon.whoosh",
+  "usable_in_offhand": true,
+  "combos": {
+    "one_hand": [
+      "woh:biped/combat/masters_wakizashi/wakizashi_auto_1",
+      "woh:biped/combat/masters_wakizashi/wakizashi_auto_2",
+
+      "woh:biped/combat/masters_wakizashi/wakizashi_auto_3",
+      "woh:biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_4",
+
+      "cdmoveset:biped/new/yamato/yamato_dash",
+      "cdmoveset:biped/new/katana/katana_airslash"
+    ],
+    "two_hand": [
+      "woh:biped/combat/masters_wakizashi/wakizashi_dual_auto_1",
+      "woh:biped/combat/masters_wakizashi/wakizashi_dual_auto_2",
+      "woh:biped/combat/masters_wakizashi/wakizashi_dual_auto_3",
+      "woh:biped/combat/masters_wakizashi/wakizashi_dual_auto_4",
+
+      "woh:biped/combat/enhanced_katana/enhanced_katana_dash",
+      "woh:biped/combat/enhanced_katana/enhanced_katana_airslash"
+    ]
+  },
+  "offhand_item_compatible_predicate": [
+    {
+      "predicate": "epicfight:offhand_item_category",
+      "category": "wakizashi"
+    }
+  ],
+  "hit_sound": "epicfight:entity.hit.blade",
+  "innate_skills": {
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "item.weapons_of_harmony.enhanced_katana": "Masters Katana",
+  "item.weapons_of_harmony.enhanced_katana_sheath": "Katana Sheath",
+  "item.weapons_of_harmony.enhanced_katana_in_sheath": "Sheathed Katana",
+
+  "item.weapons_of_harmony.masters_wakizashi": "Masters Wakizashi",
+
+
+  "item.weapons_of_harmony.folded_iron": "Folded Iron",
+  "item.weapons_of_harmony.folded_steel": "Folded Steel",
+  "item.weapons_of_harmony.hardened_steel_ingot": "Hardened Steel Ingot",
+
+  "item.weapons_of_harmony.hardened_blade": "Hardened Blade",
+  "item.weapons_of_harmony.patterned_handle": "Patterned Handle",
+  "item.weapons_of_harmony.gold_tsuba": "Gold Tsuba",
+
+
+  "item.weapons_of_harmony.enhanced_katana.tooltip": "A precise blade paired with a siya. \n nimble and capable of cutting through the toughest of armor with style",
+  "item.weapons_of_harmony.folded_iron.tooltip": "A piece of iron that with much higher density than regular iron. \nAlthough tough, it tends to be fragile without being smelted first",
+  "item.weapons_of_harmony.folded_steel.tooltip": "A very dense piece of steel",
+  "item.weapons_of_harmony.hardened_steel_ingot.tooltip": "An extremely durable and hard metal \nthat can be used to craft weapons of great variety"
+}

@@ -1,18 +1,36 @@
 package net.kenji.woh;
 
 import com.mojang.logging.LogUtils;
+import net.corruptdog.cdm.main.CDmoveset;
+import net.corruptdog.cdm.world.CDWeaponCapabilityPresets;
+import net.corruptdog.cdm.world.CorruptWeaponCategories;
+import net.corruptdog.cdm.world.item.CDAddonItems;
 import net.kenji.woh.entities.ModEntities;
+import net.kenji.woh.gameasset.WohWeaponCategories;
 import net.kenji.woh.registry.WOHSkills;
 import net.kenji.woh.registry.WOHSounds;
-import net.kenji.woh.registry.animation.WOHAnimations;
+import net.kenji.woh.registry.animation.MastersKatanaAnimations;
+import net.kenji.woh.registry.animation.MastersWakizashiAnimations;
+import net.kenji.woh.registry.animation.WohAnimations;
 import net.kenji.woh.registry.item.WOHItems;
 import net.kenji.woh.tabs.WOHTabs;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import yesman.epicfight.api.client.forgeevent.WeaponCategoryIconRegisterEvent;
+import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
+import yesman.epicfight.world.capabilities.item.WeaponCapability;
+import yesman.epicfight.world.capabilities.item.WeaponCapabilityPresets;
+import yesman.epicfight.world.capabilities.item.WeaponCategory;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(WeaponsOfHarmony.MODID)
@@ -33,7 +51,12 @@ public class WeaponsOfHarmony {
         ModEntities.register(modEventBus);
         WOHSounds.SOUNDS.register(modEventBus);
 
-        modEventBus.addListener(WOHAnimations::registerAnimations);
+        modEventBus.addListener(WeaponsOfHarmony::RegisterWeaponType);
+        WeaponCategory.ENUM_MANAGER.registerEnumCls(MODID, WohWeaponCategories.class);
+
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(WeaponsOfHarmony::regIcon));
+
+        modEventBus.addListener(WohAnimations::registerAnimations);
         modEventBus.addListener(WOHSkills::buildSkillEvent);
     }
 
@@ -41,6 +64,17 @@ public class WeaponsOfHarmony {
 
     }
 
+    public static void RegisterWeaponType(WeaponCapabilityPresetRegistryEvent event) {
+        event.getTypeEntry().put(new ResourceLocation(MODID, "one_hand_katana"), WeaponCapabilityPresets.UCHIGATANA);
+        event.getTypeEntry().put(new ResourceLocation(MODID, "wakizashi"), WeaponCapabilityPresets.SWORD);
+
+    }
+    @OnlyIn(Dist.CLIENT)
+    public static void regIcon(WeaponCategoryIconRegisterEvent event) {
+        event.registerCategory(WohWeaponCategories.ONE_HAND_KATANA, new ItemStack((ItemLike) WOHItems.ENHANCED_KATANA.get()));
+        event.registerCategory(WohWeaponCategories.WAKIZASHI, new ItemStack((ItemLike) WOHItems.MASTERS_WAKIZASHI.get()));
+
+    }
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientEvents {
         @net.minecraftforge.eventbus.api.SubscribeEvent

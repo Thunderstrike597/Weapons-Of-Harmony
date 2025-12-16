@@ -13,9 +13,9 @@ import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.item.WeaponItem;
 
-public class EnhancedKatana extends WeaponItem {
-    public EnhancedKatana(Tier tier, int damageIn, float speedIn, Properties builder) {
-        super(tier, damageIn, speedIn, builder);
+public class EnhancedKatana extends WohWeaponItem {
+    public EnhancedKatana(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor);
     }
 
     @Override

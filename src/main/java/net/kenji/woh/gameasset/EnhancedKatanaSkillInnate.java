@@ -1,37 +1,22 @@
 package net.kenji.woh.gameasset;
 
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.registry.WOHSkills;
-import net.kenji.woh.registry.animation.WOHAnimations;
-import net.kenji.woh.registry.item.WOHItems;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
+import net.kenji.woh.registry.animation.MastersKatanaAnimations;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jline.utils.Log;
-import yesman.epicfight.api.animation.AnimationPlayer;
-import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.*;
 import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
-import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
-import yesman.epicfight.world.capabilities.item.CapabilityItem;
-import yesman.epicfight.world.capabilities.item.WeaponCapability;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -155,7 +140,7 @@ public class EnhancedKatanaSkillInnate extends WeaponInnateSkill {
             super.executeOnServer(executer, args);
             executer.getSkill(this).activate();
             executer.modifyLivingMotionByCurrentItem(false);
-            executer.playAnimationSynchronized(WOHAnimations.ENHANCED_KATANA_UNSHEATH, 0.1F);
+            executer.playAnimationSynchronized(MastersKatanaAnimations.ENHANCED_KATANA_UNSHEATH, 0.1F);
         }
 
     }
@@ -164,7 +149,7 @@ public class EnhancedKatanaSkillInnate extends WeaponInnateSkill {
         executer.getSkill(this).deactivate();
         super.cancelOnServer(executer, args);
         executer.modifyLivingMotionByCurrentItem(false);
-        executer.playAnimationSynchronized(WOHAnimations.ENHANCED_KATANA_SHEATH, 0.1F);
+        executer.playAnimationSynchronized(MastersKatanaAnimations.ENHANCED_KATANA_SHEATH, 0.1F);
         Log.info("Is Activated: " + executer.getSkill(this).isActivated()) ;
 
     }

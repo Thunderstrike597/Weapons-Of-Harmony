@@ -1,0 +1,333 @@
+package net.kenji.woh.api;
+
+import net.kenji.woh.gameasset.animations.WohAirAttackAnimation;
+import net.kenji.woh.gameasset.animations.WohAttackAnimation;
+import net.kenji.woh.gameasset.animations.WohDashAttackAnimation;
+import net.kenji.woh.render.EnhancedKatanaRender;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.registries.RegistryObject;
+import yesman.epicfight.api.animation.Joint;
+import yesman.epicfight.api.animation.property.AnimationEvent;
+import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.collider.Collider;
+import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.gameasset.EpicFightSounds;
+import yesman.epicfight.particle.HitParticleType;
+import yesman.epicfight.world.damagesource.StunType;
+
+import javax.annotation.Nullable;
+import java.util.UUID;
+
+public class WOHAnimationUtils {
+
+    public enum AttackAnimationType{
+        BASIC_ATTACK,
+        DASH_ATTACK
+    }
+
+
+    public static class ReusableEvents{
+        static AnimationEvent.AnimationEventConsumer unSheathEvent = (
+                (livingEntityPatch, staticAnimation, objects) -> {
+
+                    Player player = (Player)livingEntityPatch.getOriginal();
+                    UUID playerId = player.getUUID();
+                    EnhancedKatanaRender.sheathWeapon.put(playerId, false);
+                }
+        );
+        static AnimationEvent.AnimationEventConsumer sheathEvent = (
+                (livingEntityPatch, staticAnimation, objects) -> {
+                    Player player = (Player) livingEntityPatch.getOriginal();
+                    UUID playerId = player.getUUID();
+
+                    if(player.level().isClientSide) {
+                        player.playSound(
+                                EpicFightSounds.SWORD_IN.get(),
+                                1.0f,
+                                1.0f
+                        );
+                    }
+                    EnhancedKatanaRender.sheathWeapon.remove(playerId);
+                    EnhancedKatanaRender.sheathWeapon.put(playerId, true);
+                }
+        );
+    }
+
+
+
+    public static StaticAnimation createLivingAnimation(
+            String path,
+            boolean isRepeat,
+            float convertTime,
+            float normalizedStart,
+            float normalizedEnd,
+            AnimationEvent.TimeStampedEvent[] extraEvents
+    ) {
+        StaticAnimation animation = (new StaticAnimation(convertTime, isRepeat, path, Armatures.BIPED));
+
+
+        boolean stopEndEvent = false;
+        boolean stopStartEvent = false;
+
+        if(normalizedEnd <= -1){
+            stopEndEvent = true;
+        }
+        if(normalizedStart <= -1){
+            stopStartEvent = true;
+        }
+
+        // Register timestamp
+        TimeStampManager.register(animation, normalizedStart, normalizedEnd);
+
+        float absoluteStart = animation.getTotalTime() * normalizedStart;
+        float absoluteEnd = animation.getTotalTime() * normalizedEnd;
+
+
+        if(!stopEndEvent && !stopStartEvent) {
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+            });
+        }
+        if(!stopEndEvent && stopStartEvent){
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+            });
+        }
+        if(!stopStartEvent && stopEndEvent) {
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+            });
+        }
+        if(extraEvents != null){
+            animation.addEvents(extraEvents);
+        }
+        return animation;
+    }
+
+    public static StaticAnimation createAttackAnimation(
+            AttackAnimationType type,
+            String path,
+            int phaseCount,
+            float convertTime,
+            float attackSpeed,
+            float attackDamage,
+            float impact,
+            float[] start,
+            float[] antic,
+            float[] contact,
+            float[] recovery,
+            float[] end,
+            SoundEvent[] hitSound,
+            SoundEvent[] swingSound,
+            RegistryObject<HitParticleType>[] hitParticle,
+            Collider[] colliders,
+            Joint[] colliderJoints,
+            StunType stunType,
+            float normalizedStart,
+            float normalizedEnd
+    ) {
+        AttackAnimation animation = null;
+        switch(type) {
+            case BASIC_ATTACK:
+            animation = new WohAttackAnimation(
+                    path, null, phaseCount, convertTime, attackSpeed, attackDamage, impact,
+                    start, antic, contact, recovery, end,
+                    hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints
+            );
+            break;
+            case DASH_ATTACK:
+                animation = new WohDashAttackAnimation(
+                        path, phaseCount, convertTime, attackSpeed,
+                        start, antic, contact, recovery, end,
+                        hitSound, swingSound, hitParticle, stunType
+                );
+                break;
+        }
+        boolean stopEndEvent = false;
+        boolean stopStartEvent = false;
+
+        if(normalizedEnd <= -1){
+            stopEndEvent = true;
+        }
+        if(normalizedStart <= -1){
+            stopStartEvent = true;
+        }
+
+        // Register timestamp
+        TimeStampManager.register(animation, normalizedStart, normalizedEnd);
+
+        float absoluteStart = animation.getTotalTime() * normalizedStart;
+        float absoluteEnd = animation.getTotalTime() * normalizedEnd;
+
+        // Add events at those exact timestamps
+
+        if(!stopEndEvent && !stopStartEvent) {
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+            });
+        }
+        if(!stopEndEvent && stopStartEvent){
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+            });
+        }
+        if(!stopStartEvent && stopEndEvent){
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+            });
+
+        }
+        return animation;
+    }
+    public static StaticAnimation createAttackAnimation(
+            AttackAnimationType type,
+            String path,
+            int phaseCount,
+            float convertTime,
+            float attackSpeed,
+            float attackDamage,
+            float impact,
+            float[] start,
+            float[] antic,
+            float[] contact,
+            float[] recovery,
+            float[] end,
+            SoundEvent[] hitSound,
+            SoundEvent[] swingSound,
+            RegistryObject<HitParticleType>[] hitParticle,
+            Collider[] colliders,
+            Joint[] colliderJoints,
+            StunType stunType,
+            @Nullable StaticAnimation endAnimation,
+            float normalizedStart,
+            float normalizedEnd
+    ) {
+        AttackAnimation animation = null;
+        switch(type) {
+            case BASIC_ATTACK:
+                animation = new WohAttackAnimation(
+                        path, endAnimation, phaseCount, convertTime, attackSpeed, attackDamage, impact,
+                        start, antic, contact, recovery, end,
+                        hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints
+                );
+                break;
+            case DASH_ATTACK:
+                animation = new WohDashAttackAnimation(
+                        path, phaseCount, convertTime, attackSpeed,
+                        start, antic, contact, recovery, end,
+                        hitSound, swingSound, hitParticle, stunType
+                );
+                break;
+        }
+        boolean stopEndEvent = false;
+        boolean stopStartEvent = false;
+
+        if(normalizedEnd <= -1){
+            stopEndEvent = true;
+        }
+        if(normalizedStart <= -1){
+            stopStartEvent = true;
+        }
+
+        // Register timestamp
+        TimeStampManager.register(animation, normalizedStart, normalizedEnd);
+
+        float absoluteStart = animation.getTotalTime() * normalizedStart;
+        float absoluteEnd = animation.getTotalTime() * normalizedEnd;
+
+        // Add events at those exact timestamps
+
+        if(!stopEndEvent && !stopStartEvent) {
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+            });
+        }
+        if(!stopEndEvent && stopStartEvent){
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+            });
+        }
+        if(!stopStartEvent && stopEndEvent){
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+            });
+
+        }
+        return animation;
+    }
+    public static StaticAnimation createAirAttackAnimation(
+            String path,
+            int phaseCount,
+            float convertTime,
+            float attackSpeed,
+            float attackDamage,
+            float impact,
+            float[] start,
+            float[] antic,
+            float[] contact,
+            float[] recovery,
+            float[] end,
+            SoundEvent[] hitSound,
+            SoundEvent[] swingSound,
+            RegistryObject<HitParticleType>[] hitParticle,
+            StunType stunType,
+            Collider[] colliders,
+            float[] airTime,
+            float normalizedStart,
+            float normalizedEnd
+    ) {
+        AttackAnimation animation = null;
+
+
+        animation = new WohAirAttackAnimation(
+                path, phaseCount, convertTime, attackSpeed, attackDamage, impact,
+                start, antic, contact, recovery, end,
+                hitSound, swingSound, hitParticle, stunType, colliders, airTime
+        );
+
+
+
+        boolean stopEndEvent = false;
+        boolean stopStartEvent = false;
+
+        if(normalizedEnd <= -1){
+            stopEndEvent = true;
+        }
+        if(normalizedStart <= -1){
+            stopStartEvent = true;
+        }
+
+        // Register timestamp
+        TimeStampManager.register(animation, normalizedStart, normalizedEnd);
+
+        float absoluteStart = animation.getTotalTime() * normalizedStart;
+        float absoluteEnd = animation.getTotalTime() * normalizedEnd;
+
+        // Add events at those exact timestamps
+
+        if(!stopEndEvent && !stopStartEvent) {
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+            });
+        }
+        if(!stopEndEvent && stopStartEvent){
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+            });
+        }
+        if(!stopStartEvent && stopEndEvent){
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+            });
+
+        }
+        return animation;
+    }
+
+}
