@@ -4,16 +4,6 @@
     "loader": "forge:obj",
     "model": "woh:models/item/obj/enhanced_katana.obj",
     "flip_v": true,
-    "overrides": [
-      {
-        "predicate": { "woh:unsheathed": 0 },
-        "model": "woh:models/item/obj/enhanced_katana_in_sheath.obj"
-      },
-      {
-        "predicate": { "woh:unsheathed": 1 },
-        "model": "woh:models/item/obj/enhanced_katana.obj"
-      }
-    ],
     "display": {
       "thirdperson_righthand": {
         "translation": [4.7, -9, 5.75],

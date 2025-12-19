@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.gameasset.animations.BasisAirAttackAnimation;
 import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
+import net.kenji.woh.gameasset.animations.WohSheathAnimation;
+import net.kenji.woh.registry.WOHSkills;
 import net.kenji.woh.registry.animation.MastersKatanaAnimations;
 import net.kenji.woh.registry.item.WOHItems;
 import net.minecraft.client.Minecraft;
@@ -93,12 +95,17 @@ public class EnhancedKatanaRender extends RenderItemBase {
                 animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
             }
 
-            if(animPlayer.getAnimation() == idleSheathAnim || animPlayer.getAnimation() == walkSheathAnim) {
-               boolean isAttacking = BasisAttackAnimation.isAttacking.getOrDefault(playerID, true);
-               boolean isAirAttacking = BasisAirAttackAnimation.isAttacking.getOrDefault(playerID, true);
-                if(!isAttacking && !isAirAttacking) {
-                   isSheathed = true;
-               }
+            if(!animPlayer.getAnimation().isBasicAttackAnimation()) {
+                if(!isSheathed && !playerPatch.getSkill(WOHSkills.SHEATH_STANCE).isActivated()) {
+                    if (WohSheathAnimation.shouldAnimReplay.getOrDefault(playerID, true)) {
+                        boolean isAttacking = BasisAttackAnimation.isAttacking.getOrDefault(playerID, false);
+                        boolean isAirAttacking = BasisAirAttackAnimation.isAttacking.getOrDefault(playerID, false);
+                        if (!isAttacking && !isAirAttacking) {
+
+                            playerPatch.playAnimationSynchronized(MastersKatanaAnimations.ENHANCED_KATANA_SHEATH, 0.2F);
+                        }
+                    }
+                }
             }
 
             if(isSheathed){

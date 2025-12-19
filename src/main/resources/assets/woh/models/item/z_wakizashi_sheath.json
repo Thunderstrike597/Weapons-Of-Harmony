@@ -2,7 +2,7 @@
   "loader": "forge:separate_transforms",
   "base": {
     "loader": "forge:obj",
-    "model": "woh:models/item/obj/wakizashi.obj",
+    "model": "woh:models/item/obj/wakizashi_sheath.obj",
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {
@@ -42,15 +42,5 @@
         "layer0": "woh:item/enhanced_katana_display"
       }
     }
-  },
-  "overrides": [
-    {
-      "predicate": { "woh:wakizashi_unsheathed": 0 },
-      "model": "woh:item/z_wakizashi_in_sheath"
-    },
-    {
-      "predicate": { "woh:wakizashi_unsheathed": 1 },
-      "model": "woh:item/masters_wakizashi"
-    }
-  ]
+  }
 }

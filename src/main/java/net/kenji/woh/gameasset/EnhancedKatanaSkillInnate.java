@@ -150,7 +150,6 @@ public class EnhancedKatanaSkillInnate extends WeaponInnateSkill {
         super.cancelOnServer(executer, args);
         executer.modifyLivingMotionByCurrentItem(false);
         executer.playAnimationSynchronized(MastersKatanaAnimations.ENHANCED_KATANA_SHEATH, 0.1F);
-        Log.info("Is Activated: " + executer.getSkill(this).isActivated()) ;
 
     }
     @Override

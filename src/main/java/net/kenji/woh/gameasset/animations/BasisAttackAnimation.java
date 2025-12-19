@@ -7,19 +7,14 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.jline.utils.Log;
-import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
-import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.StaticAnimation;
-import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -33,10 +28,17 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
     private static final Map<UUID, Boolean> isAttackEnding = new HashMap<>();
 
     private StaticAnimation endAnimation;
+    private boolean ignoreFallDamage = false;
+
 
     public BasisAttackAnimation(float convertTime, String path, Armature armature, StaticAnimation endAnimation,Phase... phases) {
         super(convertTime, path, armature, phases);
         this.endAnimation = endAnimation;
+    }
+    public BasisAttackAnimation(float convertTime, String path, Armature armature, StaticAnimation endAnimation, boolean ignoreFallDamage,Phase... phases) {
+        super(convertTime, path, armature, phases);
+        this.endAnimation = endAnimation;
+        this.ignoreFallDamage = ignoreFallDamage;
     }
 
     private static final UUID SLOW_UUID =
@@ -75,6 +77,8 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                     }
                 }
             }
+            if(ignoreFallDamage)
+                playerPatch.getOriginal().resetFallDistance();
         }
         super.attackTick(entitypatch, animation);
     }
@@ -95,7 +99,6 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                 LocalPlayer localPlayer = (LocalPlayer) player;
 
                 localPlayer.input.forwardImpulse = 0;
-                Log.info("Trying Stop Forward Impulse: " + localPlayer.input.forwardImpulse);
             }
         }
     }

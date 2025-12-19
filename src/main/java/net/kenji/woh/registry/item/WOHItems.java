@@ -3,6 +3,7 @@ package net.kenji.woh.registry.item;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.item.EnhancedKatana;
 import net.kenji.woh.item.ResourceItem;
+import net.kenji.woh.item.Wakizashi;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -15,11 +16,14 @@ public class WOHItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, WeaponsOfHarmony.MODID);
 
-    public static final RegistryObject<Item> ENHANCED_KATANA = ITEMS.register("enhanced_katana", () -> new EnhancedKatana(EpicFightItemTier.UCHIGATANA, 2, 1, new Item.Properties(), true, ChatFormatting.AQUA));
-    public static final RegistryObject<Item> ENHANCED_KATANA_SHEATH = ITEMS.register("enhanced_katana_sheath", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> ENHANCED_KATANA_IN_SHEATH = ITEMS.register("enhanced_katana_in_sheath", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> MASTERS_WAKIZASHI = ITEMS.register("masters_wakizashi", () -> new EnhancedKatana(EpicFightItemTier.UCHIGATANA, 2, 1, new Item.Properties(), true, ChatFormatting.AQUA));
+    public static final RegistryObject<Item> ENHANCED_KATANA_SHEATH = ITEMS.register("z_enhanced_katana_sheath", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> ENHANCED_KATANA_IN_SHEATH = ITEMS.register("z_enhanced_katana_in_sheath", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> WAKIZASHI_IN_SHEATH = ITEMS.register("z_wakizashi_in_sheath", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> WAKIZASHI_SHEATH = ITEMS.register("z_wakizashi_sheath", () -> new Item(new Item.Properties()));
 
+
+    public static final RegistryObject<Item> ENHANCED_KATANA = ITEMS.register("enhanced_katana", () -> new EnhancedKatana(EpicFightItemTier.UCHIGATANA, 2, 1, new Item.Properties(), true, ChatFormatting.AQUA));
+    public static final RegistryObject<Item> MASTERS_WAKIZASHI = ITEMS.register("masters_wakizashi", () -> new Wakizashi(EpicFightItemTier.UCHIGATANA, 2, 1, new Item.Properties(), true, ChatFormatting.AQUA));
 
 
     public static final RegistryObject<Item> FOLDED_IRON = ITEMS.register("folded_iron", () -> new ResourceItem(new Item.Properties().stacksTo(64), true, ChatFormatting.GRAY));

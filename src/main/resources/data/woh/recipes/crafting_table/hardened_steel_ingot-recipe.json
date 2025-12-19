@@ -3,14 +3,18 @@
   "key": {
     "A": {
       "item": "woh:folded_steel"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
     }
   },
   "pattern": [
-    "AAA",
+    "BAA",
     "A  ",
     "   "
   ],
   "result": {
-    "item": "woh:hardened_steel_ingot"
+    "item": "woh:hardened_steel_ingot",
+    "count": 3
   }
 }

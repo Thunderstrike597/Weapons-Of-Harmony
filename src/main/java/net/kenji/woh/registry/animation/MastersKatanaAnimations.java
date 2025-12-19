@@ -1,6 +1,8 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.gameasset.animations.WohSheathAnimation;
+import net.kenji.woh.gameasset.animations.WohStaticAnimation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -24,9 +26,9 @@ public class MastersKatanaAnimations {
     public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_RUN;
     public static StaticAnimation ENHANCED_KATANA_IDLE;
     public static StaticAnimation ENHANCED_KATANA_WALK;
-    public static StaticAnimation ENHANCED_KATANA_SHEATH;
-    public static StaticAnimation ENHANCED_KATANA_SHEATH_ALT1;
-    public static StaticAnimation ENHANCED_KATANA_SHEATH_ALT2;
+    public static WohSheathAnimation ENHANCED_KATANA_SHEATH;
+    public static WohSheathAnimation ENHANCED_KATANA_SHEATH_ALT1;
+    public static WohSheathAnimation ENHANCED_KATANA_SHEATH_ALT2;
 
     public static StaticAnimation ENHANCED_KATANA_UNSHEATH;
     public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_AUTO_1;
@@ -58,9 +60,9 @@ public class MastersKatanaAnimations {
         ENHANCED_KATANA_UNSHEATHED_IDLE = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_idle", biped));
         ENHANCED_KATANA_UNSHEATHED_WALK = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_walk", biped));
         ENHANCED_KATANA_UNSHEATHED_RUN = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_run", biped));
-        ENHANCED_KATANA_SHEATH = WOHAnimationUtils.createLivingAnimation("biped/skill/enhanced_katana/enhanced_katana_sheathe", false, 0.1f, -1, 0.7f, null);
-        ENHANCED_KATANA_SHEATH_ALT1 = WOHAnimationUtils.createLivingAnimation("biped/skill/enhanced_katana/enhanced_katana_sheathe_alt1", false, 0.1f, -1, 0.7f, null);
-        ENHANCED_KATANA_SHEATH_ALT2 = WOHAnimationUtils.createLivingAnimation("biped/skill/enhanced_katana/enhanced_katana_sheathe_alt2", false, 0.1f, -1, 0.7f, null);
+        ENHANCED_KATANA_SHEATH = WOHAnimationUtils.createSheathAnimation("biped/skill/enhanced_katana/enhanced_katana_sheathe", false, 0.1f, 1.73f, null);
+        ENHANCED_KATANA_SHEATH_ALT1 = WOHAnimationUtils.createSheathAnimation("biped/skill/enhanced_katana/enhanced_katana_sheathe_alt1", false,  0.1f, 2.5f, null);
+        ENHANCED_KATANA_SHEATH_ALT2 = WOHAnimationUtils.createSheathAnimation("biped/skill/enhanced_katana/enhanced_katana_sheathe_alt2", false,  0.1f, 1.93f, null);
 
         ENHANCED_KATANA_UNSHEATH = WOHAnimationUtils.createLivingAnimation("biped/skill/enhanced_katana/enhanced_katana_unsheathe", false, 0.1f, 0.23f, -1, null);
 
@@ -195,11 +197,11 @@ public class MastersKatanaAnimations {
                 5F,
                 1.8F,
                 new float[]{0.0F},
-                new float[]{0.4F},
-                new float[]{0.62F},
-                new float[]{1.15f},
-                new float[]{3.2f},
-                new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
+                new float[]{0.25F},
+                new float[]{0.33F},
+                new float[]{0.65f},
+                new float[]{0.85f},
+                new SoundEvent[]{EpicFightSounds.WHOOSH_SHARP.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
@@ -218,10 +220,10 @@ public class MastersKatanaAnimations {
                 4F,
                 1.8F,
                 new float[]{0.0F},
-                new float[]{0.62F},
+                new float[]{0.32F},
+                new float[]{0.42F},
                 new float[]{0.75F},
-                new float[]{1.25F},
-                new float[]{3.7F},
+                new float[]{1.33F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
@@ -241,8 +243,8 @@ public class MastersKatanaAnimations {
                 4F,
                 1.8F,
                 new float[]{0.0F},
-                new float[]{0.4F},
-                new float[]{0.8F},
+                new float[]{0.26F},
+                new float[]{0.35F},
                 new float[]{1.8F},
                 new float[]{4.35F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
@@ -256,7 +258,7 @@ public class MastersKatanaAnimations {
                 -1
         );
         ENHANCED_KATANA_AUTO_4 = WOHAnimationUtils.createAttackAnimation(
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP,
                 "biped/combat/enhanced_katana/enhanced_katana_auto_4",
                 1,
                 0.15F,
@@ -265,9 +267,9 @@ public class MastersKatanaAnimations {
                 2.4F,
                 new float[]{0.0F},
                 new float[]{0.8F},
-                new float[]{1.03F},
-                new float[]{1.65f},
-                new float[]{2.5f},
+                new float[]{1.15F},
+                new float[]{2.30f},
+                new float[]{3.18f},
                 new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
@@ -276,7 +278,7 @@ public class MastersKatanaAnimations {
                 StunType.SHORT,
                 MastersKatanaAnimations.ENHANCED_KATANA_SHEATH,
                 0.2f,
-                0.8f
+                -1
         );
 
         ENHANCED_KATANA_DASH = WOHAnimationUtils.createAttackAnimation(
@@ -309,16 +311,16 @@ public class MastersKatanaAnimations {
                 5.75F,
                 2F,
                 new float[]{0.15F},
-                new float[]{0.2F},
-                new float[]{1.1F},
-                new float[]{1.5F},
-                new float[]{1.8F},
+                new float[]{0.62F},
+                new float[]{0.75F},
+                new float[]{1.75F},
+                new float[]{3.20F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH_SHARP.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 StunType.LONG,
                 new Collider[]{ColliderPreset.TACHI},
-                new float[]{0.05F, 1.3F},
+                new float[]{0.05F, 3F},
                 0.1f,
                 0.9f
         );

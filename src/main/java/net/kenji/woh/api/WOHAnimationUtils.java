@@ -3,6 +3,7 @@ package net.kenji.woh.api;
 import net.kenji.woh.gameasset.animations.WohAirAttackAnimation;
 import net.kenji.woh.gameasset.animations.WohAttackAnimation;
 import net.kenji.woh.gameasset.animations.WohDashAttackAnimation;
+import net.kenji.woh.gameasset.animations.WohSheathAnimation;
 import net.kenji.woh.render.EnhancedKatanaRender;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
@@ -24,6 +25,7 @@ public class WOHAnimationUtils {
 
     public enum AttackAnimationType{
         BASIC_ATTACK,
+        BASIC_ATTACK_JUMP,
         DASH_ATTACK
     }
 
@@ -58,6 +60,7 @@ public class WOHAnimationUtils {
 
 
     public static StaticAnimation createLivingAnimation(
+
             String path,
             boolean isRepeat,
             float convertTime,
@@ -106,6 +109,26 @@ public class WOHAnimationUtils {
         }
         return animation;
     }
+    public static WohSheathAnimation createSheathAnimation(
+            String path,
+            boolean isRepeat,
+            float convertTime,
+            float absEnd,
+            AnimationEvent.TimeStampedEvent[] extraEvents
+    ) {
+        WohSheathAnimation animation = (new WohSheathAnimation(convertTime, isRepeat, path, Armatures.BIPED, absEnd));
+
+        animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                AnimationEvent.TimeStampedEvent.create(absEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+        });
+
+        if(extraEvents != null){
+            animation.addEvents(extraEvents);
+        }
+        return animation;
+    }
+
+
 
     public static StaticAnimation createAttackAnimation(
             AttackAnimationType type,
@@ -135,9 +158,16 @@ public class WOHAnimationUtils {
             animation = new WohAttackAnimation(
                     path, null, phaseCount, convertTime, attackSpeed, attackDamage, impact,
                     start, antic, contact, recovery, end,
-                    hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints
+                    hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, false
             );
             break;
+            case BASIC_ATTACK_JUMP:
+                animation = new WohAttackAnimation(
+                        path, null, phaseCount, convertTime, attackSpeed, attackDamage, impact,
+                        start, antic, contact, recovery, end,
+                        hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, true
+                );
+                break;
             case DASH_ATTACK:
                 animation = new WohDashAttackAnimation(
                         path, phaseCount, convertTime, attackSpeed,
@@ -212,7 +242,14 @@ public class WOHAnimationUtils {
                 animation = new WohAttackAnimation(
                         path, endAnimation, phaseCount, convertTime, attackSpeed, attackDamage, impact,
                         start, antic, contact, recovery, end,
-                        hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints
+                        hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, false
+                );
+                break;
+            case BASIC_ATTACK_JUMP:
+                animation = new WohAttackAnimation(
+                        path, endAnimation, phaseCount, convertTime, attackSpeed, attackDamage, impact,
+                        start, antic, contact, recovery, end,
+                        hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, true
                 );
                 break;
             case DASH_ATTACK:

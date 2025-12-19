@@ -10,13 +10,16 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import yesman.epicfight.world.item.WeaponItem;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class WohWeaponItem extends WeaponItem {
-
    private ChatFormatting tooltipColor;
    private boolean hasTooltip = true;
 
+   public Map<UUID, Boolean> isRendered = new HashMap<>();
 
     public WohWeaponItem(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
         super(tier, damageIn, speedIn, builder);

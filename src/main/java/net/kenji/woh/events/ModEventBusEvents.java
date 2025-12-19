@@ -18,6 +18,5 @@ public class ModEventBusEvents {
                 ExiledRoninEntity.createMobAttributes()
                         .add(Attributes.MAX_HEALTH, 80)
                         .build());
-        Log.info("IS REGISTERING ATTRIBUTES");
     }
 }
