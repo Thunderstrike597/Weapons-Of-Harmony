@@ -43,7 +43,7 @@ public class ExiledRoninEntity extends PathfinderMob {
         // Set item in hand
         if (this.getMainHandItem().isEmpty()) {
             this.setItemInHand(InteractionHand.MAIN_HAND,
-                    new ItemStack(WOHItems.ENHANCED_KATANA.get()));
+                    new ItemStack(WOHItems.SHOTOGATANA.get()));
         }
 
         // Find nearest player

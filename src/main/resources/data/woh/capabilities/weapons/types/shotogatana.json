@@ -1,0 +1,77 @@
+{
+  "livingmotion_modifier": {
+    "one_hand": {
+      "idle": "woh:biped/living/shotogatana/shotogatana_idle",
+      "run":  "woh:biped/living/shotogatana/shotogatana_run",
+      "block": "wom:biped/skill/katana_guard",
+      "walk":  "woh:biped/living/shotogatana/shotogatana_walk"
+    },
+    "sheath": {
+      "idle": "woh:biped/living/shotogatana/shotogatana_sheathed_idle",
+      "run":  "cdmoveset:biped/new/yamato/yamato_run",
+      "block": "wom:biped/skill/katana_guard",
+      "walk":  "woh:biped/living/shotogatana/shotogatana_sheathed_walk"
+    }
+  },
+  "styles": {
+    "default": "sheath",
+    "cases": [
+      {
+        "conditions": [
+          {
+            "predicate": "epicfight:skill_active",
+            "skill": "woh:sheath_stance"
+          }
+        ],
+        "style": "one_hand"
+      }
+    ]
+  },
+  "collider": {
+    "center": [
+      0.0,
+      0.0,
+      -0.7
+    ],
+    "number": 5,
+    "size": [
+      0.4,
+      0.4,
+      0.7
+    ]
+  },
+  "hit_particle": "epicfight:cut",
+  "category": "uchigatana",
+  "swing_sound": "epicfight:entity.weapon.whoosh",
+  "combos": {
+    "one_hand": [
+      "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_1",
+      "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_2",
+      "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_3",
+      "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_4",
+      "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_5",
+
+      "cdmoveset:biped/new/yamato/yamato_dash",
+      "cdmoveset:biped/new/katana/katana_airslash"
+    ],
+    "sheath": [
+      "woh:biped/combat/shotogatana/shotogatana_auto_1",
+      "woh:biped/combat/shotogatana/shotogatana_auto_2",
+      "woh:biped/combat/shotogatana/shotogatana_auto_3",
+      "woh:biped/combat/shotogatana/shotogatana_auto_4",
+      "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_4",
+      "woh:biped/combat/shotogatana/shotogatana_auto_2",
+      "woh:biped/combat/shotogatana/shotogatana_auto_3",
+      "woh:biped/combat/shotogatana/shotogatana_auto_5",
+      "woh:biped/combat/shotogatana/shotogatana_auto_6",
+
+      "woh:biped/combat/shotogatana/shotogatana_dash",
+      "woh:biped/combat/shotogatana/shotogatana_airslash"
+    ]
+  },
+  "hit_sound": "epicfight:entity.hit.blade",
+  "innate_skills": {
+    "one_hand": "woh:sheath_stance",
+    "sheath": "woh:sheath_stance"
+  }
+}

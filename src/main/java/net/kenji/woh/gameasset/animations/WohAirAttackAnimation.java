@@ -1,5 +1,6 @@
 package net.kenji.woh.gameasset.animations;
 
+import net.kenji.woh.api.WOHAnimationUtils;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.registries.RegistryObject;

@@ -50,7 +50,7 @@
       "woh:biped/combat/masters_wakizashi/wakizashi_auto_2",
 
       "woh:biped/combat/masters_wakizashi/wakizashi_auto_3",
-      "woh:biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_4",
+      "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_4",
 
       "cdmoveset:biped/new/yamato/yamato_dash",
       "cdmoveset:biped/new/katana/katana_airslash"
@@ -61,8 +61,8 @@
       "woh:biped/combat/masters_wakizashi/wakizashi_dual_auto_3",
       "woh:biped/combat/masters_wakizashi/wakizashi_dual_auto_4",
 
-      "woh:biped/combat/enhanced_katana/enhanced_katana_dash",
-      "woh:biped/combat/enhanced_katana/enhanced_katana_airslash"
+      "woh:biped/combat/shotogatana/shotogatana_dash",
+      "woh:biped/combat/shotogatana/shotogatana_airslash"
     ]
   },
   "offhand_item_compatible_predicate": [

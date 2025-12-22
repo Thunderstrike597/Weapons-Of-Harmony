@@ -1,13 +1,12 @@
 package net.kenji.woh.gameasset;
 
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.registry.animation.MastersKatanaAnimations;
+import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
-import org.jline.utils.Log;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
 import yesman.epicfight.gameasset.EpicFightSkills;
@@ -140,7 +139,7 @@ public class EnhancedKatanaSkillInnate extends WeaponInnateSkill {
             super.executeOnServer(executer, args);
             executer.getSkill(this).activate();
             executer.modifyLivingMotionByCurrentItem(false);
-            executer.playAnimationSynchronized(MastersKatanaAnimations.ENHANCED_KATANA_UNSHEATH, 0.1F);
+            executer.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_UNSHEATH, 0.1F);
         }
 
     }
@@ -149,7 +148,7 @@ public class EnhancedKatanaSkillInnate extends WeaponInnateSkill {
         executer.getSkill(this).deactivate();
         super.cancelOnServer(executer, args);
         executer.modifyLivingMotionByCurrentItem(false);
-        executer.playAnimationSynchronized(MastersKatanaAnimations.ENHANCED_KATANA_SHEATH, 0.1F);
+        executer.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.1F);
 
     }
     @Override

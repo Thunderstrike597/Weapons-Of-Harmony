@@ -6,22 +6,23 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.phys.Vec3;
-import org.joml.Quaternionf;
 import yesman.epicfight.gameasset.Armatures;
 
-public class Wakizashi extends HolsterBaseItem {
+public class Odachi extends HolsterBaseItem {
+
 
     static Vec3Pair holsterPos = new Vec3Pair(
-            -0.32800245F, 0.4959988F, -0.79599875F,
-            -0.85F, 0.225F, -0.18F);
+            -0.17600179F, 0.28800145F, 0.5720006F,    // Hotbar: slightly right, up near shoulder, behind back
+            -0.17600179F, 0.28800145F, 0.5720006F    // Offhand: same position
+    );
+
 
     static Vec3Pair holsterSize = new Vec3Pair(
             0.7F, 0.7F, 0.7F,
             0.7F, 0.7F, 0.7F);
 
     static QuaternionFPair holsterRotation = new QuaternionFPair(
-            47.24048F, -150.32031F, 468.0F,
+            -1600.6406F, -1382.9609F, 290.4004F,
             0, -90, 180
     );
 
@@ -31,19 +32,16 @@ public class Wakizashi extends HolsterBaseItem {
             holsterRotation
     );
     public static JointPair holsterJoints = new JointPair(
-            () -> Armatures.BIPED.rootJoint,
-            () -> Armatures.BIPED.rootJoint
+            () -> Armatures.BIPED.chest,  // Lambda only evaluates when called
+            () -> null
     );
 
-    public Wakizashi(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, holsterTransform, WOHItems.WAKIZASHI_IN_SHEATH.get(), WOHItems.WAKIZASHI_SHEATH.get(), true, holsterJoints);
+    public Odachi(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, holsterTransform, WOHItems.ODACHI_HOLSTER.get(), null, false, holsterJoints);
     }
-
 
     @Override
     public boolean overrideStackedOnOther(ItemStack pStack, Slot pSlot, ClickAction pAction, Player pPlayer) {
         return false;
     }
-
-
 }

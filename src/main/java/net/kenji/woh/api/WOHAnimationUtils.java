@@ -26,7 +26,10 @@ public class WOHAnimationUtils {
     public enum AttackAnimationType{
         BASIC_ATTACK,
         BASIC_ATTACK_JUMP,
-        DASH_ATTACK
+        BASIC_ATTACK_SHEATH,
+        DASH_ATTACK,
+        AIR_ATTACK
+
     }
 
 
@@ -154,15 +157,15 @@ public class WOHAnimationUtils {
     ) {
         AttackAnimation animation = null;
         switch(type) {
-            case BASIC_ATTACK:
-            animation = new WohAttackAnimation(
+            case BASIC_ATTACK, BASIC_ATTACK_SHEATH:
+            animation = new WohAttackAnimation(type,
                     path, null, phaseCount, convertTime, attackSpeed, attackDamage, impact,
                     start, antic, contact, recovery, end,
                     hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, false
             );
             break;
             case BASIC_ATTACK_JUMP:
-                animation = new WohAttackAnimation(
+                animation = new WohAttackAnimation(type,
                         path, null, phaseCount, convertTime, attackSpeed, attackDamage, impact,
                         start, antic, contact, recovery, end,
                         hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, true
@@ -238,15 +241,15 @@ public class WOHAnimationUtils {
     ) {
         AttackAnimation animation = null;
         switch(type) {
-            case BASIC_ATTACK:
-                animation = new WohAttackAnimation(
+            case BASIC_ATTACK, BASIC_ATTACK_SHEATH:
+                animation = new WohAttackAnimation(type,
                         path, endAnimation, phaseCount, convertTime, attackSpeed, attackDamage, impact,
                         start, antic, contact, recovery, end,
                         hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, false
                 );
                 break;
             case BASIC_ATTACK_JUMP:
-                animation = new WohAttackAnimation(
+                animation = new WohAttackAnimation(type,
                         path, endAnimation, phaseCount, convertTime, attackSpeed, attackDamage, impact,
                         start, antic, contact, recovery, end,
                         hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, true

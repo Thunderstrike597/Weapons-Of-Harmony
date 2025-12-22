@@ -1,0 +1,43 @@
+{
+  "livingmotion_modifier": {
+    "two_hand": {
+      "idle": "woh:biped/living/odachi/odachi_hold",
+      "run":  "epicfight:biped/living/run_spear",
+      "block": "wom:biped/skill/katana_guard",
+      "walk":  "woh:biped/living/odachi/odachi_hold"
+    }
+  },
+  "styles": {
+    "default": "two_hand"
+  },
+  "collider": {
+    "center": [
+      0.0,
+      0.0,
+      -0.7
+    ],
+    "number": 5,
+    "size": [
+      0.4,
+      0.4,
+      0.7
+    ]
+  },
+  "hit_particle": "epicfight:cut",
+  "category": "uchigatana",
+  "swing_sound": "epicfight:entity.weapon.whoosh",
+  "combos": {
+    "two_hand": [
+      "woh:biped/combat/odachi/odachi_auto_1",
+      "woh:biped/combat/odachi/odachi_auto_2",
+      "woh:biped/combat/odachi/odachi_auto_3",
+
+      "epicfight:biped/combat/greatsword_dash",
+      "epicfight:biped/combat/greatsword_airslash"
+    ]
+  },
+  "hit_sound": "epicfight:entity.hit.blade",
+  "innate_skills": {
+
+  }
+}

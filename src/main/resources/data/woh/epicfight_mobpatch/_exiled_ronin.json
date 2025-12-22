@@ -24,10 +24,10 @@
       "weapon_categories": ["uchigatana"],
       "style":"one_hand",
       "one_hand": {
-        "idle": "woh:biped/living/enhanced_katana/enhanced_katana_idle",
+        "idle": "woh:biped/living/shotogatana/shotogatana_idle",
         "block": "wom:biped/skill/katana_guard",
-        "walk":  "woh:biped/living/enhanced_katana/enhanced_katana_walk",
-        "chase":  "woh:biped/living/enhanced_katana/enhanced_katana_run",
+        "walk":  "woh:biped/living/shotogatana/shotogatana_walk",
+        "chase":  "woh:biped/living/shotogatana/shotogatana_run",
         "mount": "epicfight:biped/living/mount",
         "fall": "epicfight:biped/living/fall",
         "death": "epicfight:biped/living/death"
@@ -58,7 +58,7 @@
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/enhanced_katana/enhanced_katana_auto_1"
+              "animation": "woh:biped/combat/shotogatana/shotogatana_auto_1"
             }
           ],
           "cooldown": 60,
@@ -92,7 +92,7 @@
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/enhanced_katana/enhanced_katana_auto_2"
+              "animation": "woh:biped/combat/shotogatana/shotogatana_auto_2"
             }
           ],
           "cooldown": 90,
@@ -147,7 +147,7 @@
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/enhanced_katana/enhanced_katana_auto_2"
+              "animation": "woh:biped/combat/shotogatana/shotogatana_auto_2"
             },
             {
               "conditions": [
@@ -160,7 +160,7 @@
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/enhanced_katana/enhanced_katana_auto_3"
+              "animation": "woh:biped/combat/shotogatana/shotogatana_auto_3"
             }
           ],
           "cooldown": 120,
@@ -209,7 +209,7 @@
                   "max": 2.0
                 }
               ],
-              "animation": "woh:biped/living/enhanced_katana/enhanced_katana_idle"
+              "animation": "woh:biped/living/shotogatana/shotogatana_idle"
             }
           ]
         }

@@ -16,10 +16,11 @@ public class WOHTabs {
 
     public static final RegistryObject<CreativeModeTab> WOH_TAB = CREATIVE_MODE_TABS.register(WeaponsOfHarmony.MODID, () -> CreativeModeTab.builder()
             .title(Component.translatable("creativetab.woh"))
-            .icon(() -> new ItemStack(WOHItems.ENHANCED_KATANA.get()))
+            .icon(() -> new ItemStack(WOHItems.SHOTOGATANA.get()))
             .displayItems((itemDisplayParameters, output) -> {
-                output.accept(WOHItems.ENHANCED_KATANA.get());
+                output.accept(WOHItems.SHOTOGATANA.get());
                 output.accept(WOHItems.MASTERS_WAKIZASHI.get());
+                output.accept(WOHItems.ODACHI.get());
                 output.accept(WOHItems.FOLDED_IRON.get());
                 output.accept(WOHItems.FOLDED_STEEL.get());
                 output.accept(WOHItems.HARDENED_STEEL_INGOT.get());

@@ -1,16 +1,11 @@
 package net.kenji.woh.registry.animation;
-import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.WOHAnimationUtils;
 import net.kenji.woh.gameasset.animations.WohSheathAnimation;
-import net.kenji.woh.gameasset.animations.WohStaticAnimation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.collider.Collider;
-import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.gameasset.EpicFightSounds;
@@ -19,29 +14,31 @@ import yesman.epicfight.particle.EpicFightParticles;
 import yesman.epicfight.world.damagesource.StunType;
 
 
-public class MastersKatanaAnimations {
+public class ShotogatanaAnimations {
 
-    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_IDLE;
-    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_WALK;
-    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_RUN;
-    public static StaticAnimation ENHANCED_KATANA_IDLE;
-    public static StaticAnimation ENHANCED_KATANA_WALK;
-    public static WohSheathAnimation ENHANCED_KATANA_SHEATH;
-    public static WohSheathAnimation ENHANCED_KATANA_SHEATH_ALT1;
-    public static WohSheathAnimation ENHANCED_KATANA_SHEATH_ALT2;
+    public static StaticAnimation SHOTOGATANA_UNSHEATHED_IDLE;
+    public static StaticAnimation SHOTOGATANA_UNSHEATHED_WALK;
+    public static StaticAnimation SHOTOGATANA_UNSHEATHED_RUN;
+    public static StaticAnimation SHOTOGATANA_IDLE;
+    public static StaticAnimation SHOTOGATANA_WALK;
+    public static WohSheathAnimation SHOTOGATANA_SHEATH;
+    public static WohSheathAnimation SHOTOGATANA_SHEATH_ALT1;
+    public static WohSheathAnimation SHOTOGATANA_SHEATH_ALT2;
 
-    public static StaticAnimation ENHANCED_KATANA_UNSHEATH;
-    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_AUTO_1;
-    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_AUTO_2;
-    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_AUTO_3;
-    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_AUTO_4;
-    public static StaticAnimation ENHANCED_KATANA_UNSHEATHED_AUTO_5;
-    public static StaticAnimation ENHANCED_KATANA_AUTO_1;
-    public static StaticAnimation ENHANCED_KATANA_AUTO_2;
-    public static StaticAnimation ENHANCED_KATANA_AUTO_3;
-    public static StaticAnimation ENHANCED_KATANA_AUTO_4;
-    public static StaticAnimation ENHANCED_KATANA_DASH;
-    public static StaticAnimation ENHANCED_KATANA_AIRSLASH;
+    public static StaticAnimation SHOTOGATANA_UNSHEATH;
+    public static StaticAnimation SHOTOGATANA_UNSHEATHED_AUTO_1;
+    public static StaticAnimation SHOTOGATANA_UNSHEATHED_AUTO_2;
+    public static StaticAnimation SHOTOGATANA_UNSHEATHED_AUTO_3;
+    public static StaticAnimation SHOTOGATANA_UNSHEATHED_AUTO_4;
+    public static StaticAnimation SHOTOGATANA_UNSHEATHED_AUTO_5;
+    public static StaticAnimation SHOTOGATANA_AUTO_1;
+    public static StaticAnimation SHOTOGATANA_AUTO_2;
+    public static StaticAnimation SHOTOGATANA_AUTO_3;
+    public static StaticAnimation SHOTOGATANA_AUTO_4;
+    public static StaticAnimation SHOTOGATANA_AUTO_5;
+    public static StaticAnimation SHOTOGATANA_AUTO_6;
+    public static StaticAnimation SHOTOGATANA_DASH;
+    public static StaticAnimation SHOTOGATANA_AIRSLASH;
 
 
 
@@ -57,23 +54,23 @@ public class MastersKatanaAnimations {
 
         HumanoidArmature biped = Armatures.BIPED;
 
-        ENHANCED_KATANA_UNSHEATHED_IDLE = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_idle", biped));
-        ENHANCED_KATANA_UNSHEATHED_WALK = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_walk", biped));
-        ENHANCED_KATANA_UNSHEATHED_RUN = (new StaticAnimation(0.1f, true, "biped/living/enhanced_katana/enhanced_katana_run", biped));
-        ENHANCED_KATANA_SHEATH = WOHAnimationUtils.createSheathAnimation("biped/skill/enhanced_katana/enhanced_katana_sheathe", false, 0.1f, 1.73f, null);
-        ENHANCED_KATANA_SHEATH_ALT1 = WOHAnimationUtils.createSheathAnimation("biped/skill/enhanced_katana/enhanced_katana_sheathe_alt1", false,  0.1f, 2.5f, null);
-        ENHANCED_KATANA_SHEATH_ALT2 = WOHAnimationUtils.createSheathAnimation("biped/skill/enhanced_katana/enhanced_katana_sheathe_alt2", false,  0.1f, 1.93f, null);
+        SHOTOGATANA_UNSHEATHED_IDLE = (new StaticAnimation(0.1f, true, "biped/living/shotogatana/shotogatana_idle", biped));
+        SHOTOGATANA_UNSHEATHED_WALK = (new StaticAnimation(0.1f, true, "biped/living/shotogatana/shotogatana_walk", biped));
+        SHOTOGATANA_UNSHEATHED_RUN = (new StaticAnimation(0.1f, true, "biped/living/shotogatana/shotogatana_run", biped));
+        SHOTOGATANA_SHEATH = WOHAnimationUtils.createSheathAnimation("biped/skill/shotogatana/shotogatana_sheathe", false, 0.1f, 1.73f, null);
+        SHOTOGATANA_SHEATH_ALT1 = WOHAnimationUtils.createSheathAnimation("biped/skill/shotogatana/shotogatana_sheathe_alt1", false,  0.1f, 2.5f, null);
+        SHOTOGATANA_SHEATH_ALT2 = WOHAnimationUtils.createSheathAnimation("biped/skill/shotogatana/shotogatana_sheathe_alt2", false,  0.1f, 1.93f, null);
 
-        ENHANCED_KATANA_UNSHEATH = WOHAnimationUtils.createLivingAnimation("biped/skill/enhanced_katana/enhanced_katana_unsheathe", false, 0.1f, 0.23f, -1, null);
+        SHOTOGATANA_UNSHEATH = WOHAnimationUtils.createLivingAnimation("biped/skill/shotogatana/shotogatana_unsheathe", false, 0.1f, 0.23f, -1, null);
 
-        ENHANCED_KATANA_IDLE = WOHAnimationUtils.createLivingAnimation("biped/living/enhanced_katana/enhanced_katana_sheathed_idle", true, 0.1f, -1f, -1, null);
-        ENHANCED_KATANA_WALK = WOHAnimationUtils.createLivingAnimation("biped/living/enhanced_katana/enhanced_katana_sheathed_walk", true, 0.1f, -1f, -1, null);
+        SHOTOGATANA_IDLE = WOHAnimationUtils.createLivingAnimation("biped/living/shotogatana/shotogatana_sheathed_idle", true, 0.1f, -1f, -1, null);
+        SHOTOGATANA_WALK = WOHAnimationUtils.createLivingAnimation("biped/living/shotogatana/shotogatana_sheathed_walk", true, 0.1f, -1f, -1, null);
 
 
 
-        ENHANCED_KATANA_UNSHEATHED_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
+        SHOTOGATANA_UNSHEATHED_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_1",
+                "biped/combat/shotogatana/shotogatana_unsheathed_auto_1",
                 1,
                 0.1F,
                 1F,
@@ -95,9 +92,9 @@ public class MastersKatanaAnimations {
 
         );
 
-        ENHANCED_KATANA_UNSHEATHED_AUTO_2 = WOHAnimationUtils.createAttackAnimation(
+        SHOTOGATANA_UNSHEATHED_AUTO_2 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_2",
+                "biped/combat/shotogatana/shotogatana_unsheathed_auto_2",
                 2,
                 0.1F,
                 1.0F,
@@ -119,9 +116,9 @@ public class MastersKatanaAnimations {
 
         );
 
-        ENHANCED_KATANA_UNSHEATHED_AUTO_3 =WOHAnimationUtils. createAttackAnimation(
+        SHOTOGATANA_UNSHEATHED_AUTO_3 =WOHAnimationUtils. createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_3",
+                "biped/combat/shotogatana/shotogatana_unsheathed_auto_3",
                 2,
                 0.1F,
                 1.0F,
@@ -141,9 +138,9 @@ public class MastersKatanaAnimations {
                 -1F,
                 -1F
         );
-        ENHANCED_KATANA_UNSHEATHED_AUTO_4 = WOHAnimationUtils.createAttackAnimation(
+        SHOTOGATANA_UNSHEATHED_AUTO_4 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_4",
+                "biped/combat/shotogatana/shotogatana_unsheathed_auto_4",
                 1,
                 0.1F,
                 1.0F,
@@ -164,9 +161,9 @@ public class MastersKatanaAnimations {
                 -1F
 
         );
-        ENHANCED_KATANA_UNSHEATHED_AUTO_5 = WOHAnimationUtils.createAttackAnimation(
+        SHOTOGATANA_UNSHEATHED_AUTO_5 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/enhanced_katana/enhanced_katana_unsheathed_auto_5",
+                "biped/combat/shotogatana/shotogatana_unsheathed_auto_5",
                 1,
                 0.1F,
                 1.0F,
@@ -188,41 +185,41 @@ public class MastersKatanaAnimations {
 
         );
 
-        ENHANCED_KATANA_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/enhanced_katana/enhanced_katana_auto_1",
+        SHOTOGATANA_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH,
+                "biped/combat/shotogatana/shotogatana_auto_1",
                 1,
                 0.15F,
                 1F,
-                5F,
-                1.8F,
+                6F,
+                0.5F,
                 new float[]{0.0F},
                 new float[]{0.25F},
-                new float[]{0.33F},
-                new float[]{0.65f},
-                new float[]{0.85f},
+                new float[]{0.37F},
+                new float[]{0.5f},
+                new float[]{0.68f},
                 new SoundEvent[]{EpicFightSounds.WHOOSH_SHARP.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
-                MastersKatanaAnimations.ENHANCED_KATANA_SHEATH_ALT1,
+                ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT1,
                 0.2f,
                 -1
         );
-        ENHANCED_KATANA_AUTO_2 = WOHAnimationUtils.createAttackAnimation(
+        SHOTOGATANA_AUTO_2 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/enhanced_katana/enhanced_katana_auto_2",
+                "biped/combat/shotogatana/shotogatana_auto_2",
                 1,
                 0.15F,
                 1F,
-                4F,
-                1.8F,
+                5.5F,
+                0.5F,
                 new float[]{0.0F},
                 new float[]{0.32F},
                 new float[]{0.42F},
-                new float[]{0.75F},
+                new float[]{0.58F},
                 new float[]{1.33F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
@@ -230,22 +227,22 @@ public class MastersKatanaAnimations {
                 new Collider[]{ColliderPreset.TACHI},
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
-                MastersKatanaAnimations.ENHANCED_KATANA_SHEATH_ALT2,
+                ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT2,
                 0.2f,
                 -1
         );
-        ENHANCED_KATANA_AUTO_3 = WOHAnimationUtils.createAttackAnimation(
+        SHOTOGATANA_AUTO_3 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/enhanced_katana/enhanced_katana_auto_3",
+                "biped/combat/shotogatana/shotogatana_auto_3",
                 1,
                 0.15F,
                 1F,
-                4F,
-                1.8F,
+                5.5F,
+                0.5F,
                 new float[]{0.0F},
                 new float[]{0.26F},
                 new float[]{0.35F},
-                new float[]{1.8F},
+                new float[]{0.6F},
                 new float[]{4.35F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
@@ -253,18 +250,64 @@ public class MastersKatanaAnimations {
                 new Collider[]{ColliderPreset.TACHI},
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
-                MastersKatanaAnimations.ENHANCED_KATANA_SHEATH_ALT1,
+                ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT1,
                 0.2f,
                 -1
         );
-        ENHANCED_KATANA_AUTO_4 = WOHAnimationUtils.createAttackAnimation(
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP,
-                "biped/combat/enhanced_katana/enhanced_katana_auto_4",
+        SHOTOGATANA_AUTO_4 = WOHAnimationUtils.createAttackAnimation(
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/shotogatana/shotogatana_auto_4",
                 1,
                 0.15F,
                 1F,
-                5.3F,
-                2.4F,
+                5F,
+                0.5F,
+                new float[]{0.0F},
+                new float[]{0.28F},
+                new float[]{0.38F},
+                new float[]{0.6F},
+                new float[]{0.93F},
+                new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
+                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.TACHI},
+                new Joint[]{biped.toolR},
+                StunType.SHORT,
+                ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT2,
+                0.2f,
+                -1
+        );
+        SHOTOGATANA_AUTO_5 = WOHAnimationUtils.createAttackAnimation(
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/shotogatana/shotogatana_auto_5",
+                2,
+                0.15F,
+                1F,
+                6F,
+                0.5F,
+                new float[]{0.0F, 0.5F},
+                new float[]{0.28F, 0.75F},
+                new float[]{0.32F, 1.05F},
+                new float[]{0.42F, 1.23F},
+                new float[]{0.44F, 1.60F},
+                new SoundEvent[]{EpicFightSounds.WHOOSH_ROD.get(), EpicFightSounds.WHOOSH.get()},
+                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.TACHI, ColliderPreset.TACHI},
+                new Joint[]{biped.toolR, biped.toolR},
+                StunType.SHORT,
+                ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT2,
+                0.2f,
+                -1
+        );
+        SHOTOGATANA_AUTO_6 = WOHAnimationUtils.createAttackAnimation(
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP,
+                "biped/combat/shotogatana/shotogatana_auto_6",
+                1,
+                0.15F,
+                1F,
+                7F,
+                0.5F,
                 new float[]{0.0F},
                 new float[]{0.8F},
                 new float[]{1.15F},
@@ -276,14 +319,14 @@ public class MastersKatanaAnimations {
                 new Collider[]{ColliderPreset.TACHI},
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
-                MastersKatanaAnimations.ENHANCED_KATANA_SHEATH,
+                ShotogatanaAnimations.SHOTOGATANA_SHEATH,
                 0.2f,
                 -1
         );
 
-        ENHANCED_KATANA_DASH = WOHAnimationUtils.createAttackAnimation(
+        SHOTOGATANA_DASH = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.DASH_ATTACK,
-                "biped/combat/enhanced_katana/enhanced_katana_dash",
+                "biped/combat/shotogatana/shotogatana_dash",
                 1,
                 0.05F,
                 1F,
@@ -303,8 +346,8 @@ public class MastersKatanaAnimations {
                 0.1f,
                 0.9f
         );
-        ENHANCED_KATANA_AIRSLASH = WOHAnimationUtils.createAirAttackAnimation(
-                "biped/combat/enhanced_katana/enhanced_katana_airslash",
+        SHOTOGATANA_AIRSLASH = WOHAnimationUtils.createAirAttackAnimation(
+                "biped/combat/shotogatana/shotogatana_airslash",
                 1,
                 0.1F,
                 1F,

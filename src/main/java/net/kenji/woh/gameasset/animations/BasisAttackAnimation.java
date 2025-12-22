@@ -1,8 +1,11 @@
 package net.kenji.woh.gameasset.animations;
 
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.render.EnhancedKatanaRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -12,14 +15,19 @@ import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jline.utils.Log;
+import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.item.CapabilityItem;
+import yesman.epicfight.world.capabilities.item.WeaponCapability;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -30,15 +38,18 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
     private StaticAnimation endAnimation;
     private boolean ignoreFallDamage = false;
 
+    WOHAnimationUtils.AttackAnimationType attackType = null;
 
-    public BasisAttackAnimation(float convertTime, String path, Armature armature, StaticAnimation endAnimation,Phase... phases) {
+    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, Armature armature, StaticAnimation endAnimation,Phase... phases) {
         super(convertTime, path, armature, phases);
         this.endAnimation = endAnimation;
+        this.attackType = attackType;
     }
-    public BasisAttackAnimation(float convertTime, String path, Armature armature, StaticAnimation endAnimation, boolean ignoreFallDamage,Phase... phases) {
+    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, Armature armature, StaticAnimation endAnimation, boolean ignoreFallDamage,Phase... phases) {
         super(convertTime, path, armature, phases);
         this.endAnimation = endAnimation;
         this.ignoreFallDamage = ignoreFallDamage;
+        this.attackType = attackType;
     }
 
     private static final UUID SLOW_UUID =
@@ -121,6 +132,22 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
         if(entitypatch instanceof PlayerPatch<?> playerPatch) {
             UUID playerID = playerPatch.getOriginal().getUUID();
             isAttacking.put(playerID, true);
+            boolean isSheathed = EnhancedKatanaRender.sheathWeapon.getOrDefault(playerID, false);
+            Log.info("Attacking Sheathed!");
+            if(!isSheathed){
+                CapabilityItem capItem = playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
+                if(capItem instanceof WeaponCapability weaponCap) {
+                    Log.info("Attacking Unsheathed!");
+                    List<AnimationProvider<?>> autoAttackMotion = weaponCap.getAutoAttckMotion(playerPatch);
+                    if(attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH){
+                        for(int i = 0; i < autoAttackMotion.size(); i++){
+                            if(autoAttackMotion.get(i).get() == this){
+                                playerPatch.playAnimationSynchronized(autoAttackMotion.get(i + 1).get(), 0.1F);
+                            }
+                        }
+                    }
+                }
+            }
         }
         super.begin(entitypatch);
     }

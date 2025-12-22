@@ -27,7 +27,7 @@
 			"parent": "item/generated",
 			"textures":
 			{
-				"layer0": "woh:item/enhanced_katana_display"
+				"layer0": "woh:item/shotogatana_display"
 			}
 		},
 		"gui":
@@ -35,7 +35,7 @@
 			"parent": "item/generated",
 			"textures":
 			{
-				"layer0": "woh:item/enhanced_katana_display"
+				"layer0": "woh:item/shotogatana_display"
 			},
 			"gui_light": "front"
 		},
@@ -44,7 +44,7 @@
 			"parent": "item/generated",
 			"textures":
 			{
-				"layer0": "woh:item/enhanced_katana_display"
+				"layer0": "woh:item/shotogatana_display"
 			}
 		}
 	}

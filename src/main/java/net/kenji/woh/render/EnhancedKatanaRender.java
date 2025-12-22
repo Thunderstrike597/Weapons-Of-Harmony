@@ -6,7 +6,7 @@ import net.kenji.woh.gameasset.animations.BasisAirAttackAnimation;
 import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
 import net.kenji.woh.gameasset.animations.WohSheathAnimation;
 import net.kenji.woh.registry.WOHSkills;
-import net.kenji.woh.registry.animation.MastersKatanaAnimations;
+import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.kenji.woh.registry.item.WOHItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -36,6 +36,8 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EnhancedKatanaRender extends RenderItemBase {
     public static final Map<UUID, Boolean> sheathWeapon = new HashMap<>();
+    public static final Map<UUID, Boolean> isHoldingSheathed = new HashMap<>();
+
     public static final Map<UUID, Boolean> hasSetupWeapon = new HashMap<>();
 
 
@@ -43,16 +45,16 @@ public class EnhancedKatanaRender extends RenderItemBase {
     private final ItemStack sheathStack;
     private final ItemStack sheathedWeaponStack;
 
-    private StaticAnimation idleSheathAnim = MastersKatanaAnimations.ENHANCED_KATANA_IDLE;
-    private StaticAnimation walkSheathAnim = MastersKatanaAnimations.ENHANCED_KATANA_WALK;
+    private StaticAnimation idleSheathAnim = ShotogatanaAnimations.SHOTOGATANA_IDLE;
+    private StaticAnimation walkSheathAnim = ShotogatanaAnimations.SHOTOGATANA_WALK;
 
-    private StaticAnimation sheathAnim = MastersKatanaAnimations.ENHANCED_KATANA_SHEATH;
-    private StaticAnimation unsheathAnim = MastersKatanaAnimations.ENHANCED_KATANA_UNSHEATH;
+    private StaticAnimation sheathAnim = ShotogatanaAnimations.SHOTOGATANA_SHEATH;
+    private StaticAnimation unsheathAnim = ShotogatanaAnimations.SHOTOGATANA_UNSHEATH;
 
     public EnhancedKatanaRender() {
-        this.katana = new ItemStack((ItemLike) WOHItems.ENHANCED_KATANA.get());
-        this.sheathStack = new ItemStack((ItemLike) WOHItems.ENHANCED_KATANA_SHEATH.get());
-        this.sheathedWeaponStack = new ItemStack((ItemLike) WOHItems.ENHANCED_KATANA_IN_SHEATH.get());
+        this.katana = new ItemStack((ItemLike) WOHItems.SHOTOGATANA.get());
+        this.sheathStack = new ItemStack((ItemLike) WOHItems.SHOTOGATANA_SHEATH.get());
+        this.sheathedWeaponStack = new ItemStack((ItemLike) WOHItems.SHOTOGATANA_IN_SHEATH.get());
     }
 
         @SubscribeEvent
@@ -65,7 +67,7 @@ public class EnhancedKatanaRender extends RenderItemBase {
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         UUID playerId = event.player.getUUID();
         boolean hasSetup = hasSetupWeapon.getOrDefault(playerId, false);
-        if(event.player.getMainHandItem().getItem() == WOHItems.ENHANCED_KATANA.get()){
+        if(event.player.getMainHandItem().getItem() == WOHItems.SHOTOGATANA.get()){
             if(!hasSetup){
                 sheathWeapon.put(playerId, true);
                 hasSetupWeapon.put(playerId, true);
@@ -87,6 +89,7 @@ public class EnhancedKatanaRender extends RenderItemBase {
             boolean isSheathed = sheathWeapon.getOrDefault(playerID, false);
 
             AnimationPlayer animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.LOWEST).animationPlayer;
+            AnimationPlayer highAnimPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
 
             if(animPlayer.getAnimation() != idleSheathAnim && animPlayer.getAnimation() != walkSheathAnim) {
                 animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.MIDDLE).animationPlayer;
@@ -95,14 +98,17 @@ public class EnhancedKatanaRender extends RenderItemBase {
                 animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
             }
 
-            if(!animPlayer.getAnimation().isBasicAttackAnimation()) {
-                if(!isSheathed && !playerPatch.getSkill(WOHSkills.SHEATH_STANCE).isActivated()) {
-                    if (WohSheathAnimation.shouldAnimReplay.getOrDefault(playerID, true)) {
+
+            if(!animPlayer.getAnimation().isBasicAttackAnimation() && !(highAnimPlayer.getAnimation() instanceof WohSheathAnimation)) {
+                if(playerPatch.getSkill(WOHSkills.SHEATH_STANCE) != null) {
+                    if (!isSheathed && !playerPatch.getSkill(WOHSkills.SHEATH_STANCE).isActivated()) {
                         boolean isAttacking = BasisAttackAnimation.isAttacking.getOrDefault(playerID, false);
                         boolean isAirAttacking = BasisAirAttackAnimation.isAttacking.getOrDefault(playerID, false);
                         if (!isAttacking && !isAirAttacking) {
 
-                            playerPatch.playAnimationSynchronized(MastersKatanaAnimations.ENHANCED_KATANA_SHEATH, 0.2F);
+                            if (WohSheathAnimation.shouldAnimReplay.getOrDefault(playerID, true)) {
+                                playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
+                            }
                         }
                     }
                 }

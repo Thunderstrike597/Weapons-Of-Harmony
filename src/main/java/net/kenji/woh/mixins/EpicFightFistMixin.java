@@ -1,7 +1,7 @@
 package net.kenji.woh.mixins;
 
 
-import net.kenji.woh.registry.animation.MastersKatanaAnimations;
+import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,12 +26,12 @@ public class EpicFightFistMixin {
         commonAutoAttackMotion.clear();
 
         // Add your custom animations
-        commonAutoAttackMotion.add((AnimationProvider<?>) () -> MastersKatanaAnimations.COMBAT_FIST_AUTO_1);
-        commonAutoAttackMotion.add((AnimationProvider<?>) () -> MastersKatanaAnimations.COMBAT_FIST_AUTO_2);
+        commonAutoAttackMotion.add((AnimationProvider<?>) () -> ShotogatanaAnimations.COMBAT_FIST_AUTO_1);
+        commonAutoAttackMotion.add((AnimationProvider<?>) () -> ShotogatanaAnimations.COMBAT_FIST_AUTO_2);
 
 
-        commonAutoAttackMotion.add((AnimationProvider<?>) () -> MastersKatanaAnimations.COMBAT_FIST_DASH);
-        commonAutoAttackMotion.add((AnimationProvider<?>) () -> MastersKatanaAnimations.COMBAT_FIST_AIRKICK);
+        commonAutoAttackMotion.add((AnimationProvider<?>) () -> ShotogatanaAnimations.COMBAT_FIST_DASH);
+        commonAutoAttackMotion.add((AnimationProvider<?>) () -> ShotogatanaAnimations.COMBAT_FIST_AIRKICK);
 
 
     }

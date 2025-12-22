@@ -1,25 +1,18 @@
 package net.kenji.woh.item;
 
-import net.corruptdog.cdm.world.item.CDAddonItems;
 import net.kenji.woh.registry.item.WOHItems;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.phys.Vec3;
-import org.joml.Quaternionf;
-import yesman.epicfight.api.utils.math.OpenMatrix4f;
-import yesman.epicfight.client.renderer.patched.item.RenderItemBase;
 import yesman.epicfight.gameasset.Armatures;
-import yesman.epicfight.world.capabilities.EpicFightCapabilities;
-import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
-import yesman.epicfight.world.item.WeaponItem;
 
-public class EnhancedKatana extends HolsterBaseItem {
+public class Shotogatana extends HolsterBaseItem {
+
 
     static Vec3Pair holsterPos = new Vec3Pair(
-            0F, 0.25F, 0.3F,
+            0.047998372F, 0.46F, 0.14F,
             -1, -1,-1);
 
     static Vec3Pair holsterSize = new Vec3Pair(
@@ -27,8 +20,8 @@ public class EnhancedKatana extends HolsterBaseItem {
             0, 0, 0);
 
     static QuaternionFPair holsterRotation = new QuaternionFPair(
-           -10, 20, 180,
-            -1, -1, -1
+            47, -160, 468,    // Hotbar: slight forward tilt, diagonal angle, flipped
+            15, -45, 180
     );
 
     private static HolsterTransform holsterTransform = new HolsterTransform(
@@ -36,16 +29,17 @@ public class EnhancedKatana extends HolsterBaseItem {
             holsterSize,
             holsterRotation
     );
+    public static JointPair holsterJoints = new JointPair(
+            () -> Armatures.BIPED.rootJoint,
+            () -> null
+    );
 
-    public EnhancedKatana(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, holsterTransform, WOHItems.ENHANCED_KATANA_IN_SHEATH.get(), null, false);
+    public Shotogatana(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, holsterTransform, WOHItems.SHOTOGATANA_HOLSTER.get(), null, false, holsterJoints);
     }
-
 
     @Override
     public boolean overrideStackedOnOther(ItemStack pStack, Slot pSlot, ClickAction pAction, Player pPlayer) {
         return false;
     }
-
-
 }
