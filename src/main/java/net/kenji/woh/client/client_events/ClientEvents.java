@@ -58,7 +58,7 @@ public class ClientEvents {
                   }
           );
           ItemProperties.register(
-                  WOHItems.MASTERS_WAKIZASHI.get(),
+                  WOHItems.WAKIZASHI.get(),
                   new ResourceLocation("woh", "wakizashi_unsheathed"),
                   (stack, level, entity, seed) -> {
                       if(entity instanceof Player player) {

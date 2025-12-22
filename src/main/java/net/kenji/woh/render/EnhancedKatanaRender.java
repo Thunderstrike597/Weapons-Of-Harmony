@@ -140,7 +140,7 @@ public class EnhancedKatanaRender extends RenderItemBase {
 
         if (entitypatch.getOriginal() instanceof Player) {
             if (!sheathed) {
-                // Only render katana in hand when NOT sheathed
+                // Only render katana in hand when NOT in_sheath
                 OpenMatrix4f modelMatrix = new OpenMatrix4f(this.mainhandcorrectionMatrix);
                 modelMatrix.mulFront(poses[armature.toolR.getId()]);
                 poseStack.pushPose();
@@ -182,7 +182,7 @@ public class EnhancedKatanaRender extends RenderItemBase {
             poseStack.popPose();
         }
         else{
-                // Only render katana in hand when NOT sheathed
+                // Only render katana in hand when NOT in_sheath
                 OpenMatrix4f modelMatrix = new OpenMatrix4f(this.mainhandcorrectionMatrix);
                 modelMatrix.mulFront(poses[armature.toolR.getId()]);
                 poseStack.pushPose();

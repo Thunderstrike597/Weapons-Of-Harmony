@@ -16,7 +16,7 @@ public class WohAnimations {
 
     private static void build(){
         ShotogatanaAnimations.build();
-        MastersWakizashiAnimations.build();
+        WakizashiAnimations.build();
         OdachiAnimations.build();
     }
 }

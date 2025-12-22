@@ -1,16 +1,16 @@
 {
   "livingmotion_modifier": {
     "one_hand": {
-      "idle": "woh:biped/living/masters_wakizashi/wakizashi_hold",
-      "run":  "woh:biped/living/masters_wakizashi/wakizashi_hold",
+      "idle": "woh:biped/living/wakizashi/wakizashi_hold",
+      "run":  "woh:biped/living/wakizashi/wakizashi_hold",
       "block": "wom:biped/skill/katana_guard",
-      "walk":  "woh:biped/living/masters_wakizashi/wakizashi_hold"
+      "walk":  "woh:biped/living/wakizashi/wakizashi_hold"
     },
     "two_hand": {
-      "idle": "woh:biped/living/masters_wakizashi/wakizashi_dual_hold",
-      "run":  "woh:biped/living/masters_wakizashi/wakizashi_dual_hold",
+      "idle": "woh:biped/living/wakizashi/wakizashi_dual_hold",
+      "run":  "woh:biped/living/wakizashi/wakizashi_dual_hold",
       "block": "wom:biped/skill/katana_guard",
-      "walk":  "woh:biped/living/masters_wakizashi/wakizashi_dual_hold"
+      "walk":  "woh:biped/living/wakizashi/wakizashi_dual_hold"
     }
   },
   "styles": {
@@ -46,20 +46,22 @@
   "usable_in_offhand": true,
   "combos": {
     "one_hand": [
-      "woh:biped/combat/masters_wakizashi/wakizashi_auto_1",
-      "woh:biped/combat/masters_wakizashi/wakizashi_auto_2",
+      "woh:biped/combat/wakizashi/wakizashi_auto_1",
+      "woh:biped/combat/wakizashi/wakizashi_auto_2",
 
-      "woh:biped/combat/masters_wakizashi/wakizashi_auto_3",
+      "woh:biped/combat/wakizashi/wakizashi_auto_3",
       "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_4",
 
       "cdmoveset:biped/new/yamato/yamato_dash",
       "cdmoveset:biped/new/katana/katana_airslash"
     ],
     "two_hand": [
-      "woh:biped/combat/masters_wakizashi/wakizashi_dual_auto_1",
-      "woh:biped/combat/masters_wakizashi/wakizashi_dual_auto_2",
-      "woh:biped/combat/masters_wakizashi/wakizashi_dual_auto_3",
-      "woh:biped/combat/masters_wakizashi/wakizashi_dual_auto_4",
+      "woh:biped/combat/wakizashi/wakizashi_dual_auto_1",
+      "woh:biped/combat/wakizashi/wakizashi_dual_auto_2",
+      "woh:biped/combat/wakizashi/wakizashi_dual_auto_3",
+      "woh:biped/combat/wakizashi/wakizashi_dual_auto_4",
+      "woh:biped/combat/wakizashi/wakizashi_dual_auto_5",
+      "woh:biped/combat/wakizashi/wakizashi_dual_auto_6",
 
       "woh:biped/combat/shotogatana/shotogatana_dash",
       "woh:biped/combat/shotogatana/shotogatana_airslash"

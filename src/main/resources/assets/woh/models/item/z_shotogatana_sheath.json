@@ -1,6 +1,6 @@
 {
 	"loader": "forge:obj",
-    "model": "woh:models/item/obj/enhanced_katana_sheath.obj",
+    "model": "woh:models/item/obj/holster/sheath/enhanced_katana_sheath.obj",
     "flip_v": true,
 	"display":
 	{

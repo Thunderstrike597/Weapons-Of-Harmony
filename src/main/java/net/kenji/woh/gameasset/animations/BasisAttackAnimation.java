@@ -19,6 +19,7 @@ import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
+import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
@@ -133,11 +134,9 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
             UUID playerID = playerPatch.getOriginal().getUUID();
             isAttacking.put(playerID, true);
             boolean isSheathed = EnhancedKatanaRender.sheathWeapon.getOrDefault(playerID, false);
-            Log.info("Attacking Sheathed!");
             if(!isSheathed){
                 CapabilityItem capItem = playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
                 if(capItem instanceof WeaponCapability weaponCap) {
-                    Log.info("Attacking Unsheathed!");
                     List<AnimationProvider<?>> autoAttackMotion = weaponCap.getAutoAttckMotion(playerPatch);
                     if(attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH){
                         for(int i = 0; i < autoAttackMotion.size(); i++){

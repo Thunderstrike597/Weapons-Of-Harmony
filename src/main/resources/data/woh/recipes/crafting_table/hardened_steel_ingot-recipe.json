@@ -5,16 +5,15 @@
       "item": "woh:folded_steel"
     },
     "B": {
-      "item": "minecraft:iron_ingot"
+      "item": "minecraft:diamond"
     }
   },
   "pattern": [
     "BAA",
-    "A  ",
+    "AB ",
     "   "
   ],
   "result": {
-    "item": "woh:hardened_steel_ingot",
-    "count": 3
+    "item": "woh:hardened_steel_ingot"
   }
 }

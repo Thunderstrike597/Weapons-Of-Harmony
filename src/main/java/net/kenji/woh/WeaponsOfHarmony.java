@@ -14,11 +14,9 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.WeaponCategoryIconRegisterEvent;
@@ -66,7 +64,7 @@ public class WeaponsOfHarmony {
     @OnlyIn(Dist.CLIENT)
     public static void regIcon(WeaponCategoryIconRegisterEvent event) {
         event.registerCategory(WohWeaponCategories.ONE_HAND_KATANA, new ItemStack((ItemLike) WOHItems.SHOTOGATANA.get()));
-        event.registerCategory(WohWeaponCategories.WAKIZASHI, new ItemStack((ItemLike) WOHItems.MASTERS_WAKIZASHI.get()));
+        event.registerCategory(WohWeaponCategories.WAKIZASHI, new ItemStack((ItemLike) WOHItems.WAKIZASHI.get()));
 
     }
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

@@ -12,8 +12,8 @@ public class Odachi extends HolsterBaseItem {
 
 
     static Vec3Pair holsterPos = new Vec3Pair(
-            -0.17600179F, 0.28800145F, 0.5720006F,    // Hotbar: slightly right, up near shoulder, behind back
-            -0.17600179F, 0.28800145F, 0.5720006F    // Offhand: same position
+            0.49599558F, 1.1199979F, -0.22799583F,    // Hotbar: slightly right, up near shoulder, behind back
+            0.49599558F, 1.1199979F, -0.22799583F    // Offhand: same position
     );
 
 
@@ -22,7 +22,7 @@ public class Odachi extends HolsterBaseItem {
             0.7F, 0.7F, 0.7F);
 
     static QuaternionFPair holsterRotation = new QuaternionFPair(
-            -1600.6406F, -1382.9609F, 290.4004F,
+            -1597.4375F, -1387.8457F, 290.4004F,
             0, -90, 180
     );
 
@@ -37,7 +37,7 @@ public class Odachi extends HolsterBaseItem {
     );
 
     public Odachi(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, holsterTransform, WOHItems.ODACHI_HOLSTER.get(), null, false, holsterJoints);
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, holsterTransform, WOHItems.ODACHI_IN_SHEATH.get(), WOHItems.ODACHI_SHEATH.get(), false, holsterJoints);
     }
 
     @Override

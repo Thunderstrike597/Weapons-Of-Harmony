@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "woh:blade_curve_module"
+  },
+  "base": {
+    "item": "epicfight:uchigatana"
+  },
+  "addition": {
+    "item": "woh:hardened_steel_ingot"
+  },
+  "result": {
+    "item": "woh:shotogatana",
+    "count": 1
+  }
+}

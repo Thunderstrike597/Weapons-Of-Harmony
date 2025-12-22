@@ -1,10 +1,10 @@
 {
-  "item.woh.shotogatana": "Shotogatana",
   "item.woh.z_shotogatana_sheath": "Shotogatana Sheath",
   "item.woh.z_shotogatana_in_sheath": "Sheathed Shotogatana",
 
-  "item.woh.masters_wakizashi": "Masters Wakizashi",
-
+  "item.woh.shotogatana": "Shotogatana",
+  "item.woh.wakizashi": "Wakizashi",
+  "item.woh.odachi": "Odachi",
 
   "item.woh.folded_iron": "Folded Iron",
   "item.woh.folded_steel": "Folded Steel",
@@ -14,6 +14,7 @@
   "item.woh.patterned_handle": "Patterned Handle",
   "item.woh.gold_tsuba": "Gold Tsuba",
 
+  "item.woh.blade_curve_module":"Blade Curve Module",
 
   "item.woh.shotogatana.tooltip": "A precise blade paired with a siya. \n nimble and capable of cutting through the toughest of armor with style",
   "item.woh.folded_iron.tooltip": "A piece of iron that with much higher density than regular iron. \nAlthough tough, it tends to be fragile without being smelted first",

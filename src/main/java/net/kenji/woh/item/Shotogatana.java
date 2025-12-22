@@ -35,7 +35,7 @@ public class Shotogatana extends HolsterBaseItem {
     );
 
     public Shotogatana(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, holsterTransform, WOHItems.SHOTOGATANA_HOLSTER.get(), null, false, holsterJoints);
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, holsterTransform, WOHItems.SHOTOGATANA_IN_SHEATH.get(), null, false, holsterJoints);
     }
 
     @Override

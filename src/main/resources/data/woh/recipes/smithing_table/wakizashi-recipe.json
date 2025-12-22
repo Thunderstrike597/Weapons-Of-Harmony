@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "woh:blade_curve_module"
+  },
+  "base": {
+    "item": "minecraft:diamond_sword"
+  },
+  "addition": {
+    "item": "woh:hardened_steel_ingot",
+    "count": 2
+  },
+  "result": {
+    "item": "woh:wakizashi",
+    "count": 1
+  }
+}

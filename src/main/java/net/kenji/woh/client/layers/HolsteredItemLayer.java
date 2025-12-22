@@ -233,6 +233,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
 
     public static class SubEventHandler {
         public static int selectedIndex = 0;
+        public static boolean debugActive = false;
         public static int getSelectedSlot(){
             return selectedIndex;
         }
@@ -241,7 +242,17 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             // Get the player's currently selected hotbar slot
 
             Player player = Minecraft.getInstance().player;
-            if (player == null) return;
+            if (player == null) {
+                if(event.getKey() == GLFW.GLFW_KEY_KP_MULTIPLY){
+                    debugActive = true;
+                }
+                if(event.getKey() == GLFW.GLFW_KEY_KP_DIVIDE){
+                    debugActive = false;
+                }
+                return;
+            }
+            if(!debugActive)
+                return;
 
             if(event.getKey() == GLFW.GLFW_KEY_0)
                 selectedIndex = 0;
