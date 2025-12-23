@@ -1,0 +1,145 @@
+{
+  "renderer": "minecraft:skeleton",
+  "humanoid_weapon_motions": [
+    {
+      "weapon_categories": [
+        "one_hand_katana"
+      ],
+      "livingmotions": {
+        "idle": "woh:biped/living/shotogatana/shotogatana_idle",
+        "walk": "woh:biped/living/shotogatana/shotogatana_walk",
+        "chase": "woh:biped/living/shotogatana/shotogatana_walk"
+      },
+      "style": "common"
+    }
+  ],
+  "hit_sound": "epicfight:entity.hit.blade",
+  "hit_particle": "epicfight:hit_blade",
+  "faction": "undead",
+  "swing_sound": "epicfight:entity.weapon.whoosh",
+  "model": "epicfight:entity/skeleton",
+  "default_livingmotions": {
+    "idle": "epicfight:wither_skeleton/idle",
+    "chase": "epicfight:wither_skeleton/chase",
+    "walk": "epicfight:wither_skeleton/walk",
+    "fall": "epicfight:biped/living/fall",
+    "death": "epicfight:biped/living/death"
+  },
+  "attributes": {
+    "chasing_speed": 1.0,
+    "stun_armor": 0.4,
+    "impact": 0.5,
+    "max_strikes": 1,
+    "scale": 1.0,
+    "armor_negation": 0.1
+  },
+  "armature": "epicfight:entity/skeleton",
+  "combat_behavior": [
+    {
+      "behavior_series": [
+        {
+          "looping": 0,
+          "canBeInterrupted": 1,
+          "behaviors": [
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 1.0,
+                  "max": 3.0
+                },
+                {
+                  "predicate": "epicfight:within_eye_height"
+                }
+              ],
+              "animation": "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_1"
+            }
+          ],
+          "cooldown": 40,
+          "weight": 10.0
+        },
+        {
+          "looping": 0,
+          "canBeInterrupted": 1,
+          "behaviors": [
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 1.0,
+                  "max": 3.0
+                },
+                {
+                  "predicate": "epicfight:within_eye_height"
+                }
+              ],
+              "animation": "woh:biped/combat/shotogatana/shotogatana_auto_4"
+            }
+          ],
+          "cooldown": 45,
+          "weight": 8.0
+        },
+        {
+          "looping": 0,
+          "canBeInterrupted": 1,
+          "behaviors": [
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 1.0,
+                  "max": 3.0
+                },
+                {
+                  "predicate": "epicfight:within_eye_height"
+                }
+              ],
+              "animation": "woh:biped/combat/shotogatana/shotogatana_auto_2"
+            },
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 1.0,
+                  "max": 3.0
+                },
+                {
+                  "predicate": "epicfight:within_eye_height"
+                }
+              ],
+              "animation": "woh:biped/combat/shotogatana/shotogatana_auto_3"
+            }
+          ],
+          "cooldown": 60,
+          "weight": 4.0
+        },
+        {
+          "looping": 0,
+          "canBeInterrupted": 1,
+          "behaviors": [
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 1.0,
+                  "max": 3.0
+                },
+                {
+                  "predicate": "epicfight:within_eye_height"
+                }
+              ],
+              "animation": "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_2"
+            }
+          ],
+          "cooldown": 65,
+          "weight": 2.0
+        }
+      ],
+      "weapon_categories": [
+        "one_hand_katana"
+      ],
+      "style": "common"
+    }
+  ],
+  "isHumanoid": true
+}

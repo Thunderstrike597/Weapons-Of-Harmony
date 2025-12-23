@@ -1,5 +1,6 @@
-package net.kenji.woh.item;
+package net.kenji.woh.item.custom.weapon;
 
+import net.kenji.woh.item.custom.base.HolsterBaseItem;
 import net.kenji.woh.registry.item.WOHItems;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;

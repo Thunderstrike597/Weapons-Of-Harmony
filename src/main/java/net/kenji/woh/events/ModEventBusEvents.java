@@ -19,4 +19,6 @@ public class ModEventBusEvents {
                         .add(Attributes.MAX_HEALTH, 80)
                         .build());
     }
+
+
 }

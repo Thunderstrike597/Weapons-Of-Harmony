@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.EntityRenderersEvent.AddLayers;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -79,9 +80,9 @@ public class ClientEvents {
         }
     }
     @SubscribeEvent
-    public static void addLayers(EntityRenderersEvent.AddLayers evt) {
-        evt.getSkins().forEach((s) -> {
-            EntityRenderer<? extends Player> renderer = evt.getSkin(s);
+    public static void addLayers(AddLayers event) {
+        event.getSkins().forEach((s) -> {
+            EntityRenderer<? extends Player> renderer = event.getSkin(s);
             if (renderer instanceof LivingEntityRenderer livingRenderer) {
                 livingRenderer.addLayer(new OffHandHolsteredItemLayer(livingRenderer));
             }

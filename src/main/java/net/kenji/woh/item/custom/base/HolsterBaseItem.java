@@ -1,4 +1,4 @@
-package net.kenji.woh.item;
+package net.kenji.woh.item.custom.base;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.Item;
@@ -19,8 +19,8 @@ public class HolsterBaseItem extends WohWeaponItem {
         public float keyX, keyY, keyZ;
         public float valueX, valueY, valueZ;
 
-        Vec3Pair(float x, float y, float z,
-                 float xx, float yy, float zz){
+        public Vec3Pair(float x, float y, float z,
+                        float xx, float yy, float zz){
             keyX = x; keyY = y; keyZ = z;
             valueX = xx; valueY = yy; valueZ = zz;
             key = new Vec3(x, y, z);
@@ -34,7 +34,7 @@ public class HolsterBaseItem extends WohWeaponItem {
         public float keyX, keyY, keyZ;
         public float valueX, valueY, valueZ;
 
-        QuaternionFPair(float x, float y, float z, float xx, float yy, float zz) {
+        public QuaternionFPair(float x, float y, float z, float xx, float yy, float zz) {
             // Store angles
             keyX = x; keyY = y; keyZ = z;
             valueX = xx; valueY = yy; valueZ = zz;

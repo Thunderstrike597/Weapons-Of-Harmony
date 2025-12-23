@@ -16,6 +16,7 @@ import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.particle.HitParticleType;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.damagesource.StunType;
 
 import javax.annotation.Nullable;
@@ -36,26 +37,31 @@ public class WOHAnimationUtils {
     public static class ReusableEvents{
         static AnimationEvent.AnimationEventConsumer unSheathEvent = (
                 (livingEntityPatch, staticAnimation, objects) -> {
+                    if(livingEntityPatch instanceof PlayerPatch<?> playerPatch) {
 
-                    Player player = (Player)livingEntityPatch.getOriginal();
-                    UUID playerId = player.getUUID();
-                    EnhancedKatanaRender.sheathWeapon.put(playerId, false);
+                        Player player = playerPatch.getOriginal();
+                        UUID playerId = player.getUUID();
+                        EnhancedKatanaRender.sheathWeapon.put(playerId, false);
+                    }
                 }
         );
         static AnimationEvent.AnimationEventConsumer sheathEvent = (
                 (livingEntityPatch, staticAnimation, objects) -> {
-                    Player player = (Player) livingEntityPatch.getOriginal();
-                    UUID playerId = player.getUUID();
+                    if(livingEntityPatch instanceof PlayerPatch<?> playerPatch) {
+                        Player player = playerPatch.getOriginal();
+                        UUID playerId = player.getUUID();
 
-                    if(player.level().isClientSide) {
-                        player.playSound(
-                                EpicFightSounds.SWORD_IN.get(),
-                                1.0f,
-                                1.0f
-                        );
+                        if (player.level().isClientSide) {
+                            player.playSound(
+                                    EpicFightSounds.SWORD_IN.get(),
+                                    1.0f,
+                                    1.0f
+                            );
+
+                        }
+                        EnhancedKatanaRender.sheathWeapon.remove(playerId);
+                        EnhancedKatanaRender.sheathWeapon.put(playerId, true);
                     }
-                    EnhancedKatanaRender.sheathWeapon.remove(playerId);
-                    EnhancedKatanaRender.sheathWeapon.put(playerId, true);
                 }
         );
     }

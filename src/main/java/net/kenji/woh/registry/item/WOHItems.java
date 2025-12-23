@@ -1,10 +1,11 @@
 package net.kenji.woh.registry.item;
 
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.item.Odachi;
-import net.kenji.woh.item.Shotogatana;
-import net.kenji.woh.item.ResourceItem;
-import net.kenji.woh.item.Wakizashi;
+import net.kenji.woh.item.custom.armor.MetalRoninHeadwearItem;
+import net.kenji.woh.item.custom.weapon.Odachi;
+import net.kenji.woh.item.custom.weapon.Shotogatana;
+import net.kenji.woh.item.custom.base.ResourceItem;
+import net.kenji.woh.item.custom.weapon.Wakizashi;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -39,9 +40,10 @@ public class WOHItems {
     public static final RegistryObject<Item> GOLD_TSUBA = ITEMS.register("gold_tsuba", () -> new ResourceItem(new Item.Properties().stacksTo(64), false, ChatFormatting.GRAY));
     public static final RegistryObject<Item> BLADE_CURVE_MODULE = ITEMS.register("blade_curve_module", () -> new ResourceItem(new Item.Properties().stacksTo(16), false, ChatFormatting.GRAY));
 
-
     public static final RegistryObject<Item> SHORT_HARDENED_BLADE = ITEMS.register("short_hardened_blade", () -> new ResourceItem(new Item.Properties().stacksTo(64), false, ChatFormatting.GRAY));
     public static final RegistryObject<Item> SILVER_TSUBA = ITEMS.register("silver_tsuba", () -> new ResourceItem(new Item.Properties().stacksTo(64), false, ChatFormatting.GRAY));
+
+    public static final RegistryObject<Item> METAL_RONIN_HEADWEAR = ITEMS.register("metal_ronin_headwear", () -> new MetalRoninHeadwearItem(new Item.Properties()));
 
 
     public static void register(IEventBus eventBus) {

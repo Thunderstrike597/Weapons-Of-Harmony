@@ -18,12 +18,16 @@ public class WOHTabs {
             .title(Component.translatable("creativetab.woh"))
             .icon(() -> new ItemStack(WOHItems.SHOTOGATANA.get()))
             .displayItems((itemDisplayParameters, output) -> {
+                output.accept(WOHItems.METAL_RONIN_HEADWEAR.get());
+
                 output.accept(WOHItems.SHOTOGATANA.get());
                 output.accept(WOHItems.WAKIZASHI.get());
                 output.accept(WOHItems.ODACHI.get());
                 output.accept(WOHItems.FOLDED_IRON.get());
                 output.accept(WOHItems.FOLDED_STEEL.get());
                 output.accept(WOHItems.HARDENED_STEEL_INGOT.get());
+                output.accept(WOHItems.BLADE_CURVE_MODULE.get());
+
                 output.accept(WOHItems.PATTERNED_HANDLE.get());
                 output.accept(WOHItems.GOLD_TSUBA.get());
                 output.accept(WOHItems.HARDENED_BLADE.get());

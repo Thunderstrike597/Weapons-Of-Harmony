@@ -41,7 +41,7 @@
     ]
   },
   "hit_particle": "epicfight:cut",
-  "category": "uchigatana",
+  "category": "one_hand_katana",
   "swing_sound": "epicfight:entity.weapon.whoosh",
   "combos": {
     "one_hand": [

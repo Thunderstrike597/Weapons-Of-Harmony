@@ -1,27 +1,35 @@
-package net.kenji.woh.item;
+package net.kenji.woh.item.custom.base;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import yesman.epicfight.world.item.WeaponItem;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-public class ResourceItem extends Item {
-    net.minecraft.ChatFormatting tooltipColor;
-    private boolean hasTooltip = true;
+public class WohWeaponItem extends WeaponItem {
+   private ChatFormatting tooltipColor;
+   private boolean hasTooltip = true;
 
-    public ResourceItem(Properties pProperties, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(pProperties);
+   public Map<UUID, Boolean> isRendered = new HashMap<>();
+
+    public WohWeaponItem(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
+        super(tier, damageIn, speedIn, builder);
         this.tooltipColor = tooltipColor;
         this.hasTooltip = hasTooltip;
     }
 
+
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-       if(hasTooltip) {
+       if(this.hasTooltip) {
            pTooltipComponents.add(
                    Component.translatable(this.getDescriptionId() + ".tooltip")
                            .withStyle(tooltipColor)

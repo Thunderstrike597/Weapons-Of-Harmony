@@ -97,13 +97,6 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
     public class ClientEvents {
         @SubscribeEvent
-        public static void onFovModify(ComputeFovModifierEvent event) {
-            AttributeInstance speed = event.getPlayer().getAttribute(Attributes.MOVEMENT_SPEED);
-            if (speed != null && speed.hasModifier(slowModifier)) {
-                event.setNewFovModifier(1.0F);
-            }
-        }
-        @SubscribeEvent
         public static void onPLayerTick(TickEvent.PlayerTickEvent event) {
             Player player = event.player;
             boolean isEndingAttack = isAttackEnding.getOrDefault(player.getUUID(), false);

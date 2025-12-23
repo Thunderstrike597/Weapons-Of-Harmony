@@ -7,4 +7,5 @@ import net.minecraft.resources.ResourceLocation;
 public class ModModelLayers {
     public static final ModelLayerLocation EXILED_RONIN_LAYER = new ModelLayerLocation(
             new ResourceLocation(WeaponsOfHarmony.MODID, "exiled_ronin_layer"), "main");
+
 }
