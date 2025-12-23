@@ -1,6 +1,7 @@
 package net.kenji.woh.events;
 
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.WohConfigCommon;
 import net.kenji.woh.registry.item.WOHItems;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobSpawnType;
@@ -24,7 +25,7 @@ public class SpawnEvents {
         if (event.getLevel().isClientSide()) return;
         if (skeleton.tickCount != 0) return;
 
-        if (skeleton.getRandom().nextFloat() < 0.20f) {
+        if (skeleton.getRandom().nextFloat() < WohConfigCommon.RONIN_SKELETON_SPAWN_CHANCE.get()) {
             skeleton.setItemSlot(
                     EquipmentSlot.MAINHAND,
                     new ItemStack(WOHItems.SHOTOGATANA.get())
