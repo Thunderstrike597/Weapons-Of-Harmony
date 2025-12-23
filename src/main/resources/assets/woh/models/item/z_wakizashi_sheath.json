@@ -26,20 +26,20 @@
     "ground": {
       "parent": "item/generated",
       "textures": {
-        "layer0": "woh:item/shotogatana_display"
+        "layer0": "woh:item/weapon/wakizashi"
       }
     },
     "gui": {
       "parent": "item/generated",
       "textures": {
-        "layer0": "woh:item/shotogatana_display"
+        "layer0": "woh:item/weapon/wakizashi"
       },
       "gui_light": "front"
     },
     "fixed": {
       "parent": "item/generated",
       "textures": {
-        "layer0": "woh:item/shotogatana_display"
+        "layer0": "woh:item/weapon/wakizashi"
       }
     }
   }

@@ -16,5 +16,26 @@
      		"rotation": [ 85, -3, 0 ],
     		"scale": [0.45, 0.45, 0.45]
     	}
-  	}
+  	},
+  "perspectives": {
+    "ground": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "woh:item/weapon/shotogatana"
+      }
+    },
+    "gui": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "woh:item/weapon/shotogatana"
+      },
+      "gui_light": "front"
+    },
+    "fixed": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "woh:item/weapon/shotogatana"
+      }
+    }
+  }
 }

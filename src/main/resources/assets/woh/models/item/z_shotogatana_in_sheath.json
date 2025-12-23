@@ -20,32 +20,25 @@
           }
 		}
 	},
-	"perspectives":
-	{
-		"ground":
-		{
-			"parent": "item/generated",
-			"textures":
-			{
-				"layer0": "woh:item/shotogatana_display"
-			}
-		},
-		"gui":
-		{
-			"parent": "item/generated",
-			"textures":
-			{
-				"layer0": "woh:item/shotogatana_display"
-			},
-			"gui_light": "front"
-		},
-		"fixed":
-		{
-			"parent": "item/generated",
-			"textures":
-			{
-				"layer0": "woh:item/shotogatana_display"
-			}
-		}
-	}
+  "perspectives": {
+    "ground": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "woh:item/weapon/shotogatana"
+      }
+    },
+    "gui": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "woh:item/weapon/shotogatana"
+      },
+      "gui_light": "front"
+    },
+    "fixed": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "woh:item/weapon/shotogatana"
+      }
+    }
+  }
 }

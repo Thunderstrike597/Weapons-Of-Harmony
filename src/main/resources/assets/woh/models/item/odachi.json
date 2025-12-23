@@ -21,20 +21,20 @@
     "ground": {
       "parent": "item/generated",
       "textures": {
-        "layer0": "woh:item/shotogatana_display"
+        "layer0": "woh:item/weapon/odachi"
       }
     },
     "gui": {
       "parent": "item/generated",
       "textures": {
-        "layer0": "woh:item/shotogatana_display"
+        "layer0": "woh:item/weapon/odachi"
       },
       "gui_light": "front"
     },
     "fixed": {
       "parent": "item/generated",
       "textures": {
-        "layer0": "woh:item/shotogatana_display"
+        "layer0": "woh:item/weapon/odachi"
       }
     }
   }
