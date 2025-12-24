@@ -34,6 +34,14 @@ public class SpawnEvents {
                     EquipmentSlot.HEAD,
                     new ItemStack(WOHItems.METAL_RONIN_HEADWEAR.get())
             );
+            skeleton.setItemSlot(
+                    EquipmentSlot.CHEST,
+                    new ItemStack(WOHItems.RONIN_TUNIC.get())
+            );
+            skeleton.setItemSlot(
+                    EquipmentSlot.LEGS,
+                    new ItemStack(WOHItems.RONIN_LEGGINGS.get())
+            );
 
             skeleton.setDropChance(EquipmentSlot.MAINHAND, 0.0f);
             skeleton.setDropChance(EquipmentSlot.HEAD, 0.35f);

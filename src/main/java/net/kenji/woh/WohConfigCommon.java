@@ -15,7 +15,7 @@ public class WohConfigCommon {
 
         RONIN_SKELETON_SPAWN_CHANCE = BUILDER
                 .comment("Ronin Skeleton Spawn Chance")
-                .defineInRange("The chance for a skeleton to spawn as a ronin skeleton", 0.08f, 0.0f, 1.0f);
+                .defineInRange("The chance for a skeleton to spawn as a ronin skeleton", 0.18f, 0.0f, 1.0f);
 
         BUILDER.pop();
 

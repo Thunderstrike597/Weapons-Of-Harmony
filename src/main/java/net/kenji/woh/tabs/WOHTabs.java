@@ -19,7 +19,8 @@ public class WOHTabs {
             .icon(() -> new ItemStack(WOHItems.SHOTOGATANA.get()))
             .displayItems((itemDisplayParameters, output) -> {
                 output.accept(WOHItems.METAL_RONIN_HEADWEAR.get());
-
+                output.accept(WOHItems.RONIN_TUNIC.get());
+                output.accept(WOHItems.RONIN_LEGGINGS.get());
                 output.accept(WOHItems.SHOTOGATANA.get());
                 output.accept(WOHItems.WAKIZASHI.get());
                 output.accept(WOHItems.ODACHI.get());

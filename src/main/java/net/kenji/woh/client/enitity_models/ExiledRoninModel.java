@@ -7,7 +7,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.LivingEntity;
 
 public class ExiledRoninModel<T extends LivingEntity> extends HumanoidModel<T> {
-    // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+    // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this models's constructor
 
     public ExiledRoninModel(ModelPart root) {
         super(root); // assigns all HumanoidModel parts automatically
