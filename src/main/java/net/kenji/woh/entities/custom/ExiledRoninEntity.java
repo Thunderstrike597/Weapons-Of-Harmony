@@ -1,6 +1,6 @@
 package net.kenji.woh.entities.custom;
 
-import net.kenji.woh.registry.item.WOHItems;
+import net.kenji.woh.registry.WOHItems;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;

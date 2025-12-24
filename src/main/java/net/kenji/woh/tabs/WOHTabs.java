@@ -1,7 +1,7 @@
 package net.kenji.woh.tabs;
 
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.registry.item.WOHItems;
+import net.kenji.woh.registry.WOHItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -21,6 +21,8 @@ public class WOHTabs {
                 output.accept(WOHItems.METAL_RONIN_HEADWEAR.get());
                 output.accept(WOHItems.RONIN_TUNIC.get());
                 output.accept(WOHItems.RONIN_LEGGINGS.get());
+                output.accept(WOHItems.RONIN_BOOTS.get());
+
                 output.accept(WOHItems.SHOTOGATANA.get());
                 output.accept(WOHItems.WAKIZASHI.get());
                 output.accept(WOHItems.ODACHI.get());
@@ -28,10 +30,8 @@ public class WOHTabs {
                 output.accept(WOHItems.FOLDED_STEEL.get());
                 output.accept(WOHItems.HARDENED_STEEL_INGOT.get());
                 output.accept(WOHItems.BLADE_CURVE_MODULE.get());
+                output.accept(WOHItems.BROKEN_BLADE_AND_SHEATH.get());
 
-                output.accept(WOHItems.PATTERNED_HANDLE.get());
-                output.accept(WOHItems.GOLD_TSUBA.get());
-                output.accept(WOHItems.HARDENED_BLADE.get());
             })
             .build());
 

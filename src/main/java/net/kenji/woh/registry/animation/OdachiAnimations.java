@@ -23,6 +23,9 @@ public class OdachiAnimations {
     public static StaticAnimation ODACHI_AUTO_4;
     public static StaticAnimation ODACHI_AUTO_5;
 
+    public static StaticAnimation ODACHI_DASH;
+    public static StaticAnimation ODACHI_AIRSLASH;
+
     public static void build(){
         HumanoidArmature biped = Armatures.BIPED;
 
@@ -143,5 +146,49 @@ public class OdachiAnimations {
                 -1F,
                 -1F
         );
+        ODACHI_DASH = WOHAnimationUtils.createAttackAnimation(
+                WOHAnimationUtils.AttackAnimationType.DASH_ATTACK,
+                "biped/combat/odachi/odachi_dash",
+                1,
+                0.05F,
+                1F,
+                6F,
+                2F,
+                new float[]{0.0F},
+                new float[]{0.45F},
+                new float[]{0.57F},
+                new float[]{0.96F},
+                new float[]{1.52F},
+                new SoundEvent[]{EpicFightSounds.WHOOSH_BIG.get()},
+                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.GREATSWORD},
+                new Joint[]{biped.toolR},
+                StunType.LONG,
+                -1F,
+                -1F
+        );
+        ODACHI_AIRSLASH = WOHAnimationUtils.createAirAttackAnimation(
+                "biped/combat/odachi/odachi_airslash",
+                1,
+                0.1F,
+                1F,
+                5.75F,
+                2F,
+                new float[]{0.0F},
+                new float[]{0.35F},
+                new float[]{0.52F},
+                new float[]{0.95F},
+                new float[]{1.18F},
+                new SoundEvent[]{EpicFightSounds.WHOOSH_SHARP.get()},
+                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
+                StunType.LONG,
+                new Collider[]{ColliderPreset.GREATSWORD},
+                new float[]{0.05F, 1.10F},
+                -1,
+                1
+        );
+
     }
 }

@@ -7,7 +7,7 @@ import net.kenji.woh.client.entity_renderers.ExiledRoninRenderer;
 import net.kenji.woh.client.layers.HolsteredItemLayer;
 import net.kenji.woh.client.layers.OffHandHolsteredItemLayer;
 import net.kenji.woh.entities.ModEntities;
-import net.kenji.woh.registry.item.WOHItems;
+import net.kenji.woh.registry.WOHItems;
 import net.kenji.woh.render.EnhancedKatanaRender;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;

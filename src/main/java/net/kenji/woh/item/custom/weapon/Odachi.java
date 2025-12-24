@@ -1,7 +1,7 @@
 package net.kenji.woh.item.custom.weapon;
 
 import net.kenji.woh.item.custom.base.HolsterBaseItem;
-import net.kenji.woh.registry.item.WOHItems;
+import net.kenji.woh.registry.WOHItems;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
@@ -37,8 +37,8 @@ public class Odachi extends HolsterBaseItem {
             () -> null
     );
 
-    public Odachi(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, holsterTransform, WOHItems.ODACHI_IN_SHEATH.get(), WOHItems.ODACHI_SHEATH.get(), false, holsterJoints);
+    public Odachi(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
+        super(tier, 0, 0.8f, builder, hasTooltip, tooltipColor, holsterTransform, WOHItems.ODACHI_IN_SHEATH.get(), WOHItems.ODACHI_SHEATH.get(), false, holsterJoints);
     }
 
     @Override

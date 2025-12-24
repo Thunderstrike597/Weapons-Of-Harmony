@@ -35,8 +35,8 @@
       "woh:biped/combat/odachi/odachi_auto_4",
       "woh:biped/combat/odachi/odachi_auto_5",
 
-      "epicfight:biped/combat/greatsword_dash",
-      "epicfight:biped/combat/greatsword_airslash"
+      "woh:biped/combat/odachi/odachi_dash",
+      "woh:biped/combat/odachi/odachi_airslash"
     ]
   },
   "hit_sound": "epicfight:entity.hit.blade",

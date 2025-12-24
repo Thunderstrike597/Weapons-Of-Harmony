@@ -4,7 +4,7 @@
     "item": "woh:blade_curve_module"
   },
   "base": {
-    "item": "epicfight:uchigatana"
+    "item": "woh:broken_blade"
   },
   "addition": {
     "item": "woh:hardened_steel_ingot"

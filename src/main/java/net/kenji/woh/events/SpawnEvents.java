@@ -2,15 +2,15 @@ package net.kenji.woh.events;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.WohConfigCommon;
-import net.kenji.woh.registry.item.WOHItems;
+import net.kenji.woh.registry.WOHItems;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -58,18 +58,81 @@ public class SpawnEvents {
         if (!skeleton.getPersistentData().getBoolean(RONIN_TAG)) return;
 
         // 25% chance to drop the special item
-        if (skeleton.getRandom().nextFloat() < 0.1f) {
+        if (skeleton.getRandom().nextFloat() < 0.36f) {
+            double chance = Math.random();
             ItemStack drop = new ItemStack(WOHItems.BLADE_CURVE_MODULE.get());
+            ItemStack drop2 = new ItemStack(WOHItems.BROKEN_BLADE_AND_SHEATH.get());
 
-            event.getDrops().add(
-                    new ItemEntity(
-                            skeleton.level(),
-                            skeleton.getX(),
-                            skeleton.getY(),
-                            skeleton.getZ(),
-                            drop
-                    )
-            );
+            if (chance < 0.5F) {
+                event.getDrops().add(
+                        new ItemEntity(
+                                skeleton.level(),
+                                skeleton.getX(),
+                                skeleton.getY(),
+                                skeleton.getZ(),
+                                drop
+                        )
+                );
+            } else {
+                event.getDrops().add(
+                        new ItemEntity(
+                                skeleton.level(),
+                                skeleton.getX(),
+                                skeleton.getY(),
+                                skeleton.getZ(),
+                                drop2
+                        )
+                );
+            }
+        }
+        if (skeleton.getRandom().nextFloat() < 0.8f) {
+            int itemDropIndex = (int) Mth.randomBetween(RandomSource.create(), 0, 2);
+
+            ItemStack drop1 = new ItemStack(WOHItems.METAL_RONIN_HEADWEAR.get());
+            ItemStack drop2 = new ItemStack(WOHItems.RONIN_TUNIC.get());
+            ItemStack drop3 = new ItemStack(WOHItems.RONIN_LEGGINGS.get());
+
+
+            switch (itemDropIndex){
+                case 0:
+                    if(skeleton.getRandom().nextFloat() < 0.58F) {
+                        event.getDrops().add(
+                                new ItemEntity(
+                                        skeleton.level(),
+                                        skeleton.getX(),
+                                        skeleton.getY(),
+                                        skeleton.getZ(),
+                                        drop1
+                                )
+                        );
+                    }
+                break;
+                case 1:
+                    if(skeleton.getRandom().nextFloat() < 0.35F) {
+                        event.getDrops().add(
+                                new ItemEntity(
+                                        skeleton.level(),
+                                        skeleton.getX(),
+                                        skeleton.getY(),
+                                        skeleton.getZ(),
+                                        drop2
+                                )
+                        );
+                    }
+                    break;
+                case 2:
+                    if(skeleton.getRandom().nextFloat() < 0.25F) {
+                        event.getDrops().add(
+                                new ItemEntity(
+                                        skeleton.level(),
+                                        skeleton.getX(),
+                                        skeleton.getY(),
+                                        skeleton.getZ(),
+                                        drop3
+                                )
+                        );
+                    }
+            }
         }
     }
 

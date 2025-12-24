@@ -6,7 +6,7 @@ import net.kenji.woh.gameasset.WohWeaponCategories;
 import net.kenji.woh.registry.WOHSkills;
 import net.kenji.woh.registry.WOHSounds;
 import net.kenji.woh.registry.animation.WohAnimations;
-import net.kenji.woh.registry.item.WOHItems;
+import net.kenji.woh.registry.WOHItems;
 import net.kenji.woh.tabs.WOHTabs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

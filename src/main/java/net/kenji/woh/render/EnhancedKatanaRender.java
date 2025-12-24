@@ -7,7 +7,7 @@ import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
 import net.kenji.woh.gameasset.animations.WohSheathAnimation;
 import net.kenji.woh.registry.WOHSkills;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
-import net.kenji.woh.registry.item.WOHItems;
+import net.kenji.woh.registry.WOHItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
