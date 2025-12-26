@@ -15,8 +15,10 @@ public class WohAnimations {
     }
 
     private static void build(){
+        GenericAnimations.build();
         ShotogatanaAnimations.build();
         WakizashiAnimations.build();
         OdachiAnimations.build();
+
     }
 }

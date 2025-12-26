@@ -31,13 +31,13 @@
     "center": [
       0.0,
       0.0,
-      -0.7
+      -0.95
     ],
-    "number": 5,
+    "number": 3,
     "size": [
       0.4,
       0.4,
-      0.7
+      0.95
     ]
   },
   "hit_particle": "epicfight:cut",

@@ -17,15 +17,19 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationProvider;
-import yesman.epicfight.api.animation.types.BasicAttackAnimation;
-import yesman.epicfight.api.animation.types.DynamicAnimation;
-import yesman.epicfight.api.animation.types.EntityState;
-import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.model.Armature;
+import yesman.epicfight.gameasset.EpicFightSkills;
+import yesman.epicfight.skill.BasicAttack;
+import yesman.epicfight.skill.SkillDataKey;
+import yesman.epicfight.skill.SkillDataKeys;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
+import yesman.epicfight.world.entity.eventlistener.ComboCounterHandleEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,13 +37,14 @@ import java.util.Map;
 import java.util.UUID;
 
 public class BasisAttackAnimation extends BasicAttackAnimation {
+
     public static final Map<UUID, Boolean> isAttacking = new HashMap<>();
     private static final Map<UUID, Boolean> isAttackEnding = new HashMap<>();
 
     private StaticAnimation endAnimation;
     private boolean ignoreFallDamage = false;
 
-    WOHAnimationUtils.AttackAnimationType attackType = null;
+    public WOHAnimationUtils.AttackAnimationType attackType = null;
 
     public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, Armature armature, StaticAnimation endAnimation,Phase... phases) {
         super(convertTime, path, armature, phases);
@@ -105,6 +110,33 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
 
                 localPlayer.input.forwardImpulse = 0;
             }
+            player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
+                if (cap instanceof ServerPlayerPatch playerPatch) {
+                    CapabilityItem capItem = playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
+                    UUID playerID = playerPatch.getOriginal().getUUID();
+                    if (capItem instanceof WeaponCapability weaponCap) {
+                        boolean isSheathed = EnhancedKatanaRender.sheathWeapon.getOrDefault(playerID, false);
+                        if (!isSheathed) {
+                            List<AnimationProvider<?>> autoAttackMotion = weaponCap.getAutoAttckMotion(playerPatch);
+                            for(int i = 0; i < autoAttackMotion.size(); i++) {
+                                if(autoAttackMotion.get(i) instanceof BasisAttackAnimation basisAttackAnimation) {
+                                    if(basisAttackAnimation.attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH) {
+                                        int currentComboCounter = playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK).getDataManager().getDataValue(SkillDataKeys.COMBO_COUNTER.get());
+                                       if(currentComboCounter <= i) {
+                                           BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.ANOTHER_ACTION_ANIMATION,
+                                                   playerPatch,
+                                                   playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK),
+                                                   autoAttackMotion.get(i).get(),
+                                                   i + 1
+                                           );
+                                       }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -113,6 +145,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             UUID playerID = playerPatch.getOriginal().getUUID();
             boolean isInAttack = isAttacking.getOrDefault(playerID, false);
+
             if (endAnimation != null && nextAnimation != endAnimation && !isInAttack) {
                 playerPatch.playAnimationSynchronized(endAnimation, 0.3f);
             }
@@ -126,20 +159,6 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
         if(entitypatch instanceof PlayerPatch<?> playerPatch) {
             UUID playerID = playerPatch.getOriginal().getUUID();
             isAttacking.put(playerID, true);
-            boolean isSheathed = EnhancedKatanaRender.sheathWeapon.getOrDefault(playerID, false);
-            if(!isSheathed){
-                CapabilityItem capItem = playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
-                if(capItem instanceof WeaponCapability weaponCap) {
-                    List<AnimationProvider<?>> autoAttackMotion = weaponCap.getAutoAttckMotion(playerPatch);
-                    if(attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH){
-                        for(int i = 0; i < autoAttackMotion.size(); i++){
-                            if(autoAttackMotion.get(i).get() == this){
-                                playerPatch.playAnimationSynchronized(autoAttackMotion.get(i + 1).get(), 0.1F);
-                            }
-                        }
-                    }
-                }
-            }
         }
         super.begin(entitypatch);
     }

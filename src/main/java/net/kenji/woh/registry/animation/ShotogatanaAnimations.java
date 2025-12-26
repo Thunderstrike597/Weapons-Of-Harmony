@@ -44,10 +44,7 @@ public class ShotogatanaAnimations {
 
 
 
-    public static StaticAnimation COMBAT_FIST_AUTO_1;
-    public static StaticAnimation COMBAT_FIST_AUTO_2;
-    public static StaticAnimation COMBAT_FIST_DASH;
-    public static StaticAnimation COMBAT_FIST_AIRKICK;
+
 
     public static void build(){
 
@@ -216,11 +213,11 @@ public class ShotogatanaAnimations {
                 1F,
                 5.5F,
                 0.5F,
-                new float[]{0.0F},
+                new float[]{0.1F},
                 new float[]{0.32F},
                 new float[]{0.42F},
                 new float[]{0.58F},
-                new float[]{1.33F},
+                new float[]{0.63F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
@@ -228,7 +225,7 @@ public class ShotogatanaAnimations {
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT2,
-                0.2f,
+                -1,
                 -1
         );
         SHOTOGATANA_AUTO_3 = WOHAnimationUtils.createAttackAnimation(
@@ -239,11 +236,11 @@ public class ShotogatanaAnimations {
                 1F,
                 5.5F,
                 0.5F,
-                new float[]{0.0F},
-                new float[]{0.26F},
-                new float[]{0.35F},
-                new float[]{0.6F},
-                new float[]{4.35F},
+                new float[]{0.1F},
+                new float[]{0.33F},
+                new float[]{0.42F},
+                new float[]{0.68F},
+                new float[]{0.72F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
@@ -251,7 +248,7 @@ public class ShotogatanaAnimations {
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT1,
-                0.2f,
+                -1,
                 -1
         );
         SHOTOGATANA_AUTO_4 = WOHAnimationUtils.createAttackAnimation(
@@ -262,7 +259,7 @@ public class ShotogatanaAnimations {
                 1F,
                 5F,
                 0.5F,
-                new float[]{0.0F},
+                new float[]{0.1F},
                 new float[]{0.28F},
                 new float[]{0.38F},
                 new float[]{0.6F},
@@ -274,7 +271,7 @@ public class ShotogatanaAnimations {
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT2,
-                0.2f,
+                -1,
                 -1
         );
         SHOTOGATANA_AUTO_5 = WOHAnimationUtils.createAttackAnimation(
@@ -288,8 +285,8 @@ public class ShotogatanaAnimations {
                 new float[]{0.0F, 0.5F},
                 new float[]{0.28F, 0.75F},
                 new float[]{0.32F, 1.05F},
-                new float[]{0.42F, 1.23F},
-                new float[]{0.44F, 1.60F},
+                new float[]{1.42F, 1.42F},
+                new float[]{1.60F, 1.60F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH_ROD.get(), EpicFightSounds.WHOOSH.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
@@ -297,7 +294,7 @@ public class ShotogatanaAnimations {
                 new Joint[]{biped.toolR, biped.toolR},
                 StunType.SHORT,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT2,
-                0.2f,
+                -1,
                 -1
         );
         SHOTOGATANA_AUTO_6 = WOHAnimationUtils.createAttackAnimation(
@@ -320,7 +317,7 @@ public class ShotogatanaAnimations {
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH,
-                0.2f,
+                -1,
                 -1
         );
 
@@ -367,93 +364,6 @@ public class ShotogatanaAnimations {
                 0.1f,
                 0.9f
         );
-        COMBAT_FIST_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/combat_fist/combat_fist_auto_1",
-                1,
-                0.1F,
-                1F,
-                2F,
-                0.25F,
-                new float[]{0.0F},
-                new float[]{0.3F},
-                new float[]{0.4F},
-                new float[]{0.6F},
-                new float[]{0.8F},
-                new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
-                new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get()},
-                new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
-                new Collider[]{ColliderPreset.FIST},
-                new Joint[]{biped.toolR},
-                StunType.SHORT,
-                -1,
-                -1
-        );
 
-        COMBAT_FIST_AUTO_2 = WOHAnimationUtils.createAttackAnimation(
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/combat_fist/combat_fist_auto_2",
-                1,
-                0.1F,
-                1F,
-                2F,
-                0.25F,
-                new float[]{0.05F},
-                new float[]{0.07F},
-                new float[]{0.15F},
-                new float[]{0.25F},
-                new float[]{0.45F},
-                new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
-                new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get()},
-                new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
-                new Collider[]{ColliderPreset.FIST},
-                new Joint[]{biped.toolL},
-                StunType.SHORT,
-                -1,
-                -1
-        );
-        COMBAT_FIST_DASH = WOHAnimationUtils.createAttackAnimation(
-                WOHAnimationUtils.AttackAnimationType.DASH_ATTACK,
-                "biped/combat/combat_fist/combat_fist_dash",
-                2,
-                0.05F,
-                1F,
-                2F,
-                0.4F,
-                new float[]{0.0F, 0.3F},
-                new float[]{0.05F, 0.38F},
-                new float[]{0.1F, 0.5F},
-                new float[]{0.15F, 0.95F},
-                new float[]{0.2F, 1F},
-                new SoundEvent[]{EpicFightSounds.WHOOSH.get(), EpicFightSounds.WHOOSH.get()},
-                new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get(), EpicFightSounds.BLUNT_HIT.get()},
-                new RegistryObject[]{EpicFightParticles.HIT_BLUNT, EpicFightParticles.HIT_BLUNT},
-                new Collider[]{ColliderPreset.FIST, ColliderPreset.FIST},
-                new Joint[]{biped.toolL, biped.toolR},
-                StunType.LONG,
-                -1,
-                -1
-        );
-        COMBAT_FIST_AIRKICK = WOHAnimationUtils.createAirAttackAnimation(
-                "biped/combat/combat_fist/combat_fist_airkick",
-                1,
-                0.1F,
-                1F,
-                2F,
-                1.2F,
-                new float[]{0.0F},
-                new float[]{0.1F},
-                new float[]{0.18F},
-                new float[]{0.25F},
-                new float[]{0.8F},
-                new SoundEvent[]{EpicFightSounds.WHOOSH_ROD.get()},
-                new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get()},
-                new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
-                StunType.SHORT,
-                new Collider[]{ColliderPreset.FIST},
-                new float[]{0.0F, 0.45F},
-                -1,
-                -1
-        );
     }
 }
