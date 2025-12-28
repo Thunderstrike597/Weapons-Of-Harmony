@@ -131,6 +131,8 @@ public class HolsteredItemLayer extends ModelRenderLayer<
 
         if (!(stack.getItem() instanceof HolsterBaseItem holsterItem)) return;
 
+        if(holsterItem.holsterTransform == null) return;
+
         ItemStack holsterStack = holsterItem.holsterItem != null
                 ? holsterItem.holsterItem.getDefaultInstance()
                 : ItemStack.EMPTY;

@@ -52,8 +52,8 @@
       "woh:biped/combat/wakizashi/wakizashi_auto_3",
       "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_4",
 
-      "cdmoveset:biped/new/yamato/yamato_dash",
-      "cdmoveset:biped/new/katana/katana_airslash"
+      "epicfight:biped/combat/dagger_dual_dash",
+      "epicfight:biped/combat/dagger_airslash"
     ],
     "two_hand": [
       "woh:biped/combat/wakizashi/wakizashi_dual_auto_1",
@@ -63,8 +63,9 @@
       "woh:biped/combat/wakizashi/wakizashi_dual_auto_5",
       "woh:biped/combat/wakizashi/wakizashi_dual_auto_6",
 
-      "woh:biped/combat/shotogatana/shotogatana_dash",
-      "woh:biped/combat/shotogatana/shotogatana_airslash"
+
+      "epicfight:biped/combat/dagger_dual_dash",
+      "epicfight:biped/combat/dagger_airslash"
     ]
   },
   "offhand_item_compatible_predicate": [

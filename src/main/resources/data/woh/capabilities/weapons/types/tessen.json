@@ -1,0 +1,103 @@
+{
+  "livingmotion_modifier": {
+    "one_hand": {
+      "idle": "woh:biped/living/tessen/tessen_dual_hold",
+      "run":  "woh:biped/living/tessen/tessen_dual_run",
+      "block": "wom:biped/skill/katana_guard",
+      "walk":  "woh:biped/living/tessen/tessen_dual_hold"
+    },
+    "two_hand": {
+      "idle": "woh:biped/living/tessen/tessen_dual_hold",
+      "run":  "woh:biped/living/tessen/tessen_dual_run",
+      "block": "wom:biped/skill/katana_guard",
+      "walk":  "woh:biped/living/tessen/tessen_dual_hold"
+    },
+    "common": {
+      "idle": "woh:biped/living/tessen/tessen_dual_hold",
+      "run":  "woh:biped/living/tessen/tessen_dual_run",
+      "block": "wom:biped/skill/katana_guard",
+      "walk":  "woh:biped/living/tessen/tessen_dual_hold"
+    }
+  },
+  "styles": {
+    "default": "one_hand",
+    "cases": [
+      {
+        "conditions": [
+          {
+            "predicate": "epicfight:skill_active",
+            "skill": "woh:fan_stance"
+          }
+        ],
+        "style": "common"
+      },
+      {
+        "conditions": [
+          {
+            "predicate": "epicfight:offhand_item_category",
+            "category": "tessen"
+          }
+        ],
+        "style": "two_hand"
+      }
+    ]
+  },
+  "collider": {
+    "center": [
+      0.0,
+      0.0,
+      -0.7
+    ],
+    "number": 5,
+    "size": [
+      0.4,
+      0.4,
+      0.7
+    ]
+  },
+  "hit_particle": "epicfight:cut",
+  "category": "tessen",
+  "swing_sound": "epicfight:entity.weapon.whoosh",
+  "usable_in_offhand": true,
+  "combos": {
+    "one_hand": [
+      "woh:biped/combat/tessen/tessen_auto_1",
+      "woh:biped/combat/tessen/tessen_auto_2",
+      "woh:biped/combat/tessen/tessen_auto_3",
+      "woh:biped/combat/tessen/tessen_auto_4",
+
+      "epicfight:biped/combat/sword_dual_dash",
+      "epicfight:biped/combat/sword_dual_airslash"
+    ],
+    "two_hand": [
+      "woh:biped/combat/tessen/tessen_dual_auto_1",
+      "woh:biped/combat/tessen/tessen_dual_auto_2",
+      "woh:biped/combat/tessen/tessen_dual_auto_3",
+      "woh:biped/combat/tessen/tessen_dual_auto_4",
+      "woh:biped/combat/tessen/tessen_dual_auto_5",
+
+      "epicfight:biped/combat/sword_dual_dash",
+      "epicfight:biped/combat/sword_dual_airslash"
+    ],
+    "common": [
+      "woh:biped/combat/tessen/tessen_skill_dual_auto_1",
+      "woh:biped/combat/tessen/tessen_skill_dual_auto_2",
+      "woh:biped/combat/tessen/tessen_skill_dual_auto_3",
+
+      "epicfight:biped/combat/sword_dual_dash",
+      "epicfight:biped/combat/sword_dual_airslash"
+    ]
+  },
+  "offhand_item_compatible_predicate": [
+    {
+      "predicate": "epicfight:offhand_item_category",
+      "category": "tessen"
+    }
+  ],
+  "hit_sound": "epicfight:entity.hit.blade",
+  "innate_skills": {
+    "one_hand": "woh:fan_stance",
+    "two_hand": "woh:fan_stance",
+    "common": "woh:fan_stance"
+  }
+}

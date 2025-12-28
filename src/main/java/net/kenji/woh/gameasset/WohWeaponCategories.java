@@ -8,7 +8,9 @@ import java.util.function.Function;
 
 public enum WohWeaponCategories implements WeaponCategory, Function<Item, CapabilityItem.Builder> {
     ONE_HAND_KATANA,
-    WAKIZASHI;
+    TESSEN,
+    WAKIZASHI,
+    ODACHI;
 
     final int id;
 

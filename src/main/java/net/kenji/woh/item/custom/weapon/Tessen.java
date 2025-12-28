@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import yesman.epicfight.gameasset.Armatures;
 
-public class Shotogatana extends HolsterBaseItem {
+public class Tessen extends HolsterBaseItem {
 
 
     static Vec3Pair holsterPos = new Vec3Pair(
@@ -35,8 +35,8 @@ public class Shotogatana extends HolsterBaseItem {
             () -> null
     );
 
-    public Shotogatana(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, 0, 0.8f, builder, hasTooltip, tooltipColor, holsterTransform, WOHItems.SHOTOGATANA_IN_SHEATH.get(), false, holsterJoints);
+    public Tessen(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
+        super(tier, 0, 0.8f, builder, hasTooltip, tooltipColor);
     }
 
     @Override

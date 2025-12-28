@@ -5,6 +5,7 @@ import net.kenji.woh.item.custom.armor.RoninAttire;
 import net.kenji.woh.item.custom.weapon.Odachi;
 import net.kenji.woh.item.custom.weapon.Shotogatana;
 import net.kenji.woh.item.custom.base.ResourceItem;
+import net.kenji.woh.item.custom.weapon.Tessen;
 import net.kenji.woh.item.custom.weapon.Wakizashi;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.ArmorItem;
@@ -28,8 +29,9 @@ public class WOHItems {
 
 
     public static final RegistryObject<Item> SHOTOGATANA = ITEMS.register("shotogatana", () -> new Shotogatana(WohWeaponTiers.SHOTOGATANA, new Item.Properties(), true, ChatFormatting.AQUA));
-    public static final RegistryObject<Item> WAKIZASHI = ITEMS.register("wakizashi", () -> new Wakizashi(WohWeaponTiers.WAKIZASHI, new Item.Properties(), true, ChatFormatting.AQUA));
-    public static final RegistryObject<Item> ODACHI = ITEMS.register("odachi", () -> new Odachi(WohWeaponTiers.ODACHI, new Item.Properties(), true, ChatFormatting.AQUA));
+    public static final RegistryObject<Item> TESSEN = ITEMS.register("tessen", () -> new Tessen(WohWeaponTiers.TESSEN, new Item.Properties(), true, ChatFormatting.AQUA));
+    public static final RegistryObject<Item> WAKIZASHI = ITEMS.register("wakizashi", () -> new Wakizashi(WohWeaponTiers.WAKIZASHI, new Item.Properties(), true, ChatFormatting.BLUE));
+    public static final RegistryObject<Item> ODACHI = ITEMS.register("odachi", () -> new Odachi(WohWeaponTiers.ODACHI, new Item.Properties(), true, ChatFormatting.BLUE));
 
 
     public static final RegistryObject<Item> FOLDED_IRON = ITEMS.register("folded_iron", () -> new ResourceItem(new Item.Properties().stacksTo(64), true, ChatFormatting.GRAY));

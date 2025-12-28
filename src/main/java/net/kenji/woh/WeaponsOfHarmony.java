@@ -64,12 +64,16 @@ public class WeaponsOfHarmony {
     public static void RegisterWeaponType(WeaponCapabilityPresetRegistryEvent event) {
         event.getTypeEntry().put(new ResourceLocation(MODID, "one_hand_katana"), WeaponCapabilityPresets.UCHIGATANA);
         event.getTypeEntry().put(new ResourceLocation(MODID, "wakizashi"), WeaponCapabilityPresets.SWORD);
+        event.getTypeEntry().put(new ResourceLocation(MODID, "tessen"), WeaponCapabilityPresets.DAGGER);
+
 
     }
     @OnlyIn(Dist.CLIENT)
     public static void regIcon(WeaponCategoryIconRegisterEvent event) {
         event.registerCategory(WohWeaponCategories.ONE_HAND_KATANA, new ItemStack((ItemLike) WOHItems.SHOTOGATANA.get()));
+        event.registerCategory(WohWeaponCategories.TESSEN, new ItemStack((ItemLike) WOHItems.TESSEN.get()));
         event.registerCategory(WohWeaponCategories.WAKIZASHI, new ItemStack((ItemLike) WOHItems.WAKIZASHI.get()));
+        event.registerCategory(WohWeaponCategories.ODACHI, new ItemStack((ItemLike) WOHItems.ODACHI.get()));
 
     }
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

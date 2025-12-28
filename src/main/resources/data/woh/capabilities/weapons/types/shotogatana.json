@@ -51,8 +51,8 @@
       "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_4",
       "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_5",
 
-      "cdmoveset:biped/new/yamato/yamato_dash",
-      "cdmoveset:biped/new/katana/katana_airslash"
+      "woh:biped/combat/shotogatana/shotogatana_dash",
+      "woh:biped/combat/shotogatana/shotogatana_airslash"
     ],
     "sheath": [
       "woh:biped/combat/shotogatana/shotogatana_auto_1",

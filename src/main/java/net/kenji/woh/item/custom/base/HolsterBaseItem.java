@@ -100,4 +100,14 @@ public class HolsterBaseItem extends WohWeaponItem {
         this.canOffHandHolster = holsterOffhand;
         this.holsterJoints = holsterJoints;
     }
+    public HolsterBaseItem(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, boolean holsterOffhand, JointPair holsterJoints) {
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor);
+        this.holsterTransform = holsterTransform;
+        this.holsterItem = holsterItem;
+        this.canOffHandHolster = holsterOffhand;
+        this.holsterJoints = holsterJoints;
+    }
+    public HolsterBaseItem(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor) {
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor);
+    }
 }

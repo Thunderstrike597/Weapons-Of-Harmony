@@ -9,8 +9,9 @@ import java.util.function.Supplier;
 
 public enum WohWeaponTiers implements Tier {
     SHOTOGATANA(4, 2200, 9.0F, 7.0F, 22, () -> Ingredient.of(new ItemLike[]{WOHItems.FOLDED_STEEL.get(), WOHItems.BROKEN_BLADE_AND_SHEATH.get()})),
-    WAKIZASHI(4, 1750, 9.0F, 5.0F, 18, () -> Ingredient.of(new ItemLike[]{WOHItems.FOLDED_STEEL.get()})),
+    TESSEN(4, 1750, 9.0F, 3.0F, 18, () -> Ingredient.of(new ItemLike[]{WOHItems.FOLDED_STEEL.get()})),
 
+    WAKIZASHI(4, 1750, 9.0F, 5.0F, 18, () -> Ingredient.of(new ItemLike[]{WOHItems.FOLDED_STEEL.get()})),
     ODACHI(4, 1750, 9.0F, 11.0F, 18, () -> Ingredient.of(new ItemLike[]{WOHItems.FOLDED_STEEL.get()}));
 
     private final int harvestLevel;
