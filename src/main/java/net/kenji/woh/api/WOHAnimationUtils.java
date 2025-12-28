@@ -1,16 +1,15 @@
 package net.kenji.woh.api;
 
-import net.kenji.woh.gameasset.animations.WohAirAttackAnimation;
-import net.kenji.woh.gameasset.animations.WohAttackAnimation;
-import net.kenji.woh.gameasset.animations.WohDashAttackAnimation;
-import net.kenji.woh.gameasset.animations.WohSheathAnimation;
+import net.kenji.woh.gameasset.animations.*;
 import net.kenji.woh.render.EnhancedKatanaRender;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.Joint;
+import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.animation.types.GuardAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
@@ -30,7 +29,6 @@ public class WOHAnimationUtils {
         BASIC_ATTACK_SHEATH,
         DASH_ATTACK,
         AIR_ATTACK
-
     }
 
 
@@ -113,6 +111,19 @@ public class WOHAnimationUtils {
                     AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
             });
         }
+        if(extraEvents != null){
+            animation.addEvents(extraEvents);
+        }
+        return animation;
+    }
+    public static StaticAnimation createGuardAnimation(
+
+            String path,
+            float convertTime,
+            AnimationEvent.TimeStampedEvent[] extraEvents
+    ) {
+        StaticAnimation animation = (new WohStaticAnimation(convertTime, true, path, Armatures.BIPED, LivingMotions.BLOCK));
+
         if(extraEvents != null){
             animation.addEvents(extraEvents);
         }

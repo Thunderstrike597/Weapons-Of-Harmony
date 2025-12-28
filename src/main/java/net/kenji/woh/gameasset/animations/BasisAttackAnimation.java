@@ -145,7 +145,6 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             UUID playerID = playerPatch.getOriginal().getUUID();
             boolean isInAttack = isAttacking.getOrDefault(playerID, false);
-
             if (endAnimation != null && nextAnimation != endAnimation && !isInAttack) {
                 playerPatch.playAnimationSynchronized(endAnimation, 0.3f);
             }

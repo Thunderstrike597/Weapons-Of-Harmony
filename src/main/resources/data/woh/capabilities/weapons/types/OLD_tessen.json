@@ -3,19 +3,19 @@
     "one_hand": {
       "idle": "woh:biped/living/tessen/tessen_dual_hold",
       "run":  "woh:biped/living/tessen/tessen_dual_run",
-      "block": "wom:biped/skill/katana_guard",
+      "block":  "woh:biped/skill/tessen/tessen_guard",
       "walk":  "woh:biped/living/tessen/tessen_dual_hold"
     },
     "two_hand": {
       "idle": "woh:biped/living/tessen/tessen_dual_hold",
       "run":  "woh:biped/living/tessen/tessen_dual_run",
-      "block": "wom:biped/skill/katana_guard",
+      "block":  "woh:biped/skill/tessen/tessen_dual_guard",
       "walk":  "woh:biped/living/tessen/tessen_dual_hold"
     },
     "common": {
       "idle": "woh:biped/living/tessen/tessen_dual_hold",
       "run":  "woh:biped/living/tessen/tessen_dual_run",
-      "block": "wom:biped/skill/katana_guard",
+      "block":  "woh:biped/skill/tessen/tessen_dual_guard",
       "walk":  "woh:biped/living/tessen/tessen_dual_hold"
     }
   },

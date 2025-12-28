@@ -11,6 +11,7 @@ import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.*;
+import yesman.epicfight.skill.guard.GuardSkill;
 import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
@@ -122,7 +123,6 @@ public class EnhancedKatanaSkillInnate extends WeaponInnateSkill {
     public boolean canExecute(PlayerPatch<?> executer) {
         return true;
     }
-
     @Override
     public void updateContainer(SkillContainer container) {
 

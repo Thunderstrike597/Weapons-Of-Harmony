@@ -4,6 +4,7 @@ import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.model.Armature;
+import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 

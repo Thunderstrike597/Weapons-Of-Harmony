@@ -7,7 +7,7 @@ import yesman.epicfight.world.capabilities.item.WeaponCategory;
 import java.util.function.Function;
 
 public enum WohWeaponCategories implements WeaponCategory, Function<Item, CapabilityItem.Builder> {
-    ONE_HAND_KATANA,
+    SHOTOGATANA,
     TESSEN,
     WAKIZASHI,
     ODACHI;

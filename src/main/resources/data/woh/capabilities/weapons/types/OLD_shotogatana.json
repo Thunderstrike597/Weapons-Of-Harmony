@@ -3,13 +3,13 @@
     "one_hand": {
       "idle": "woh:biped/living/shotogatana/shotogatana_idle",
       "run":  "woh:biped/living/shotogatana/shotogatana_run",
-      "block": "wom:biped/skill/katana_guard",
+      "block": "woh:biped/skill/shotogatana/shotogatana_guard_unsheathed",
       "walk":  "woh:biped/living/shotogatana/shotogatana_walk"
     },
     "sheath": {
       "idle": "woh:biped/living/shotogatana/shotogatana_sheathed_idle",
       "run":  "cdmoveset:biped/new/yamato/yamato_run",
-      "block": "wom:biped/skill/katana_guard",
+      "block": "woh:biped/skill/shotogatana/shotogatana_guard",
       "walk":  "woh:biped/living/shotogatana/shotogatana_sheathed_walk"
     }
   },
@@ -41,7 +41,7 @@
     ]
   },
   "hit_particle": "epicfight:cut",
-  "category": "one_hand_katana",
+  "category": "shotogatana",
   "swing_sound": "epicfight:entity.weapon.whoosh",
   "combos": {
     "one_hand": [

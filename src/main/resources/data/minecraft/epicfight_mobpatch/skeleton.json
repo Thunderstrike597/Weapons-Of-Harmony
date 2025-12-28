@@ -3,7 +3,7 @@
   "humanoid_weapon_motions": [
     {
       "weapon_categories": [
-        "one_hand_katana"
+        "shotogatana"
       ],
       "livingmotions": {
         "idle": "woh:biped/living/shotogatana/shotogatana_idle",
@@ -136,7 +136,7 @@
         }
       ],
       "weapon_categories": [
-        "one_hand_katana"
+        "shotogatana"
       ],
       "style": "common"
     }
