@@ -3,6 +3,7 @@
   "item.woh.z_shotogatana_in_sheath": "Sheathed Shotogatana",
 
   "item.woh.shotogatana": "Shotogatana",
+  "item.woh.tessen": "Tessen",
   "item.woh.wakizashi": "Wakizashi",
   "item.woh.odachi": "Odachi",
 
@@ -16,6 +17,7 @@
 
   "item.woh.blade_curve_module":"Blade Curve Module",
   "item.woh.broken_blade": "Broken Blade & Sheath",
+  "item.woh.broken_fan_blade": "Broken Fan Blade",
 
   "item.woh.shotogatana.tooltip": "A precise blade paired with a siya. \n nimble and capable of cutting through the toughest of armor with style",
   "item.woh.folded_iron.tooltip": "A piece of iron that with much higher density than regular iron. \nAlthough tough, it tends to be fragile without being smelted first",

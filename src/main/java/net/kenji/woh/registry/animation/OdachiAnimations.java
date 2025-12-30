@@ -185,6 +185,7 @@ public class OdachiAnimations {
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 StunType.LONG,
                 new Collider[]{ColliderPreset.GREATSWORD},
+                new Joint[]{biped.toolR},
                 new float[]{0.05F, 1.10F},
                 -1,
                 1

@@ -9,6 +9,7 @@ import java.util.function.Function;
 public enum WohWeaponCategories implements WeaponCategory, Function<Item, CapabilityItem.Builder> {
     SHOTOGATANA,
     TESSEN,
+    TSUME,
     WAKIZASHI,
     ODACHI;
 

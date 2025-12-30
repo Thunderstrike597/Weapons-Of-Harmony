@@ -9,6 +9,7 @@ import net.kenji.woh.client.layers.OffHandHolsteredItemLayer;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.registry.WOHItems;
 import net.kenji.woh.render.EnhancedKatanaRender;
+import net.kenji.woh.render.TsumeRender;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -32,6 +33,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void RenderRegistry(PatchedRenderersEvent.Add event) {
         event.addItemRenderer((Item) WOHItems.SHOTOGATANA.get(), new EnhancedKatanaRender());
+        event.addItemRenderer((Item) WOHItems.TSUME.get(), new TsumeRender());
 
     }
 

@@ -24,6 +24,7 @@ public class WOHTabs {
                 output.accept(WOHItems.RONIN_BOOTS.get());
                 output.accept(WOHItems.SHOTOGATANA.get());
                 output.accept(WOHItems.TESSEN.get());
+                output.accept(WOHItems.TSUME.get());
                 output.accept(WOHItems.WAKIZASHI.get());
                 output.accept(WOHItems.ODACHI.get());
                 output.accept(WOHItems.FOLDED_IRON.get());
@@ -31,6 +32,7 @@ public class WOHTabs {
                 output.accept(WOHItems.HARDENED_STEEL_INGOT.get());
                 output.accept(WOHItems.BLADE_CURVE_MODULE.get());
                 output.accept(WOHItems.BROKEN_BLADE_AND_SHEATH.get());
+                output.accept(WOHItems.BROKEN_FAN_BLADE.get());
 
             })
             .build());

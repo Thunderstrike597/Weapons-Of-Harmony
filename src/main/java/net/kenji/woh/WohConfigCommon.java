@@ -8,6 +8,7 @@ public class WohConfigCommon {
 
     public static ForgeConfigSpec.ConfigValue<Double> RONIN_SKELETON_SPAWN_CHANCE;
     public static ForgeConfigSpec.ConfigValue<Double> RONIN_SKELETON_SURRENDER_CHANCE;
+    public static ForgeConfigSpec.ConfigValue<Double> WAR_FAN_PILLAGER_SPAWN_CHANCE;
 
 
 
@@ -22,6 +23,12 @@ public class WohConfigCommon {
         RONIN_SKELETON_SURRENDER_CHANCE = BUILDER
                 .comment("Ronin Skeleton Surrender Chance")
                 .defineInRange("The chance for a ronin skeleton to surrender when low on health", 0.36f, 0.0f, 1.0f);
+
+        WAR_FAN_PILLAGER_SPAWN_CHANCE = BUILDER
+                .comment("War Fan Pillager Spawn Chance")
+                .defineInRange("The chance for a pillager to spawn as a war fan pillager", 0.18f, 0.0f, 1.0f);
+
+
         BUILDER.pop();
 
         SPEC = BUILDER.build();

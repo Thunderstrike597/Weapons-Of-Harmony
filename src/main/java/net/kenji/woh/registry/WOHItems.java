@@ -30,6 +30,8 @@ public class WOHItems {
 
     public static final RegistryObject<Item> SHOTOGATANA = ITEMS.register("shotogatana", () -> new Shotogatana(WohWeaponTiers.SHOTOGATANA, new Item.Properties(), true, ChatFormatting.AQUA));
     public static final RegistryObject<Item> TESSEN = ITEMS.register("tessen", () -> new Tessen(WohWeaponTiers.TESSEN, new Item.Properties(), true, ChatFormatting.AQUA));
+    public static final RegistryObject<Item> TSUME = ITEMS.register("tsume", () -> new Tessen(WohWeaponTiers.TSUME, new Item.Properties(), true, ChatFormatting.AQUA));
+
     public static final RegistryObject<Item> WAKIZASHI = ITEMS.register("wakizashi", () -> new Wakizashi(WohWeaponTiers.WAKIZASHI, new Item.Properties(), true, ChatFormatting.BLUE));
     public static final RegistryObject<Item> ODACHI = ITEMS.register("odachi", () -> new Odachi(WohWeaponTiers.ODACHI, new Item.Properties(), true, ChatFormatting.BLUE));
 
@@ -40,6 +42,7 @@ public class WOHItems {
 
     public static final RegistryObject<Item> BLADE_CURVE_MODULE = ITEMS.register("blade_curve_module", () -> new ResourceItem(new Item.Properties().stacksTo(16), false, ChatFormatting.GRAY));
     public static final RegistryObject<Item> BROKEN_BLADE_AND_SHEATH = ITEMS.register("broken_blade", () -> new ResourceItem(new Item.Properties().stacksTo(1), false, ChatFormatting.GRAY));
+    public static final RegistryObject<Item> BROKEN_FAN_BLADE = ITEMS.register("broken_fan_blade", () -> new ResourceItem(new Item.Properties().stacksTo(1), false, ChatFormatting.GRAY));
 
 
     public static final RegistryObject<Item> METAL_RONIN_HEADWEAR = ITEMS.register("metal_ronin_headwear", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.HELMET));

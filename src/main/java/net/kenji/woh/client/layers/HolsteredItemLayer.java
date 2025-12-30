@@ -14,6 +14,8 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,6 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+@OnlyIn(Dist.CLIENT)
 public class HolsteredItemLayer extends ModelRenderLayer<
         AbstractClientPlayer,
         AbstractClientPlayerPatch<AbstractClientPlayer>,
@@ -136,7 +139,6 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         ItemStack holsterStack = holsterItem.holsterItem != null
                 ? holsterItem.holsterItem.getDefaultInstance()
                 : ItemStack.EMPTY;
-
         ItemStack unholsterStack = holsterItem.unholsteredItem != null
                 ? holsterItem.unholsteredItem.getDefaultInstance()
                 : ItemStack.EMPTY;
@@ -229,7 +231,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
 
         return stack.get();
     }
-
+    @OnlyIn(Dist.CLIENT)
     public static class SubEventHandler {
         public static int selectedIndex = 0;
         public static boolean debugActive = false;

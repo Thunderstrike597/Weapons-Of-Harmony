@@ -112,6 +112,7 @@ public class GenericAnimations {
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
                 StunType.SHORT,
                 new Collider[]{ColliderPreset.FIST},
+                new Joint[]{biped.toolR},
                 new float[]{0.0F, 0.45F},
                 -1,
                 -1

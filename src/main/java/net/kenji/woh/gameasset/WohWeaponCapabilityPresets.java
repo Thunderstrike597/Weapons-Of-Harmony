@@ -3,8 +3,10 @@ package net.kenji.woh.gameasset;
 import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.registry.WOHItems;
 import net.kenji.woh.registry.WOHSkills;
+import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.kenji.woh.registry.animation.TessenAnimations;
+import net.kenji.woh.registry.animation.TsumeAnimations;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -25,7 +27,7 @@ public class WohWeaponCapabilityPresets {
 
     public static final Function<Item, CapabilityItem.Builder> SHOTOGATANA = (item) -> {
         WeaponCapability.Builder builder = WeaponCapability.builder()
-                .category(CapabilityItem.WeaponCategories.TACHI)
+                .category(WohWeaponCategories.SHOTOGATANA)
                 .styleProvider((playerPatch) -> {
                     if(playerPatch instanceof PlayerPatch<?> patch){
                         if(patch.getSkill(SkillSlots.WEAPON_INNATE).isActivated())
@@ -72,10 +74,10 @@ public class WohWeaponCapabilityPresets {
 
     public static final Function<Item, CapabilityItem.Builder> TESSEN = (item) -> {
         WeaponCapability.Builder builder = WeaponCapability.builder()
-                .category(CapabilityItem.WeaponCategories.SWORD)
+                .category(WohWeaponCategories.TESSEN)
                 .styleProvider((playerPatch) -> {
                     if(playerPatch instanceof PlayerPatch<?> patch) {
-                        if (patch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD) {
+                        if (patch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == WohWeaponCategories.TESSEN) {
                             if (patch.getSkill(SkillSlots.WEAPON_INNATE).isActivated())
                                 return CapabilityItem.Styles.RANGED;
                             return CapabilityItem.Styles.TWO_HAND;
@@ -87,7 +89,7 @@ public class WohWeaponCapabilityPresets {
                 .weaponCombinationPredicator(
                         (entitypatch) ->
                                 EpicFightCapabilities.getItemStackCapability(entitypatch.getOriginal().getOffhandItem()).getWeaponCategory()
-                                        == CapabilityItem.WeaponCategories.SWORD)
+                                        == WohWeaponCategories.TESSEN)
 
                 .hitSound(EpicFightSounds.BLADE_HIT.get())
                 .collider(ColliderPreset.DAGGER)
@@ -126,6 +128,31 @@ public class WohWeaponCapabilityPresets {
                 .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WOHSkills.FAN_STANCE)
                 .innateSkill(CapabilityItem.Styles.RANGED, (itemstack) -> WOHSkills.FAN_STANCE);
 
+        return builder;
+    };
+    public static final Function<Item, CapabilityItem.Builder> TSUME = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(WohWeaponCategories.TSUME)
+                .styleProvider((playerPatch) -> {
+                            return CapabilityItem.Styles.TWO_HAND;
+                        }
+                )
+                .weaponCombinationPredicator(
+                        (entitypatch) ->
+                                EpicFightCapabilities.getItemStackCapability(entitypatch.getOriginal().getOffhandItem()).getWeaponCategory()
+                                        == WohWeaponCategories.TSUME)
+
+                .hitSound(EpicFightSounds.BLADE_HIT.get())
+                .collider(WohColliderPreset.TSUME_CLAWS)
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        TsumeAnimations.TSUME_AUTO_1,
+                        TsumeAnimations.TSUME_AUTO_2,
+                        TsumeAnimations.TSUME_AUTO_3,
+                        TsumeAnimations.TSUME_AUTO_4,
+                        TsumeAnimations.TSUME_DASH, TsumeAnimations.TSUME_AIRSLASH)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TsumeAnimations.TSUME_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TsumeAnimations.TSUME_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TsumeAnimations.TSUME_RUN);
         return builder;
     };
 }

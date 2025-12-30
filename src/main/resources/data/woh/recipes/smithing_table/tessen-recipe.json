@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:air"
+  },
+  "base": {
+    "item": "woh:broken_fan_blade"
+  },
+  "addition": {
+    "item": "woh:hardened_steel_ingot"
+  },
+  "result": {
+    "item": "woh:tessen",
+    "count": 1
+  }
+}

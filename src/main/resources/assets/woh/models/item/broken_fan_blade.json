@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "woh:item/resource_item/broken_fan_blade"
+  }
+}

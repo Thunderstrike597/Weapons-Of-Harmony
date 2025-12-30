@@ -334,6 +334,7 @@ public class WOHAnimationUtils {
             RegistryObject<HitParticleType>[] hitParticle,
             StunType stunType,
             Collider[] colliders,
+            Joint[] colliderJoints,
             float[] airTime,
             float normalizedStart,
             float normalizedEnd
@@ -344,7 +345,7 @@ public class WOHAnimationUtils {
         animation = new WohAirAttackAnimation(
                 path, phaseCount, convertTime, attackSpeed, attackDamage, impact,
                 start, antic, contact, recovery, end,
-                hitSound, swingSound, hitParticle, stunType, colliders, airTime
+                hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, airTime
         );
 
 

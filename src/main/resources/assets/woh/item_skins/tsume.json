@@ -1,0 +1,14 @@
+{
+    "trail": {
+      "color": [255, 255, 255],
+		"begin_pos": [-0.5, 0.0, -0.1],
+		"end_pos": [0.5, 0.0, -0.25],
+    	"lifetime": 13,
+		"interpolations": 6,
+    	"texture_path": "woh:textures/particle/swing_trail.png",
+    	"particle_type": "epicfight:swing_trail",
+      "trail_times": [
+        { "start": 0, "end": 0.65 }
+      ]
+    }
+}

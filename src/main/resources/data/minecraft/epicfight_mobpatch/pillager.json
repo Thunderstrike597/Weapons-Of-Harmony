@@ -1,0 +1,210 @@
+{
+  "renderer": "minecraft:pillager",
+  "default_livingmotions": {
+    "idle": "epicfight:illager/idle",
+    "chase": "epicfight:illager/chase",
+    "walk": "epicfight:illager/walk",
+    "fall": "epicfight:biped/living/fall",
+    "death": "epicfight:biped/living/death"
+  },
+  "humanoid_weapon_motions": [
+    {
+      "weapon_categories": [
+        "tessen"
+      ],
+      "livingmotions": {
+        "idle": "woh:biped/living/tessen/tessen_dual_hold",
+        "chase": "woh:biped/living/tessen/tessen_dual_hold",
+        "walk": "woh:biped/living/tessen/tessen_dual_hold"
+      },
+      "style": "one_hand"
+    }
+  ],
+  "faction": "illager",
+  "swing_sound": "",
+  "stun_animations": {
+    "short": "epicfight:biped/combat/hit_short",
+    "long": "epicfight:biped/combat/hit_long",
+    "hold": "epicfight:biped/combat/hit_short"
+  },
+  "attributes": {
+    "chasing_speed": 0.8,
+    "stun_armor": 0.4,
+    "impact": 0.5,
+    "max_strikes": 1,
+    "scale": 1.0,
+    "armor_negation": 0.1
+  },
+  "model": "epicfight:entity/illager",
+  "armature": "epicfight:entity/biped",
+  "combat_behavior": [
+    {
+      "behavior_series": [
+        {
+          "looping": 0,
+          "canBeInterrupted": 1,
+          "behaviors": [
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 1.0,
+                  "max": 2.5
+                },
+                {
+                  "predicate": "epicfight:within_eye_height"
+                },
+                {
+                  "predicate": "epicfight:offhand_item_category",
+                  "category": "tessen"
+                }
+              ],
+              "animation": "woh:biped/combat/tessen/tessen_dual_auto_1"
+            },
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:offhand_item_category",
+                  "category": "tessen"
+                },
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 0.8,
+                  "max": 2.5
+                },
+                {
+                  "predicate": "epicfight:within_eye_height"
+                }
+              ],
+              "animation": "woh:biped/combat/tessen/tessen_dual_auto_2"
+            }
+          ],
+          "cooldown": 40,
+          "weight": 0.8
+        },
+        {
+          "looping": 0,
+          "canBeInterrupted": 1,
+          "behaviors": [
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:offhand_item_category",
+                  "category": "tessen"
+                },
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 0.8,
+                  "max": 2.45
+                },
+                {
+                  "predicate": "epicfight:within_eye_height"
+                }
+              ],
+              "animation": "woh:biped/combat/tessen/tessen_dual_auto_3"
+            }
+          ],
+          "cooldown": 35,
+          "weight": 0.6
+        },
+        {
+          "looping": 0,
+          "canBeInterrupted": 1,
+          "behaviors": [
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:offhand_item_category",
+                  "category": "tessen"
+                },
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 2.5,
+                  "max": 5.5
+                },
+                {
+                  "predicate": "epicfight:within_eye_height"
+                }
+              ],
+              "animation": "woh:biped/combat/tessen/tessen_skill_dual_auto_3"
+            }
+          ],
+          "cooldown": 80,
+          "weight": 0.35
+        },
+        {
+          "looping": 0,
+          "canBeInterrupted": 1,
+          "behaviors": [
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 0.2,
+                  "max": 2.5
+                },
+                {
+                  "predicate": "epicfight:within_eye_height"
+                },
+                {
+                  "predicate": "epicfight:offhand_item_category",
+                  "category": "fist"
+                }
+              ],
+              "animation": "woh:biped/combat/tessen/tessen_auto_1"
+            },
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:offhand_item_category",
+                  "category": "fist"
+                },
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 0.2,
+                  "max": 2.45
+                },
+                {
+                  "predicate": "epicfight:within_eye_height"
+                }
+              ],
+              "animation": "woh:biped/combat/tessen/tessen_auto_2"
+            }
+          ],
+          "cooldown": 45,
+          "weight": 0.75
+        },
+        {
+          "looping": 0,
+          "canBeInterrupted": 1,
+          "behaviors": [
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:offhand_item_category",
+                  "category": "fist"
+                },
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 0.2,
+                  "max": 2.8
+                },
+                {
+                  "predicate": "epicfight:within_eye_height"
+                }
+              ],
+              "animation": "woh:biped/combat/tessen/tessen_auto_4"
+            }
+          ],
+          "cooldown": 60,
+          "weight": 0.56
+        }
+      ],
+      "weapon_categories": [
+        "tessen"
+      ],
+      "style": "one_hand"
+    }
+  ],
+  "isHumanoid": true
+}

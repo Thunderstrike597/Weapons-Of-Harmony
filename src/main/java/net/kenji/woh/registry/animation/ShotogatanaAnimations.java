@@ -365,6 +365,7 @@ public class ShotogatanaAnimations {
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 StunType.LONG,
                 new Collider[]{ColliderPreset.TACHI},
+                new Joint[]{biped.toolR},
                 new float[]{0.05F, 3F},
                 0.1f,
                 0.9f

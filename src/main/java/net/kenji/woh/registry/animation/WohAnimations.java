@@ -18,6 +18,7 @@ public class WohAnimations {
         GenericAnimations.build();
         ShotogatanaAnimations.build();
         TessenAnimations.build();
+        TsumeAnimations.build();
         WakizashiAnimations.build();
         OdachiAnimations.build();
 
