@@ -4,7 +4,8 @@
   "package": "net.kenji.woh.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-  "EpicFightFistMixin"
+    "EpicFightFistMixin",
+    "GuardSkillMixin"
   ],
   "client": [
 

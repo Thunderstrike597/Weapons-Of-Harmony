@@ -41,8 +41,11 @@ public class WOHItems {
     public static final RegistryObject<Item> HARDENED_STEEL_INGOT = ITEMS.register("hardened_steel_ingot", () -> new ResourceItem(new Item.Properties().stacksTo(64), true, ChatFormatting.GRAY));
 
     public static final RegistryObject<Item> BLADE_CURVE_MODULE = ITEMS.register("blade_curve_module", () -> new ResourceItem(new Item.Properties().stacksTo(16), false, ChatFormatting.GRAY));
+    public static final RegistryObject<Item> WEAPON_REPAIR_MODULE = ITEMS.register("weapon_repair_module", () -> new ResourceItem(new Item.Properties().stacksTo(16), false, ChatFormatting.GRAY));
+
     public static final RegistryObject<Item> BROKEN_BLADE_AND_SHEATH = ITEMS.register("broken_blade", () -> new ResourceItem(new Item.Properties().stacksTo(1), false, ChatFormatting.GRAY));
     public static final RegistryObject<Item> BROKEN_FAN_BLADE = ITEMS.register("broken_fan_blade", () -> new ResourceItem(new Item.Properties().stacksTo(1), false, ChatFormatting.GRAY));
+    public static final RegistryObject<Item> BROKEN_CLAWS = ITEMS.register("broken_claws", () -> new ResourceItem(new Item.Properties().stacksTo(1), false, ChatFormatting.GRAY));
 
 
     public static final RegistryObject<Item> METAL_RONIN_HEADWEAR = ITEMS.register("metal_ronin_headwear", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.HELMET));

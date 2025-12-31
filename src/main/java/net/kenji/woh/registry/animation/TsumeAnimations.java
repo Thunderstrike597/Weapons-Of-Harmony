@@ -25,11 +25,14 @@ public class TsumeAnimations {
     public static StaticAnimation TSUME_DASH;
     public static StaticAnimation TSUME_AIRSLASH;
 
+    public static StaticAnimation TSUME_GUARD;
+
     public static void build(){
         HumanoidArmature biped = Armatures.BIPED;
 
         TSUME_HOLD = (new StaticAnimation(0.35f, true, "biped/living/tsume/tsume_hold", biped));
         TSUME_RUN = (new StaticAnimation(0.35f, true, "biped/living/tsume/tsume_run", biped));
+        TSUME_GUARD = WOHAnimationUtils.createGuardAnimation("biped/skill/tsume/tsume_guard", 0.25F, null);
 
         TSUME_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
@@ -152,8 +155,8 @@ public class TsumeAnimations {
                 6F,
                 0.2F,
                 new float[]{0.15F, 0.38F, 0.70F},
-                new float[]{0.13F, 0.42F, 0.73F},
-                new float[]{0.20F, 0.50F, 0.78F},
+                new float[]{0.13F, 0.42F, 0.70F},
+                new float[]{0.20F, 0.50F, 0.80F},
                 new float[]{1.18F, 1.18F, 1.18F},
                 new float[]{1.30F, 1.30F, 1.30F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH_SMALL.get(), EpicFightSounds.WHOOSH_SMALL.get(), EpicFightSounds.WHOOSH_SMALL.get()},
@@ -163,8 +166,8 @@ public class TsumeAnimations {
                 new Collider[]{WohColliderPreset.TSUME_CLAWS, WohColliderPreset.TSUME_CLAWS, WohColliderPreset.TSUME_CLAWS},
                 new Joint[]{biped.toolR, biped.toolL, biped.toolR},
                 new float[]{0.05F, 1.22F},
-                0.1f,
-                0.9f
+                -1,
+                -1
         );
     }
 }

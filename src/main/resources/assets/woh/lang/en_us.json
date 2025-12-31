@@ -4,6 +4,7 @@
 
   "item.woh.shotogatana": "Shotogatana",
   "item.woh.tessen": "Tessen",
+  "item.woh.tsume": "Tsume",
   "item.woh.wakizashi": "Wakizashi",
   "item.woh.odachi": "Odachi",
 
@@ -16,10 +17,16 @@
   "item.woh.gold_tsuba": "Gold Tsuba",
 
   "item.woh.blade_curve_module":"Blade Curve Module",
+  "item.woh.weapon_repair_module":"Weapon Repair Module",
+
   "item.woh.broken_blade": "Broken Blade & Sheath",
   "item.woh.broken_fan_blade": "Broken Fan Blade",
+  "item.woh.broken_claws": "Broken Claws",
 
   "item.woh.shotogatana.tooltip": "A precise blade paired with a siya. \n nimble and capable of cutting through the toughest of armor with style",
+  "item.woh.tessen.tooltip": "A nimble war fan that strikes with quick precision. \n this mighty weapon is able to be thrown \nwhen paired with another in the offhand, allowing for ranged attacks",
+  "item.woh.tsume.tooltip": "A pair of sharp claws designed with close range swiping attacks in mind.",
+
   "item.woh.folded_iron.tooltip": "A piece of iron that with much higher density than regular iron. \nAlthough tough, it tends to be fragile without being smelted first",
   "item.woh.folded_steel.tooltip": "A very dense piece of steel",
   "item.woh.hardened_steel_ingot.tooltip": "An extremely durable and hard metal \nthat can be used to craft weapons of great variety"

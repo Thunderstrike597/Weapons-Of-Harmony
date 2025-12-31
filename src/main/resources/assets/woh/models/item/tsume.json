@@ -6,14 +6,14 @@
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {
-        "translation": [4.4, -6.25, 5],
+        "translation": [4.75, -6.25, 5.75],
         "rotation": [92, 0, 0],
-        "scale": [0.55, 0.55, 0.6]
+        "scale": [0.55, 0.65, 0.6]
       },
       "thirdperson_lefthand": {
-        "translation": [-4.4, 2.7, 5],
+        "translation": [-4.75, 2.7, 5.75],
         "rotation": [90, 180, 0],
-        "scale": [0.55, 0.55, 0.6]
+        "scale": [0.55, 0.65, 0.6]
       },
       "firstperson_righthand": {
         "translation": [13, -6, 0],
@@ -26,20 +26,20 @@
     "ground": {
       "parent": "item/generated",
       "textures": {
-        "layer0": "woh:item/weapon/wakizashi"
+        "layer0": "woh:item/weapon/tsume"
       }
     },
     "gui": {
       "parent": "item/generated",
       "textures": {
-        "layer0": "woh:item/weapon/wakizashi"
+        "layer0": "woh:item/weapon/tsume"
       },
       "gui_light": "front"
     },
     "fixed": {
       "parent": "item/generated",
       "textures": {
-        "layer0": "woh:item/weapon/wakizashi"
+        "layer0": "woh:item/weapon/tsume"
       }
     }
   }

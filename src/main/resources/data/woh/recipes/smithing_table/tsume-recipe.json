@@ -4,13 +4,13 @@
     "item": "woh:weapon_repair_module"
   },
   "base": {
-    "item": "woh:broken_fan_blade"
+    "item": "woh:broken_claws"
   },
   "addition": {
     "item": "woh:hardened_steel_ingot"
   },
   "result": {
-    "item": "woh:tessen",
+    "item": "woh:tsume",
     "count": 1
   }
 }

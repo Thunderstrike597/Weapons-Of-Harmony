@@ -1,16 +1,13 @@
 package net.kenji.woh.gameasset;
 
 import net.corruptdog.cdm.gameasset.CorruptAnimations;
-import net.kenji.woh.registry.WOHItems;
 import net.kenji.woh.registry.WOHSkills;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.kenji.woh.registry.animation.TessenAnimations;
 import net.kenji.woh.registry.animation.TsumeAnimations;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.TieredItem;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
@@ -98,7 +95,7 @@ public class WohWeaponCapabilityPresets {
                         TessenAnimations.TESSEN_AUTO_2,
                         TessenAnimations.TESSEN_AUTO_3,
                         TessenAnimations.TESSEN_AUTO_4,
-                        Animations.DAGGER_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
+                        Animations.DAGGER_DASH, Animations.DAGGER_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
                         TessenAnimations.TESSEN_DUAL_AUTO_1,
                         TessenAnimations.TESSEN_DUAL_AUTO_2,
@@ -107,11 +104,11 @@ public class WohWeaponCapabilityPresets {
                         TessenAnimations.TESSEN_DUAL_AUTO_5,
                         Animations.DAGGER_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.RANGED,
-                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_1,
-                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_2,
-                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_3,
-                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_4,
-                        Animations.DAGGER_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
+                        TessenAnimations.TESSEN_SKILL_AUTO_1,
+                        TessenAnimations.TESSEN_SKILL_AUTO_2,
+                        TessenAnimations.TESSEN_SKILL_AUTO_3,
+                        TessenAnimations.TESSEN_SKILL_AUTO_4,
+                        TessenAnimations.TESSEN_SKILL_DASH, TessenAnimations.TESSEN_SKILL_AIRSLASH)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
@@ -120,8 +117,8 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_DUAL_GUARD)
-                .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.IDLE, TessenAnimations.TESSEN_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.WALK, TessenAnimations.TESSEN_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.IDLE, TessenAnimations.TESSEN_SKILL_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.WALK, TessenAnimations.TESSEN_SKILL_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.BLOCK, TessenAnimations.TESSEN_DUAL_GUARD)
                 .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WOHSkills.FAN_STANCE)
@@ -155,4 +152,5 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TsumeAnimations.TSUME_RUN);
         return builder;
     };
+
 }

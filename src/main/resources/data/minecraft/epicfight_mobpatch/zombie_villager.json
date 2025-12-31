@@ -1,39 +1,36 @@
 {
-  "renderer": "minecraft:skeleton",
+  "renderer": "minecraft:zombie_villager",
   "humanoid_weapon_motions": [
     {
       "weapon_categories": [
-        "shotogatana"
+        "tsume"
       ],
       "livingmotions": {
-        "idle": "woh:biped/living/shotogatana/shotogatana_idle",
-        "walk": "woh:biped/living/shotogatana/shotogatana_walk",
-        "chase": "woh:biped/living/shotogatana/shotogatana_walk"
+        "idle": "woh:biped/living/tsume/tsume_hold",
+        "walk": "woh:biped/living/tsume/tsume_hold",
+        "chase": "woh:biped/living/tsume/tsume_hold"
       },
-      "style": "common"
+      "style": "two_hand"
     }
   ],
-  "hit_sound": "epicfight:entity.hit.blade",
-  "hit_particle": "epicfight:hit_blade",
   "faction": "undead",
-  "swing_sound": "epicfight:entity.weapon.whoosh",
-  "model": "epicfight:entity/skeleton",
+  "swing_sound": "",
+  "model": "epicfight:entity/zombie_villager",
+  "attributes": {
+    "chasing_speed": 0.8,
+    "stun_armor": 0.25,
+    "impact": 0.1,
+    "max_strikes": 2,
+    "armor_negation": 0.4
+  },
   "default_livingmotions": {
-    "idle": "epicfight:wither_skeleton/idle",
-    "chase": "epicfight:wither_skeleton/chase",
-    "walk": "epicfight:wither_skeleton/walk",
+    "idle": "epicfight:biped/living/idle",
+    "chase": "epicfight:biped/living/walk",
+    "walk": "epicfight:biped/living/walk",
     "fall": "epicfight:biped/living/fall",
     "death": "epicfight:biped/living/death"
   },
-  "attributes": {
-    "chasing_speed": 1.0,
-    "stun_armor": 0.4,
-    "impact": 0.5,
-    "max_strikes": 1,
-    "scale": 1.0,
-    "armor_negation": 0.1
-  },
-  "armature": "epicfight:entity/skeleton",
+  "armature": "epicfight:entity/biped",
   "combat_behavior": [
     {
       "behavior_series": [
@@ -46,17 +43,30 @@
                 {
                   "predicate": "epicfight:within_distance",
                   "min": 1.0,
-                  "max": 3.0
+                  "max": 2.2
                 },
                 {
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_1"
+              "animation": "woh:biped/combat/tsume/tsume_auto_1"
+            },
+            {
+              "conditions": [
+                {
+                  "predicate": "epicfight:within_eye_height"
+                },
+                {
+                  "predicate": "epicfight:within_distance",
+                  "min": 1.0,
+                  "max": 2.2
+                }
+              ],
+              "animation": "woh:biped/combat/tsume/tsume_auto_2"
             }
           ],
-          "cooldown": 40,
-          "weight": 10.0
+          "cooldown": 25,
+          "weight": 0.8
         },
         {
           "looping": 0,
@@ -67,17 +77,17 @@
                 {
                   "predicate": "epicfight:within_distance",
                   "min": 1.0,
-                  "max": 3.0
+                  "max": 2.5
                 },
                 {
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/shotogatana/shotogatana_auto_4"
+              "animation": "woh:biped/combat/tsume/tsume_auto_3"
             }
           ],
-          "cooldown": 45,
-          "weight": 8.0
+          "cooldown": 38,
+          "weight": 0.5
         },
         {
           "looping": 0,
@@ -88,30 +98,30 @@
                 {
                   "predicate": "epicfight:within_distance",
                   "min": 1.0,
-                  "max": 3.0
+                  "max": 2.6
                 },
                 {
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/shotogatana/shotogatana_auto_2"
+              "animation": "woh:biped/combat/tsume/tsume_auto_3"
             },
             {
               "conditions": [
                 {
                   "predicate": "epicfight:within_distance",
                   "min": 1.0,
-                  "max": 3.0
+                  "max": 2.6
                 },
                 {
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/shotogatana/shotogatana_auto_3"
+              "animation": "woh:biped/combat/tsume/tsume_auto_4"
             }
           ],
-          "cooldown": 60,
-          "weight": 4.0
+          "cooldown": 40,
+          "weight": 0.25
         },
         {
           "looping": 0,
@@ -121,18 +131,18 @@
               "conditions": [
                 {
                   "predicate": "epicfight:within_distance",
-                  "min": 1.0,
-                  "max": 3.0
+                  "min": 1.8,
+                  "max": 4.0
                 },
                 {
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/shotogatana/shotogatana_unsheathed_auto_2"
+              "animation": "woh:biped/combat/tsume/tsume_dash"
             }
           ],
-          "cooldown": 65,
-          "weight": 2.0
+          "cooldown": 60,
+          "weight": 0.25
         },
         {
           "looping": 0,
@@ -154,9 +164,9 @@
         }
       ],
       "weapon_categories": [
-        "shotogatana"
+        "tsume"
       ],
-      "style": "common"
+      "style": "two_hand"
     }
   ],
   "isHumanoid": true

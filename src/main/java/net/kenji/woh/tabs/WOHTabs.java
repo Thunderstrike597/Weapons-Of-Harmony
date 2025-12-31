@@ -31,8 +31,10 @@ public class WOHTabs {
                 output.accept(WOHItems.FOLDED_STEEL.get());
                 output.accept(WOHItems.HARDENED_STEEL_INGOT.get());
                 output.accept(WOHItems.BLADE_CURVE_MODULE.get());
+                output.accept(WOHItems.WEAPON_REPAIR_MODULE.get());
                 output.accept(WOHItems.BROKEN_BLADE_AND_SHEATH.get());
                 output.accept(WOHItems.BROKEN_FAN_BLADE.get());
+                output.accept(WOHItems.BROKEN_CLAWS.get());
 
             })
             .build());

@@ -13,6 +13,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -40,10 +42,17 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class TsumeRender extends RenderItemBase {
     private final ItemStack tsumeStack;
+    private static final Map<EntityType<?>, Float> HAND_INWARD_OFFSETS = new HashMap<>();
 
     public TsumeRender() {
         this.tsumeStack = new ItemStack((ItemLike) WOHItems.TSUME.get());
     }
+
+    static {
+        HAND_INWARD_OFFSETS.put(EntityType.PLAYER, 0F);
+        HAND_INWARD_OFFSETS.put(EntityType.ZOMBIE_VILLAGER, 0.035f);
+    };
+
 
     @Override
     public void renderItemInHand(
@@ -57,11 +66,14 @@ public class TsumeRender extends RenderItemBase {
             int packedLight,
             float partialTicks
     ) {
+        float finalOffset = HAND_INWARD_OFFSETS.getOrDefault(entitypatch.getOriginal().getType(), 0F);
+
         // Only render katana in hand when NOT in_sheath
         OpenMatrix4f modelMatrix = new OpenMatrix4f(this.offhandCorrectionMatrix);
         modelMatrix.mulFront(poses[armature.toolL.getId()]);
         poseStack.pushPose();
         this.mulPoseStack(poseStack, modelMatrix);
+        poseStack.translate(-finalOffset, 0.0F, 0.0F);
 
         Minecraft.getInstance().getItemRenderer().renderStatic(
                 tsumeStack,
@@ -79,6 +91,7 @@ public class TsumeRender extends RenderItemBase {
         modelRMatrix.mulFront(poses[armature.toolR.getId()]);
         poseStack.pushPose();
         this.mulPoseStack(poseStack, modelRMatrix);
+        poseStack.translate(finalOffset, 0.0F, 0.0F);
 
         Minecraft.getInstance().getItemRenderer().renderStatic(
                 tsumeStack,

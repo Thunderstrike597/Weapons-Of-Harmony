@@ -55,8 +55,8 @@ public class ShotogatanaAnimations {
 
         SHOTOGATANA_UNSHEATHED_IDLE = (new StaticAnimation(0.1f, true, "biped/living/shotogatana/shotogatana_idle", biped));
         SHOTOGATANA_UNSHEATHED_WALK = (new StaticAnimation(0.1f, true, "biped/living/shotogatana/shotogatana_walk", biped));
-        SHOTOGATANA_UNSHEATHED_GUARD = WOHAnimationUtils.createGuardAnimation("biped/skill/shotogatana/shotogatana_guard_unsheathed", 0.4F, null);
-        SHOTOGATANA_GUARD = WOHAnimationUtils.createGuardAnimation("biped/skill/shotogatana/shotogatana_guard", 0.4F, null);
+        SHOTOGATANA_UNSHEATHED_GUARD = WOHAnimationUtils.createGuardAnimation("biped/skill/shotogatana/shotogatana_guard_unsheathed", 0.25F, null);
+        SHOTOGATANA_GUARD = WOHAnimationUtils.createGuardAnimation("biped/skill/shotogatana/shotogatana_guard", 0.25F, null);
 
         SHOTOGATANA_UNSHEATHED_RUN = (new StaticAnimation(0.1f, true, "biped/living/shotogatana/shotogatana_run", biped));
         SHOTOGATANA_SHEATH = WOHAnimationUtils.createSheathAnimation("biped/skill/shotogatana/shotogatana_sheathe", false, 0.1f, 1.73f, null);

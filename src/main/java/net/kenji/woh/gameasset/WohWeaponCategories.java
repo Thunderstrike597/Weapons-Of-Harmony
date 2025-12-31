@@ -12,7 +12,6 @@ public enum WohWeaponCategories implements WeaponCategory, Function<Item, Capabi
     TSUME,
     WAKIZASHI,
     ODACHI;
-
     final int id;
 
 
@@ -23,7 +22,7 @@ public enum WohWeaponCategories implements WeaponCategory, Function<Item, Capabi
 
     @Override
     public int universalOrdinal() {
-        return 0;
+        return this.id;
     }
 
     @Override

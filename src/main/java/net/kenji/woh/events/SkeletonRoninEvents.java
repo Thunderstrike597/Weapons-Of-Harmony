@@ -38,8 +38,9 @@ public class SkeletonRoninEvents {
     private static final String WAS_EXISTING_TAG = "was_existing_entity";
     private static final String RONIN_TAG = "woh_ronin_skeleton";
     private static final String SURRENDER_ATTEMPTED_TAG = "surrender_attempted";
-    public static final String SURRENDER_SUCCESS_TAG = "surrender_succeeded";
+    private static final String SURRENDER_SUCCESS_TAG = "surrender_succeeded";
 
+    private static final float weaponRepairModuleChance = 0.52F;
 
 
     @SubscribeEvent
@@ -84,24 +85,39 @@ public class SkeletonRoninEvents {
 
         // Only our custom skeletons
         if (!skeleton.getPersistentData().getBoolean(RONIN_TAG)) return;
-        double dropChance = skeleton.getPersistentData().getBoolean(SURRENDER_ATTEMPTED_TAG) ? 1 : 0.22F;
+        double dropChance = skeleton.getPersistentData().getBoolean(SURRENDER_ATTEMPTED_TAG) ? 1 : 0.45F;
 
         // 25% chance to drop the special item
         if (skeleton.getRandom().nextFloat() < dropChance) {
             double chance = Math.random();
-            ItemStack drop = new ItemStack(WOHItems.BLADE_CURVE_MODULE.get());
-            ItemStack drop2 = new ItemStack(WOHItems.BROKEN_BLADE_AND_SHEATH.get());
+            ItemStack drop = new ItemStack(WOHItems.WEAPON_REPAIR_MODULE.get());
+
+            ItemStack drop2 = new ItemStack(WOHItems.BLADE_CURVE_MODULE.get());
+            ItemStack drop3 = new ItemStack(WOHItems.BROKEN_BLADE_AND_SHEATH.get());
 
             if (chance < 0.5F) {
-                event.getDrops().add(
-                        new ItemEntity(
-                                skeleton.level(),
-                                skeleton.getX(),
-                                skeleton.getY(),
-                                skeleton.getZ(),
-                                drop
-                        )
-                );
+                double chance2 = Math.random();
+                if(chance2 < weaponRepairModuleChance) {
+                    event.getDrops().add(
+                            new ItemEntity(
+                                    skeleton.level(),
+                                    skeleton.getX(),
+                                    skeleton.getY(),
+                                    skeleton.getZ(),
+                                    drop
+                            )
+                    );
+                }else {
+                    event.getDrops().add(
+                            new ItemEntity(
+                                    skeleton.level(),
+                                    skeleton.getX(),
+                                    skeleton.getY(),
+                                    skeleton.getZ(),
+                                    drop2
+                            )
+                    );
+                }
             } else {
                 event.getDrops().add(
                         new ItemEntity(
@@ -109,7 +125,7 @@ public class SkeletonRoninEvents {
                                 skeleton.getX(),
                                 skeleton.getY(),
                                 skeleton.getZ(),
-                                drop2
+                                drop3
                         )
                 );
             }

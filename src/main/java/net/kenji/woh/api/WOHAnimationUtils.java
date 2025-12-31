@@ -122,7 +122,7 @@ public class WOHAnimationUtils {
             float convertTime,
             AnimationEvent.TimeStampedEvent[] extraEvents
     ) {
-        StaticAnimation animation = (new WohStaticAnimation(convertTime, true, path, Armatures.BIPED, LivingMotions.BLOCK));
+        StaticAnimation animation = (new WohStaticAnimation(convertTime, false, path, Armatures.BIPED, LivingMotions.BLOCK));
 
         if(extraEvents != null){
             animation.addEvents(extraEvents);
