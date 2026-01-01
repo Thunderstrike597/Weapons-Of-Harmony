@@ -22,6 +22,7 @@ public class ShotogatanaAnimations {
     public static StaticAnimation SHOTOGATANA_UNSHEATHED_RUN;
     public static StaticAnimation SHOTOGATANA_IDLE;
     public static StaticAnimation SHOTOGATANA_WALK;
+    public static StaticAnimation SHOTOGATANA_RUN;
     public static StaticAnimation SHOTOGATANA_GUARD;
     public static StaticAnimation SHOTOGATANA_UNSHEATHED_GUARD;
     public static WohSheathAnimation SHOTOGATANA_SHEATH;
@@ -54,20 +55,21 @@ public class ShotogatanaAnimations {
 
         HumanoidArmature biped = Armatures.BIPED;
 
-        SHOTOGATANA_UNSHEATHED_IDLE = (new StaticAnimation(0.1f, true, "biped/living/shotogatana/shotogatana_idle", biped));
-        SHOTOGATANA_UNSHEATHED_WALK = (new StaticAnimation(0.1f, true, "biped/living/shotogatana/shotogatana_walk", biped));
+        SHOTOGATANA_UNSHEATHED_IDLE = (new StaticAnimation(0.1f, true, "biped/living/shotogatana/shotogatana_unsheathed_idle", biped));
+        SHOTOGATANA_UNSHEATHED_WALK = (new StaticAnimation(0.1f, true, "biped/living/shotogatana/shotogatana_unsheathed_walk", biped));
         SHOTOGATANA_UNSHEATHED_GUARD = WOHAnimationUtils.createGuardAnimation("biped/skill/shotogatana/shotogatana_guard_unsheathed", 0.25F, null);
         SHOTOGATANA_GUARD = WOHAnimationUtils.createGuardAnimation("biped/skill/shotogatana/shotogatana_guard", 0.25F, null);
 
-        SHOTOGATANA_UNSHEATHED_RUN = (new StaticAnimation(0.1f, true, "biped/living/shotogatana/shotogatana_run", biped));
+        SHOTOGATANA_UNSHEATHED_RUN = (new StaticAnimation(0.1f, true, "biped/living/shotogatana/shotogatana_unsheathed_run", biped));
         SHOTOGATANA_SHEATH = WOHAnimationUtils.createSheathAnimation("biped/skill/shotogatana/shotogatana_sheathe", false, 0.1f, 1.73f, null);
         SHOTOGATANA_SHEATH_ALT1 = WOHAnimationUtils.createSheathAnimation("biped/skill/shotogatana/shotogatana_sheathe_alt1", false,  0.1f, 2.5f, null);
         SHOTOGATANA_SHEATH_ALT2 = WOHAnimationUtils.createSheathAnimation("biped/skill/shotogatana/shotogatana_sheathe_alt2", false,  0.1f, 1.93f, null);
 
         SHOTOGATANA_UNSHEATH = WOHAnimationUtils.createLivingAnimation("biped/skill/shotogatana/shotogatana_unsheathe", false, 0.1f, 0.23f, -1, null);
 
-        SHOTOGATANA_IDLE = WOHAnimationUtils.createLivingAnimation("biped/living/shotogatana/shotogatana_sheathed_idle", true, 0.1f, -1f, -1, null);
-        SHOTOGATANA_WALK = WOHAnimationUtils.createLivingAnimation("biped/living/shotogatana/shotogatana_sheathed_walk", true, 0.1f, -1f, -1, null);
+        SHOTOGATANA_IDLE = WOHAnimationUtils.createLivingAnimation("biped/living/shotogatana/shotogatana_idle", true, 0.1f, -1f, -1, null);
+        SHOTOGATANA_WALK = WOHAnimationUtils.createLivingAnimation("biped/living/shotogatana/shotogatana_walk", true, 0.1f, -1f, -1, null);
+        SHOTOGATANA_RUN = WOHAnimationUtils.createLivingAnimation("biped/living/shotogatana/shotogatana_run", true, 0.1f, -1f, -1, null);
 
 
 
@@ -338,16 +340,16 @@ public class ShotogatanaAnimations {
                 new float[]{0.15F},
                 new float[]{0.2F},
                 new float[]{0.45F},
-                new float[]{2.8F},
-                new float[]{3F},
+                new float[]{1F},
+                new float[]{1.25F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH_SHARP.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
                 new Joint[]{biped.toolR},
                 StunType.LONG,
-                0.1f,
-                0.9f
+                0.25f,
+                -1
         );
         SHOTOGATANA_AIRSLASH = WOHAnimationUtils.createAirAttackAnimation(
                 "biped/combat/shotogatana/shotogatana_airslash",

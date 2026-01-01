@@ -1,6 +1,5 @@
 package net.kenji.woh.gameasset;
 
-import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.registry.WOHSkills;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.*;
@@ -42,7 +41,7 @@ public class WohWeaponCapabilityPresets {
                         ShotogatanaAnimations.SHOTOGATANA_DASH, ShotogatanaAnimations.SHOTOGATANA_AIRSLASH)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.IDLE, ShotogatanaAnimations.SHOTOGATANA_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.WALK, ShotogatanaAnimations.SHOTOGATANA_WALK)
-                .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.RUN, CorruptAnimations.YAMATO_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.RUN, ShotogatanaAnimations.SHOTOGATANA_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_GUARD)
                 .innateSkill(CapabilityItem.Styles.SHEATH, (itemstack) -> WOHSkills.SHEATH_STANCE);
         return builder;
