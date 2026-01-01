@@ -26,11 +26,14 @@ public class OdachiAnimations {
     public static StaticAnimation ODACHI_DASH;
     public static StaticAnimation ODACHI_AIRSLASH;
 
+    public static StaticAnimation ODACHI_GUARD;
+
     public static void build(){
         HumanoidArmature biped = Armatures.BIPED;
 
         ODACHI_HOLD = (new StaticAnimation(0.35f, true, "biped/living/odachi/odachi_hold", biped));
         ODACHI_RUN = (new StaticAnimation(0.35f, true, "biped/living/odachi/odachi_run", biped));
+        ODACHI_GUARD = WOHAnimationUtils.createGuardAnimation("biped/skill/odachi/odachi_guard", 0.25F, null);
 
 
         ODACHI_AUTO_1 = WOHAnimationUtils.createAttackAnimation(

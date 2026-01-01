@@ -28,6 +28,7 @@ public class WOHAnimationUtils {
         BASIC_ATTACK_JUMP,
         BASIC_ATTACK_SHEATH,
         DASH_ATTACK,
+        DASH_ATTACK_JUMP,
         AIR_ATTACK
     }
 
@@ -169,8 +170,8 @@ public class WOHAnimationUtils {
             Collider[] colliders,
             Joint[] colliderJoints,
             StunType stunType,
-            float normalizedStart,
-            float normalizedEnd
+            float absStart,
+            float absEnd
     ) {
         AttackAnimation animation = null;
         switch(type) {
@@ -189,7 +190,14 @@ public class WOHAnimationUtils {
                 );
                 break;
             case DASH_ATTACK:
-                animation = new WohDashAttackAnimation(
+                animation = new WohDashAttackAnimation(type,
+                        path, phaseCount, convertTime, attackSpeed,
+                        start, antic, contact, recovery, end,
+                        hitSound, swingSound, hitParticle, stunType
+                );
+                break;
+            case DASH_ATTACK_JUMP:
+                animation = new WohDashAttackAnimation(type,
                         path, phaseCount, convertTime, attackSpeed,
                         start, antic, contact, recovery, end,
                         hitSound, swingSound, hitParticle, stunType
@@ -199,35 +207,32 @@ public class WOHAnimationUtils {
         boolean stopEndEvent = false;
         boolean stopStartEvent = false;
 
-        if(normalizedEnd <= -1){
+        if(absEnd <= -1){
             stopEndEvent = true;
         }
-        if(normalizedStart <= -1){
+        if(absStart <= -1){
             stopStartEvent = true;
         }
 
         // Register timestamp
-        TimeStampManager.register(animation, normalizedStart, normalizedEnd);
-
-        float absoluteStart = animation.getTotalTime() * normalizedStart;
-        float absoluteEnd = animation.getTotalTime() * normalizedEnd;
+        TimeStampManager.register(animation, absStart, absEnd);
 
         // Add events at those exact timestamps
 
         if(!stopEndEvent && !stopStartEvent) {
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
-                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+                    AnimationEvent.TimeStampedEvent.create(absStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+                    AnimationEvent.TimeStampedEvent.create(absEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
             });
         }
         if(!stopEndEvent && stopStartEvent){
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+                    AnimationEvent.TimeStampedEvent.create(absEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
             });
         }
         if(!stopStartEvent && stopEndEvent){
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+                    AnimationEvent.TimeStampedEvent.create(absStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
             });
 
         }
@@ -273,7 +278,7 @@ public class WOHAnimationUtils {
                 );
                 break;
             case DASH_ATTACK:
-                animation = new WohDashAttackAnimation(
+                animation = new WohDashAttackAnimation(type,
                         path, phaseCount, convertTime, attackSpeed,
                         start, antic, contact, recovery, end,
                         hitSound, swingSound, hitParticle, stunType

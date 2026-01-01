@@ -2,6 +2,7 @@ package net.kenji.woh.registry;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import net.kenji.woh.WeaponsOfHarmony;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -15,7 +16,8 @@ import java.util.concurrent.Executor;
 
 public class WohColliderPreset implements PreparableReloadListener {
     private static final BiMap<ResourceLocation, Collider> PRESETS = HashBiMap.create();
-    public static final Collider TSUME_CLAWS = registerCollider(new ResourceLocation("epicfight", "tsume_claws"), new MultiOBBCollider(3, 0.4, 0.75, 0.4, (double)0.0F, (double)0.0F, -0.1));
+    public static final Collider TSUME_CLAWS = registerCollider(new ResourceLocation(WeaponsOfHarmony.MODID, "tsume_claws"), new MultiOBBCollider(5, 0.4, 0.75, 0.4, (double)0.0F, (double)0.0F, -0.1));
+    public static final Collider SHEATHED_BLADE = registerCollider(new ResourceLocation(WeaponsOfHarmony.MODID, "sheathed_blade"), new MultiOBBCollider(5, 1, 1, 2F, (double)0.0F, (double)0.0F, (double)-2.0F));
 
     public static Collider registerCollider(ResourceLocation rl, Collider collider) {
         if (PRESETS.containsKey(rl)) {

@@ -4,6 +4,7 @@ import net.kenji.woh.gameasset.WohWeaponCategories;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.kenji.woh.registry.animation.TessenAnimations;
 import net.kenji.woh.registry.animation.TsumeAnimations;
+import net.kenji.woh.registry.animation.WakizashiAnimations;
 import net.kenji.woh.render.EnhancedKatanaRender;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -60,6 +61,16 @@ public abstract class GuardSkillMixin {
                 WohWeaponCategories.TSUME,
                 (item, player) -> {
                    return TsumeAnimations.TSUME_GUARD;
+                }
+        );
+
+        guardMotions.put(
+                WohWeaponCategories.WAKIZASHI,
+                (item, player) -> {
+                    if (item.getStyle(player) == CapabilityItem.Styles.ONE_HAND) {
+                        return WakizashiAnimations.WAKIZASHI_GUARD;
+                    }
+                    return WakizashiAnimations.WAKIZASHI_DUAL_GUARD;
                 }
         );
     }

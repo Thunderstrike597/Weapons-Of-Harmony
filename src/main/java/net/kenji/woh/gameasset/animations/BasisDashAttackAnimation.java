@@ -1,5 +1,6 @@
 package net.kenji.woh.gameasset.animations;
 
+import net.kenji.woh.api.WOHAnimationUtils;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.api.animation.types.DashAttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
@@ -14,8 +15,12 @@ import java.util.UUID;
 public class BasisDashAttackAnimation extends DashAttackAnimation {
     public static final Map<UUID, Boolean> isAttacking = new HashMap<>();
 
-    public BasisDashAttackAnimation(float convertTime, String path, Armature armature, Phase... phases) {
+    private WOHAnimationUtils.AttackAnimationType attackAnimationType;
+
+
+    public BasisDashAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, Armature armature, Phase... phases) {
         super(convertTime, path, armature, phases);
+        attackAnimationType = attackType;
     }
 
 
@@ -31,6 +36,15 @@ public class BasisDashAttackAnimation extends DashAttackAnimation {
            isAttacking.put(playerID, false);
        }
         super.end(entitypatch, nextAnimation, isEnd);
+    }
+
+    @Override
+    public void tick(LivingEntityPatch<?> entitypatch) {
+        if (entitypatch instanceof PlayerPatch<?> playerPatch) {
+            if(attackAnimationType == WOHAnimationUtils.AttackAnimationType.DASH_ATTACK_JUMP)
+                playerPatch.getOriginal().resetFallDistance();
+        }
+        super.tick(entitypatch);
     }
 
     @Override

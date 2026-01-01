@@ -72,7 +72,10 @@ public class WeaponsOfHarmony {
         event.getTypeEntry().put(new ResourceLocation(MODID, "shotogatana"), WohWeaponCapabilityPresets.SHOTOGATANA);
         event.getTypeEntry().put(new ResourceLocation(MODID, "tessen"), WohWeaponCapabilityPresets.TESSEN);
         event.getTypeEntry().put(new ResourceLocation(MODID, "tsume"), WohWeaponCapabilityPresets.TSUME);
-        event.getTypeEntry().put(new ResourceLocation(MODID, "wakizashi"), WeaponCapabilityPresets.SWORD);
+
+        event.getTypeEntry().put(new ResourceLocation(MODID, "wakizashi"), WohWeaponCapabilityPresets.WAKIZASHI);
+        event.getTypeEntry().put(new ResourceLocation(MODID, "odachi"), WohWeaponCapabilityPresets.ODACHI);
+
     }
     @OnlyIn(Dist.CLIENT)
     public static void regIcon(WeaponCategoryIconRegisterEvent event) {

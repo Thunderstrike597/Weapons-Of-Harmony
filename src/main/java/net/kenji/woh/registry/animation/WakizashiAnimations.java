@@ -15,9 +15,7 @@ import yesman.epicfight.world.damagesource.StunType;
 
 public class WakizashiAnimations {
     public static StaticAnimation WAKIZASHI_HOLD;
-    public static StaticAnimation WAKIZASHI_WALK;
     public static StaticAnimation WAKIZASHI_DUAL_HOLD;
-    public static StaticAnimation WAKIZASHI_DUAL_WALK;
 
     public static StaticAnimation WAKIZASHI_AUTO_1;
     public static StaticAnimation WAKIZASHI_AUTO_2;
@@ -30,11 +28,19 @@ public class WakizashiAnimations {
     public static StaticAnimation WAKIZASHI_DUAL_AUTO_5;
     public static StaticAnimation WAKIZASHI_DUAL_AUTO_6;
 
+    public static StaticAnimation WAKIZASHI_GUARD;
+
+    public static StaticAnimation WAKIZASHI_DUAL_GUARD;
+
     public static void build(){
         HumanoidArmature biped = Armatures.BIPED;
 
         WAKIZASHI_HOLD = (new StaticAnimation(0.1f, true, "biped/living/wakizashi/wakizashi_hold", biped));
         WAKIZASHI_DUAL_HOLD = (new StaticAnimation(0.1f, true, "biped/living/wakizashi/wakizashi_dual_hold", biped));
+
+        WAKIZASHI_DUAL_GUARD = WOHAnimationUtils.createGuardAnimation("biped/skill/wakizashi/wakizashi_dual_guard", 0.25F, null);
+        WAKIZASHI_GUARD = WOHAnimationUtils.createGuardAnimation("biped/skill/wakizashi/wakizashi_guard", 0.25F, null);
+
 
         WAKIZASHI_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,

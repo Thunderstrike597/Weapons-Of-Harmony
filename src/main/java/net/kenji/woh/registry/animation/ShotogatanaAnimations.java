@@ -1,6 +1,7 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
 import net.kenji.woh.gameasset.animations.WohSheathAnimation;
+import net.kenji.woh.registry.WohColliderPreset;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.Joint;
@@ -42,7 +43,7 @@ public class ShotogatanaAnimations {
     public static StaticAnimation SHOTOGATANA_DASH;
     public static StaticAnimation SHOTOGATANA_AIRSLASH;
 
-
+    public static StaticAnimation SHOTOGATANA_SKILL_INNATE;
 
 
 
@@ -193,19 +194,19 @@ public class ShotogatanaAnimations {
                 1,
                 0.15F,
                 1F,
-                6F,
+                6.5F,
                 0.5F,
                 new float[]{0.0F},
                 new float[]{0.25F},
                 new float[]{0.37F},
-                new float[]{0.5f},
-                new float[]{0.68f},
+                new float[]{0.78f},
+                new float[]{0.85f},
                 new SoundEvent[]{EpicFightSounds.WHOOSH_SHARP.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
                 new Joint[]{biped.toolR},
-                StunType.SHORT,
+                StunType.LONG,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT1,
                 0.2f,
                 -1
@@ -327,7 +328,7 @@ public class ShotogatanaAnimations {
         );
 
         SHOTOGATANA_DASH = WOHAnimationUtils.createAttackAnimation(
-                WOHAnimationUtils.AttackAnimationType.DASH_ATTACK,
+                WOHAnimationUtils.AttackAnimationType.DASH_ATTACK_JUMP,
                 "biped/combat/shotogatana/shotogatana_dash",
                 1,
                 0.05F,
@@ -370,6 +371,27 @@ public class ShotogatanaAnimations {
                 0.1f,
                 0.9f
         );
-
+        SHOTOGATANA_SKILL_INNATE = WOHAnimationUtils.createAttackAnimation(
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH,
+                "biped/skill/shotogatana/shotogatana_skill_innate",
+                2,
+                0.05F,
+                1F,
+                6F,
+                0.2F,
+                new float[]{0.15F, 0.88F},
+                new float[]{0.55F, 1.0F},
+                new float[]{0.70F, 1.10F},
+                new float[]{1.42F, 1.42F},
+                new float[]{1.88F, 1.88F},
+                new SoundEvent[]{EpicFightSounds.NO_SOUND.get(), EpicFightSounds.NO_SOUND.get()},
+                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                new Collider[]{WohColliderPreset.SHEATHED_BLADE, WohColliderPreset.SHEATHED_BLADE},
+                new Joint[]{biped.torso, biped.torso},
+                StunType.LONG,
+                0.38f,
+                0.8f
+        );
     }
 }

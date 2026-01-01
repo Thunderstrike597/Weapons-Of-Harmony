@@ -3,9 +3,7 @@ package net.kenji.woh.gameasset;
 import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.registry.WOHSkills;
 import net.kenji.woh.registry.WohColliderPreset;
-import net.kenji.woh.registry.animation.ShotogatanaAnimations;
-import net.kenji.woh.registry.animation.TessenAnimations;
-import net.kenji.woh.registry.animation.TsumeAnimations;
+import net.kenji.woh.registry.animation.*;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import yesman.epicfight.api.animation.LivingMotions;
@@ -26,10 +24,6 @@ public class WohWeaponCapabilityPresets {
         WeaponCapability.Builder builder = WeaponCapability.builder()
                 .category(WohWeaponCategories.SHOTOGATANA)
                 .styleProvider((playerPatch) -> {
-                    if(playerPatch instanceof PlayerPatch<?> patch){
-                        if(patch.getSkill(SkillSlots.WEAPON_INNATE).isActivated())
-                            return CapabilityItem.Styles.ONE_HAND;
-                        }
                         return CapabilityItem.Styles.SHEATH;
                     }
                 )
@@ -46,26 +40,11 @@ public class WohWeaponCapabilityPresets {
                         ShotogatanaAnimations.SHOTOGATANA_AUTO_5,
                         ShotogatanaAnimations.SHOTOGATANA_AUTO_6,
                         ShotogatanaAnimations.SHOTOGATANA_DASH, ShotogatanaAnimations.SHOTOGATANA_AIRSLASH)
-                .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
-                        ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_1,
-                        ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_2,
-                        ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3,
-                        ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_4,
-                        ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_5,
-                        ShotogatanaAnimations.SHOTOGATANA_AUTO_5,
-                        ShotogatanaAnimations.SHOTOGATANA_AUTO_6,
-                        ShotogatanaAnimations.SHOTOGATANA_DASH, ShotogatanaAnimations.SHOTOGATANA_AIRSLASH)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.IDLE, ShotogatanaAnimations.SHOTOGATANA_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.WALK, ShotogatanaAnimations.SHOTOGATANA_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.RUN, CorruptAnimations.YAMATO_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_GUARD)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_IDLE)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_WALK)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_RUN)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD)
-                .innateSkill(CapabilityItem.Styles.SHEATH, (itemstack) -> WOHSkills.SHEATH_STANCE)
-                .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WOHSkills.SHEATH_STANCE);
-
+                .innateSkill(CapabilityItem.Styles.SHEATH, (itemstack) -> WOHSkills.SHEATH_STANCE);
         return builder;
     };
 
@@ -102,7 +81,7 @@ public class WohWeaponCapabilityPresets {
                         TessenAnimations.TESSEN_DUAL_AUTO_3,
                         TessenAnimations.TESSEN_DUAL_AUTO_4,
                         TessenAnimations.TESSEN_DUAL_AUTO_5,
-                        Animations.DAGGER_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
+                        Animations.DAGGER_DUAL_DASH, TessenAnimations.TESSEN_DUAL_AIRSLASH)
                 .newStyleCombo(CapabilityItem.Styles.RANGED,
                         TessenAnimations.TESSEN_SKILL_AUTO_1,
                         TessenAnimations.TESSEN_SKILL_AUTO_2,
@@ -138,7 +117,6 @@ public class WohWeaponCapabilityPresets {
                         (entitypatch) ->
                                 EpicFightCapabilities.getItemStackCapability(entitypatch.getOriginal().getOffhandItem()).getWeaponCategory()
                                         == WohWeaponCategories.TSUME)
-
                 .hitSound(EpicFightSounds.BLADE_HIT.get())
                 .collider(WohColliderPreset.TSUME_CLAWS)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
@@ -152,5 +130,67 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TsumeAnimations.TSUME_RUN);
         return builder;
     };
+    public static final Function<Item, CapabilityItem.Builder> WAKIZASHI = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(WohWeaponCategories.WAKIZASHI)
+                .styleProvider((playerPatch) -> {
+                            if(playerPatch instanceof PlayerPatch<?> patch) {
+                                if (patch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == WohWeaponCategories.WAKIZASHI) {
+                                    return CapabilityItem.Styles.TWO_HAND;
+                                }
+                            }
+                            return CapabilityItem.Styles.ONE_HAND;
+                        }
+                )
+                .weaponCombinationPredicator(
+                        (entitypatch) ->
+                                EpicFightCapabilities.getItemStackCapability(entitypatch.getOriginal().getOffhandItem()).getWeaponCategory()
+                                        == WohWeaponCategories.WAKIZASHI)
 
+                .hitSound(EpicFightSounds.BLADE_HIT.get())
+                .collider(ColliderPreset.DAGGER)
+                .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
+                        WakizashiAnimations.WAKIZASHI_AUTO_1,
+                        WakizashiAnimations.WAKIZASHI_AUTO_2,
+                        WakizashiAnimations.WAKIZASHI_AUTO_3,
+                        Animations.DAGGER_DASH, Animations.DAGGER_AIR_SLASH)
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        WakizashiAnimations.WAKIZASHI_DUAL_AUTO_1,
+                        WakizashiAnimations.WAKIZASHI_DUAL_AUTO_2,
+                        WakizashiAnimations.WAKIZASHI_DUAL_AUTO_3,
+                        WakizashiAnimations.WAKIZASHI_DUAL_AUTO_4,
+                        WakizashiAnimations.WAKIZASHI_DUAL_AUTO_5,
+                        Animations.DAGGER_DUAL_DASH, TessenAnimations.TESSEN_DUAL_AIRSLASH)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, WakizashiAnimations.WAKIZASHI_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, WakizashiAnimations.WAKIZASHI_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, WakizashiAnimations.WAKIZASHI_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, WakizashiAnimations.WAKIZASHI_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, WakizashiAnimations.WAKIZASHI_DUAL_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, WakizashiAnimations.WAKIZASHI_DUAL_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, WakizashiAnimations.WAKIZASHI_DUAL_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, WakizashiAnimations.WAKIZASHI_DUAL_GUARD);
+        return builder;
+    };
+    public static final Function<Item, CapabilityItem.Builder> ODACHI = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(WohWeaponCategories.ODACHI)
+                .styleProvider((playerPatch) -> {
+                            return CapabilityItem.Styles.TWO_HAND;
+                        }
+                )
+                .hitSound(EpicFightSounds.BLADE_HIT.get())
+                .collider(ColliderPreset.GREATSWORD)
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        OdachiAnimations.ODACHI_AUTO_1,
+                        OdachiAnimations.ODACHI_AUTO_2,
+                        OdachiAnimations.ODACHI_AUTO_3,
+                        OdachiAnimations.ODACHI_AUTO_4,
+                        OdachiAnimations.ODACHI_AUTO_5,
+                        OdachiAnimations.ODACHI_DASH, OdachiAnimations.ODACHI_AIRSLASH)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, OdachiAnimations.ODACHI_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, OdachiAnimations.ODACHI_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, OdachiAnimations.ODACHI_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, OdachiAnimations.ODACHI_GUARD);
+        return builder;
+    };
 }
