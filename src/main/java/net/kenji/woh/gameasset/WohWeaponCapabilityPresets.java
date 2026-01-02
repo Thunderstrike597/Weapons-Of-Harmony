@@ -109,9 +109,13 @@ public class WohWeaponCapabilityPresets {
         WeaponCapability.Builder builder = WeaponCapability.builder()
                 .category(WohWeaponCategories.TSUME)
                 .styleProvider((playerPatch) -> {
-                            return CapabilityItem.Styles.TWO_HAND;
-                        }
-                )
+                    if(playerPatch instanceof PlayerPatch<?> patch) {
+                        if (patch.getSkill(SkillSlots.WEAPON_INNATE).isActivated())
+                            return CapabilityItem.Styles.COMMON;
+
+                    }
+                    return CapabilityItem.Styles.TWO_HAND;
+                })
                 .weaponCombinationPredicator(
                         (entitypatch) ->
                                 EpicFightCapabilities.getItemStackCapability(entitypatch.getOriginal().getOffhandItem()).getWeaponCategory()
@@ -124,9 +128,25 @@ public class WohWeaponCapabilityPresets {
                         TsumeAnimations.TSUME_AUTO_3,
                         TsumeAnimations.TSUME_AUTO_4,
                         TsumeAnimations.TSUME_DASH, TsumeAnimations.TSUME_AIRSLASH)
+                .newStyleCombo(CapabilityItem.Styles.COMMON,
+                        TsumeAnimations.TSUME_SKILL_AUTO_1,
+                        TsumeAnimations.TSUME_SKILL_AUTO_2,
+                        TsumeAnimations.TSUME_SKILL_AUTO_3,
+                        TsumeAnimations.TSUME_DASH, TsumeAnimations.TSUME_AIRSLASH)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TsumeAnimations.TSUME_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TsumeAnimations.TSUME_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TsumeAnimations.TSUME_RUN);
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TsumeAnimations.TSUME_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, TsumeAnimations.TSUME_GUARD)
+
+                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.IDLE, TsumeAnimations.TSUME_SKILL_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.WALK, TsumeAnimations.TSUME_SKILL_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.RUN, TsumeAnimations.TSUME_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.BLOCK, TsumeAnimations.TSUME_GUARD)
+
+                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.ENRAGED_CLAWS)
+                .innateSkill(CapabilityItem.Styles.COMMON, (itemstack) -> WohSkills.ENRAGED_CLAWS);
+
+
         return builder;
     };
     public static final Function<Item, CapabilityItem.Builder> WAKIZASHI = (item) -> {

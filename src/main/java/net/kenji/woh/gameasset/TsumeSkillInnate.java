@@ -1,8 +1,8 @@
 package net.kenji.woh.gameasset;
 
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.kenji.woh.registry.animation.TessenAnimations;
+import net.kenji.woh.registry.animation.TsumeAnimations;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -24,9 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class TessenSkillInnate extends WeaponInnateSkill {
+public class TsumeSkillInnate extends WeaponInnateSkill {
 
-    public TessenSkillInnate(Builder<? extends Skill> builder) {
+    public TsumeSkillInnate(Builder<? extends Skill> builder) {
         super(builder);
         this.maxDuration = 420;
         this.consumption = 20;
@@ -35,7 +35,7 @@ public class TessenSkillInnate extends WeaponInnateSkill {
 
     @Override
     public ResourceLocation getSkillTexture() {
-        return EpicFightSkills.LIECHTENAUER.getSkillTexture();
+        return EpicFightSkills.PARRYING.getSkillTexture();
     }
 
     public ItemStack lastMainHandItem = ItemStack.EMPTY;
@@ -47,30 +47,6 @@ public class TessenSkillInnate extends WeaponInnateSkill {
 
         private static final Map<UUID, BasicAttackAnimation> storedOriginalAttacks = new HashMap<>();
     }
-
-    @Override
-    public boolean canExecute(PlayerPatch<?> executer) {
-        if(!executer.getSkill(this).isActivated()){
-
-            CapabilityItem mainHandCap = executer.getHoldingItemCapability(InteractionHand.MAIN_HAND);
-            CapabilityItem offHandCap = executer.getHoldingItemCapability(InteractionHand.OFF_HAND);
-            if(offHandCap instanceof WeaponCapability offHandWeaponCap) {
-                if (mainHandCap instanceof WeaponCapability weaponCap) {
-                   if(offHandWeaponCap.checkOffhandValid(executer)) {
-                       if (weaponCap.checkOffhandValid(executer)) {
-                           if (executer.getValidItemInHand(InteractionHand.OFF_HAND) != ItemStack.EMPTY) {
-                               return true;
-                           }
-                       }
-                   }
-                }
-            }
-            return false;
-        }
-
-        return true;
-    }
-
 
     @Override
     public void updateContainer(SkillContainer container) {
@@ -86,7 +62,7 @@ public class TessenSkillInnate extends WeaponInnateSkill {
             super.executeOnServer(executer, args);
             executer.getSkill(this).activate();
             executer.modifyLivingMotionByCurrentItem(false);
-            executer.playAnimationSynchronized(TessenAnimations.TESSEN_SKILL_ACTIVATE, 0.15F);
+            executer.playAnimationSynchronized(TsumeAnimations.TSUME_SKILL_ACTIVATE, 0.15F);
         }
     }
     @Override
@@ -94,11 +70,11 @@ public class TessenSkillInnate extends WeaponInnateSkill {
         executer.getSkill(this).deactivate();
         super.cancelOnServer(executer, args);
         executer.modifyLivingMotionByCurrentItem(false);
-        executer.playAnimationSynchronized(TessenAnimations.TESSEN_SKILL_DEACTIVATE, 0.15F);
-          if(executer.getSkill(this) != null) {
-              setConsumptionSynchronize(executer,0);
-              setStackSynchronize(executer, 0);
-          }
+        executer.playAnimationSynchronized(TsumeAnimations.TSUME_SKILL_DEACTIVATE, 0.15F);
+        if(executer.getSkill(this) != null) {
+            setConsumptionSynchronize(executer,0);
+            setStackSynchronize(executer, 0);
+        }
     }
     @Override
     public void executeOnClient(LocalPlayerPatch executer, FriendlyByteBuf args) {
