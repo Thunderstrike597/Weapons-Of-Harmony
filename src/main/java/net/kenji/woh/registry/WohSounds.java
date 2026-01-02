@@ -7,7 +7,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class WOHSounds {
+public class WohSounds {
     public static final DeferredRegister<SoundEvent> SOUNDS;
 
     public static final RegistryObject<SoundEvent> SWORD_UNSHEATHE;

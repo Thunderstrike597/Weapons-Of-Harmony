@@ -1,6 +1,6 @@
 package net.kenji.woh.entities.custom;
 
-import net.kenji.woh.registry.WOHItems;
+import net.kenji.woh.registry.WohItems;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
@@ -43,7 +43,7 @@ public class ExiledRoninEntity extends PathfinderMob {
         // Set item in hand
         if (this.getMainHandItem().isEmpty()) {
             this.setItemInHand(InteractionHand.MAIN_HAND,
-                    new ItemStack(WOHItems.SHOTOGATANA.get()));
+                    new ItemStack(WohItems.SHOTOGATANA.get()));
         }
 
         // Find nearest player

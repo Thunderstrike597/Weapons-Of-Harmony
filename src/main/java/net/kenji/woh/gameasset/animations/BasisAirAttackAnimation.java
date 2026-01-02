@@ -1,22 +1,12 @@
 package net.kenji.woh.gameasset.animations;
 
-import net.kenji.woh.api.WOHAnimationUtils;
-import net.kenji.woh.render.EnhancedKatanaRender;
-import net.minecraft.world.InteractionHand;
-import org.jline.utils.Log;
-import yesman.epicfight.api.animation.AnimationPlayer;
-import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.AirSlashAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.model.Armature;
-import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
-import yesman.epicfight.world.capabilities.item.CapabilityItem;
-import yesman.epicfight.world.capabilities.item.WeaponCapability;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 

@@ -1,7 +1,7 @@
 package net.kenji.woh.api;
 
 import net.kenji.woh.gameasset.animations.*;
-import net.kenji.woh.render.EnhancedKatanaRender;
+import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.RegistryObject;
@@ -9,7 +9,6 @@ import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.types.AttackAnimation;
-import yesman.epicfight.api.animation.types.GuardAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
@@ -40,7 +39,7 @@ public class WOHAnimationUtils {
 
                         Player player = playerPatch.getOriginal();
                         UUID playerId = player.getUUID();
-                        EnhancedKatanaRender.sheathWeapon.put(playerId, false);
+                        ShotogatanaRender.sheathWeapon.put(playerId, false);
                     }
                 }
         );
@@ -58,8 +57,8 @@ public class WOHAnimationUtils {
                             );
 
                         }
-                        EnhancedKatanaRender.sheathWeapon.remove(playerId);
-                        EnhancedKatanaRender.sheathWeapon.put(playerId, true);
+                        ShotogatanaRender.sheathWeapon.remove(playerId);
+                        ShotogatanaRender.sheathWeapon.put(playerId, true);
                     }
                 }
         );

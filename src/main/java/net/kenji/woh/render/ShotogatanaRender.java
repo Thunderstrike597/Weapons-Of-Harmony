@@ -6,9 +6,9 @@ import net.kenji.woh.gameasset.animations.BasisAirAttackAnimation;
 import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
 import net.kenji.woh.gameasset.animations.WohSheathAnimation;
 import net.kenji.woh.item.custom.weapon.Shotogatana;
-import net.kenji.woh.registry.WOHSkills;
+import net.kenji.woh.registry.WohSkills;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
-import net.kenji.woh.registry.WOHItems;
+import net.kenji.woh.registry.WohItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -17,35 +17,28 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
-import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.renderer.patched.item.RenderItemBase;
-import yesman.epicfight.gameasset.Animations;
-import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
-import yesman.epicfight.world.capabilities.item.CapabilityItem;
-import yesman.epicfight.world.capabilities.item.WeaponCapability;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
-public class EnhancedKatanaRender extends RenderItemBase {
+public class ShotogatanaRender extends RenderItemBase {
     public static final Map<UUID, Boolean> sheathWeapon = new HashMap<>();
     public static final Map<UUID, Boolean> isHoldingSheathed = new HashMap<>();
 
@@ -62,10 +55,10 @@ public class EnhancedKatanaRender extends RenderItemBase {
     private StaticAnimation sheathAnim = ShotogatanaAnimations.SHOTOGATANA_SHEATH;
     private StaticAnimation unsheathAnim = ShotogatanaAnimations.SHOTOGATANA_UNSHEATH;
 
-    public EnhancedKatanaRender() {
-        this.katana = new ItemStack((ItemLike) WOHItems.SHOTOGATANA.get());
-        this.sheathStack = new ItemStack((ItemLike) WOHItems.SHOTOGATANA_SHEATH.get());
-        this.sheathedWeaponStack = new ItemStack((ItemLike) WOHItems.SHOTOGATANA_IN_SHEATH.get());
+    public ShotogatanaRender() {
+        this.katana = new ItemStack((ItemLike) WohItems.SHOTOGATANA.get());
+        this.sheathStack = new ItemStack((ItemLike) WohItems.SHOTOGATANA_SHEATH.get());
+        this.sheathedWeaponStack = new ItemStack((ItemLike) WohItems.SHOTOGATANA_IN_SHEATH.get());
     }
 
         @SubscribeEvent
@@ -79,7 +72,7 @@ public class EnhancedKatanaRender extends RenderItemBase {
         UUID playerId = event.player.getUUID();
         Player player = event.player;
         boolean hasSetup = hasSetupWeapon.getOrDefault(playerId, false);
-        if(event.player.getMainHandItem().getItem() == WOHItems.SHOTOGATANA.get()){
+        if(event.player.getMainHandItem().getItem() == WohItems.SHOTOGATANA.get()){
             if(!hasSetup){
                 sheathWeapon.put(playerId, true);
                 hasSetupWeapon.put(playerId, true);
@@ -123,8 +116,8 @@ public class EnhancedKatanaRender extends RenderItemBase {
 
 
             if(!animPlayer.getAnimation().isBasicAttackAnimation() && !(highAnimPlayer.getAnimation() instanceof WohSheathAnimation)) {
-                if(playerPatch.getSkill(WOHSkills.SHEATH_STANCE) != null) {
-                    if (!isSheathed && !playerPatch.getSkill(WOHSkills.SHEATH_STANCE).isActivated()) {
+                if(playerPatch.getSkill(WohSkills.SHEATH_STANCE) != null) {
+                    if (!isSheathed && !playerPatch.getSkill(WohSkills.SHEATH_STANCE).isActivated()) {
                         boolean isAttacking = BasisAttackAnimation.isAttacking.getOrDefault(playerID, false);
                         boolean isAirAttacking = BasisAirAttackAnimation.isAttacking.getOrDefault(playerID, false);
                         if (!isAttacking && !isAirAttacking) {

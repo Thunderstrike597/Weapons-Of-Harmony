@@ -2,7 +2,7 @@ package net.kenji.woh.events;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.WohConfigCommon;
-import net.kenji.woh.registry.WOHItems;
+import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.registry.animation.GenericAnimations;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -56,19 +56,19 @@ public class SkeletonRoninEvents {
         if (skeleton.getRandom().nextFloat() < WohConfigCommon.RONIN_SKELETON_SPAWN_CHANCE.get()) {
             skeleton.setItemSlot(
                     EquipmentSlot.MAINHAND,
-                    new ItemStack(WOHItems.SHOTOGATANA.get())
+                    new ItemStack(WohItems.SHOTOGATANA.get())
             );
             skeleton.setItemSlot(
                     EquipmentSlot.HEAD,
-                    new ItemStack(WOHItems.METAL_RONIN_HEADWEAR.get())
+                    new ItemStack(WohItems.METAL_RONIN_HEADWEAR.get())
             );
             skeleton.setItemSlot(
                     EquipmentSlot.CHEST,
-                    new ItemStack(WOHItems.RONIN_TUNIC.get())
+                    new ItemStack(WohItems.RONIN_TUNIC.get())
             );
             skeleton.setItemSlot(
                     EquipmentSlot.LEGS,
-                    new ItemStack(WOHItems.RONIN_LEGGINGS.get())
+                    new ItemStack(WohItems.RONIN_LEGGINGS.get())
             );
 
             skeleton.setDropChance(EquipmentSlot.MAINHAND, 0.0f);
@@ -90,10 +90,10 @@ public class SkeletonRoninEvents {
         // 25% chance to drop the special item
         if (skeleton.getRandom().nextFloat() < dropChance) {
             double chance = Math.random();
-            ItemStack drop = new ItemStack(WOHItems.WEAPON_REPAIR_MODULE.get());
+            ItemStack drop = new ItemStack(WohItems.WEAPON_REPAIR_MODULE.get());
 
-            ItemStack drop2 = new ItemStack(WOHItems.BLADE_CURVE_MODULE.get());
-            ItemStack drop3 = new ItemStack(WOHItems.BROKEN_BLADE_AND_SHEATH.get());
+            ItemStack drop2 = new ItemStack(WohItems.BLADE_CURVE_MODULE.get());
+            ItemStack drop3 = new ItemStack(WohItems.BROKEN_BLADE_AND_SHEATH.get());
 
             if (chance < 0.5F) {
                 double chance2 = Math.random();
@@ -133,10 +133,10 @@ public class SkeletonRoninEvents {
         if (skeleton.getRandom().nextFloat() < 0.8f) {
             int itemDropIndex = (int) Mth.randomBetween(RandomSource.create(), 0, 3);
 
-            ItemStack drop1 = new ItemStack(WOHItems.METAL_RONIN_HEADWEAR.get());
-            ItemStack drop2 = new ItemStack(WOHItems.RONIN_TUNIC.get());
-            ItemStack drop3 = new ItemStack(WOHItems.RONIN_LEGGINGS.get());
-            ItemStack drop4 = new ItemStack(WOHItems.RONIN_BOOTS.get());
+            ItemStack drop1 = new ItemStack(WohItems.METAL_RONIN_HEADWEAR.get());
+            ItemStack drop2 = new ItemStack(WohItems.RONIN_TUNIC.get());
+            ItemStack drop3 = new ItemStack(WohItems.RONIN_LEGGINGS.get());
+            ItemStack drop4 = new ItemStack(WohItems.RONIN_BOOTS.get());
 
 
             switch (itemDropIndex){

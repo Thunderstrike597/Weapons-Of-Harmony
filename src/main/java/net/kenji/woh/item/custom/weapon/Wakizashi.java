@@ -1,7 +1,7 @@
 package net.kenji.woh.item.custom.weapon;
 
 import net.kenji.woh.item.custom.base.HolsterBaseItem;
-import net.kenji.woh.registry.WOHItems;
+import net.kenji.woh.registry.WohItems;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
@@ -35,7 +35,7 @@ public class Wakizashi extends HolsterBaseItem {
     );
 
     public Wakizashi(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, 0, 0.8f, builder, hasTooltip, tooltipColor, holsterTransform, WOHItems.WAKIZASHI_IN_SHEATH.get(), WOHItems.WAKIZASHI_SHEATH.get(), true, holsterJoints);
+        super(tier, 0, 0.8f, builder, hasTooltip, tooltipColor, holsterTransform, WohItems.WAKIZASHI_IN_SHEATH.get(), WohItems.WAKIZASHI_SHEATH.get(), true, holsterJoints);
     }
 
 

@@ -2,7 +2,7 @@ package net.kenji.woh.gameasset.animations;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.WOHAnimationUtils;
-import net.kenji.woh.render.EnhancedKatanaRender;
+import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
@@ -11,17 +11,14 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.BasicAttack;
-import yesman.epicfight.skill.SkillDataKey;
 import yesman.epicfight.skill.SkillDataKeys;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
@@ -115,7 +112,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                     CapabilityItem capItem = playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
                     UUID playerID = playerPatch.getOriginal().getUUID();
                     if (capItem instanceof WeaponCapability weaponCap) {
-                        boolean isSheathed = EnhancedKatanaRender.sheathWeapon.getOrDefault(playerID, false);
+                        boolean isSheathed = ShotogatanaRender.sheathWeapon.getOrDefault(playerID, false);
                         if (!isSheathed) {
                             List<AnimationProvider<?>> autoAttackMotion = weaponCap.getAutoAttckMotion(playerPatch);
                             for(int i = 0; i < autoAttackMotion.size(); i++) {

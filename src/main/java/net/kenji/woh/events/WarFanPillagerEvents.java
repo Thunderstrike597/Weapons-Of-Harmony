@@ -2,11 +2,10 @@ package net.kenji.woh.events;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.WohConfigCommon;
-import net.kenji.woh.registry.WOHItems;
+import net.kenji.woh.registry.WohItems;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Pillager;
-import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -37,12 +36,16 @@ public class WarFanPillagerEvents {
             double offhandChance = Math.random();
             pillager.setItemSlot(
                     EquipmentSlot.MAINHAND,
-                    new ItemStack(WOHItems.TESSEN.get())
+                    new ItemStack(WohItems.TESSEN.get())
+            );
+            pillager.setItemSlot(
+                    EquipmentSlot.HEAD,
+                    new ItemStack(WohItems.METAL_RONIN_HEADWEAR.get())
             );
             if(offhandChance < WohConfigCommon.WAR_FAN_PILLAGER_OFFHAND_CHANCE.get()) {
                 pillager.setItemSlot(
                         EquipmentSlot.OFFHAND,
-                        new ItemStack(WOHItems.TESSEN.get())
+                        new ItemStack(WohItems.TESSEN.get())
                 );
                 pillager.getPersistentData().putBoolean(WAR_FAN_OFFHAND_TAG, true);
             }
@@ -60,7 +63,7 @@ public class WarFanPillagerEvents {
         double dropChance = !pillager.getPersistentData().getBoolean(WAR_FAN_OFFHAND_TAG) ? 0.38F : 0.48F;
 
         if (pillager.getRandom().nextFloat() < dropChance) {
-            ItemStack drop = new ItemStack(WOHItems.BROKEN_FAN_BLADE.get());
+            ItemStack drop = new ItemStack(WohItems.BROKEN_FAN_BLADE.get());
             event.getDrops().add(
                     new ItemEntity(
                             pillager.level(),
@@ -72,7 +75,7 @@ public class WarFanPillagerEvents {
             );
         }
         if(pillager.getRandom().nextFloat() < weaponRepairModuleChance){
-            ItemStack drop = new ItemStack(WOHItems.WEAPON_REPAIR_MODULE.get());
+            ItemStack drop = new ItemStack(WohItems.WEAPON_REPAIR_MODULE.get());
             event.getDrops().add(
                     new ItemEntity(
                             pillager.level(),

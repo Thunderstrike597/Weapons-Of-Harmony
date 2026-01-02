@@ -7,8 +7,8 @@ import net.kenji.woh.client.entity_renderers.ExiledRoninRenderer;
 import net.kenji.woh.client.layers.HolsteredItemLayer;
 import net.kenji.woh.client.layers.OffHandHolsteredItemLayer;
 import net.kenji.woh.entities.ModEntities;
-import net.kenji.woh.registry.WOHItems;
-import net.kenji.woh.render.EnhancedKatanaRender;
+import net.kenji.woh.registry.WohItems;
+import net.kenji.woh.render.ShotogatanaRender;
 import net.kenji.woh.render.TsumeRender;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -32,8 +32,8 @@ import yesman.epicfight.client.renderer.patched.entity.PatchedEntityRenderer;
 public class ClientEvents {
     @SubscribeEvent
     public static void RenderRegistry(PatchedRenderersEvent.Add event) {
-        event.addItemRenderer((Item) WOHItems.SHOTOGATANA.get(), new EnhancedKatanaRender());
-        event.addItemRenderer((Item) WOHItems.TSUME.get(), new TsumeRender());
+        event.addItemRenderer((Item) WohItems.SHOTOGATANA.get(), new ShotogatanaRender());
+        event.addItemRenderer((Item) WohItems.TSUME.get(), new TsumeRender());
 
     }
 
@@ -51,17 +51,17 @@ public class ClientEvents {
       event.enqueueWork(() -> {
           EntityRenderers.register(ModEntities.EXILED_RONIN.get(), ExiledRoninRenderer::new);
           ItemProperties.register(
-                  WOHItems.SHOTOGATANA.get(),
+                  WohItems.SHOTOGATANA.get(),
                   new ResourceLocation("woh", "unsheathed"),
                   (stack, level, entity, seed) -> {
                       if(entity instanceof Player player) {
-                          return player.getMainHandItem().getItem() == WOHItems.SHOTOGATANA.get() ? 1.0F : 0.0F;
+                          return player.getMainHandItem().getItem() == WohItems.SHOTOGATANA.get() ? 1.0F : 0.0F;
                       }
                       return 0;
                   }
           );
           ItemProperties.register(
-                  WOHItems.WAKIZASHI.get(),
+                  WohItems.WAKIZASHI.get(),
                   new ResourceLocation("woh", "wakizashi_unsheathed"),
                   (stack, level, entity, seed) -> {
                       if(entity instanceof Player player) {

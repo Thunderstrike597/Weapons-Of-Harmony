@@ -4,11 +4,11 @@ import com.mojang.logging.LogUtils;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.gameasset.WohWeaponCapabilityPresets;
 import net.kenji.woh.gameasset.WohWeaponCategories;
-import net.kenji.woh.registry.WOHSkills;
-import net.kenji.woh.registry.WOHSounds;
+import net.kenji.woh.registry.WohSkills;
+import net.kenji.woh.registry.WohSounds;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.WohAnimations;
-import net.kenji.woh.registry.WOHItems;
+import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.tabs.WOHTabs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -27,8 +27,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.WeaponCategoryIconRegisterEvent;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
-import yesman.epicfight.gameasset.ColliderPreset;
-import yesman.epicfight.world.capabilities.item.WeaponCapabilityPresets;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -45,10 +43,10 @@ public class WeaponsOfHarmony {
         // (Optional) register lifecycle listeners
         modEventBus.addListener(this::commonSetup);
 
-        WOHItems.register(modEventBus);
+        WohItems.register(modEventBus);
         WOHTabs.register(modEventBus);
         ModEntities.register(modEventBus);
-        WOHSounds.SOUNDS.register(modEventBus);
+        WohSounds.SOUNDS.register(modEventBus);
 
         modEventBus.addListener(WeaponsOfHarmony::RegisterWeaponType);
         WeaponCategory.ENUM_MANAGER.registerEnumCls(MODID, WohWeaponCategories.class);
@@ -59,7 +57,7 @@ public class WeaponsOfHarmony {
 
 
         modEventBus.addListener(WohAnimations::registerAnimations);
-        modEventBus.addListener(WOHSkills::buildSkillEvent);
+        modEventBus.addListener(WohSkills::buildSkillEvent);
         MinecraftForge.EVENT_BUS.addListener(this::addReloadListnerEvent);
 
     }
@@ -79,12 +77,12 @@ public class WeaponsOfHarmony {
     }
     @OnlyIn(Dist.CLIENT)
     public static void regIcon(WeaponCategoryIconRegisterEvent event) {
-        event.registerCategory(WohWeaponCategories.SHOTOGATANA, new ItemStack((ItemLike) WOHItems.SHOTOGATANA.get()));
-        event.registerCategory(WohWeaponCategories.TESSEN, new ItemStack((ItemLike) WOHItems.TESSEN.get()));
-        event.registerCategory(WohWeaponCategories.TSUME, new ItemStack((ItemLike) WOHItems.TSUME.get()));
+        event.registerCategory(WohWeaponCategories.SHOTOGATANA, new ItemStack((ItemLike) WohItems.SHOTOGATANA.get()));
+        event.registerCategory(WohWeaponCategories.TESSEN, new ItemStack((ItemLike) WohItems.TESSEN.get()));
+        event.registerCategory(WohWeaponCategories.TSUME, new ItemStack((ItemLike) WohItems.TSUME.get()));
 
-        event.registerCategory(WohWeaponCategories.WAKIZASHI, new ItemStack((ItemLike) WOHItems.WAKIZASHI.get()));
-        event.registerCategory(WohWeaponCategories.ODACHI, new ItemStack((ItemLike) WOHItems.ODACHI.get()));
+        event.registerCategory(WohWeaponCategories.WAKIZASHI, new ItemStack((ItemLike) WohItems.WAKIZASHI.get()));
+        event.registerCategory(WohWeaponCategories.ODACHI, new ItemStack((ItemLike) WohItems.ODACHI.get()));
     }
     private void addReloadListnerEvent(AddReloadListenerEvent event) {
         event.addListener(new WohColliderPreset());

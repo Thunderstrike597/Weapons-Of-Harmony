@@ -1,28 +1,19 @@
 package net.kenji.woh.mixins;
 
 import net.kenji.woh.gameasset.WohWeaponCategories;
-import net.kenji.woh.registry.animation.ShotogatanaAnimations;
-import net.kenji.woh.registry.animation.TessenAnimations;
-import net.kenji.woh.registry.animation.TsumeAnimations;
-import net.kenji.woh.registry.animation.WakizashiAnimations;
-import net.kenji.woh.render.EnhancedKatanaRender;
+import net.kenji.woh.registry.animation.*;
+import net.kenji.woh.render.ShotogatanaRender;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.guard.GuardSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
@@ -42,7 +33,7 @@ public abstract class GuardSkillMixin {
         guardMotions.put(
                 WohWeaponCategories.SHOTOGATANA,
                 (item, player) -> {
-                    boolean isSheathed = EnhancedKatanaRender.sheathWeapon.getOrDefault(player.getOriginal().getUUID(), false);
+                    boolean isSheathed = ShotogatanaRender.sheathWeapon.getOrDefault(player.getOriginal().getUUID(), false);
                     if (isSheathed) {
                         return ShotogatanaAnimations.SHOTOGATANA_GUARD;
                     } else return ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD;
@@ -71,6 +62,12 @@ public abstract class GuardSkillMixin {
                         return WakizashiAnimations.WAKIZASHI_GUARD;
                     }
                     return WakizashiAnimations.WAKIZASHI_DUAL_GUARD;
+                }
+        );
+        guardMotions.put(
+                WohWeaponCategories.ODACHI,
+                (item, player) -> {
+                    return OdachiAnimations.ODACHI_GUARD;
                 }
         );
     }

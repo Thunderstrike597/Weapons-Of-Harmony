@@ -28,6 +28,9 @@ public class TessenSkillInnate extends WeaponInnateSkill {
 
     public TessenSkillInnate(Builder<? extends Skill> builder) {
         super(builder);
+        this.maxDuration = 420;
+        this.consumption = 20;
+        this.maxStackSize = 1;
     }
 
     @Override
@@ -70,10 +73,8 @@ public class TessenSkillInnate extends WeaponInnateSkill {
 
     @Override
     public void updateContainer(SkillContainer container) {
-
-
+        super.updateContainer(container);
     }
-
 
     @Override
     public void executeOnServer(ServerPlayerPatch executer, FriendlyByteBuf args) {

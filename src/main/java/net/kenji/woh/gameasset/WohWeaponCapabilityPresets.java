@@ -1,6 +1,6 @@
 package net.kenji.woh.gameasset;
 
-import net.kenji.woh.registry.WOHSkills;
+import net.kenji.woh.registry.WohSkills;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.*;
 import net.minecraft.world.InteractionHand;
@@ -43,7 +43,7 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.WALK, ShotogatanaAnimations.SHOTOGATANA_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.RUN, ShotogatanaAnimations.SHOTOGATANA_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_GUARD)
-                .innateSkill(CapabilityItem.Styles.SHEATH, (itemstack) -> WOHSkills.SHEATH_STANCE);
+                .innateSkill(CapabilityItem.Styles.SHEATH, (itemstack) -> WohSkills.SHEATH_STANCE);
         return builder;
     };
 
@@ -99,9 +99,9 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.WALK, TessenAnimations.TESSEN_SKILL_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.BLOCK, TessenAnimations.TESSEN_DUAL_GUARD)
-                .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WOHSkills.FAN_STANCE)
-                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WOHSkills.FAN_STANCE)
-                .innateSkill(CapabilityItem.Styles.RANGED, (itemstack) -> WOHSkills.FAN_STANCE);
+                .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WohSkills.FAN_STANCE)
+                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.FAN_STANCE)
+                .innateSkill(CapabilityItem.Styles.RANGED, (itemstack) -> WohSkills.FAN_STANCE);
 
         return builder;
     };
