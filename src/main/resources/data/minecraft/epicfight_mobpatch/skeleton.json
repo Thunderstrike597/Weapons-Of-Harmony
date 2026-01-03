@@ -6,9 +6,9 @@
         "shotogatana"
       ],
       "livingmotions": {
-        "idle": "woh:biped/living/shotogatana/shotogatana_idle",
-        "walk": "woh:biped/living/shotogatana/shotogatana_walk",
-        "chase": "woh:biped/living/shotogatana/shotogatana_walk"
+        "idle": "woh:biped/living/shotogatana/shotogatana_unsheathed_idle",
+        "walk": "woh:biped/living/shotogatana/shotogatana_unsheathed_walk",
+        "chase": "woh:biped/living/shotogatana/shotogatana_unsheathed_walk"
       },
       "style": "common"
     }

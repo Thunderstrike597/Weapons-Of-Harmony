@@ -169,7 +169,7 @@ public class TsumeAnimations {
                 1F,
                 6F,
                 0.2F,
-                new float[]{0.15F, 0.38F, 0.70F},
+                new float[]{0.0F, 0.38F, 0.70F},
                 new float[]{0.13F, 0.42F, 0.70F},
                 new float[]{0.20F, 0.50F, 0.80F},
                 new float[]{1.18F, 1.18F, 1.18F},

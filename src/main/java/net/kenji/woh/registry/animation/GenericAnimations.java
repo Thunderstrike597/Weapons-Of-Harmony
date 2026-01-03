@@ -59,7 +59,7 @@ public class GenericAnimations {
                 1F,
                 2F,
                 0.25F,
-                new float[]{0.05F},
+                new float[]{0.0F},
                 new float[]{0.07F},
                 new float[]{0.15F},
                 new float[]{0.25F},
