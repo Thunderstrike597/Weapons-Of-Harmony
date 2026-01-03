@@ -105,7 +105,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
             if(player.level().isClientSide && isEndingAttack) {
                 LocalPlayer localPlayer = (LocalPlayer) player;
 
-                localPlayer.input.forwardImpulse = 0;
+                //localPlayer.input.forwardImpulse = 0;
             }
             player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
                 if (cap instanceof ServerPlayerPatch playerPatch) {

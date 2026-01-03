@@ -170,7 +170,6 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
                 return false;
             }
         }
-
         return super.checkExecuteCondition(executor);
     }
 
