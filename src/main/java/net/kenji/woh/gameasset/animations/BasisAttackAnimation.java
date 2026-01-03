@@ -14,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.model.Armature;
@@ -28,15 +29,13 @@ import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
 import yesman.epicfight.world.entity.eventlistener.ComboCounterHandleEvent;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class BasisAttackAnimation extends BasicAttackAnimation {
 
     public static final Map<UUID, Boolean> isAttacking = new HashMap<>();
     private static final Map<UUID, Boolean> isAttackEnding = new HashMap<>();
+    private static final Map<UUID, Boolean> isInAttack = new HashMap<>();
 
     private StaticAnimation endAnimation;
     private boolean ignoreFallDamage = false;
@@ -69,29 +68,31 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
 
     @Override
     protected void attackTick(LivingEntityPatch<?> entitypatch, DynamicAnimation animation) {
-        if(entitypatch instanceof PlayerPatch<?> playerPatch) {
+        if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             float time = playerPatch.getAnimator().getPlayerFor(this).getElapsedTime();
             UUID playerId = playerPatch.getOriginal().getUUID();
-            for(Phase phase : this.phases) {
-                AttributeInstance speed = playerPatch.getOriginal()
-                        .getAttribute(Attributes.MOVEMENT_SPEED);
-                if (time < phase.recovery){
-                    if(playerPatch.getOriginal().level().isClientSide){
-                        Minecraft mc = Minecraft.getInstance();
-                        mc.options.keyUp.setDown(false);
-                        mc.options.keyDown.setDown(false);
-                        mc.options.keyLeft.setDown(false);
-                        mc.options.keyRight.setDown(false);
-                    }
+            AttributeInstance speed = playerPatch.getOriginal()
+                    .getAttribute(Attributes.MOVEMENT_SPEED);
+            Phase phase = phases[phases.length - 1];
+
+            if (time < phase.recovery && time > 0.05F) {
+                isInAttack.putIfAbsent(playerId, true);
+                isAttackEnding.remove(playerId);
+                if (playerPatch.getOriginal().level().isClientSide) {
+                    Minecraft mc = Minecraft.getInstance();
+                    mc.options.keyUp.setDown(false);
+                    mc.options.keyDown.setDown(false);
+                    mc.options.keyLeft.setDown(false);
+                    mc.options.keyRight.setDown(false);
                 }
-                else{
-                    boolean attackEnding = isAttackEnding.getOrDefault(playerId, false);
-                    if(!attackEnding) {
-                        isAttackEnding.put(playerId, true);
-                    }
+            } else if (time > phase.recovery) {
+                isInAttack.remove(playerId);
+                boolean attackEnding = isAttackEnding.getOrDefault(playerId, false);
+                if (!attackEnding) {
+                    isAttackEnding.put(playerId, true);
                 }
             }
-            if(ignoreFallDamage)
+            if (ignoreFallDamage)
                 playerPatch.getOriginal().resetFallDistance();
         }
         super.attackTick(entitypatch, animation);
@@ -101,14 +102,16 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
         @SubscribeEvent
         public static void onPLayerTick(TickEvent.PlayerTickEvent event) {
             Player player = event.player;
-            boolean isEndingAttack = isAttackEnding.getOrDefault(player.getUUID(), false);
-            if(player.level().isClientSide && isEndingAttack) {
+            boolean attacking = isInAttack.getOrDefault(player.getUUID(), false);
+            if(player.level().isClientSide && attacking) {
                 LocalPlayer localPlayer = (LocalPlayer) player;
 
-                //localPlayer.input.forwardImpulse = 0;
             }
             player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
                 if (cap instanceof ServerPlayerPatch playerPatch) {
+                    if( playerPatch.getEntityState().attacking()) {
+                        playerPatch.getEntityState().setState(EntityState.MOVEMENT_LOCKED, true);
+                    }
                     CapabilityItem capItem = playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
                     UUID playerID = playerPatch.getOriginal().getUUID();
                     if (capItem instanceof WeaponCapability weaponCap) {
@@ -142,8 +145,11 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             UUID playerID = playerPatch.getOriginal().getUUID();
             boolean isInAttack = isAttacking.getOrDefault(playerID, false);
-            if (endAnimation != null && nextAnimation != endAnimation && !isInAttack) {
-                playerPatch.playAnimationSynchronized(endAnimation, 0.3f);
+
+            if(isAttackEnding.getOrDefault(playerID, false)) {
+                if (endAnimation != null && nextAnimation != endAnimation && !isInAttack) {
+                    playerPatch.playAnimationSynchronized(endAnimation, 0.3f);
+                }
             }
             isAttacking.remove(playerID);
         }
