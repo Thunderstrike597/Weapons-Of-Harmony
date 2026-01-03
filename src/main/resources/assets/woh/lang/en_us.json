@@ -1,4 +1,5 @@
 {
+  "creativetab.woh": "Weapons Of Harmony",
   "item.woh.z_shotogatana_sheath": "Shotogatana Sheath",
   "item.woh.z_shotogatana_in_sheath": "Sheathed Shotogatana",
 
@@ -22,10 +23,17 @@
   "item.woh.broken_blade": "Broken Blade & Sheath",
   "item.woh.broken_fan_blade": "Broken Fan Blade",
   "item.woh.broken_claws": "Broken Claws",
+  "item.woh.ronin_headwear": "Ronin Headwear",
+  "item.woh.ronin_tunic": "Ronin Tunic",
+  "item.woh.ronin_leggings": "Ronin Leggings",
+  "item.woh.ronin_boots": "Ronin Boots",
 
   "item.woh.shotogatana.tooltip": "A precise blade paired with a siya. \n nimble and capable of cutting through the toughest of armor with style",
   "item.woh.tessen.tooltip": "A nimble war fan that strikes with quick precision. \n this mighty weapon is able to be thrown \nwhen paired with another in the offhand, allowing for ranged attacks",
   "item.woh.tsume.tooltip": "A pair of sharp claws designed with close range swiping attacks in mind.",
+
+  "item.woh.wakizashi.tooltip": "A short and nimble, one sided blade that is capable of being dual wielded",
+  "item.woh.odachi.tooltip": "A large, one sided greatsword that is slow but powerful",
 
   "item.woh.folded_iron.tooltip": "A piece of iron that with much higher density than regular iron. \nAlthough tough, it tends to be fragile without being smelted first",
   "item.woh.folded_steel.tooltip": "A very dense piece of steel",

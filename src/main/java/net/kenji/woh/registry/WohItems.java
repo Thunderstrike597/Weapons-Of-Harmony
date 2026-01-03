@@ -47,7 +47,7 @@ public class WohItems {
     public static final RegistryObject<Item> BROKEN_CLAWS = ITEMS.register("broken_claws", () -> new ResourceItem(new Item.Properties().stacksTo(1), false, ChatFormatting.GRAY));
 
 
-    public static final RegistryObject<Item> METAL_RONIN_HEADWEAR = ITEMS.register("metal_ronin_headwear", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.HELMET));
+    public static final RegistryObject<Item> METAL_RONIN_HEADWEAR = ITEMS.register("ronin_headwear", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.HELMET));
     public static final RegistryObject<Item> RONIN_TUNIC = ITEMS.register("ronin_tunic", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.CHESTPLATE));
     public static final RegistryObject<Item> RONIN_LEGGINGS = ITEMS.register("ronin_leggings", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.LEGGINGS));
     public static final RegistryObject<Item> RONIN_BOOTS = ITEMS.register("ronin_boots", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.BOOTS));

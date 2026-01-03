@@ -26,6 +26,9 @@ import java.util.UUID;
 
 public class TsumeSkillInnate extends WeaponInnateSkill {
 
+    public static Map<UUID, Float> storedResource = new HashMap<>();
+
+
     public TsumeSkillInnate(Builder<? extends Skill> builder) {
         super(builder);
         this.maxDuration = 420;
@@ -51,6 +54,29 @@ public class TsumeSkillInnate extends WeaponInnateSkill {
     @Override
     public void updateContainer(SkillContainer container) {
         super.updateContainer(container);
+    }
+
+
+    @Override
+    public void onInitiate(SkillContainer container) {
+        super.onInitiate(container);
+
+        if (!(container.getExecuter() instanceof ServerPlayerPatch serverPatch)) return;
+
+        UUID playerId = serverPatch.getOriginal().getUUID();
+
+        Float stored = storedResource.get(playerId);
+        if (stored != null) {
+            setConsumptionSynchronize(serverPatch, stored);
+        }
+    }
+    @Override
+    public void onRemoved(SkillContainer container) {
+        if (container.getExecuter().getOriginal() != null) {
+            UUID playerId = container.getExecuter().getOriginal().getUUID();
+
+            storedResource.put(playerId, container.getResource());
+        }
     }
 
     @Override

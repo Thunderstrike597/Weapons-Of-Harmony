@@ -3,6 +3,8 @@ package net.kenji.woh.gameasset;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.item.custom.weapon.Shotogatana;
+import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.registry.WohSkills;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.minecraft.ChatFormatting;
@@ -13,10 +15,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jline.utils.Log;
+import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.client.gui.BattleModeGui;
 import yesman.epicfight.gameasset.EpicFightSkills;
@@ -27,6 +31,7 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -34,8 +39,10 @@ import java.util.UUID;
 public class ShotogatanaSkillInnate extends WeaponInnateSkill {
 
     private static final int REQUIRED_NO_DAMAGE_TICKS = 100; // 5 seconds (20 ticks = 1 second)
-
     private static float resourceTakeAmount = 5;
+
+    public static Map<UUID, Float> storedResource = new HashMap<>();
+
 
     // Track last hurt time per player
     private final Map<UUID, Boolean> wasHurt = Maps.newHashMap();
@@ -56,6 +63,32 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
     public boolean shouldDraw(SkillContainer container) {
         return super.shouldDraw(container);
     }
+    @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+    public static class EventHandler{
+
+        public static Map<UUID, ItemStack> playerItemStacks = new HashMap<>();
+
+        @SubscribeEvent
+        public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+            UUID playerId = event.player.getUUID();
+            Player player = event.player;
+
+            if(storedResource.get(playerId) != null) {
+                float currentResource = storedResource.get(playerId);
+                player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
+                    if(cap instanceof PlayerPatch<?> playerPatch){
+                        if(currentResource != 0){
+                            SkillContainer container = playerPatch.getSkill(WohSkills.SHEATH_STANCE);
+
+
+
+                        }
+                    }
+                });
+            }
+        }
+    }
+
 
     private final Map<StaticAnimation, AttackAnimation> comboAnimation = Maps.newHashMap();
 
@@ -78,20 +111,34 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
 
                 }
             }
+            if(storedResource.get(playerId) == null)
+                storedResource.put(playerId, container.getResource());
+            else storedResource.replace(playerId, container.getResource());
         }
-
 
         super.updateContainer(container);
     }
 
+    @Override
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
-    }
 
+        if (!(container.getExecuter() instanceof ServerPlayerPatch serverPatch)) return;
+
+        UUID playerId = serverPatch.getOriginal().getUUID();
+
+        Float stored = storedResource.get(playerId);
+        if (stored != null) {
+            setConsumptionSynchronize(serverPatch, stored);
+        }
+    }
+    @Override
     public void onRemoved(SkillContainer container) {
         if (container.getExecuter().getOriginal() != null) {
             UUID playerId = container.getExecuter().getOriginal().getUUID();
             wasHurt.remove(playerId);
+
+            storedResource.put(playerId, container.getResource());
         }
     }
 
@@ -126,6 +173,7 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
 
         return super.checkExecuteCondition(executor);
     }
+
 
     @Override
     public List<Component> getTooltipOnItem(ItemStack itemStack, CapabilityItem cap, PlayerPatch<?> playerCap) {

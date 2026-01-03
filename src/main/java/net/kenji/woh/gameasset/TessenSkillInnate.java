@@ -26,6 +26,8 @@ import java.util.UUID;
 
 public class TessenSkillInnate extends WeaponInnateSkill {
 
+    public static Map<UUID, Float> storedResource = new HashMap<>();
+
     public TessenSkillInnate(Builder<? extends Skill> builder) {
         super(builder);
         this.maxDuration = 420;
@@ -71,6 +73,27 @@ public class TessenSkillInnate extends WeaponInnateSkill {
         return true;
     }
 
+    @Override
+    public void onInitiate(SkillContainer container) {
+        super.onInitiate(container);
+
+        if (!(container.getExecuter() instanceof ServerPlayerPatch serverPatch)) return;
+
+        UUID playerId = serverPatch.getOriginal().getUUID();
+
+        Float stored = storedResource.get(playerId);
+        if (stored != null) {
+            setConsumptionSynchronize(serverPatch, stored);
+        }
+    }
+    @Override
+    public void onRemoved(SkillContainer container) {
+        if (container.getExecuter().getOriginal() != null) {
+            UUID playerId = container.getExecuter().getOriginal().getUUID();
+
+            storedResource.put(playerId, container.getResource());
+        }
+    }
 
     @Override
     public void updateContainer(SkillContainer container) {

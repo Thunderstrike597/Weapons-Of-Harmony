@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "woh:item/armor/metal_ronin_headwear"
+    "layer0": "woh:item/armor/ronin_headwear"
   }
 }
