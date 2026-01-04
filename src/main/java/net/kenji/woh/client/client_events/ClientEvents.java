@@ -1,9 +1,5 @@
 package net.kenji.woh.client.client_events;
 
-import net.corruptdog.cdm.world.Render.A_YamatoRender;
-import net.corruptdog.cdm.world.Render.KatanaSheathRenderer;
-import net.corruptdog.cdm.world.Render.PKatanaSheathRenderer;
-import net.corruptdog.cdm.world.Render.YamatoRender;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.client.ModModelLayers;
 import net.kenji.woh.client.enitity_models.ExiledRoninModel;
