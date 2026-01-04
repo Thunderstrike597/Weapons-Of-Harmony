@@ -4,20 +4,24 @@ import net.kenji.woh.api.WOHAnimationUtils;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.registries.RegistryObject;
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.property.AnimationProperty;
+import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.animation.types.BasicAttackAnimation;
+import yesman.epicfight.api.animation.types.DashAttackAnimation;
+import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.utils.math.ValueModifier;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
-import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.model.armature.HumanoidArmature;
-import yesman.epicfight.particle.EpicFightParticles;
 import yesman.epicfight.particle.HitParticleType;
 import yesman.epicfight.world.damagesource.StunType;
 
+import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class WohDashAttackAnimation extends BasisDashAttackAnimation {
@@ -36,9 +40,37 @@ public class WohDashAttackAnimation extends BasisDashAttackAnimation {
     public static float impact = 5.0F;
     public static float basisAttackSpeed = 3.0F;
 
-
-    public WohDashAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, String path, int phaseCount, float convertTime, float attackSpeed, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType) {
-        super(attackType, convertTime, path, biped, buildPhases(phaseCount, start ,antic, contact, recovery, end, swingSound, hitSound, hitParticle));
+    public WohDashAttackAnimation(
+            float convertTime,
+            AnimationManager.AnimationAccessor<? extends DashAttackAnimation>  accessor,  // ADD THIS!
+            WOHAnimationUtils.AttackAnimationType attackType,
+            @Nullable AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,
+            int phaseCount,
+            float attackSpeed,
+            float damage,
+            float impact,
+            float[] start,
+            float[] antic,
+            float[] contact,
+            float[] recovery,
+            float[] end,
+            Supplier<SoundEvent>[] swingSound,
+            Supplier<SoundEvent>[] hitSound,
+            RegistryObject<HitParticleType>[] hitParticle,
+            StunType stunType,
+            Collider[] colliders,
+            Joint[] colliderJoints,
+            boolean ignoreFallDamage
+    ) {
+        super(
+                attackType,
+                convertTime,
+                accessor,            // Pass accessor to parent
+                biped,
+                endAnimation,
+                ignoreFallDamage,
+                buildPhases(phaseCount, start, antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, colliderJoints)
+        );
         this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.setter(damage))
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(impact))
@@ -47,19 +79,19 @@ public class WohDashAttackAnimation extends BasisDashAttackAnimation {
                 .addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true);
     }
 
-    private static Phase[] buildPhases(int phaseCount,  float[] start ,float[] antic, float[] contact, float[] recovery, float[] end,  Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle) {
-        Phase[] phases = new Phase[phaseCount];
+    private static AttackAnimation.Phase[] buildPhases(int phaseCount,  float[] start ,float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, Collider[] colliders, Joint[] colliderJoints) {
+        AttackAnimation.Phase[] phases = new AttackAnimation.Phase[phaseCount];
 
         for(int i = 0; i < phaseCount; i++) {
-            phases[i] = new Phase(
+            phases[i] = new AttackAnimation.Phase(
                     start[i],
                     antic[i],
                     contact[i],
                     recovery[i],
                     end[i],
                     InteractionHand.MAIN_HAND,
-                    colliderJoint,
-                    collider
+                    colliderJoints[i],
+                    colliders[i]
             ).addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound[i].get())
                     .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound[i].get())
                     .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle[i]);
@@ -67,7 +99,4 @@ public class WohDashAttackAnimation extends BasisDashAttackAnimation {
 
         return phases;
     }
-
-
-
 }

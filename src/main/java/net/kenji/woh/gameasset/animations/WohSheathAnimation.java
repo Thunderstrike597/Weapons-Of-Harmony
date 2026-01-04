@@ -1,5 +1,6 @@
 package net.kenji.woh.gameasset.animations;
 
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
@@ -18,8 +19,8 @@ public class WohSheathAnimation extends StaticAnimation {
 
     public float endTimeStamp;
 
-    public WohSheathAnimation(float convertTime, boolean repeat, String path, AssetAccessor<? extends Armature> armature, float endTimeStamp){
-        super(convertTime, repeat, path, armature);
+    public WohSheathAnimation(float convertTime, AnimationManager.AnimationAccessor<StaticAnimation> accessor, AssetAccessor<? extends Armature> armature, float endTimeStamp){
+        super(convertTime, false, accessor, armature);
         this.endTimeStamp = endTimeStamp;
     }
 

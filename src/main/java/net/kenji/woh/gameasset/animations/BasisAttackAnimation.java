@@ -21,6 +21,7 @@ import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.gameasset.EpicFightSkills;
+import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.skill.BasicAttack;
 import yesman.epicfight.skill.SkillDataKeys;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
@@ -49,8 +50,16 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
         this.endAnimation = endAnimation;
         this.attackType = attackType;
     }
-    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, AssetAccessor<? extends Armature> armature, AnimationManager.AnimationAccessor<StaticAnimation> endAnimation, boolean ignoreFallDamage,Phase... phases) {
-        super(convertTime, path, armature, phases);
+    public BasisAttackAnimation(
+            WOHAnimationUtils.AttackAnimationType attackType,
+            float convertTime,
+            AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> accessor,  // ADD THIS!
+            AssetAccessor<? extends HumanoidArmature> armature,
+            AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,
+            boolean ignoreFallDamage,
+            Phase... phases
+    ) {
+        super(convertTime, accessor, armature,phases);  // Pass accessor to BasicAttackAnimation
         this.endAnimation = endAnimation;
         this.ignoreFallDamage = ignoreFallDamage;
         this.attackType = attackType;

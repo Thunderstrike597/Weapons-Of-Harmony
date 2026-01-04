@@ -6,6 +6,7 @@ import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.animation.types.DashAttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
@@ -28,7 +29,7 @@ public class TsumeAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_AUTO_2;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_AUTO_3;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_AUTO_4;
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_DASH;
+    public static AnimationManager.AnimationAccessor<? extends DashAttackAnimation> TSUME_DASH;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_AIRSLASH;
 
     public static AnimationManager.AnimationAccessor<StaticAnimation> TSUME_SKILL_ACTIVATE;
@@ -145,7 +146,7 @@ public class TsumeAnimations {
                 -1,
                 -1
         );
-        TSUME_DASH = WOHAnimationUtils.createAttackAnimation(builder,
+        TSUME_DASH = WOHAnimationUtils.createDashAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.DASH_ATTACK,
                 "biped/combat/tsume/tsume_dash",
                 2,
@@ -164,6 +165,7 @@ public class TsumeAnimations {
                 new Collider[]{WohColliderPreset.TSUME_CLAWS, WohColliderPreset.TSUME_CLAWS},
                 new Joint[]{biped.get().toolR, biped.get().toolL},
                 StunType.SHORT,
+                null,
                 -1,
                 -1
         );

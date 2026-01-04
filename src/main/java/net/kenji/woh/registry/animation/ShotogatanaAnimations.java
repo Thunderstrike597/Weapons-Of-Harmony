@@ -1,8 +1,6 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
-import net.kenji.woh.gameasset.animations.WohSheathAnimation;
 import net.kenji.woh.registry.WohColliderPreset;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
@@ -66,9 +64,9 @@ public class ShotogatanaAnimations {
         SHOTOGATANA_GUARD = builder.nextAccessor("biped/skill/shotogatana/shotogatana_guard", accessor -> new StaticAnimation(true,accessor, biped));
 
         SHOTOGATANA_UNSHEATHED_RUN = builder.nextAccessor("biped/living/shotogatana/shotogatana_unsheathed_run", accessor -> new StaticAnimation(true,accessor, biped));
-        SHOTOGATANA_SHEATH = WOHAnimationUtils.createSheathAnimation(builder,"biped/skill/shotogatana/shotogatana_sheathe", false, 0.1f, 1.73f, null);
-        SHOTOGATANA_SHEATH_ALT1 = WOHAnimationUtils.createSheathAnimation(builder,"biped/skill/shotogatana/shotogatana_sheathe_alt1", false,  0.1f, 2.5f, null);
-        SHOTOGATANA_SHEATH_ALT2 = WOHAnimationUtils.createSheathAnimation(builder,"biped/skill/shotogatana/shotogatana_sheathe_alt2", false,  0.1f, 1.93f, null);
+        SHOTOGATANA_SHEATH = WOHAnimationUtils.createSheathAnimation(builder,"biped/skill/shotogatana/shotogatana_sheathe", 0.1f, 1.73f, null);
+        SHOTOGATANA_SHEATH_ALT1 = WOHAnimationUtils.createSheathAnimation(builder,"biped/skill/shotogatana/shotogatana_sheathe_alt1",   0.1f, 2.5f, null);
+        SHOTOGATANA_SHEATH_ALT2 = WOHAnimationUtils.createSheathAnimation(builder,"biped/skill/shotogatana/shotogatana_sheathe_alt2",  0.1f, 1.93f, null);
 
         SHOTOGATANA_UNSHEATH = WOHAnimationUtils.createLivingAnimation(builder,"biped/skill/shotogatana/shotogatana_unsheathe", false, 0.1f, 0.23f, -1, null);
 
@@ -334,7 +332,7 @@ public class ShotogatanaAnimations {
                 -1
         );
 
-        SHOTOGATANA_DASH = WOHAnimationUtils.createAttackAnimation(builder,
+        SHOTOGATANA_DASH = WOHAnimationUtils.createDashAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.DASH_ATTACK_JUMP,
                 "biped/combat/shotogatana/shotogatana_dash",
                 1,
@@ -353,6 +351,7 @@ public class ShotogatanaAnimations {
                 new Collider[]{ColliderPreset.TACHI},
                 new Joint[]{biped.get().toolR},
                 StunType.LONG,
+                null,
                 0.25f,
                 -1
         );

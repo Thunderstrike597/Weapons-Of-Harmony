@@ -5,6 +5,7 @@ import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.animation.types.DashAttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
@@ -24,7 +25,7 @@ public class GenericAnimations {
 
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> COMBAT_FIST_AUTO_1;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> COMBAT_FIST_AUTO_2;
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> COMBAT_FIST_DASH;
+    public static AnimationManager.AnimationAccessor<? extends DashAttackAnimation> COMBAT_FIST_DASH;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> COMBAT_FIST_AIRKICK;
 
     public static void build(AnimationManager.AnimationBuilder builder){
@@ -78,7 +79,7 @@ public class GenericAnimations {
                 -1,
                 -1
         );
-        COMBAT_FIST_DASH = WOHAnimationUtils.createAttackAnimation(builder,
+        COMBAT_FIST_DASH = WOHAnimationUtils.createDashAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.DASH_ATTACK,
                 "biped/combat/generic/combat_fist_dash",
                 2,
@@ -97,6 +98,7 @@ public class GenericAnimations {
                 new Collider[]{ColliderPreset.FIST, ColliderPreset.FIST},
                 new Joint[]{biped.get().toolL, biped.get().toolR},
                 StunType.LONG,
+                null,
                 -1,
                 -1
         );

@@ -154,7 +154,7 @@ public class OdachiAnimations {
                 -1F,
                 -1F
         );
-        ODACHI_DASH = WOHAnimationUtils.createAttackAnimation(builder,
+        ODACHI_DASH = WOHAnimationUtils.createDashAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.DASH_ATTACK,
                 "biped/combat/odachi/odachi_dash",
                 1,
@@ -173,6 +173,7 @@ public class OdachiAnimations {
                 new Collider[]{ColliderPreset.GREATSWORD},
                 new Joint[]{biped.get().toolR},
                 StunType.LONG,
+                null,
                 -1F,
                 -1F
         );

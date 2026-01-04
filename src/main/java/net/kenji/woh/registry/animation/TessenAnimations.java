@@ -5,6 +5,7 @@ import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.animation.types.DashAttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
@@ -45,7 +46,7 @@ public class TessenAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_SKILL_AUTO_3;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_SKILL_AUTO_4;
 
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_SKILL_DASH;
+    public static AnimationManager.AnimationAccessor<? extends DashAttackAnimation> TESSEN_SKILL_DASH;
 
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_SKILL_AIRSLASH;
 
@@ -396,7 +397,7 @@ public class TessenAnimations {
                 -1,
                 -1
         );
-        TESSEN_SKILL_DASH = WOHAnimationUtils.createAttackAnimation(builder,
+        TESSEN_SKILL_DASH = WOHAnimationUtils.createDashAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP,
                 "biped/combat/tessen/tessen_skill_dash",
                 8,
@@ -415,6 +416,7 @@ public class TessenAnimations {
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
                 new Joint[]{biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR},
                 StunType.SHORT,
+                null,
                 -1,
                 -1
         );

@@ -1,11 +1,11 @@
 package net.kenji.woh.gameasset.animations;
 
 import net.kenji.woh.api.WOHAnimationUtils;
-import yesman.epicfight.api.animation.types.BasicAttackAnimation;
-import yesman.epicfight.api.animation.types.DashAttackAnimation;
-import yesman.epicfight.api.animation.types.DynamicAnimation;
+import yesman.epicfight.api.animation.AnimationManager;
+import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.model.Armature;
+import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
@@ -19,9 +19,17 @@ public class BasisDashAttackAnimation extends DashAttackAnimation {
     private WOHAnimationUtils.AttackAnimationType attackAnimationType;
 
 
-    public BasisDashAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, AssetAccessor<? extends Armature> armature, Phase... phases) {
-        super(convertTime, path, armature, phases);
-        attackAnimationType = attackType;
+    public BasisDashAttackAnimation(
+            WOHAnimationUtils.AttackAnimationType attackType,
+            float convertTime,
+            AnimationManager.AnimationAccessor<? extends DashAttackAnimation> accessor,  // ADD THIS!
+            AssetAccessor<? extends HumanoidArmature> armature,
+            AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,
+            boolean ignoreFallDamage,
+            Phase... phases
+    ) {
+        super(convertTime, accessor.toString(), armature, phases);  // Pass accessor to parent (DashAttackAnimation)
+        this.attackAnimationType = attackType;
     }
 
 
