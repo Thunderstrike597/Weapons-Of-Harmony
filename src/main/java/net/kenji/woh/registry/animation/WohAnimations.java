@@ -1,8 +1,12 @@
 package net.kenji.woh.registry.animation;
 
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.WOHAnimationUtils;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingPhase;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import yesman.epicfight.api.animation.AnimationManager;
 
 
@@ -14,12 +18,18 @@ public class WohAnimations {
         event.newBuilder(WeaponsOfHarmony.MODID, WohAnimations::build);    }
 
     private static void build(AnimationManager.AnimationBuilder builder){
-        GenericAnimations.build();
-        ShotogatanaAnimations.build();
-        TessenAnimations.build();
-        TsumeAnimations.build();
-        WakizashiAnimations.build();
-        OdachiAnimations.build();
+        GenericAnimations.build(builder);
+        ShotogatanaAnimations.build(builder);
+        TessenAnimations.build(builder);
+        TsumeAnimations.build(builder);
+        WakizashiAnimations.build(builder);
+        OdachiAnimations.build(builder);
+
 
     }
+    @SubscribeEvent
+    public static void onCommonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(WOHAnimationUtils::initializeAnimations);
+    }
+
 }

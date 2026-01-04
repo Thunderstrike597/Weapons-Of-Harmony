@@ -265,7 +265,7 @@ public class SkeletonRoninEvents {
                     AnimationPlayer serverAnimator = livingPatch.getServerAnimator().animationPlayer;
                     AnimationPlayer defeatAnimPlayer = livingPatch.getAnimator().getPlayerFor(GenericAnimations.DEFEAT_KNEEL);
                     if(isTransition.getOrDefault(skeleton.getUUID(), false)){
-                      float maxTime = defeatAnimPlayer.getAnimation().getTotalTime();
+                      float maxTime = defeatAnimPlayer.getAnimation().get().getTotalTime();
                        if(defeatAnimPlayer.getElapsedTime() / maxTime > 0.95){
                             isTransition.remove(skeleton.getUUID());
                         }

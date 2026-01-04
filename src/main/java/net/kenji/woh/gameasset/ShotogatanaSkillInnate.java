@@ -20,6 +20,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jline.utils.Log;
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.asset.AssetAccessor;
@@ -91,7 +92,7 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
     }
 
 
-    private final Map<StaticAnimation, AttackAnimation> comboAnimation = Maps.newHashMap();
+    private final Map<AnimationManager.AnimationAccessor<? extends AttackAnimation>, AttackAnimation> comboAnimation = Maps.newHashMap();
 
 
     @Override
@@ -149,7 +150,7 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
             if (next != null) {
                 executor.playAnimationSynchronized(next, 0.0F);
             } else if (!staticAnimation.isBasicAttackAnimation()) {
-                executor.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SKILL_INNATE.getAccessor(), 0.05F);
+                executor.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SKILL_INNATE, 0.05F);
             }
         }
         super.executeOnServer(container, args);
@@ -158,9 +159,12 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
 
     @Override
     public boolean checkExecuteCondition(SkillContainer container) {
-        // First check the base animation conditions
-        ServerPlayerPatch executor = container.getServerExecutor();
+        // Check if we're on server side
+        if (!(container.getExecutor() instanceof ServerPlayerPatch)) {
+            return super.checkExecuteCondition(container);
+        }
 
+        ServerPlayerPatch executor = container.getServerExecutor();
         AssetAccessor<? extends DynamicAnimation> current = executor.getServerAnimator().animationPlayer.getAnimation();
 
         if (current != null) {
@@ -192,19 +196,19 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
     public WeaponInnateSkill registerPropertiesToAnimation() {
         this.comboAnimation.clear();
         this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_1,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_AUTO_5);
+                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_AUTO_5.get());
         this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_2,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3);
+                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3.get());
         this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_3,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_AUTO_6);
+                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_AUTO_6.get());
         this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_4,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3);
+                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3.get());
         this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_5,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_AUTO_6);
+                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_AUTO_6.get());
         this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_6,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3);
+                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3.get());
         this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_4,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_AUTO_6);
+                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_AUTO_6.get());
 
         return this;
     }

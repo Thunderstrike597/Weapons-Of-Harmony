@@ -2,8 +2,6 @@ package net.kenji.woh.mixins;
 
 
 import net.kenji.woh.registry.animation.GenericAnimations;
-import net.kenji.woh.registry.animation.ShotogatanaAnimations;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,7 +17,6 @@ import java.util.List;
 public class EpicFightFistMixin {
 
     @Shadow
-    @Final
     protected static List<AnimationManager.AnimationAccessor<? extends AttackAnimation>> commonAutoAttackMotion;
 
     @Inject(method = "<clinit>", at = @At("TAIL"), remap = false)
@@ -28,12 +25,12 @@ public class EpicFightFistMixin {
         commonAutoAttackMotion.clear();
 
         // Add your custom animations
-        commonAutoAttackMotion.add(GenericAnimations.COMBAT_FIST_AUTO_1.getAccessor());
-        commonAutoAttackMotion.add(GenericAnimations.COMBAT_FIST_AUTO_2.getAccessor());
+        commonAutoAttackMotion.add(GenericAnimations.COMBAT_FIST_AUTO_1);
+        commonAutoAttackMotion.add(GenericAnimations.COMBAT_FIST_AUTO_2);
 
 
-        commonAutoAttackMotion.add(GenericAnimations.COMBAT_FIST_DASH.getAccessor());
-        commonAutoAttackMotion.add(GenericAnimations.COMBAT_FIST_AIRKICK.getAccessor());
+        commonAutoAttackMotion.add(GenericAnimations.COMBAT_FIST_DASH);
+        commonAutoAttackMotion.add(GenericAnimations.COMBAT_FIST_AIRKICK);
 
 
     }

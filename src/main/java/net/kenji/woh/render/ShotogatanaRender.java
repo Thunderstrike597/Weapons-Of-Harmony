@@ -2,7 +2,6 @@ package net.kenji.woh.render;
 
 import com.google.gson.JsonElement;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.gameasset.animations.BasisAirAttackAnimation;
 import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
@@ -25,8 +24,10 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
+import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
@@ -58,11 +59,11 @@ public class ShotogatanaRender extends RenderItemBase {
     private final ItemStack sheathStack;
     private final ItemStack sheathedWeaponStack;
 
-    private StaticAnimation idleSheathAnim = ShotogatanaAnimations.SHOTOGATANA_IDLE;
-    private StaticAnimation walkSheathAnim = ShotogatanaAnimations.SHOTOGATANA_WALK;
+    private AnimationManager.AnimationAccessor<StaticAnimation> idleSheathAnim = ShotogatanaAnimations.SHOTOGATANA_IDLE;
+    private AnimationManager.AnimationAccessor<StaticAnimation> walkSheathAnim = ShotogatanaAnimations.SHOTOGATANA_WALK;
 
-    private StaticAnimation sheathAnim = ShotogatanaAnimations.SHOTOGATANA_SHEATH;
-    private StaticAnimation unsheathAnim = ShotogatanaAnimations.SHOTOGATANA_UNSHEATH;
+    private AnimationManager.AnimationAccessor<StaticAnimation> sheathAnim = ShotogatanaAnimations.SHOTOGATANA_SHEATH;
+    private AnimationManager.AnimationAccessor<StaticAnimation> unsheathAnim = ShotogatanaAnimations.SHOTOGATANA_UNSHEATH;
 
     public ShotogatanaRender(JsonElement jsonElement) {
         super(jsonElement);
@@ -94,9 +95,9 @@ public class ShotogatanaRender extends RenderItemBase {
                 if (cap instanceof PlayerPatch<?> patch) {
                     boolean sheathed = sheathWeapon.getOrDefault(playerId, false);
                     if (sheathed)
-                        patch.getAnimator().addLivingAnimation(LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_GUARD.getAccessor());
+                        patch.getAnimator().addLivingAnimation(LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_GUARD);
                     else
-                        patch.getAnimator().addLivingAnimation(LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD.getAccessor());
+                        patch.getAnimator().addLivingAnimation(LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD);
                 }
             });
         }
@@ -134,7 +135,7 @@ public class ShotogatanaRender extends RenderItemBase {
                         boolean isAirAttacking = BasisAirAttackAnimation.isAttacking.getOrDefault(playerID, false);
                         if (!isAttacking && !isAirAttacking) {
                             if (WohSheathAnimation.shouldAnimReplay.getOrDefault(playerID, true)) {
-                                playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH.getAccessor(), 0.2F);
+                                playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
                             }
                         }
                     }

@@ -117,7 +117,7 @@ public class TessenSkillInnate extends WeaponInnateSkill {
             super.executeOnServer(container, args);
             executor.getSkill(this).activate();
             executor.modifyLivingMotionByCurrentItem(false);
-            executor.playAnimationSynchronized(TessenAnimations.TESSEN_SKILL_ACTIVATE.getAccessor(), 0.15F);
+            executor.playAnimationSynchronized(TessenAnimations.TESSEN_SKILL_ACTIVATE, 0.15F);
         }
     }
     @Override
@@ -128,7 +128,7 @@ public class TessenSkillInnate extends WeaponInnateSkill {
         executor.getSkill(this).deactivate();
         super.cancelOnServer(container, args);
         executor.modifyLivingMotionByCurrentItem(false);
-        executor.playAnimationSynchronized(TessenAnimations.TESSEN_SKILL_DEACTIVATE.getAccessor(), 0.15F);
+        executor.playAnimationSynchronized(TessenAnimations.TESSEN_SKILL_DEACTIVATE, 0.15F);
           if(executor.getSkill(this) != null) {
               setConsumptionSynchronize(container,0);
               setStackSynchronize(container, 0);

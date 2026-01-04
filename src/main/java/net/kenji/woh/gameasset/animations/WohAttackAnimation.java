@@ -4,6 +4,7 @@ import net.kenji.woh.api.WOHAnimationUtils;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.registries.RegistryObject;
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.AttackAnimation;
@@ -21,6 +22,7 @@ import yesman.epicfight.particle.HitParticleType;
 import yesman.epicfight.world.damagesource.StunType;
 
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public class WohAttackAnimation extends BasisAttackAnimation {
 
@@ -38,8 +40,8 @@ public class WohAttackAnimation extends BasisAttackAnimation {
     public SoundEvent swingSound = EpicFightSounds.WHOOSH.get();
     public RegistryObject<HitParticleType> hitParticle = EpicFightParticles.HIT_BLADE;
 
-    public WohAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, String path, @Nullable StaticAnimation endAnimation, int phaseCount, float convertTime, float attackSpeed, float damage, float impact, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, SoundEvent[] swingSound, SoundEvent[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean ignoreFallDamage) {
-        super(attackType, convertTime, path, biped, endAnimation, ignoreFallDamage, buildPhases(phaseCount, start ,antic, contact, recovery, end, hitSound, swingSound, hitParticle, colliders, colliderJoints));
+    public WohAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, String path, @Nullable AnimationManager.AnimationAccessor<StaticAnimation> endAnimation, int phaseCount, float convertTime, float attackSpeed, float damage, float impact, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean ignoreFallDamage) {
+        super(attackType, convertTime, path, biped, endAnimation, ignoreFallDamage, buildPhases(phaseCount, start ,antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, colliderJoints));
         this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.setter(damage))
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(impact))
@@ -51,7 +53,7 @@ public class WohAttackAnimation extends BasisAttackAnimation {
                 .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false);
     }
 
-    private static AttackAnimation.Phase[] buildPhases(int phaseCount,  float[] start ,float[] antic, float[] contact, float[] recovery, float[] end, SoundEvent[] hitSound, SoundEvent[] swingSound, RegistryObject<HitParticleType>[] hitParticle, Collider[] colliders, Joint[] colliderJoints) {
+    private static AttackAnimation.Phase[] buildPhases(int phaseCount,  float[] start ,float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, Collider[] colliders, Joint[] colliderJoints) {
         AttackAnimation.Phase[] phases = new AttackAnimation.Phase[phaseCount];
 
         for(int i = 0; i < phaseCount; i++) {
@@ -64,8 +66,8 @@ public class WohAttackAnimation extends BasisAttackAnimation {
                     InteractionHand.MAIN_HAND,
                     colliderJoints[i],
                     colliders[i]
-            ).addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound[i])
-                    .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound[i])
+            ).addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound[i].get())
+                    .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound[i].get())
                     .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle[i]);
         }
 

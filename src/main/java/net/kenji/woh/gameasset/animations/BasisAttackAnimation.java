@@ -39,17 +39,17 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
     private static final Map<UUID, Boolean> isAttackEnding = new HashMap<>();
     private static final Map<UUID, Boolean> isInAttack = new HashMap<>();
 
-    private StaticAnimation endAnimation;
+    private AnimationManager.AnimationAccessor<StaticAnimation> endAnimation;
     private boolean ignoreFallDamage = false;
 
     public WOHAnimationUtils.AttackAnimationType attackType = null;
 
-    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, AssetAccessor<? extends Armature> armature, StaticAnimation endAnimation,Phase... phases) {
+    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, AssetAccessor<? extends Armature> armature, AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,Phase... phases) {
         super(convertTime, path, armature, phases);
         this.endAnimation = endAnimation;
         this.attackType = attackType;
     }
-    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, AssetAccessor<? extends Armature> armature, StaticAnimation endAnimation, boolean ignoreFallDamage,Phase... phases) {
+    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, AssetAccessor<? extends Armature> armature, AnimationManager.AnimationAccessor<StaticAnimation> endAnimation, boolean ignoreFallDamage,Phase... phases) {
         super(convertTime, path, armature, phases);
         this.endAnimation = endAnimation;
         this.ignoreFallDamage = ignoreFallDamage;
@@ -154,7 +154,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
 
             if(isAttackEnding.getOrDefault(playerID, false)) {
                 if (endAnimation != null && nextAnimation != endAnimation && !isInAttack) {
-                    playerPatch.playAnimationSynchronized(endAnimation.getRealAnimation(), 0.3f);
+                    playerPatch.playAnimationSynchronized(endAnimation, 0.3f);
                 }
             }
             isAttacking.remove(playerID);

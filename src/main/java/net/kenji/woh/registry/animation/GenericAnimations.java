@@ -2,7 +2,9 @@ package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
+import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
@@ -13,23 +15,25 @@ import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.particle.EpicFightParticles;
 import yesman.epicfight.world.damagesource.StunType;
 
+import java.util.function.Supplier;
+
 
 public class GenericAnimations {
-    public static StaticAnimation DEFEAT_IDLE;
-    public static StaticAnimation DEFEAT_KNEEL;
+    public static AnimationManager.AnimationAccessor<StaticAnimation> DEFEAT_IDLE;
+    public static AnimationManager.AnimationAccessor<StaticAnimation> DEFEAT_KNEEL;
 
-    public static StaticAnimation COMBAT_FIST_AUTO_1;
-    public static StaticAnimation COMBAT_FIST_AUTO_2;
-    public static StaticAnimation COMBAT_FIST_DASH;
-    public static StaticAnimation COMBAT_FIST_AIRKICK;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> COMBAT_FIST_AUTO_1;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> COMBAT_FIST_AUTO_2;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> COMBAT_FIST_DASH;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> COMBAT_FIST_AIRKICK;
 
-    public static void build(){
+    public static void build(AnimationManager.AnimationBuilder builder){
         AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
 
-        DEFEAT_IDLE = (new StaticAnimation(0.35f, true, "biped/living/generic/defeat_idle", biped));
-        DEFEAT_KNEEL = (new StaticAnimation(0.35f, false, "biped/living/generic/defeat_kneel", biped));
+        DEFEAT_IDLE = builder.nextAccessor("biped/living/generic/defeat_idle", accessor -> new StaticAnimation(true,accessor, biped));
+        DEFEAT_KNEEL = builder.nextAccessor("biped/living/generic/defeat_kneel", accessor -> new StaticAnimation(true,accessor, biped));
 
-        COMBAT_FIST_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
+        COMBAT_FIST_AUTO_1 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
                 "biped/combat/generic/combat_fist_auto_1",
                 1,
@@ -42,8 +46,8 @@ public class GenericAnimations {
                 new float[]{0.4F},
                 new float[]{0.6F},
                 new float[]{0.8F},
-                new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
-                new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get()},
+                new Supplier[]{EpicFightSounds.WHOOSH},
+                new Supplier[]{EpicFightSounds.BLUNT_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.FIST},
                 new Joint[]{biped.get().toolR},
@@ -52,7 +56,7 @@ public class GenericAnimations {
                 -1
         );
 
-        COMBAT_FIST_AUTO_2 = WOHAnimationUtils.createAttackAnimation(
+        COMBAT_FIST_AUTO_2 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
                 "biped/combat/generic/combat_fist_auto_2",
                 1,
@@ -65,8 +69,8 @@ public class GenericAnimations {
                 new float[]{0.15F},
                 new float[]{0.25F},
                 new float[]{0.45F},
-                new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
-                new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get()},
+                new Supplier[]{EpicFightSounds.WHOOSH},
+                new Supplier[]{EpicFightSounds.BLUNT_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.FIST},
                 new Joint[]{biped.get().toolL},
@@ -74,7 +78,7 @@ public class GenericAnimations {
                 -1,
                 -1
         );
-        COMBAT_FIST_DASH = WOHAnimationUtils.createAttackAnimation(
+        COMBAT_FIST_DASH = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.DASH_ATTACK,
                 "biped/combat/generic/combat_fist_dash",
                 2,
@@ -87,8 +91,8 @@ public class GenericAnimations {
                 new float[]{0.1F, 0.5F},
                 new float[]{0.15F, 0.95F},
                 new float[]{0.2F, 1F},
-                new SoundEvent[]{EpicFightSounds.WHOOSH.get(), EpicFightSounds.WHOOSH.get()},
-                new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get(), EpicFightSounds.BLUNT_HIT.get()},
+                new Supplier[]{EpicFightSounds.WHOOSH, EpicFightSounds.WHOOSH},
+                new Supplier[]{EpicFightSounds.BLUNT_HIT, EpicFightSounds.BLUNT_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT, EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.FIST, ColliderPreset.FIST},
                 new Joint[]{biped.get().toolL, biped.get().toolR},
@@ -96,7 +100,7 @@ public class GenericAnimations {
                 -1,
                 -1
         );
-        COMBAT_FIST_AIRKICK = WOHAnimationUtils.createAirAttackAnimation(
+        COMBAT_FIST_AIRKICK = WOHAnimationUtils.createAirAttackAnimation(builder,
                 "biped/combat/generic/combat_fist_airkick",
                 1,
                 0.1F,
@@ -108,8 +112,8 @@ public class GenericAnimations {
                 new float[]{0.18F},
                 new float[]{0.25F},
                 new float[]{0.8F},
-                new SoundEvent[]{EpicFightSounds.WHOOSH_ROD.get()},
-                new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get()},
+                new Supplier[]{EpicFightSounds.WHOOSH_ROD},
+                new Supplier[]{EpicFightSounds.BLUNT_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
                 StunType.SHORT,
                 new Collider[]{ColliderPreset.FIST},

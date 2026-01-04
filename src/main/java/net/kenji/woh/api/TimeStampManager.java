@@ -62,7 +62,7 @@ public class TimeStampManager {
                 .getCompositeLayer(priority)
                 .animationPlayer;
 
-        float total = animPlayer.getAnimation().getTotalTime();
+        float total = animPlayer.getAnimation().get().getTotalTime();
         float elapsed = animPlayer.getElapsedTime();
         return Mth.clamp(elapsed / total, 0f, 1f);
     }

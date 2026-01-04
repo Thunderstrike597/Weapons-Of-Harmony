@@ -31,7 +31,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
-            args '-mixin.config=mixins.woh.json'
+            //args '-mixin.config=mixins.woh.json'
 
             mods {
                 "${mod_id}" {
@@ -96,7 +96,7 @@ mixin {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:1.20.1-47.3.10"
+    minecraft "net.minecraftforge:forge:1.20.1-47.4.10"
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
