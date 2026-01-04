@@ -15,8 +15,10 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jline.utils.Log;
-import yesman.epicfight.api.animation.AnimationProvider;
+import yesman.epicfight.api.animation.AnimationManager;
+import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.types.*;
+import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.BasicAttack;
@@ -42,12 +44,12 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
 
     public WOHAnimationUtils.AttackAnimationType attackType = null;
 
-    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, Armature armature, StaticAnimation endAnimation,Phase... phases) {
+    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, AssetAccessor<? extends Armature> armature, StaticAnimation endAnimation,Phase... phases) {
         super(convertTime, path, armature, phases);
         this.endAnimation = endAnimation;
         this.attackType = attackType;
     }
-    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, Armature armature, StaticAnimation endAnimation, boolean ignoreFallDamage,Phase... phases) {
+    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, AssetAccessor<? extends Armature> armature, StaticAnimation endAnimation, boolean ignoreFallDamage,Phase... phases) {
         super(convertTime, path, armature, phases);
         this.endAnimation = endAnimation;
         this.ignoreFallDamage = ignoreFallDamage;
@@ -66,34 +68,38 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
             AttributeModifier.Operation.MULTIPLY_TOTAL
     );
 
-    @Override
-    protected void attackTick(LivingEntityPatch<?> entitypatch, DynamicAnimation animation) {
-        if (entitypatch instanceof PlayerPatch<?> playerPatch) {
-            float time = playerPatch.getAnimator().getPlayerFor(this).getElapsedTime();
-            UUID playerId = playerPatch.getOriginal().getUUID();
-            AttributeInstance speed = playerPatch.getOriginal()
-                    .getAttribute(Attributes.MOVEMENT_SPEED);
-            Phase phase = phases[phases.length - 1];
 
-            if (time < phase.recovery && time > 0.05F) {
-                isInAttack.putIfAbsent(playerId, true);
-                isAttackEnding.remove(playerId);
-                if (playerPatch.getOriginal().level().isClientSide) {
-                    Minecraft mc = Minecraft.getInstance();
-                    mc.options.keyUp.setDown(false);
-                    mc.options.keyDown.setDown(false);
-                    mc.options.keyLeft.setDown(false);
-                    mc.options.keyRight.setDown(false);
+    @Override
+    protected void attackTick(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> animation) {
+        if (entitypatch instanceof PlayerPatch<?> playerPatch) {
+            AnimationPlayer animPlayer = playerPatch.getAnimator().getPlayerFor(this.accessor);
+            if (animPlayer != null) {
+                float time = animPlayer.getElapsedTime();
+                        UUID playerId = playerPatch.getOriginal().getUUID();
+                AttributeInstance speed = playerPatch.getOriginal()
+                        .getAttribute(Attributes.MOVEMENT_SPEED);
+                Phase phase = phases[phases.length - 1];
+
+                if (time < phase.recovery && time > 0.05F) {
+                    isInAttack.putIfAbsent(playerId, true);
+                    isAttackEnding.remove(playerId);
+                    if (playerPatch.getOriginal().level().isClientSide) {
+                        Minecraft mc = Minecraft.getInstance();
+                        mc.options.keyUp.setDown(false);
+                        mc.options.keyDown.setDown(false);
+                        mc.options.keyLeft.setDown(false);
+                        mc.options.keyRight.setDown(false);
+                    }
+                } else if (time > phase.recovery) {
+                    isInAttack.remove(playerId);
+                    boolean attackEnding = isAttackEnding.getOrDefault(playerId, false);
+                    if (!attackEnding) {
+                        isAttackEnding.put(playerId, true);
+                    }
                 }
-            } else if (time > phase.recovery) {
-                isInAttack.remove(playerId);
-                boolean attackEnding = isAttackEnding.getOrDefault(playerId, false);
-                if (!attackEnding) {
-                    isAttackEnding.put(playerId, true);
-                }
+                if (ignoreFallDamage)
+                    playerPatch.getOriginal().resetFallDistance();
             }
-            if (ignoreFallDamage)
-                playerPatch.getOriginal().resetFallDistance();
         }
         super.attackTick(entitypatch, animation);
     }
@@ -117,7 +123,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                     if (capItem instanceof WeaponCapability weaponCap) {
                         boolean isSheathed = ShotogatanaRender.sheathWeapon.getOrDefault(playerID, false);
                         if (!isSheathed) {
-                            List<AnimationProvider<?>> autoAttackMotion = weaponCap.getAutoAttckMotion(playerPatch);
+                            List<AnimationManager.AnimationAccessor<? extends AttackAnimation>> autoAttackMotion = weaponCap.getAutoAttackMotion(playerPatch);
                             for(int i = 0; i < autoAttackMotion.size(); i++) {
                                 if(autoAttackMotion.get(i) instanceof BasisAttackAnimation basisAttackAnimation) {
                                     if(basisAttackAnimation.attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH) {
@@ -126,7 +132,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                                            BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.ANOTHER_ACTION_ANIMATION,
                                                    playerPatch,
                                                    playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK),
-                                                   autoAttackMotion.get(i).get(),
+                                                   autoAttackMotion.get(i),
                                                    i + 1
                                            );
                                        }
@@ -141,14 +147,14 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
     }
 
     @Override
-    public void end(LivingEntityPatch<?> entitypatch, DynamicAnimation nextAnimation, boolean isEnd) {
+    public void end(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> nextAnimation, boolean isEnd) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             UUID playerID = playerPatch.getOriginal().getUUID();
             boolean isInAttack = isAttacking.getOrDefault(playerID, false);
 
             if(isAttackEnding.getOrDefault(playerID, false)) {
                 if (endAnimation != null && nextAnimation != endAnimation && !isInAttack) {
-                    playerPatch.playAnimationSynchronized(endAnimation, 0.3f);
+                    playerPatch.playAnimationSynchronized(endAnimation.getRealAnimation(), 0.3f);
                 }
             }
             isAttacking.remove(playerID);

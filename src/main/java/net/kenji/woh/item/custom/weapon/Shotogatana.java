@@ -31,7 +31,7 @@ public class Shotogatana extends HolsterBaseItem {
             holsterRotation
     );
     public static JointPair holsterJoints = new JointPair(
-            () -> Armatures.BIPED.rootJoint,
+            () -> Armatures.BIPED.get().rootJoint,
             () -> null
     );
 

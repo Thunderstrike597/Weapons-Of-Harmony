@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 import org.jline.utils.Log;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.*;
+import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.client.gui.BattleModeGui;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.*;
@@ -47,7 +48,7 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
     // Track last hurt time per player
     private final Map<UUID, Boolean> wasHurt = Maps.newHashMap();
 
-    public ShotogatanaSkillInnate(Skill.Builder<? extends Skill> builder) {
+    public ShotogatanaSkillInnate(SkillBuilder<? extends WeaponInnateSkill> builder) {
         super(builder);
         this.consumption = 20F;
         this.maxStackSize = 1;
@@ -92,22 +93,17 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
 
     private final Map<StaticAnimation, AttackAnimation> comboAnimation = Maps.newHashMap();
 
-    @Override
-    public boolean canExecute(PlayerPatch<?> executer) {
-        // Just call super - it will check our checkExecuteCondition() + resources
-        return super.canExecute(executer);
-    }
 
     @Override
     public void updateContainer(SkillContainer container) {
-        if (container.getExecuter().getOriginal() != null) {
-            Player player = container.getExecuter().getOriginal();
+        if (container.getExecutor().getOriginal() != null) {
+            Player player = container.getExecutor().getOriginal();
             UUID playerId = player.getUUID();
             // Reset cooldown when hurt
             if (player.hurtMarked) {
-                if(container.getExecuter() instanceof ServerPlayerPatch serverPlayerPatch){
-                    setConsumptionSynchronize(serverPlayerPatch, container.getResource() - resourceTakeAmount);
-                    setStackSynchronize(serverPlayerPatch, container.getStack() - 1);
+                if(container.getExecutor() instanceof ServerPlayerPatch serverPlayerPatch){
+                    setConsumptionSynchronize(container, container.getResource() - resourceTakeAmount);
+                    setStackSynchronize(container, container.getStack() - 1);
 
                 }
             }
@@ -123,19 +119,19 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
 
-        if (!(container.getExecuter() instanceof ServerPlayerPatch serverPatch)) return;
+        if (!(container.getExecutor() instanceof ServerPlayerPatch serverPatch)) return;
 
         UUID playerId = serverPatch.getOriginal().getUUID();
 
         Float stored = storedResource.get(playerId);
         if (stored != null) {
-            setConsumptionSynchronize(serverPatch, stored);
+            setConsumptionSynchronize(container, stored);
         }
     }
     @Override
     public void onRemoved(SkillContainer container) {
-        if (container.getExecuter().getOriginal() != null) {
-            UUID playerId = container.getExecuter().getOriginal().getUUID();
+        if (container.getExecutor().getOriginal() != null) {
+            UUID playerId = container.getExecutor().getOriginal().getUUID();
             wasHurt.remove(playerId);
 
             storedResource.put(playerId, container.getResource());
@@ -143,34 +139,38 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
     }
 
     @Override
-    public void executeOnServer(ServerPlayerPatch executer, FriendlyByteBuf args) {
-        DynamicAnimation current =
-                executer.getServerAnimator().animationPlayer.getAnimation();
+    public void executeOnServer(SkillContainer container, FriendlyByteBuf args) {
+       ServerPlayerPatch executor = container.getServerExecutor();
+        AssetAccessor<? extends DynamicAnimation> current =
+                executor.getServerAnimator().animationPlayer.getAnimation();
 
         if (current instanceof StaticAnimation staticAnimation) {
-            AttackAnimation next = this.comboAnimation.get(staticAnimation);
+            AssetAccessor<? extends StaticAnimation> next = this.comboAnimation.get(staticAnimation).getAccessor();
             if (next != null) {
-                executer.playAnimationSynchronized(next, 0.0F);
+                executor.playAnimationSynchronized(next, 0.0F);
             } else if (!staticAnimation.isBasicAttackAnimation()) {
-                executer.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SKILL_INNATE, 0.05F);
+                executor.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SKILL_INNATE.getAccessor(), 0.05F);
             }
         }
-        super.executeOnServer(executer, args);
+        super.executeOnServer(container, args);
     }
 
+
     @Override
-    public boolean checkExecuteCondition(PlayerPatch<?> executor) {
+    public boolean checkExecuteCondition(SkillContainer container) {
         // First check the base animation conditions
-        DynamicAnimation current = executor.getAnimator().getPlayerFor(null).getAnimation();
+        ServerPlayerPatch executor = container.getServerExecutor();
+
+        AssetAccessor<? extends DynamicAnimation> current = executor.getServerAnimator().animationPlayer.getAnimation();
 
         if (current != null) {
-            StaticAnimation staticAnim = (StaticAnimation) current.getRealAnimation();
+            StaticAnimation staticAnim = (StaticAnimation) current;
             // Only allow if in combo OR if it's a basic attack animation
             if (!this.comboAnimation.containsKey(staticAnim) && staticAnim.isBasicAttackAnimation()) {
                 return false;
             }
         }
-        return super.checkExecuteCondition(executor);
+        return super.checkExecuteCondition(container);
     }
 
 

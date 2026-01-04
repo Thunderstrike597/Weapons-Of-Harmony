@@ -51,7 +51,7 @@ public class OffHandHolsteredItemLayer<T extends Player, M extends PlayerModel<T
                 HumanoidArmature armature = (HumanoidArmature) patch.getArmature();
 
 
-                OpenMatrix4f bodyMatrix = armature.getBindedTransformFor(patch.getAnimator().getPose(1), Armatures.BIPED.chest);
+                OpenMatrix4f bodyMatrix = armature.getBoundTransformFor(patch.getAnimator().getPose(1), Armatures.BIPED.get().chest);
 
 
                 ItemStack offHandStack = player.getOffhandItem();

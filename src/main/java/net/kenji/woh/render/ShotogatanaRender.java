@@ -1,6 +1,8 @@
 package net.kenji.woh.render;
 
+import com.google.gson.JsonElement;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.gameasset.animations.BasisAirAttackAnimation;
 import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
@@ -17,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -24,10 +27,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
+import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.client.animation.Layer;
+import yesman.epicfight.api.utils.math.MathUtils;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.renderer.patched.item.RenderItemBase;
+import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
@@ -35,7 +42,9 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Function;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ShotogatanaRender extends RenderItemBase {
@@ -55,41 +64,44 @@ public class ShotogatanaRender extends RenderItemBase {
     private StaticAnimation sheathAnim = ShotogatanaAnimations.SHOTOGATANA_SHEATH;
     private StaticAnimation unsheathAnim = ShotogatanaAnimations.SHOTOGATANA_UNSHEATH;
 
-    public ShotogatanaRender() {
+    public ShotogatanaRender(JsonElement jsonElement) {
+        super(jsonElement);
         this.katana = new ItemStack((ItemLike) WohItems.SHOTOGATANA.get());
         this.sheathStack = new ItemStack((ItemLike) WohItems.SHOTOGATANA_SHEATH.get());
         this.sheathedWeaponStack = new ItemStack((ItemLike) WohItems.SHOTOGATANA_IN_SHEATH.get());
     }
 
-        @SubscribeEvent
-        public static void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
-           UUID playerId = event.getEntity().getUUID();
-           sheathWeapon.remove(playerId);
-            hasSetupWeapon.remove(playerId);
-        }
+    @SubscribeEvent
+    public static void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
+        UUID playerId = event.getEntity().getUUID();
+        sheathWeapon.remove(playerId);
+        hasSetupWeapon.remove(playerId);
+    }
+
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         UUID playerId = event.player.getUUID();
         Player player = event.player;
         boolean hasSetup = hasSetupWeapon.getOrDefault(playerId, false);
-        if(event.player.getMainHandItem().getItem() == WohItems.SHOTOGATANA.get()){
-            if(!hasSetup){
+        if (event.player.getMainHandItem().getItem() == WohItems.SHOTOGATANA.get()) {
+            if (!hasSetup) {
                 sheathWeapon.put(playerId, true);
                 hasSetupWeapon.put(playerId, true);
             }
         }
-        if(player.getMainHandItem().getItem() instanceof Shotogatana) {
+        if (player.getMainHandItem().getItem() instanceof Shotogatana) {
             player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
                 if (cap instanceof PlayerPatch<?> patch) {
                     boolean sheathed = sheathWeapon.getOrDefault(playerId, false);
                     if (sheathed)
-                        patch.getAnimator().addLivingAnimation(LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_GUARD);
+                        patch.getAnimator().addLivingAnimation(LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_GUARD.getAccessor());
                     else
-                        patch.getAnimator().addLivingAnimation(LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD);
+                        patch.getAnimator().addLivingAnimation(LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD.getAccessor());
                 }
             });
         }
     }
+
     @SubscribeEvent
     public static void onDeath(PlayerEvent.PlayerRespawnEvent event) {
         UUID playerId = event.getEntity().getUUID();
@@ -107,29 +119,29 @@ public class ShotogatanaRender extends RenderItemBase {
             AnimationPlayer animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.LOWEST).animationPlayer;
             AnimationPlayer highAnimPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
 
-            if(animPlayer.getAnimation() != idleSheathAnim && animPlayer.getAnimation() != walkSheathAnim) {
+            if (animPlayer.getAnimation() != idleSheathAnim && animPlayer.getAnimation() != walkSheathAnim) {
                 animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.MIDDLE).animationPlayer;
             }
-            if(animPlayer.getAnimation() != idleSheathAnim && animPlayer.getAnimation() != walkSheathAnim) {
+            if (animPlayer.getAnimation() != idleSheathAnim && animPlayer.getAnimation() != walkSheathAnim) {
                 animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
             }
 
 
-            if(!animPlayer.getAnimation().isBasicAttackAnimation() && !(highAnimPlayer.getAnimation() instanceof WohSheathAnimation)) {
-                if(playerPatch.getSkill(WohSkills.SHEATH_STANCE) != null) {
+            if (!animPlayer.getAnimation().get().isBasicAttackAnimation() && !(highAnimPlayer.getAnimation() instanceof WohSheathAnimation)) {
+                if (playerPatch.getSkill(WohSkills.SHEATH_STANCE) != null) {
                     if (!isSheathed && !playerPatch.getSkill(WohSkills.SHEATH_STANCE).isActivated()) {
                         boolean isAttacking = BasisAttackAnimation.isAttacking.getOrDefault(playerID, false);
                         boolean isAirAttacking = BasisAirAttackAnimation.isAttacking.getOrDefault(playerID, false);
                         if (!isAttacking && !isAirAttacking) {
                             if (WohSheathAnimation.shouldAnimReplay.getOrDefault(playerID, true)) {
-                                playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
+                                playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH.getAccessor(), 0.2F);
                             }
                         }
                     }
                 }
             }
 
-            if(isSheathed){
+            if (isSheathed) {
                 return sheathedWeaponStack;
             }
         }
@@ -137,105 +149,26 @@ public class ShotogatanaRender extends RenderItemBase {
         return sheathStack;
     }
 
-
     @Override
-    public void renderItemInHand(
-            ItemStack stack,
-            LivingEntityPatch<?> entitypatch,
-            InteractionHand hand,
-            HumanoidArmature armature,
-            OpenMatrix4f[] poses,
-            MultiBufferSource buffer,
-            PoseStack poseStack,
-            int packedLight,
-            float partialTicks
-    ) {
+    public void renderItemInHand(ItemStack stack, LivingEntityPatch<?> entitypatch, InteractionHand hand, OpenMatrix4f[] poses, MultiBufferSource buffer, PoseStack poseStack, int packedLight, float partialTicks) {
+
+        OpenMatrix4f modelMatrixMainHand = this.getCorrectionMatrix(entitypatch, InteractionHand.MAIN_HAND, poses);
+        OpenMatrix4f modelMatrixOffHand = this.getCorrectionMatrix(entitypatch, InteractionHand.OFF_HAND, poses);
+
         ItemStack sheathItem = getStack(entitypatch);
         boolean sheathed = (sheathItem == sheathedWeaponStack);
 
-        if (entitypatch.getOriginal() instanceof Player) {
-            if (!sheathed) {
-                // Only render katana in hand when NOT in_sheath
-                OpenMatrix4f modelMatrix = new OpenMatrix4f(this.mainhandcorrectionMatrix);
-                modelMatrix.mulFront(poses[armature.toolR.getId()]);
-                poseStack.pushPose();
-                this.mulPoseStack(poseStack, modelMatrix);
-
-                Minecraft.getInstance().getItemRenderer().renderStatic(
-                        katana,
-                        ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
-                        packedLight,
-                        OverlayTexture.NO_OVERLAY,
-                        poseStack,
-                        buffer,
-                        null,
-                        0
-                );
-
-                poseStack.popPose();
-            }
-
-            // ---------------------------
-            // LEFT HAND (sheath side)
-            // ---------------------------
-            OpenMatrix4f matrixL = new OpenMatrix4f(this.mainhandcorrectionMatrix);
-            matrixL.mulFront(poses[armature.toolL.getId()]);
+        if (!sheathed || !(entitypatch instanceof PlayerPatch<?>)) {
             poseStack.pushPose();
-            this.mulPoseStack(poseStack, matrixL);
-
-            Minecraft.getInstance().getItemRenderer().renderStatic(
-                    sheathItem,
-                    ItemDisplayContext.THIRD_PERSON_LEFT_HAND, // <---- use correct context
-                    packedLight,
-                    OverlayTexture.NO_OVERLAY,
-                    poseStack,
-                    buffer,
-                    null,
-                    0
-            );
-
+            MathUtils.mulStack(poseStack, modelMatrixMainHand);
+            itemRenderer.renderStatic(katana, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
             poseStack.popPose();
         }
-        else{
-                // Only render katana in hand when NOT in_sheath
-                OpenMatrix4f modelMatrix = new OpenMatrix4f(this.mainhandcorrectionMatrix);
-                modelMatrix.mulFront(poses[armature.toolR.getId()]);
-                poseStack.pushPose();
-                this.mulPoseStack(poseStack, modelMatrix);
 
-                Minecraft.getInstance().getItemRenderer().renderStatic(
-                        katana,
-                        ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
-                        packedLight,
-                        OverlayTexture.NO_OVERLAY,
-                        poseStack,
-                        buffer,
-                        null,
-                        0
-                );
+        poseStack.pushPose();
+        MathUtils.mulStack(poseStack, modelMatrixOffHand);
+        itemRenderer.renderStatic(sheathItem, ItemDisplayContext.THIRD_PERSON_LEFT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
+        poseStack.popPose();
 
-                poseStack.popPose();
-
-            // ---------------------------
-            // LEFT HAND (sheath side)
-            // ---------------------------
-            OpenMatrix4f matrixL = new OpenMatrix4f(this.mainhandcorrectionMatrix);
-            matrixL.mulFront(poses[armature.toolL.getId()]);
-            poseStack.pushPose();
-            this.mulPoseStack(poseStack, matrixL);
-
-            Minecraft.getInstance().getItemRenderer().renderStatic(
-                    sheathItem,
-                    ItemDisplayContext.THIRD_PERSON_LEFT_HAND, // <---- use correct context
-                    packedLight,
-                    OverlayTexture.NO_OVERLAY,
-                    poseStack,
-                    buffer,
-                    null,
-                    0
-            );
-
-            poseStack.popPose();
-        }
     }
 }

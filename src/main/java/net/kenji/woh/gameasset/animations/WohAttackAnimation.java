@@ -8,7 +8,9 @@ import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
+import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.utils.math.ValueModifier;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
@@ -22,7 +24,7 @@ import javax.annotation.Nullable;
 
 public class WohAttackAnimation extends BasisAttackAnimation {
 
-    public static HumanoidArmature biped = Armatures.BIPED;
+    public static AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
 
     public static float convertTime = 0.1f;
 

@@ -1,5 +1,9 @@
 package net.kenji.woh.client.client_events;
 
+import net.corruptdog.cdm.world.Render.A_YamatoRender;
+import net.corruptdog.cdm.world.Render.KatanaSheathRenderer;
+import net.corruptdog.cdm.world.Render.PKatanaSheathRenderer;
+import net.corruptdog.cdm.world.Render.YamatoRender;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.client.ModModelLayers;
 import net.kenji.woh.client.enitity_models.ExiledRoninModel;
@@ -30,11 +34,9 @@ import yesman.epicfight.client.renderer.patched.entity.PatchedEntityRenderer;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
-    @SubscribeEvent
-    public static void RenderRegistry(PatchedRenderersEvent.Add event) {
-        event.addItemRenderer((Item) WohItems.SHOTOGATANA.get(), new ShotogatanaRender());
-        event.addItemRenderer((Item) WohItems.TSUME.get(), new TsumeRender());
-
+    public static void registerRenderer(PatchedRenderersEvent.RegisterItemRenderer event) {
+        event.addItemRenderer(ResourceLocation.tryBuild(WeaponsOfHarmony.MODID, "shotogatana_render"), ShotogatanaRender::new);
+        event.addItemRenderer(ResourceLocation.tryBuild(WeaponsOfHarmony.MODID, "tsume_render"), TsumeRender::new);
     }
 
     @SubscribeEvent

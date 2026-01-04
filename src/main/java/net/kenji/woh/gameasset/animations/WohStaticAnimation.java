@@ -2,6 +2,7 @@ package net.kenji.woh.gameasset.animations;
 
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -12,11 +13,11 @@ public class WohStaticAnimation extends StaticAnimation {
 
     public WohSheathAnimation sheathAnimation = null;
     public LivingMotions motionType = LivingMotions.NONE;
-    public WohStaticAnimation(float convertTime, boolean repeat, String path, Armature armature, LivingMotions livingMotion){
+    public WohStaticAnimation(float convertTime, boolean repeat, String path, AssetAccessor<? extends Armature> armature, LivingMotions livingMotion){
         super(convertTime, repeat, path, armature);
         motionType = livingMotion;
     }
-    public WohStaticAnimation(float convertTime, boolean repeat, String path, Armature armature, WohSheathAnimation sheathAnimation){
+    public WohStaticAnimation(float convertTime, boolean repeat, String path, AssetAccessor<? extends Armature> armature, WohSheathAnimation sheathAnimation){
         super(convertTime, repeat, path, armature);
         this.sheathAnimation = sheathAnimation;
     }

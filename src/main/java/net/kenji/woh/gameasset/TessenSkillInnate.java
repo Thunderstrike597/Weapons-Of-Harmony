@@ -13,6 +13,7 @@ import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.Skill;
+import yesman.epicfight.skill.SkillBuilder;
 import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -28,7 +29,7 @@ public class TessenSkillInnate extends WeaponInnateSkill {
 
     public static Map<UUID, Float> storedResource = new HashMap<>();
 
-    public TessenSkillInnate(Builder<? extends Skill> builder) {
+    public TessenSkillInnate(SkillBuilder<? extends WeaponInnateSkill> builder) {
         super(builder);
         this.maxDuration = 420;
         this.consumption = 20;
@@ -51,16 +52,19 @@ public class TessenSkillInnate extends WeaponInnateSkill {
     }
 
     @Override
-    public boolean canExecute(PlayerPatch<?> executer) {
-        if(!executer.getSkill(this).isActivated()){
+    public boolean canExecute(SkillContainer container) {
+        // First check the base animation conditions
+        ServerPlayerPatch executor = container.getServerExecutor();
 
-            CapabilityItem mainHandCap = executer.getHoldingItemCapability(InteractionHand.MAIN_HAND);
-            CapabilityItem offHandCap = executer.getHoldingItemCapability(InteractionHand.OFF_HAND);
+        if(!executor.getSkill(this).isActivated()){
+
+            CapabilityItem mainHandCap = executor.getHoldingItemCapability(InteractionHand.MAIN_HAND);
+            CapabilityItem offHandCap = executor.getHoldingItemCapability(InteractionHand.OFF_HAND);
             if(offHandCap instanceof WeaponCapability offHandWeaponCap) {
                 if (mainHandCap instanceof WeaponCapability weaponCap) {
-                   if(offHandWeaponCap.checkOffhandValid(executer)) {
-                       if (weaponCap.checkOffhandValid(executer)) {
-                           if (executer.getValidItemInHand(InteractionHand.OFF_HAND) != ItemStack.EMPTY) {
+                   if(offHandWeaponCap.checkOffhandValid(executor)) {
+                       if (weaponCap.checkOffhandValid(executor)) {
+                           if (executor.getValidItemInHand(InteractionHand.OFF_HAND) != ItemStack.EMPTY) {
                                return true;
                            }
                        }
@@ -77,19 +81,19 @@ public class TessenSkillInnate extends WeaponInnateSkill {
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
 
-        if (!(container.getExecuter() instanceof ServerPlayerPatch serverPatch)) return;
+        if (!(container.getExecutor() instanceof ServerPlayerPatch serverPatch)) return;
 
         UUID playerId = serverPatch.getOriginal().getUUID();
 
         Float stored = storedResource.get(playerId);
         if (stored != null) {
-            setConsumptionSynchronize(serverPatch, stored);
+            setConsumptionSynchronize(container, stored);
         }
     }
     @Override
     public void onRemoved(SkillContainer container) {
-        if (container.getExecuter().getOriginal() != null) {
-            UUID playerId = container.getExecuter().getOriginal().getUUID();
+        if (container.getExecutor().getOriginal() != null) {
+            UUID playerId = container.getExecutor().getOriginal().getUUID();
 
             storedResource.put(playerId, container.getResource());
         }
@@ -101,36 +105,47 @@ public class TessenSkillInnate extends WeaponInnateSkill {
     }
 
     @Override
-    public void executeOnServer(ServerPlayerPatch executer, FriendlyByteBuf args) {
-        executer.playSound(SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F);
-        if (executer.getSkill(this).isActivated()) {
-            this.cancelOnServer(executer, args);
+    public void executeOnServer(SkillContainer container, FriendlyByteBuf args) {
+
+            // First check the base animation conditions
+            ServerPlayerPatch executor = container.getServerExecutor();
+
+        executor.playSound(SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F);
+        if (executor.getSkill(this).isActivated()) {
+            this.cancelOnServer(container, args);
         } else {
-            super.executeOnServer(executer, args);
-            executer.getSkill(this).activate();
-            executer.modifyLivingMotionByCurrentItem(false);
-            executer.playAnimationSynchronized(TessenAnimations.TESSEN_SKILL_ACTIVATE, 0.15F);
+            super.executeOnServer(container, args);
+            executor.getSkill(this).activate();
+            executor.modifyLivingMotionByCurrentItem(false);
+            executor.playAnimationSynchronized(TessenAnimations.TESSEN_SKILL_ACTIVATE.getAccessor(), 0.15F);
         }
     }
     @Override
-    public void cancelOnServer(ServerPlayerPatch executer, FriendlyByteBuf args) {
-        executer.getSkill(this).deactivate();
-        super.cancelOnServer(executer, args);
-        executer.modifyLivingMotionByCurrentItem(false);
-        executer.playAnimationSynchronized(TessenAnimations.TESSEN_SKILL_DEACTIVATE, 0.15F);
-          if(executer.getSkill(this) != null) {
-              setConsumptionSynchronize(executer,0);
-              setStackSynchronize(executer, 0);
+    public void cancelOnServer(SkillContainer container, FriendlyByteBuf args) {
+
+        // First check the base animation conditions
+        ServerPlayerPatch executor = container.getServerExecutor();
+        executor.getSkill(this).deactivate();
+        super.cancelOnServer(container, args);
+        executor.modifyLivingMotionByCurrentItem(false);
+        executor.playAnimationSynchronized(TessenAnimations.TESSEN_SKILL_DEACTIVATE.getAccessor(), 0.15F);
+          if(executor.getSkill(this) != null) {
+              setConsumptionSynchronize(container,0);
+              setStackSynchronize(container, 0);
           }
     }
     @Override
-    public void executeOnClient(LocalPlayerPatch executer, FriendlyByteBuf args) {
-        super.executeOnClient(executer, args);
-        executer.getSkill(this).activate();
+    public void executeOnClient(SkillContainer container, FriendlyByteBuf args) {
+        // First check the base animation conditions
+        ServerPlayerPatch executor = container.getServerExecutor();
+        super.executeOnClient(container, args);
+        executor.getSkill(this).activate();
     }
     @Override
-    public void cancelOnClient(LocalPlayerPatch executer, FriendlyByteBuf args) {
-        super.cancelOnClient(executer, args);
-        executer.getSkill(this).deactivate();
+    public void cancelOnClient(SkillContainer container, FriendlyByteBuf args) {
+        // First check the base animation conditions
+        ServerPlayerPatch executor = container.getServerExecutor();
+        super.cancelOnClient(container, args);
+        executor.getSkill(this).deactivate();
     }
 }

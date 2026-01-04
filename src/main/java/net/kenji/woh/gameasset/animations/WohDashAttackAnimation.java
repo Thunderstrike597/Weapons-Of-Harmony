@@ -6,7 +6,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.property.AnimationProperty;
+import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
+import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.utils.math.ValueModifier;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
@@ -18,7 +20,7 @@ import yesman.epicfight.world.damagesource.StunType;
 
 public class WohDashAttackAnimation extends BasisDashAttackAnimation {
 
-    public static HumanoidArmature biped = Armatures.BIPED;
+    public static AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
 
     public static float convertTime = 0.1f;
 
@@ -26,7 +28,7 @@ public class WohDashAttackAnimation extends BasisDashAttackAnimation {
     public static float contact = 1.1f;
     public static float recovery = 1.65f;
     public static Collider collider = ColliderPreset.TACHI;
-    public static Joint colliderJoint = biped.toolR;
+    public static Joint colliderJoint = biped.get().toolR;
 
     public static float damage = 4.0F;
     public static float impact = 5.0F;

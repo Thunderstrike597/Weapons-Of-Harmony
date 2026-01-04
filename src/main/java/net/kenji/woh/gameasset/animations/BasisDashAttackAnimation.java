@@ -4,6 +4,7 @@ import net.kenji.woh.api.WOHAnimationUtils;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.api.animation.types.DashAttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
+import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -18,19 +19,19 @@ public class BasisDashAttackAnimation extends DashAttackAnimation {
     private WOHAnimationUtils.AttackAnimationType attackAnimationType;
 
 
-    public BasisDashAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, Armature armature, Phase... phases) {
+    public BasisDashAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, AssetAccessor<? extends Armature> armature, Phase... phases) {
         super(convertTime, path, armature, phases);
         attackAnimationType = attackType;
     }
 
 
     @Override
-    protected void attackTick(LivingEntityPatch<?> entitypatch, DynamicAnimation animation) {
+    protected void attackTick(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> animation) {
         super.attackTick(entitypatch, animation);
     }
 
     @Override
-    public void end(LivingEntityPatch<?> entitypatch, DynamicAnimation nextAnimation, boolean isEnd) {
+    public void end(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> nextAnimation, boolean isEnd) {
        if(entitypatch instanceof PlayerPatch<?> playerPatch) {
           UUID playerID = playerPatch.getOriginal().getUUID();
            isAttacking.put(playerID, false);

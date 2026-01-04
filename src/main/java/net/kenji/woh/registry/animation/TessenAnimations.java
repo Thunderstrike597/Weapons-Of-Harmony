@@ -4,6 +4,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
@@ -47,7 +48,7 @@ public class TessenAnimations {
 
 
     public static void build(){
-        HumanoidArmature biped = Armatures.BIPED;
+        AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
 
         TESSEN_HOLD = (new StaticAnimation(0.35f, true, "biped/living/tessen/tessen_dual_hold", biped));
         TESSEN_RUN = (new StaticAnimation(0.35f, true, "biped/living/tessen/tessen_dual_run", biped));
@@ -76,7 +77,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1,
                 -1
@@ -98,7 +99,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1,
                 -1
@@ -120,7 +121,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1,
                 -1
@@ -142,7 +143,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1,
                 -1
@@ -164,7 +165,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.toolR, biped.toolL},
+                new Joint[]{biped.get().toolR, biped.get().toolL},
                 StunType.SHORT,
                 -1,
                 -1
@@ -187,7 +188,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.toolL, biped.toolR},
+                new Joint[]{biped.get().toolL, biped.get().toolR},
                 StunType.SHORT,
                 -1,
                 -1
@@ -209,7 +210,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.toolR, biped.toolR, biped.toolL},
+                new Joint[]{biped.get().toolR, biped.get().toolR, biped.get().toolL},
                 StunType.SHORT,
                 -1,
                 -1
@@ -231,7 +232,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.toolR, biped.toolL},
+                new Joint[]{biped.get().toolR, biped.get().toolL},
                 StunType.SHORT,
                 -1,
                 -1
@@ -253,7 +254,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.toolL, biped.toolR, biped.toolL},
+                new Joint[]{biped.get().toolL, biped.get().toolR, biped.get().toolL},
                 StunType.SHORT,
                 -1,
                 -1
@@ -275,7 +276,7 @@ public class TessenAnimations {
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 StunType.LONG,
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.toolL, biped.toolR, biped.toolL, biped.toolR},
+                new Joint[]{biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR},
                 new float[]{0.05F, 1.2F},
                 -1,
                 -1
@@ -298,7 +299,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.toolL, biped.toolL, biped.toolL, biped.toolL, biped.toolL},
+                new Joint[]{biped.get().toolL, biped.get().toolL, biped.get().toolL, biped.get().toolL, biped.get().toolL},
                 StunType.SHORT,
                 -1,
                 -1
@@ -320,7 +321,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.toolR, biped.toolR, biped.toolR, biped.toolR, biped.toolR},
+                new Joint[]{biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR},
                 StunType.SHORT,
                 -1,
                 -1
@@ -342,7 +343,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.toolL, biped.toolR, biped.toolL, biped.toolR, biped.toolL, biped.toolR, biped.toolL, biped.toolR},
+                new Joint[]{biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR},
                 StunType.SHORT,
                 -1,
                 -1
@@ -364,7 +365,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.toolL, biped.toolR, biped.toolL, biped.toolR, biped.toolL, biped.toolR, biped.toolL, biped.toolR},
+                new Joint[]{biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR},
                 StunType.SHORT,
                 -1,
                 -1
@@ -386,7 +387,7 @@ public class TessenAnimations {
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 StunType.LONG,
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.toolL, biped.toolR, biped.toolL, biped.toolR, biped.toolL, biped.toolR, biped.toolL, biped.toolR},
+                new Joint[]{biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR},
                 new float[]{0.05F, 1.75F},
                 -1,
                 -1
@@ -408,7 +409,7 @@ public class TessenAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.toolL, biped.toolR, biped.toolL, biped.toolR, biped.toolL, biped.toolR, biped.toolL, biped.toolR},
+                new Joint[]{biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR},
                 StunType.SHORT,
                 -1,
                 -1

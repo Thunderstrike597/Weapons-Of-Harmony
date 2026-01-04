@@ -4,6 +4,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
@@ -23,7 +24,7 @@ public class GenericAnimations {
     public static StaticAnimation COMBAT_FIST_AIRKICK;
 
     public static void build(){
-        HumanoidArmature biped = Armatures.BIPED;
+        AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
 
         DEFEAT_IDLE = (new StaticAnimation(0.35f, true, "biped/living/generic/defeat_idle", biped));
         DEFEAT_KNEEL = (new StaticAnimation(0.35f, false, "biped/living/generic/defeat_kneel", biped));
@@ -45,7 +46,7 @@ public class GenericAnimations {
                 new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.FIST},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1,
                 -1
@@ -68,7 +69,7 @@ public class GenericAnimations {
                 new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.FIST},
-                new Joint[]{biped.toolL},
+                new Joint[]{biped.get().toolL},
                 StunType.SHORT,
                 -1,
                 -1
@@ -90,7 +91,7 @@ public class GenericAnimations {
                 new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get(), EpicFightSounds.BLUNT_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT, EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.FIST, ColliderPreset.FIST},
-                new Joint[]{biped.toolL, biped.toolR},
+                new Joint[]{biped.get().toolL, biped.get().toolR},
                 StunType.LONG,
                 -1,
                 -1
@@ -112,7 +113,7 @@ public class GenericAnimations {
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
                 StunType.SHORT,
                 new Collider[]{ColliderPreset.FIST},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 new float[]{0.0F, 0.45F},
                 -1,
                 -1

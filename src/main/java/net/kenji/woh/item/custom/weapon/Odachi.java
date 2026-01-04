@@ -33,7 +33,7 @@ public class Odachi extends HolsterBaseItem {
             holsterRotation
     );
     public static JointPair holsterJoints = new JointPair(
-            () -> Armatures.BIPED.chest,  // Lambda only evaluates when called
+            () -> Armatures.BIPED.get().chest,  // Lambda only evaluates when called
             () -> null
     );
 

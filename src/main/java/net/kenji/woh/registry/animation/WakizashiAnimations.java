@@ -4,6 +4,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
@@ -33,7 +34,7 @@ public class WakizashiAnimations {
     public static StaticAnimation WAKIZASHI_DUAL_GUARD;
 
     public static void build(){
-        HumanoidArmature biped = Armatures.BIPED;
+        AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
 
         WAKIZASHI_HOLD = (new StaticAnimation(0.1f, true, "biped/living/wakizashi/wakizashi_hold", biped));
         WAKIZASHI_DUAL_HOLD = (new StaticAnimation(0.1f, true, "biped/living/wakizashi/wakizashi_dual_hold", biped));
@@ -59,7 +60,7 @@ public class WakizashiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -83,7 +84,7 @@ public class WakizashiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -106,7 +107,7 @@ public class WakizashiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -129,7 +130,7 @@ public class WakizashiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -152,7 +153,7 @@ public class WakizashiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -175,7 +176,7 @@ public class WakizashiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI,ColliderPreset.TACHI},
-                new Joint[]{biped.toolR, biped.toolL},
+                new Joint[]{biped.get().toolR, biped.get().toolL},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -198,7 +199,7 @@ public class WakizashiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLUNT_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.SWORD,ColliderPreset.TACHI,ColliderPreset.SWORD},
-                new Joint[]{biped.legR, biped.toolR, biped.legL},
+                new Joint[]{biped.get().legR, biped.get().toolR, biped.get().legL},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -221,7 +222,7 @@ public class WakizashiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI,ColliderPreset.TACHI},
-                new Joint[]{biped.toolL, biped.toolR},
+                new Joint[]{biped.get().toolL, biped.get().toolR},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -244,7 +245,7 @@ public class WakizashiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI,ColliderPreset.TACHI},
-                new Joint[]{biped.toolL, biped.toolR},
+                new Joint[]{biped.get().toolL, biped.get().toolR},
                 StunType.SHORT,
                 -1F,
                 -1F

@@ -25,7 +25,7 @@ import org.jline.utils.Log;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.lwjgl.glfw.GLFW;
-import yesman.epicfight.api.client.model.MeshProvider;
+import yesman.epicfight.api.client.model.Meshes;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.mesh.HumanoidMesh;
 import yesman.epicfight.client.renderer.patched.layer.ModelRenderLayer;
@@ -103,7 +103,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         public void addZRotValue(float value) { zVal += value; }
     }
 
-    public HolsteredItemLayer(MeshProvider<HumanoidMesh> mesh, int slotIndex) {
+    public HolsteredItemLayer(Meshes.MeshAccessor<HumanoidMesh> mesh, int slotIndex) {
         super(mesh);
         if (rotationAdjustmentsMap.isEmpty()) {
             MinecraftForge.EVENT_BUS.register(new SubEventHandler());

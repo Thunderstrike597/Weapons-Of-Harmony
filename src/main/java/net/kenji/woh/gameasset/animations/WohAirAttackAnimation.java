@@ -6,7 +6,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.property.AnimationProperty;
+import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
+import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.utils.TimePairList;
 import yesman.epicfight.api.utils.math.ValueModifier;
 import yesman.epicfight.gameasset.Armatures;
@@ -19,9 +21,9 @@ import yesman.epicfight.world.damagesource.StunType;
 
 public class WohAirAttackAnimation extends BasisAirAttackAnimation {
 
-    public static HumanoidArmature biped = Armatures.BIPED;
+    public static AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
 
-    public static Joint colliderJoint = biped.toolR;
+    public static Joint colliderJoint = biped.get().toolR;
     public static float basisAttackSpeed = 3.0F;
 
     public SoundEvent hitSound = EpicFightSounds.BLADE_HIT.get();

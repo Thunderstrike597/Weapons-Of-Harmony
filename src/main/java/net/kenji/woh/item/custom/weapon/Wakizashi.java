@@ -30,8 +30,8 @@ public class Wakizashi extends HolsterBaseItem {
             holsterRotation
     );
     public static JointPair holsterJoints = new JointPair(
-            () -> Armatures.BIPED.rootJoint,
-            () -> Armatures.BIPED.rootJoint
+            () -> Armatures.BIPED.get().rootJoint,
+            () -> Armatures.BIPED.get().rootJoint
     );
 
     public Wakizashi(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {

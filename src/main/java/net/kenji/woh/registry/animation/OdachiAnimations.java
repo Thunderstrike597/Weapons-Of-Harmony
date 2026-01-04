@@ -4,6 +4,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
@@ -29,7 +30,7 @@ public class OdachiAnimations {
     public static StaticAnimation ODACHI_GUARD;
 
     public static void build(){
-        HumanoidArmature biped = Armatures.BIPED;
+        AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
 
         ODACHI_HOLD = (new StaticAnimation(0.35f, true, "biped/living/odachi/odachi_hold", biped));
         ODACHI_RUN = (new StaticAnimation(0.35f, true, "biped/living/odachi/odachi_run", biped));
@@ -53,7 +54,7 @@ public class OdachiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.GREATSWORD},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -77,7 +78,7 @@ public class OdachiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.GREATSWORD},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -100,7 +101,7 @@ public class OdachiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.GREATSWORD},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -122,7 +123,7 @@ public class OdachiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.GREATSWORD},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -144,7 +145,7 @@ public class OdachiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.GREATSWORD},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -166,7 +167,7 @@ public class OdachiAnimations {
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.GREATSWORD},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 StunType.LONG,
                 -1F,
                 -1F
@@ -188,7 +189,7 @@ public class OdachiAnimations {
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 StunType.LONG,
                 new Collider[]{ColliderPreset.GREATSWORD},
-                new Joint[]{biped.toolR},
+                new Joint[]{biped.get().toolR},
                 new float[]{0.05F, 1.10F},
                 -1,
                 1

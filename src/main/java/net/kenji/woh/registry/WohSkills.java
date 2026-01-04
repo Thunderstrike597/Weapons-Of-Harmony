@@ -30,15 +30,16 @@ public class WohSkills {
                         .setCategory(SkillCategories.WEAPON_INNATE)
                         .setResource(Skill.Resource.COOLDOWN));
 
-        FAN_STANCE = modRegistry.build("fan_stance", TessenSkillInnate::new,
-                TessenSkillInnate.createBuilder()
+        FAN_STANCE = modRegistry.build("fan_stance",
+                TessenSkillInnate::new,
+                WeaponInnateSkill.createWeaponInnateBuilder()
                         .setActivateType(Skill.ActivateType.DURATION)
                         .setCategory(SkillCategories.WEAPON_INNATE)
                         .setResource(Skill.Resource.COOLDOWN)
         );
 
         ENRAGED_CLAWS = modRegistry.build("enraged_claws", TsumeSkillInnate::new,
-                TsumeSkillInnate.createBuilder()
+                WeaponInnateSkill.createWeaponInnateBuilder()
                         .setActivateType(Skill.ActivateType.DURATION)
                         .setCategory(SkillCategories.WEAPON_INNATE)
                         .setResource(Skill.Resource.COOLDOWN)
