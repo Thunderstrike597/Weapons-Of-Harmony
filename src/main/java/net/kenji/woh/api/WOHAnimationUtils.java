@@ -383,7 +383,6 @@ public class WOHAnimationUtils {
                             AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
                     });
                 } if (!stopStartEvent) {
-                    Log.info("IS ADDING EVENT");
                     anim.addEvents(new AnimationEvent[]{
                             AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT)
                     });
