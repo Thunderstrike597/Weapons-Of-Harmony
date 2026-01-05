@@ -36,7 +36,6 @@ public class ClientEvents {
     public static void registerRenderer(PatchedRenderersEvent.RegisterItemRenderer event) {
         event.addItemRenderer(WeaponsOfHarmony.identifier("shotogatana"), ShotogatanaRender::new);
         event.addItemRenderer(WeaponsOfHarmony.identifier("tsume"), TsumeRender::new);
-    Log.info("LOGGING SHEATH REGISTER");
     }
 
     @SubscribeEvent

@@ -399,7 +399,7 @@ public class ShotogatanaAnimations {
                 new Joint[]{biped.get().torso, biped.get().torso},
                 StunType.LONG,
                 0.38f,
-                0.6f
+                0.54f
         );
     }
 }

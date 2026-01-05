@@ -13,7 +13,6 @@ public class ForgeEvents {
     @SubscribeEvent
     public static void onLoadComplete(FMLLoadCompleteEvent event) {
         event.enqueueWork(WOHAnimationUtils::initializeAnimations);
-        Log.info("IS LOGGING COMPLETE LOAD");
     }
 
 }

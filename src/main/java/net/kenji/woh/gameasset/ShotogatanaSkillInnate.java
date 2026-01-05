@@ -143,17 +143,17 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
 
     @Override
     public void executeOnServer(SkillContainer container, FriendlyByteBuf args) {
-       ServerPlayerPatch executor = container.getServerExecutor();
+        ServerPlayerPatch executor = container.getServerExecutor();
         AssetAccessor<? extends DynamicAnimation> current =
                 executor.getServerAnimator().animationPlayer.getAnimation();
 
-        if (current instanceof StaticAnimation staticAnimation) {
-            AssetAccessor<? extends StaticAnimation> next = this.comboAnimation.get(staticAnimation.getAccessor());
-            if (next != null) {
-                executor.playAnimationSynchronized(next, 0.0F);
-            } else if (!staticAnimation.isBasicAttackAnimation()) {
-                executor.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SKILL_INNATE, 0.05F);
-            }
+        Log.info("IS CALLING EXECUTE ON SERVER");
+        AssetAccessor<? extends AttackAnimation> next = this.comboAnimation.get(current.get().getAccessor());
+        if (next != null) {
+            executor.playAnimationSynchronized(next, 0.0F);
+            Log.info("HAS PASSED ANIM CHECK");
+        } else if (!current.get().isBasicAttackAnimation()) {
+            executor.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SKILL_INNATE, 0.05F);
         }
         super.executeOnServer(container, args);
     }
@@ -161,27 +161,17 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
 
     @Override
     public boolean checkExecuteCondition(SkillContainer container) {
-
-        PlayerPatch<?> executor = container.getExecutor();
-
-        AnimationPlayer animationPlayer = executor.getAnimator().getPlayerFor(null);
+        AnimationPlayer animationPlayer = container.getExecutor().getAnimator().getPlayerFor(null);
        if(animationPlayer != null) {
-           AssetAccessor<? extends DynamicAnimation> current = animationPlayer.getAnimation();
-           if (current != null) {
-               DynamicAnimation currentAnim = current.get();
-               if (currentAnim instanceof StaticAnimation staticAnim) {
-                   boolean isInCombo = this.comboAnimation.containsKey(staticAnim.getAccessor());
-                   boolean isBasicAttack = staticAnim.isBasicAttackAnimation();
+           AssetAccessor<? extends DynamicAnimation> animation = animationPlayer.getAnimation();
 
-                   // If in a basic attack but NOT in combo map, block execution
-                   if (isBasicAttack && !isInCombo) {
-                       return false;
-                   }
+           if (animation.get().isBasicAttackAnimation()) {
+               if (this.comboAnimation.containsKey(animation)) {
+                   return super.checkExecuteCondition(container);
                }
            }
        }
-        // Allow in all other cases: not attacking, or in combo
-        return super.checkExecuteCondition(container);
+       return super.checkExecuteCondition(container);
     }
 
 
