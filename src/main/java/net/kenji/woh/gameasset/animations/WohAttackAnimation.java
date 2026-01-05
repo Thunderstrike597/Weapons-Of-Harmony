@@ -78,10 +78,14 @@ public class WohAttackAnimation extends BasisAttackAnimation {
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(impact))
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, attackSpeed)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, basisAttackSpeed)
-                .addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true)
                 .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
                 .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false);
+        if(attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP)
+             this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true);
+        else this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, false);
+
+
     }
 
     private static AttackAnimation.Phase[] buildPhases(int phaseCount,  float[] start ,float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, Collider[] colliders, Joint[] colliderJoints) {

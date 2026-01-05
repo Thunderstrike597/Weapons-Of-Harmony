@@ -53,35 +53,6 @@ public class TsumeSkillInnate extends WeaponInnateSkill {
     }
 
     @Override
-    public boolean canExecute(SkillContainer container) {
-        // First check the base animation conditions
-        if (!(container.getExecutor() instanceof ServerPlayerPatch serverPatch))
-            return super.canExecute(container);
-
-        ServerPlayerPatch executor = container.getServerExecutor();
-
-        if(!executor.getSkill(this).isActivated()){
-
-            CapabilityItem mainHandCap = executor.getHoldingItemCapability(InteractionHand.MAIN_HAND);
-            CapabilityItem offHandCap = executor.getHoldingItemCapability(InteractionHand.OFF_HAND);
-            if(offHandCap instanceof WeaponCapability offHandWeaponCap) {
-                if (mainHandCap instanceof WeaponCapability weaponCap) {
-                    if(offHandWeaponCap.checkOffhandValid(executor)) {
-                        if (weaponCap.checkOffhandValid(executor)) {
-                            if (executor.getValidItemInHand(InteractionHand.OFF_HAND) != ItemStack.EMPTY) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
 

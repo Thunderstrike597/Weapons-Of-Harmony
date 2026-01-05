@@ -4,10 +4,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
-import yesman.epicfight.api.animation.types.AirSlashAnimation;
-import yesman.epicfight.api.animation.types.AttackAnimation;
-import yesman.epicfight.api.animation.types.DashAttackAnimation;
-import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
@@ -42,10 +39,10 @@ public class TessenAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_DUAL_AUTO_5;
     public static AnimationManager.AnimationAccessor<? extends AirSlashAnimation> TESSEN_DUAL_AIRSLASH;
 
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_SKILL_AUTO_1;
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_SKILL_AUTO_2;
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_SKILL_AUTO_3;
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_SKILL_AUTO_4;
+    public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> TESSEN_SKILL_AUTO_1;
+    public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> TESSEN_SKILL_AUTO_2;
+    public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> TESSEN_SKILL_AUTO_3;
+    public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> TESSEN_SKILL_AUTO_4;
 
     public static AnimationManager.AnimationAccessor<? extends DashAttackAnimation> TESSEN_SKILL_DASH;
 

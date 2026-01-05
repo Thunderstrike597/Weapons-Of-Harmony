@@ -194,8 +194,7 @@ public class WOHAnimationUtils {
     ) {
         AnimationManager.AnimationAccessor<BasicAttackAnimation> animation;
         switch(type) {
-            case BASIC_ATTACK:
-            case BASIC_ATTACK_SHEATH:
+            case BASIC_ATTACK, BASIC_ATTACK_SHEATH:
                 animation = builder.nextAccessor(path, accessor -> new WohAttackAnimation(
                         convertTime,        // convertTime first
                         accessor,           // PASS THE ACCESSOR!

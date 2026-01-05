@@ -28,7 +28,7 @@ public class BasisDashAttackAnimation extends DashAttackAnimation {
             boolean ignoreFallDamage,
             Phase... phases
     ) {
-        super(convertTime, accessor.toString(), armature, phases);  // Pass accessor to parent (DashAttackAnimation)
+        super(convertTime, accessor, armature, phases);  // Pass accessor to parent (DashAttackAnimation)
         this.attackAnimationType = attackType;
     }
 
