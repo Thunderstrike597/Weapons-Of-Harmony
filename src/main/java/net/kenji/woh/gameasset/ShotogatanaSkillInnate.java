@@ -21,12 +21,15 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
+import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.client.gui.BattleModeGui;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.*;
+import yesman.epicfight.skill.weaponinnate.GraspingSpireSkill;
+import yesman.epicfight.skill.weaponinnate.RushingTempoSkill;
 import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -44,6 +47,7 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
     private static float resourceTakeAmount = 5;
 
     public static Map<UUID, Float> storedResource = new HashMap<>();
+    private final Map<AnimationManager.AnimationAccessor<? extends StaticAnimation>, AnimationManager.AnimationAccessor<? extends AttackAnimation>> comboAnimation = Maps.newHashMap();
 
 
     // Track last hurt time per player
@@ -91,8 +95,6 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
         }
     }
 
-
-    private final Map<AnimationManager.AnimationAccessor<? extends AttackAnimation>, AttackAnimation> comboAnimation = Maps.newHashMap();
 
 
     @Override
@@ -146,7 +148,7 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
                 executor.getServerAnimator().animationPlayer.getAnimation();
 
         if (current instanceof StaticAnimation staticAnimation) {
-            AssetAccessor<? extends StaticAnimation> next = this.comboAnimation.get(staticAnimation).getAccessor();
+            AssetAccessor<? extends StaticAnimation> next = this.comboAnimation.get(staticAnimation.getAccessor());
             if (next != null) {
                 executor.playAnimationSynchronized(next, 0.0F);
             } else if (!staticAnimation.isBasicAttackAnimation()) {
@@ -159,21 +161,26 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
 
     @Override
     public boolean checkExecuteCondition(SkillContainer container) {
-        // Check if we're on server side
-        if (!(container.getExecutor() instanceof ServerPlayerPatch)) {
-            return super.checkExecuteCondition(container);
-        }
 
-        ServerPlayerPatch executor = container.getServerExecutor();
-        AssetAccessor<? extends DynamicAnimation> current = executor.getServerAnimator().animationPlayer.getAnimation();
+        PlayerPatch<?> executor = container.getExecutor();
 
-        if (current != null) {
-            StaticAnimation staticAnim = (StaticAnimation) current;
-            // Only allow if in combo OR if it's a basic attack animation
-            if (!this.comboAnimation.containsKey(staticAnim) && staticAnim.isBasicAttackAnimation()) {
-                return false;
-            }
-        }
+        AnimationPlayer animationPlayer = executor.getAnimator().getPlayerFor(null);
+       if(animationPlayer != null) {
+           AssetAccessor<? extends DynamicAnimation> current = animationPlayer.getAnimation();
+           if (current != null) {
+               DynamicAnimation currentAnim = current.get();
+               if (currentAnim instanceof StaticAnimation staticAnim) {
+                   boolean isInCombo = this.comboAnimation.containsKey(staticAnim.getAccessor());
+                   boolean isBasicAttack = staticAnim.isBasicAttackAnimation();
+
+                   // If in a basic attack but NOT in combo map, block execution
+                   if (isBasicAttack && !isInCombo) {
+                       return false;
+                   }
+               }
+           }
+       }
+        // Allow in all other cases: not attacking, or in combo
         return super.checkExecuteCondition(container);
     }
 
@@ -188,27 +195,20 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
                         REQUIRED_NO_DAMAGE_TICKS / 20) // Convert ticks to seconds
                 .withStyle(ChatFormatting.DARK_GRAY));
         this.generateTooltipforPhase(list, itemStack, cap, playerCap,
-                (Map)this.properties.get(0), "Each Strike:");
+               this.properties.get(0), "Each Strike:");
         return list;
     }
 
     @Override
     public WeaponInnateSkill registerPropertiesToAnimation() {
         this.comboAnimation.clear();
-        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_1,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_AUTO_5.get());
-        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_2,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3.get());
-        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_3,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_AUTO_6.get());
-        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_4,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3.get());
-        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_5,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_AUTO_6.get());
-        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_6,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3.get());
-        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_4,
-                (AttackAnimation)ShotogatanaAnimations.SHOTOGATANA_AUTO_6.get());
+        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_1, ShotogatanaAnimations.SHOTOGATANA_AUTO_5);
+        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_2, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3);
+        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_3, ShotogatanaAnimations.SHOTOGATANA_AUTO_6);
+        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_4, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3);
+        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_5, ShotogatanaAnimations.SHOTOGATANA_AUTO_6);
+        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_6, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_3);
+        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_AUTO_4, ShotogatanaAnimations.SHOTOGATANA_AUTO_6);
 
         return this;
     }

@@ -1,6 +1,7 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
 import net.kenji.woh.registry.WohColliderPreset;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
@@ -391,14 +392,14 @@ public class ShotogatanaAnimations {
                 new float[]{0.70F, 1.10F},
                 new float[]{1.42F, 1.42F},
                 new float[]{1.88F, 1.88F},
-                new Supplier[]{EpicFightSounds.ENTITY_MOVE, EpicFightSounds.ENTITY_MOVE},
+                new Supplier[]{() -> SoundEvents.EMPTY, () -> SoundEvents.EMPTY},
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{WohColliderPreset.SHEATHED_BLADE, WohColliderPreset.SHEATHED_BLADE},
                 new Joint[]{biped.get().torso, biped.get().torso},
                 StunType.LONG,
                 0.38f,
-                0.8f
+                0.6f
         );
     }
 }
