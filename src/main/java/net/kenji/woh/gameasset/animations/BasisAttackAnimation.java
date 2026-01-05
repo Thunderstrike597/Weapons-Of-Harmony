@@ -112,16 +112,13 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
         }
         super.attackTick(entitypatch, animation);
     }
-    @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+    @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public class ClientEvents {
         @SubscribeEvent
         public static void onPLayerTick(TickEvent.PlayerTickEvent event) {
             Player player = event.player;
             boolean attacking = isInAttack.getOrDefault(player.getUUID(), false);
-            if(player.level().isClientSide && attacking) {
-                LocalPlayer localPlayer = (LocalPlayer) player;
 
-            }
             player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
                 if (cap instanceof ServerPlayerPatch playerPatch) {
                     if( playerPatch.getEntityState().attacking()) {
@@ -131,20 +128,22 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                     UUID playerID = playerPatch.getOriginal().getUUID();
                     if (capItem instanceof WeaponCapability weaponCap) {
                         boolean isSheathed = ShotogatanaRender.sheathWeapon.getOrDefault(playerID, false);
+
                         if (!isSheathed) {
                             List<AnimationManager.AnimationAccessor<? extends AttackAnimation>> autoAttackMotion = weaponCap.getAutoAttackMotion(playerPatch);
                             for(int i = 0; i < autoAttackMotion.size(); i++) {
-                                if(autoAttackMotion.get(i) instanceof BasisAttackAnimation basisAttackAnimation) {
+                                AttackAnimation attackAnim = autoAttackMotion.get(i).get();
+                                if(attackAnim instanceof BasisAttackAnimation basisAttackAnimation) {
                                     if(basisAttackAnimation.attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH) {
                                         int currentComboCounter = playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK).getDataManager().getDataValue(SkillDataKeys.COMBO_COUNTER.get());
-                                       if(currentComboCounter <= i) {
-                                           BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.ANOTHER_ACTION_ANIMATION,
-                                                   playerPatch,
-                                                   playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK),
-                                                   autoAttackMotion.get(i),
-                                                   i + 1
-                                           );
-                                       }
+                                        if(currentComboCounter <= i) {
+                                            BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.ANOTHER_ACTION_ANIMATION,
+                                                    playerPatch,
+                                                    playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK),
+                                                    autoAttackMotion.get(i),
+                                                    i + 1
+                                            );
+                                        }
                                     }
                                 }
                             }
