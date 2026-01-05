@@ -24,15 +24,19 @@ import net.minecraftforge.client.event.EntityRenderersEvent.AddLayers;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.jline.utils.Log;
 import yesman.epicfight.api.client.forgeevent.PatchedRenderersEvent;
 import yesman.epicfight.client.renderer.patched.entity.PPlayerRenderer;
 import yesman.epicfight.client.renderer.patched.entity.PatchedEntityRenderer;
+import yesman.epicfight.main.EpicFightMod;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
+    @SubscribeEvent
     public static void registerRenderer(PatchedRenderersEvent.RegisterItemRenderer event) {
-        event.addItemRenderer(ResourceLocation.tryBuild(WeaponsOfHarmony.MODID, "shotogatana_render"), ShotogatanaRender::new);
-        event.addItemRenderer(ResourceLocation.tryBuild(WeaponsOfHarmony.MODID, "tsume_render"), TsumeRender::new);
+        event.addItemRenderer(WeaponsOfHarmony.identifier("shotogatana"), ShotogatanaRender::new);
+        event.addItemRenderer(WeaponsOfHarmony.identifier("tsume"), TsumeRender::new);
+    Log.info("LOGGING SHEATH REGISTER");
     }
 
     @SubscribeEvent

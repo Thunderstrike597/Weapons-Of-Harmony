@@ -7,14 +7,17 @@ import net.kenji.woh.registry.WohItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import yesman.epicfight.api.utils.math.MathUtils;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.renderer.patched.item.RenderItemBase;
@@ -24,16 +27,21 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
-public class TsumeRender extends RenderItemBase implements Function<JsonElement, RenderItemBase> {
+public class TsumeRender extends RenderItemBase {
     private final ItemStack tsumeStack;
     private static final Map<EntityType<?>, Float> HAND_INWARD_OFFSETS = new HashMap<>();
 
     public TsumeRender(JsonElement jsonElement) {
         super(jsonElement);
-        this.tsumeStack = new ItemStack((ItemLike) WohItems.TSUME.get());
+        if (jsonElement.getAsJsonObject().has("tsume")) {
+           this.tsumeStack = new ItemStack((ItemLike) Objects.requireNonNull((Item) ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(jsonElement.getAsJsonObject().get("tsume").getAsString()))));
+       }else {
+           this.tsumeStack = new ItemStack((ItemLike) WohItems.TSUME.get());
+       }
     }
 
     static {
@@ -66,11 +74,7 @@ public class TsumeRender extends RenderItemBase implements Function<JsonElement,
         MathUtils.mulStack(poseStack, modelMatrixOffHand);
         itemRenderer.renderStatic(tsumeItem, ItemDisplayContext.THIRD_PERSON_LEFT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
         poseStack.popPose();
-
+        super.renderItemInHand(stack, entitypatch, hand, poses, buffer, poseStack, packedLight, partialTicks);
     }
 
-    @Override
-    public RenderItemBase apply(JsonElement jsonElement) {
-        return null;
-    }
 }

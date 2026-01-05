@@ -24,6 +24,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.WeaponCategoryIconRegisterEvent;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
@@ -92,5 +93,8 @@ public class WeaponsOfHarmony {
         @net.minecraftforge.eventbus.api.SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
         }
+    }
+    public static @NotNull ResourceLocation identifier(@NotNull String path) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 }

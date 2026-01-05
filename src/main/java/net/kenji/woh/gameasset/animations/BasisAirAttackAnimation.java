@@ -1,5 +1,6 @@
 package net.kenji.woh.gameasset.animations;
 
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.AirSlashAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
@@ -15,8 +16,8 @@ public class BasisAirAttackAnimation extends AirSlashAnimation {
     public static final Map<UUID, Boolean> isAttacking = new HashMap<>();
 
 
-    public BasisAirAttackAnimation(float convertTime, String path, AssetAccessor<? extends Armature> armature, Phase... phases) {
-        super(convertTime, path, armature, phases);
+    public BasisAirAttackAnimation(float convertTime, AnimationManager.AnimationAccessor<? extends AirSlashAnimation> accessor, AssetAccessor<? extends Armature> armature, Phase... phases) {
+        super(convertTime, accessor, armature, phases);
     }
 
     @Override

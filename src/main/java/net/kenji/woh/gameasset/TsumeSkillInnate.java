@@ -55,6 +55,9 @@ public class TsumeSkillInnate extends WeaponInnateSkill {
     @Override
     public boolean canExecute(SkillContainer container) {
         // First check the base animation conditions
+        if (!(container.getExecutor() instanceof ServerPlayerPatch serverPatch))
+            return super.canExecute(container);
+
         ServerPlayerPatch executor = container.getServerExecutor();
 
         if(!executor.getSkill(this).isActivated()){

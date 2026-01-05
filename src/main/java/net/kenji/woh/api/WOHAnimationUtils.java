@@ -5,14 +5,12 @@ import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.RegistryObject;
+import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.property.AnimationEvent;
-import yesman.epicfight.api.animation.types.AttackAnimation;
-import yesman.epicfight.api.animation.types.BasicAttackAnimation;
-import yesman.epicfight.api.animation.types.DashAttackAnimation;
-import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.EpicFightSounds;
@@ -381,11 +379,12 @@ public class WOHAnimationUtils {
                             AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT),
                             AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
                     });
-                } else if (!stopEndEvent) {
+                } if (!stopEndEvent) {
                     anim.addEvents(new AnimationEvent[]{
                             AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
                     });
-                } else if (!stopStartEvent) {
+                } if (!stopStartEvent) {
+                    Log.info("IS ADDING EVENT");
                     anim.addEvents(new AnimationEvent[]{
                             AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT)
                     });
@@ -397,7 +396,7 @@ public class WOHAnimationUtils {
             DEFERRED_SETUP.add(setupSupplier);
             return animation;
         }
-    public static AnimationManager.AnimationAccessor<AttackAnimation> createAirAttackAnimation(
+    public static AnimationManager.AnimationAccessor<AirSlashAnimation> createAirAttackAnimation(
             AnimationManager.AnimationBuilder builder,
             String path,
             int phaseCount,
@@ -420,9 +419,9 @@ public class WOHAnimationUtils {
             float normalizedStart,
             float normalizedEnd
     ) {
-        AnimationManager.AnimationAccessor<AttackAnimation> animation = builder.nextAccessor(path, accessor ->
+        AnimationManager.AnimationAccessor<AirSlashAnimation> animation = builder.nextAccessor(path, accessor ->
                 new WohAirAttackAnimation(
-                        path, phaseCount, convertTime, attackSpeed, attackDamage, impact,
+                        phaseCount, convertTime, accessor,attackSpeed, attackDamage, impact,
                         start, antic, contact, recovery, end,
                         hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, airTime
                 )

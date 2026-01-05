@@ -4,6 +4,7 @@ import net.kenji.woh.registry.WohColliderPreset;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
+import yesman.epicfight.api.animation.types.AirSlashAnimation;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
@@ -45,7 +46,7 @@ public class ShotogatanaAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> SHOTOGATANA_AUTO_5;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> SHOTOGATANA_AUTO_6;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> SHOTOGATANA_DASH;
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> SHOTOGATANA_AIRSLASH;
+    public static AnimationManager.AnimationAccessor<? extends AirSlashAnimation> SHOTOGATANA_AIRSLASH;
 
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> SHOTOGATANA_SKILL_INNATE;
 

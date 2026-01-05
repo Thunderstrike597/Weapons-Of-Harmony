@@ -4,6 +4,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
+import yesman.epicfight.api.animation.types.AirSlashAnimation;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
@@ -29,7 +30,7 @@ public class OdachiAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ODACHI_AUTO_5;
 
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ODACHI_DASH;
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ODACHI_AIRSLASH;
+    public static AnimationManager.AnimationAccessor<? extends AirSlashAnimation> ODACHI_AIRSLASH;
 
     public static AnimationManager.AnimationAccessor<StaticAnimation> ODACHI_GUARD;
 

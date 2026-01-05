@@ -54,8 +54,11 @@ public class TessenSkillInnate extends WeaponInnateSkill {
     @Override
     public boolean canExecute(SkillContainer container) {
         // First check the base animation conditions
-        ServerPlayerPatch executor = container.getServerExecutor();
+        if (!(container.getExecutor() instanceof ServerPlayerPatch)) {
+            return super.checkExecuteCondition(container);
+        }
 
+        ServerPlayerPatch executor = container.getServerExecutor();
         if(!executor.getSkill(this).isActivated()){
 
             CapabilityItem mainHandCap = executor.getHoldingItemCapability(InteractionHand.MAIN_HAND);

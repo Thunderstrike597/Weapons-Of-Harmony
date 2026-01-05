@@ -5,6 +5,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
+import yesman.epicfight.api.animation.types.AirSlashAnimation;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DashAttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
@@ -30,7 +31,7 @@ public class TsumeAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_AUTO_3;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_AUTO_4;
     public static AnimationManager.AnimationAccessor<? extends DashAttackAnimation> TSUME_DASH;
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_AIRSLASH;
+    public static AnimationManager.AnimationAccessor<? extends AirSlashAnimation> TSUME_AIRSLASH;
 
     public static AnimationManager.AnimationAccessor<StaticAnimation> TSUME_SKILL_ACTIVATE;
     public static AnimationManager.AnimationAccessor<StaticAnimation> TSUME_SKILL_DEACTIVATE;

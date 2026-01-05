@@ -7,6 +7,8 @@ import net.minecraftforge.fml.ModLoadingPhase;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 
 
@@ -27,9 +29,6 @@ public class WohAnimations {
 
 
     }
-    @SubscribeEvent
-    public static void onCommonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(WOHAnimationUtils::initializeAnimations);
-    }
+
 
 }
