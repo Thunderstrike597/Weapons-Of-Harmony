@@ -147,11 +147,9 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
         AssetAccessor<? extends DynamicAnimation> current =
                 executor.getServerAnimator().animationPlayer.getAnimation();
 
-        Log.info("IS CALLING EXECUTE ON SERVER");
         AssetAccessor<? extends AttackAnimation> next = this.comboAnimation.get(current.get().getAccessor());
         if (next != null) {
             executor.playAnimationSynchronized(next, 0.0F);
-            Log.info("HAS PASSED ANIM CHECK");
         } else if (!current.get().isBasicAttackAnimation()) {
             executor.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SKILL_INNATE, 0.05F);
         }

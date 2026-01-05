@@ -1,5 +1,7 @@
 package net.kenji.woh.gameasset.animations;
 
+import net.kenji.woh.api.TimeStampManager;
+import net.kenji.woh.api.manager.ShotogatanaManager;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
@@ -33,12 +35,15 @@ public class WohSheathAnimation extends StaticAnimation {
         super.begin(entitypatch);
     }
 
+
     @Override
     public void tick(LivingEntityPatch<?> entitypatch) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             AnimationPlayer animationPlayer = playerPatch.getAnimator().getPlayerFor(this.accessor);
-            if(animationPlayer.getElapsedTime() >= endTimeStamp){
-                shouldAnimReplay.remove(playerPatch.getOriginal().getUUID());
+            if (animationPlayer != null) {
+                if (animationPlayer.getElapsedTime() >= endTimeStamp) {
+                    shouldAnimReplay.remove(playerPatch.getOriginal().getUUID());
+                }
             }
         }
         super.tick(entitypatch);
@@ -48,6 +53,7 @@ public class WohSheathAnimation extends StaticAnimation {
     public void end(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> nextAnimation, boolean isEnd) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             shouldAnimReplay.remove(playerPatch.getOriginal().getUUID());
+
             super.end(entitypatch, nextAnimation, isEnd);
         }
     }

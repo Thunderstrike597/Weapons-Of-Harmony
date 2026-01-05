@@ -2,8 +2,8 @@ package net.kenji.woh.render;
 
 import com.google.gson.JsonElement;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.corruptdog.cdm.world.item.CDAddonItems;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.animations.BasisAirAttackAnimation;
 import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
 import net.kenji.woh.gameasset.animations.WohSheathAnimation;
@@ -11,7 +11,6 @@ import net.kenji.woh.item.custom.weapon.Shotogatana;
 import net.kenji.woh.registry.WohSkills;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.kenji.woh.registry.WohItems;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
@@ -56,10 +55,6 @@ import java.util.function.Function;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ShotogatanaRender extends RenderItemBase {
-    public static final Map<UUID, Boolean> sheathWeapon = new HashMap<>();
-    public static final Map<UUID, Boolean> isHoldingSheathed = new HashMap<>();
-
-    public static final Map<UUID, Boolean> hasSetupWeapon = new HashMap<>();
 
 
     private final ItemStack katana;
@@ -82,50 +77,14 @@ public class ShotogatanaRender extends RenderItemBase {
         this.sheathedWeaponStack = new ItemStack((ItemLike) WohItems.SHOTOGATANA_IN_SHEATH.get());
     }
 
-    @SubscribeEvent
-    public static void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
-        UUID playerId = event.getEntity().getUUID();
-        sheathWeapon.remove(playerId);
-        hasSetupWeapon.remove(playerId);
-    }
 
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        UUID playerId = event.player.getUUID();
-        Player player = event.player;
-        boolean hasSetup = hasSetupWeapon.getOrDefault(playerId, false);
-        if (event.player.getMainHandItem().getItem() == WohItems.SHOTOGATANA.get()) {
-            if (!hasSetup) {
-                sheathWeapon.put(playerId, true);
-                hasSetupWeapon.put(playerId, true);
-            }
-        }
-        if (player.getMainHandItem().getItem() instanceof Shotogatana) {
-            player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
-                if (cap instanceof PlayerPatch<?> patch) {
-                    boolean sheathed = sheathWeapon.getOrDefault(playerId, false);
-                    if (sheathed)
-                        patch.getAnimator().addLivingAnimation(LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_GUARD);
-                    else
-                        patch.getAnimator().addLivingAnimation(LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD);
-                }
-            });
-        }
-    }
-
-    @SubscribeEvent
-    public static void onDeath(PlayerEvent.PlayerRespawnEvent event) {
-        UUID playerId = event.getEntity().getUUID();
-        hasSetupWeapon.replace(playerId, false);
-
-    }
 
     private ItemStack getStack(LivingEntityPatch<?> entitypatch) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             if (sheathAnim == null || unsheathAnim == null)
                 return sheathStack;
             UUID playerID = playerPatch.getOriginal().getUUID();
-            boolean isSheathed = sheathWeapon.getOrDefault(playerID, false);
+            boolean isSheathed = ShotogatanaManager.sheathWeapon.getOrDefault(playerID, false);
 
             AnimationPlayer animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.LOWEST).animationPlayer;
             AnimationPlayer highAnimPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;

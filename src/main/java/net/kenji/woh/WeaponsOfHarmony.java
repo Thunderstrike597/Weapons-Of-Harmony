@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.gameasset.WohWeaponCapabilityPresets;
 import net.kenji.woh.gameasset.WohWeaponCategories;
+import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.WohSkills;
 import net.kenji.woh.registry.WohSounds;
 import net.kenji.woh.registry.WohColliderPreset;
@@ -23,6 +24,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -64,7 +66,7 @@ public class WeaponsOfHarmony {
     }
 
     private void commonSetup(final net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) {
-
+        event.enqueueWork(WohPacketHandler::register);
     }
 
     public static void RegisterWeaponType(WeaponCapabilityPresetRegistryEvent event) {

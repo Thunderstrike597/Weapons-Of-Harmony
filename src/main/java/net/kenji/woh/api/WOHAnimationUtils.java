@@ -1,6 +1,9 @@
 package net.kenji.woh.api;
 
+import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.animations.*;
+import net.kenji.woh.network.SheathStatePacket;
+import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
@@ -44,7 +47,10 @@ public class WOHAnimationUtils {
                 (entityPatch, animation, params) -> {
                     if (entityPatch instanceof PlayerPatch<?> playerPatch) {
                         Player player = playerPatch.getOriginal();
-                        ShotogatanaRender.sheathWeapon.put(player.getUUID(), false);
+                        ShotogatanaManager.sheathWeapon.put(player.getUUID(), false);
+                        if (player.level().isClientSide) {
+                            WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), false));
+                        }
                     }
                 };
 
@@ -62,7 +68,10 @@ public class WOHAnimationUtils {
                             );
                         }
 
-                        ShotogatanaRender.sheathWeapon.put(id, true);
+                        ShotogatanaManager.sheathWeapon.put(id, true);
+                        if (player.level().isClientSide) {
+                            WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), true));
+                        }
                     }
                 };
     }
@@ -92,16 +101,16 @@ public class WOHAnimationUtils {
             // Add events at those exact timestamps
             if (!stopEndEvent && !stopStartEvent) {
                 anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT),
-                        AnimationEvent.InTimeEvent.create(absEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
+                        AnimationEvent.InTimeEvent.create(absStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
+                        AnimationEvent.InTimeEvent.create(absEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
                 });
             } else if (!stopEndEvent) {
                 anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
+                        AnimationEvent.InTimeEvent.create(absEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
                 });
             } else if (!stopStartEvent) {
                 anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT)
+                        AnimationEvent.InTimeEvent.create(absStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH)
                 });
             }
 
@@ -150,7 +159,7 @@ public class WOHAnimationUtils {
                     AnimationEvent.InTimeEvent.create(
                             absEnd,
                             ReusableEvents.SHEATH_E0,
-                            AnimationEvent.Side.CLIENT
+                            AnimationEvent.Side.BOTH
                     )
             });
 
@@ -261,16 +270,16 @@ public class WOHAnimationUtils {
 
             if (!stopEndEvent && !stopStartEvent) {
                 anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT),
-                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
+                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
+                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
                 });
             } else if (!stopEndEvent) {
                 anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
+                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
                 });
             } else if (!stopStartEvent) {
                 anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT)
+                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH)
                 });
             }
 
@@ -375,16 +384,16 @@ public class WOHAnimationUtils {
 
                 if (!stopEndEvent && !stopStartEvent) {
                     anim.addEvents(new AnimationEvent[]{
-                            AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT),
-                            AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
+                            AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
+                            AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
                     });
                 } if (!stopEndEvent) {
                     anim.addEvents(new AnimationEvent[]{
-                            AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
+                            AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
                     });
                 } if (!stopStartEvent) {
                     anim.addEvents(new AnimationEvent[]{
-                            AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT)
+                            AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH)
                     });
                 }
 
@@ -443,16 +452,16 @@ public class WOHAnimationUtils {
             // Add events at those exact timestamps
             if (!stopEndEvent && !stopStartEvent) {
                 anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT),
-                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
+                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
+                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
                 });
             } else if (!stopEndEvent) {
                 anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
+                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
                 });
             } else if (!stopStartEvent) {
                 anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT)
+                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH)
                 });
             }
 
@@ -531,16 +540,16 @@ public class WOHAnimationUtils {
 
             if (!stopEndEvent && !stopStartEvent) {
                 anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT),
-                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
+                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
+                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
                 });
             } else if (!stopEndEvent) {
                 anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.CLIENT)
+                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
                 });
             } else if (!stopStartEvent) {
                 anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.CLIENT)
+                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH)
                 });
             }
 

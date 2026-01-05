@@ -16,8 +16,6 @@ public class TimeStampManager {
 
         public float startTimeStamp;
         public float endTimeStamp;
-        public float normalisedStartTimeStamp;
-        public float normalisedEndTimeStamp;
 
         public boolean hasSheath;
         public float sheathTimestamp;
@@ -26,13 +24,13 @@ public class TimeStampManager {
     private static final Map<StaticAnimation, TimeStampData> REGISTRY = new HashMap<>();
 
     public static void register(StaticAnimation animation,
-                                float normStart,
-                                float normEnd) {
+                                float start,
+                                float end) {
 
         TimeStampData data = new TimeStampData();
         data.animation = animation;
-        data.normalisedStartTimeStamp = normStart;
-        data.normalisedEndTimeStamp = normEnd;
+        data.startTimeStamp = start;
+        data.endTimeStamp = end;
 
 
         REGISTRY.put(animation, data);
@@ -45,8 +43,8 @@ public class TimeStampManager {
 
         TimeStampData data = new TimeStampData();
         data.animation = animation;
-        data.normalisedStartTimeStamp = normStart;
-        data.normalisedEndTimeStamp = normEnd;
+        data.startTimeStamp = normStart;
+        data.endTimeStamp = normEnd;
         data.hasSheath = hasSheath;
         data.sheathTimestamp = sheathTimeStamp;
 
@@ -72,20 +70,20 @@ public class TimeStampManager {
         if (data == null) return false;
 
         float norm = getNormalizedTime(playerPatch, animation.getPriority());
-        return norm >= data.normalisedStartTimeStamp && norm <= data.normalisedEndTimeStamp;
+        return norm >= data.startTimeStamp && norm <= data.endTimeStamp;
     }
     public static boolean isHigherThanStart(PlayerPatch<?> playerPatch, StaticAnimation animation) {
         TimeStampData data = REGISTRY.get(animation);
         if (data == null) return false;
 
         float norm = getNormalizedTime(playerPatch, animation.getPriority());
-        return norm > data.normalisedStartTimeStamp;
+        return norm > data.startTimeStamp;
     }
     public static boolean isLowerThanEnd(PlayerPatch<?> playerPatch, StaticAnimation animation) {
         TimeStampData data = REGISTRY.get(animation);
         if (data == null) return false;
 
         float norm = getNormalizedTime(playerPatch, animation.getPriority());
-        return norm < data.normalisedEndTimeStamp;
+        return norm < data.endTimeStamp;
     }
 }
