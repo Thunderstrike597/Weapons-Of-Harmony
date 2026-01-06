@@ -152,7 +152,7 @@ tasks.named('jar', Jar).configure {
                 "MixinConfigs" : "mixins.woh.json"
         ])
     }
-    archiveBaseName = "${mod_version}-WeaponsOfHarmony-Forge"
+    archiveBaseName = "${mod_version}-WeaponsOfHarmony-Forge-EMF-${epic_fight_version}"
     archiveVersion = ""
     finalizedBy 'reobfJar'
 }
