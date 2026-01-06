@@ -1,6 +1,9 @@
 package net.kenji.woh.api;
 
+import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.animations.*;
+import net.kenji.woh.network.SheathStatePacket;
+import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
@@ -39,7 +42,10 @@ public class WOHAnimationUtils {
 
                         Player player = playerPatch.getOriginal();
                         UUID playerId = player.getUUID();
-                        ShotogatanaRender.sheathWeapon.put(playerId, false);
+                        ShotogatanaManager.sheathWeapon.put(playerId, false);
+                        if (player.level().isClientSide) {
+                            WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), false));
+                        }
                     }
                 }
         );
@@ -57,8 +63,11 @@ public class WOHAnimationUtils {
                             );
 
                         }
-                        ShotogatanaRender.sheathWeapon.remove(playerId);
-                        ShotogatanaRender.sheathWeapon.put(playerId, true);
+                        ShotogatanaManager.sheathWeapon.remove(playerId);
+                        ShotogatanaManager.sheathWeapon.put(playerId, true);
+                        if (player.level().isClientSide) {
+                            WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), true));
+                        }
                     }
                 }
         );

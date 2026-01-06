@@ -2,6 +2,7 @@ package net.kenji.woh.gameasset.animations;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -115,7 +116,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                     CapabilityItem capItem = playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
                     UUID playerID = playerPatch.getOriginal().getUUID();
                     if (capItem instanceof WeaponCapability weaponCap) {
-                        boolean isSheathed = ShotogatanaRender.sheathWeapon.getOrDefault(playerID, false);
+                        boolean isSheathed = ShotogatanaManager.sheathWeapon.getOrDefault(playerID, false);
                         if (!isSheathed) {
                             List<AnimationProvider<?>> autoAttackMotion = weaponCap.getAutoAttckMotion(playerPatch);
                             for(int i = 0; i < autoAttackMotion.size(); i++) {

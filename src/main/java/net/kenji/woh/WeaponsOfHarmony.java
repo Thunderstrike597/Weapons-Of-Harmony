@@ -5,6 +5,7 @@ import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.gameasset.WohWeaponCapabilityPresets;
 import net.kenji.woh.gameasset.WohWeaponCategories;
 import net.kenji.woh.gameasset.WohSkills;
+import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.WohSounds;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.WohAnimations;
@@ -64,7 +65,7 @@ public class WeaponsOfHarmony {
     }
 
     private void commonSetup(final net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) {
-
+        event.enqueueWork(WohPacketHandler::register);
     }
 
     public static void RegisterWeaponType(WeaponCapabilityPresetRegistryEvent event) {

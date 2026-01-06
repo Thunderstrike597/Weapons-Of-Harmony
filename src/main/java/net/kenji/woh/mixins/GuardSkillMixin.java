@@ -1,5 +1,6 @@
 package net.kenji.woh.mixins;
 
+import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.WohWeaponCategories;
 import net.kenji.woh.registry.animation.*;
 import net.kenji.woh.render.ShotogatanaRender;
@@ -33,7 +34,7 @@ public abstract class GuardSkillMixin {
         guardMotions.put(
                 WohWeaponCategories.SHOTOGATANA,
                 (item, player) -> {
-                    boolean isSheathed = ShotogatanaRender.sheathWeapon.getOrDefault(player.getOriginal().getUUID(), false);
+                    boolean isSheathed = ShotogatanaManager.sheathWeapon.getOrDefault(player.getOriginal().getUUID(), false);
                     if (isSheathed) {
                         return ShotogatanaAnimations.SHOTOGATANA_GUARD;
                     } else return ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD;
