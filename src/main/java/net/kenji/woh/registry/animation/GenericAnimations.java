@@ -29,6 +29,7 @@ public class GenericAnimations {
     public static AnimationManager.AnimationAccessor<? extends DashAttackAnimation> COMBAT_FIST_DASH;
     public static AnimationManager.AnimationAccessor<? extends AirSlashAnimation> COMBAT_FIST_AIRKICK;
 
+
     public static void build(AnimationManager.AnimationBuilder builder){
         AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
 

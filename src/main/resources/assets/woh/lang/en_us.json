@@ -37,5 +37,18 @@
 
   "item.woh.folded_iron.tooltip": "A piece of iron that with much higher density than regular iron. \nAlthough tough, it tends to be fragile without being smelted first",
   "item.woh.folded_steel.tooltip": "A very dense piece of steel",
-  "item.woh.hardened_steel_ingot.tooltip": "An extremely durable and hard metal \nthat can be used to craft weapons of great variety"
+  "item.woh.hardened_steel_ingot.tooltip": "An extremely durable and hard metal \nthat can be used to craft weapons of great variety",
+
+  "skill.woh.shotogatana_skill": "Shotogatana Skill",
+  "skill.woh.fan_stance": "Fan Stance",
+  "skill.woh.enraged_claws": "Enraged Claws",
+
+  "skill.woh.shotogatana_skill.tooltip": "Once the cooldown is charged, you can execute a different combo \ndepending on the current attack animation.",
+  "skill.woh.shotogatana_skill.tooltip.extra": "If no attack animation is present, you will perform a sheathed slash too quick for the human eye to see...",
+
+  "skill.woh.fan_stance.tooltip": "Once the cooldown is charged, you can enter a stance in which allows you to have a completely new moveset. \nThis moveset is dedicated to thrown attacks, in which your tessen returns to you after thrown in each attack",
+  "skill.woh.fan_stance.tooltip.extra": "This Stance lasts for: ",
+
+  "skill.woh.enraged_claws.tooltip": "Once the cooldown is charged, you can enter a stance in which allows you to have a completely new moveset. \nThis moveset allows you to attack in rapid succession, pummeling any enemies in your way!",
+  "skill.woh.enraged_claws.tooltip.extra": "This Stance lasts for: "
 }
