@@ -106,18 +106,18 @@ public class WOHAnimationUtils {
 
         if(!stopEndEvent && !stopStartEvent) {
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
-                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.BOTH),
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
             });
         }
         if(!stopEndEvent && stopStartEvent){
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
             });
         }
         if(!stopStartEvent && stopEndEvent) {
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.BOTH),
             });
         }
         if(extraEvents != null){
@@ -148,7 +148,7 @@ public class WOHAnimationUtils {
         WohSheathAnimation animation = (new WohSheathAnimation(convertTime, isRepeat, path, Armatures.BIPED, absEnd));
 
         animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                AnimationEvent.TimeStampedEvent.create(absEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+                AnimationEvent.TimeStampedEvent.create(absEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
         });
 
         if(extraEvents != null){
@@ -229,18 +229,18 @@ public class WOHAnimationUtils {
 
         if(!stopEndEvent && !stopStartEvent) {
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
-                    AnimationEvent.TimeStampedEvent.create(absEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+                    AnimationEvent.TimeStampedEvent.create(absStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.BOTH),
+                    AnimationEvent.TimeStampedEvent.create(absEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
             });
         }
         if(!stopEndEvent && stopStartEvent){
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+                    AnimationEvent.TimeStampedEvent.create(absEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
             });
         }
         if(!stopStartEvent && stopEndEvent){
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+                    AnimationEvent.TimeStampedEvent.create(absStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.BOTH),
             });
 
         }
@@ -313,18 +313,18 @@ public class WOHAnimationUtils {
 
         if(!stopEndEvent && !stopStartEvent) {
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
-                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.BOTH),
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
             });
         }
         if(!stopEndEvent && stopStartEvent){
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
             });
         }
         if(!stopStartEvent && stopEndEvent){
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.BOTH),
             });
 
         }
@@ -383,18 +383,18 @@ public class WOHAnimationUtils {
 
         if(!stopEndEvent && !stopStartEvent) {
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
-                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.BOTH),
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
             });
         }
         if(!stopEndEvent && stopStartEvent){
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.CLIENT)
+                    AnimationEvent.TimeStampedEvent.create(absoluteEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
             });
         }
         if(!stopStartEvent && stopEndEvent){
             animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
-                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.CLIENT),
+                    AnimationEvent.TimeStampedEvent.create(absoluteStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.BOTH),
             });
 
         }

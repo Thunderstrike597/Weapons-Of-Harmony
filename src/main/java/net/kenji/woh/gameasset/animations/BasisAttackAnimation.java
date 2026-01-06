@@ -98,7 +98,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
         }
         super.attackTick(entitypatch, animation);
     }
-    @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+    @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public class ClientEvents {
         @SubscribeEvent
         public static void onPLayerTick(TickEvent.PlayerTickEvent event) {
