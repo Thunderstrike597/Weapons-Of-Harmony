@@ -8,9 +8,11 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -19,6 +21,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jline.utils.Log;
@@ -36,6 +39,8 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static net.kenji.woh.WohConfigClient.HOLSTER_HIDDEN_ITEMS;
 
 @OnlyIn(Dist.CLIENT)
 public class HolsteredItemLayer extends ModelRenderLayer<
@@ -112,6 +117,12 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         this.trueSlotIndex = 36 + slotIndex;
 
     }
+    public static boolean showHolsterFor(Item item) {
+        ResourceLocation id = ForgeRegistries.ITEMS.getKey(item);
+        if (id == null) return false;
+
+        return !HOLSTER_HIDDEN_ITEMS.get().contains(id.toString());
+    }
 
 
     @Override
@@ -130,7 +141,9 @@ public class HolsteredItemLayer extends ModelRenderLayer<
     ) {
 
         ItemStack stack = findHolsteredItem(player);
-        if (stack.isEmpty()) return;
+        boolean showItem = showHolsterFor(stack.getItem());
+
+        if (stack.isEmpty() || !showItem) return;
 
         if (!(stack.getItem() instanceof HolsterBaseItem holsterItem)) return;
 

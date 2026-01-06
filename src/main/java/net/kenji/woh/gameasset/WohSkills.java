@@ -1,9 +1,9 @@
-package net.kenji.woh.registry;
+package net.kenji.woh.gameasset;
 
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.gameasset.ShotogatanaSkillInnate;
-import net.kenji.woh.gameasset.TessenSkillInnate;
-import net.kenji.woh.gameasset.TsumeSkillInnate;
+import net.kenji.woh.gameasset.skills.ShotogatanaSkillInnate;
+import net.kenji.woh.gameasset.skills.TessenSkillInnate;
+import net.kenji.woh.gameasset.skills.TsumeSkillInnate;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.forgeevent.SkillBuildEvent;

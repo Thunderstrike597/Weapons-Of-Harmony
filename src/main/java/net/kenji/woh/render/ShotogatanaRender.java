@@ -6,7 +6,7 @@ import net.kenji.woh.gameasset.animations.BasisAirAttackAnimation;
 import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
 import net.kenji.woh.gameasset.animations.WohSheathAnimation;
 import net.kenji.woh.item.custom.weapon.Shotogatana;
-import net.kenji.woh.registry.WohSkills;
+import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.client.Minecraft;

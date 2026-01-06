@@ -1,9 +1,11 @@
-package net.kenji.woh.gameasset;
+package net.kenji.woh.gameasset.skills;
 
+import com.google.common.collect.Lists;
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.kenji.woh.registry.animation.TessenAnimations;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -21,6 +23,7 @@ import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -112,6 +115,20 @@ public class TessenSkillInnate extends WeaponInnateSkill {
             executer.playAnimationSynchronized(TessenAnimations.TESSEN_SKILL_ACTIVATE, 0.15F);
         }
     }
+
+    @Override
+    public List<Component> getTooltipOnItem(ItemStack itemStack, CapabilityItem cap, PlayerPatch<?> playerCap) {
+        List<Component> list = Lists.newArrayList();
+        String traslatableText = this.getTranslationKey();
+        list.add(Component.translatable(traslatableText).withStyle(ChatFormatting.WHITE)
+                .append(Component.literal(String.format("[%.0f]", this.consumption)).withStyle(ChatFormatting.AQUA)));
+        list.add(Component.translatable(traslatableText + ".tooltip")
+                .withStyle(ChatFormatting.AQUA));
+        list.add(Component.translatable(traslatableText + ".tooltip.extra")
+                .withStyle(ChatFormatting.RED).append(String.valueOf(this.maxDuration / 20)));
+        return list;
+    }
+
     @Override
     public void cancelOnServer(ServerPlayerPatch executer, FriendlyByteBuf args) {
         executer.getSkill(this).deactivate();

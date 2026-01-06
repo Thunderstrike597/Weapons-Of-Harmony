@@ -1,12 +1,13 @@
-package net.kenji.woh.gameasset;
+package net.kenji.woh.gameasset.skills;
 
+import com.google.common.collect.Lists;
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.registry.animation.TessenAnimations;
 import net.kenji.woh.registry.animation.TsumeAnimations;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
@@ -18,9 +19,9 @@ import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
-import yesman.epicfight.world.capabilities.item.WeaponCapability;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -77,6 +78,19 @@ public class TsumeSkillInnate extends WeaponInnateSkill {
 
             storedResource.put(playerId, container.getResource());
         }
+    }
+
+    @Override
+    public List<Component> getTooltipOnItem(ItemStack itemStack, CapabilityItem cap, PlayerPatch<?> playerCap) {
+        List<Component> list = Lists.newArrayList();
+        String traslatableText = this.getTranslationKey();
+        list.add(Component.translatable(traslatableText).withStyle(ChatFormatting.WHITE)
+                .append(Component.literal(String.format("[%.0f]", this.consumption)).withStyle(ChatFormatting.AQUA)));
+        list.add(Component.translatable(traslatableText + ".tooltip")
+                .withStyle(ChatFormatting.AQUA));
+        list.add(Component.translatable(traslatableText + ".tooltip.extra", this.maxDuration)
+                .withStyle(ChatFormatting.RED).append(String.valueOf(this.maxDuration / 20)));
+        return list;
     }
 
     @Override

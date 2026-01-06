@@ -4,7 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.gameasset.WohWeaponCapabilityPresets;
 import net.kenji.woh.gameasset.WohWeaponCategories;
-import net.kenji.woh.registry.WohSkills;
+import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.registry.WohSounds;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.WohAnimations;
@@ -54,6 +54,7 @@ public class WeaponsOfHarmony {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(WeaponsOfHarmony::regIcon));
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WohConfigCommon.SPEC, "WeaponsOfHarmony-Common.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, WohConfigClient.SPEC, "WeaponsOfHarmony-Client.toml");
 
 
         modEventBus.addListener(WohAnimations::registerAnimations);

@@ -1,6 +1,5 @@
 package net.kenji.woh.gameasset;
 
-import net.kenji.woh.registry.WohSkills;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.*;
 import net.minecraft.world.InteractionHand;

@@ -8,13 +8,16 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.joml.Quaternionf;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.gameasset.Armatures;
@@ -24,12 +27,21 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import static net.kenji.woh.WohConfigClient.HOLSTER_HIDDEN_ITEMS;
+
 @OnlyIn(Dist.CLIENT)
 public class OffHandHolsteredItemLayer<T extends Player, M extends PlayerModel<T>>
         extends RenderLayer<T, M> {
 
     public OffHandHolsteredItemLayer(RenderLayerParent<T, M> parent) {
         super(parent);
+    }
+
+    public static boolean showHolsterFor(Item item) {
+        ResourceLocation id = ForgeRegistries.ITEMS.getKey(item);
+        if (id == null) return false;
+
+        return !HOLSTER_HIDDEN_ITEMS.get().contains(id.toString());
     }
 
     @Override
@@ -57,6 +69,9 @@ public class OffHandHolsteredItemLayer<T extends Player, M extends PlayerModel<T
                 ItemStack offHandStack = player.getOffhandItem();
                 ItemStack stack = findOffHandHolsteredItem(player);
 
+                boolean showItem = showHolsterFor(stack.getItem());
+
+                if (stack.isEmpty() || !showItem) return;
                 if (!stack.isEmpty() && !offHandStack.isEmpty()) {
 
                     if (offHandStack.getItem() instanceof HolsterBaseItem holsterItem) {
