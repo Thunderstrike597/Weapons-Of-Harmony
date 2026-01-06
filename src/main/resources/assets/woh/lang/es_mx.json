@@ -1,0 +1,56 @@
+{
+  "creativetab.woh": "Armas de Armonía",
+
+  "item.woh.z_shotogatana_sheath": "Vaina de Shotogatana",
+  "item.woh.z_shotogatana_in_sheath": "Shotogatana Enfundada",
+
+  "item.woh.shotogatana": "Shotogatana",
+  "item.woh.tessen": "Tessen",
+  "item.woh.tsume": "Tsume",
+  "item.woh.wakizashi": "Wakizashi",
+  "item.woh.odachi": "Odachi",
+
+  "item.woh.folded_iron": "Hierro Plegado",
+  "item.woh.folded_steel": "Acero Plegado",
+  "item.woh.hardened_steel_ingot": "Lingote de Acero Endurecido",
+
+  "item.woh.hardened_blade": "Hoja Endurecida",
+  "item.woh.patterned_handle": "Empuñadura Decorada",
+  "item.woh.gold_tsuba": "Tsuba Dorada",
+
+  "item.woh.blade_curve_module": "Módulo de Curvatura de Hoja",
+  "item.woh.weapon_repair_module": "Módulo de Reparación de Armas",
+
+  "item.woh.broken_blade": "Hoja y Vaina Rotas",
+  "item.woh.broken_fan_blade": "Hoja de Abanico Rota",
+  "item.woh.broken_claws": "Garras Rotas",
+
+  "item.woh.ronin_headwear": "Sombrero de Ronin",
+  "item.woh.ronin_tunic": "Túnica de Ronin",
+  "item.woh.ronin_leggings": "Pantalones de Ronin",
+  "item.woh.ronin_boots": "Botas de Ronin",
+
+  "item.woh.shotogatana.tooltip": "Una hoja precisa acompañada de una saya.\nÁgil y capaz de atravesar incluso la armadura más resistente con estilo.",
+  "item.woh.tessen.tooltip": "Un ágil abanico de guerra que ataca con rápida precisión.\nEsta poderosa arma puede lanzarse al usar otra en la mano secundaria,\npermitiendo ataques a distancia.",
+  "item.woh.tsume.tooltip": "Un par de garras afiladas diseñadas para ataques rápidos a corta distancia.",
+
+  "item.woh.wakizashi.tooltip": "Una hoja corta y ágil de un solo filo, ideal para empuñarse en dual.",
+  "item.woh.odachi.tooltip": "Una gran espada de un solo filo, lenta pero extremadamente poderosa.",
+
+  "item.woh.folded_iron.tooltip": "Un fragmento de hierro con una densidad mucho mayor que el hierro común.\nAunque resistente, suele ser frágil si no se funde primero.",
+  "item.woh.folded_steel.tooltip": "Un fragmento de acero extremadamente denso.",
+  "item.woh.hardened_steel_ingot.tooltip": "Un metal extremadamente duro y resistente\nque puede usarse para forjar una gran variedad de armas.",
+
+  "skill.woh.shotogatana_skill": "Habilidad de Shotogatana",
+  "skill.woh.fan_stance": "Postura del Abanico",
+  "skill.woh.enraged_claws": "Garras Enfurecidas",
+
+  "skill.woh.shotogatana_skill.tooltip": "Una vez que el enfriamiento está cargado, puedes ejecutar un combo diferente\ndependiendo de la animación de ataque actual.",
+  "skill.woh.shotogatana_skill.tooltip.extra": "Si no hay una animación de ataque activa,\nejecutarás un corte enfundado demasiado rápido para el ojo humano...",
+
+  "skill.woh.fan_stance.tooltip": "Una vez que el enfriamiento está cargado, puedes entrar en una postura\nque te da un conjunto de movimientos completamente nuevo.\nEste estilo se enfoca en ataques lanzados, donde el tessen regresa a ti después de cada lanzamiento.",
+  "skill.woh.fan_stance.tooltip.extra": "Esta postura dura: ",
+
+  "skill.woh.enraged_claws.tooltip": "Una vez que el enfriamiento está cargado, puedes entrar en una postura\nque te da un conjunto de movimientos completamente nuevo.\nEste estilo te permite atacar rápidamente, aplastando a cualquier enemigo en tu camino.",
+  "skill.woh.enraged_claws.tooltip.extra": "Esta postura dura: "
+}
