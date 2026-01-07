@@ -3,8 +3,11 @@ package net.kenji.woh.gameasset;
 import net.kenji.woh.gameasset.skills.TessenAimSkill;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.*;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
@@ -59,7 +62,7 @@ public class WohWeaponCapabilityPresets {
                                     return CapabilityItem.Styles.TWO_HAND;
                                 }
                                 if (TessenAimSkill.isAiming(patch))
-                                    return WohStyles.THROWN_ONE_HAND; // Change Later
+                                    return WohStyles.THROWN_ONE_HAND;
                             }
                             return CapabilityItem.Styles.ONE_HAND;
                         }
@@ -115,7 +118,6 @@ public class WohWeaponCapabilityPresets {
                 .passiveSkill(WohSkills.FAN_STANCE);
         return builder;
     };
-
     public static final Function<Item, CapabilityItem.Builder> TSUME = (item) -> {
         WeaponCapability.Builder builder = WeaponCapability.builder()
                 .category(WohWeaponCategories.TSUME)

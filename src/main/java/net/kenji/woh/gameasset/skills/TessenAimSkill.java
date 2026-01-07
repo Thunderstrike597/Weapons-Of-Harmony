@@ -68,7 +68,7 @@ public class TessenAimSkill extends GuardSkill {
             } else if (wasDown.getOrDefault(id, false)) {
                 counter.put(id, counter.getOrDefault(id, 0f) + 1f);
 
-                if (counter.get(id) >= 15) {
+                if (counter.get(id) >= 2.5) {
                     wasDown.put(id, false);
                     counter.put(id, 0f);
                     WohPacketHandler.sendToServer(new TessenInnatePacket(id, false));
@@ -90,15 +90,6 @@ public class TessenAimSkill extends GuardSkill {
     @Override
     public ResourceLocation getSkillTexture() {
         return EpicFightSkills.LIECHTENAUER.getSkillTexture();
-    }
-
-    @Override
-    public void onRemoved(SkillContainer container) {
-        if (container.getExecuter().getOriginal() != null) {
-            UUID playerId = container.getExecuter().getOriginal().getUUID();
-
-            storedResource.put(playerId, container.getResource());
-        }
     }
 
     @Override
