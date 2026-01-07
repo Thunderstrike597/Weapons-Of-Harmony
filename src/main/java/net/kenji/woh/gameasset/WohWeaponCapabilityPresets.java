@@ -1,5 +1,6 @@
 package net.kenji.woh.gameasset;
 
+import net.kenji.woh.gameasset.skills.TessenAimSkill;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.*;
 import net.minecraft.world.InteractionHand;
@@ -50,15 +51,18 @@ public class WohWeaponCapabilityPresets {
         WeaponCapability.Builder builder = WeaponCapability.builder()
                 .category(WohWeaponCategories.TESSEN)
                 .styleProvider((playerPatch) -> {
-                    if(playerPatch instanceof PlayerPatch<?> patch) {
-                        if (patch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == WohWeaponCategories.TESSEN) {
-                            if (patch.getSkill(SkillSlots.WEAPON_INNATE).isActivated())
-                                return CapabilityItem.Styles.RANGED;
-                            return CapabilityItem.Styles.TWO_HAND;
+                            if (playerPatch instanceof PlayerPatch<?> patch) {
+                                if (patch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == WohWeaponCategories.TESSEN) {
+                                    if (TessenAimSkill.isAiming(patch)) {
+                                        return WohStyles.THROWN_TWO_HAND;
+                                    }
+                                    return CapabilityItem.Styles.TWO_HAND;
+                                }
+                                if (TessenAimSkill.isAiming(patch))
+                                    return WohStyles.THROWN_TWO_HAND; // Change Later
+                            }
+                            return CapabilityItem.Styles.ONE_HAND;
                         }
-                    }
-                    return CapabilityItem.Styles.ONE_HAND;
-                    }
                 )
                 .weaponCombinationPredicator(
                         (entitypatch) ->
@@ -80,30 +84,79 @@ public class WohWeaponCapabilityPresets {
                         TessenAnimations.TESSEN_DUAL_AUTO_4,
                         TessenAnimations.TESSEN_DUAL_AUTO_5,
                         Animations.DAGGER_DUAL_DASH, TessenAnimations.TESSEN_DUAL_AIRSLASH)
-                .newStyleCombo(CapabilityItem.Styles.RANGED,
+                .newStyleCombo(WohStyles.THROWN_TWO_HAND,
                         TessenAnimations.TESSEN_SKILL_AUTO_1,
                         TessenAnimations.TESSEN_SKILL_AUTO_2,
                         TessenAnimations.TESSEN_SKILL_AUTO_3,
                         TessenAnimations.TESSEN_SKILL_AUTO_4,
                         TessenAnimations.TESSEN_SKILL_DASH, TessenAnimations.TESSEN_SKILL_AIRSLASH)
+                .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_SKILL_HOLD)
+                .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_SKILL_WALK)
+                .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
+                .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
+
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
-                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_DUAL_GUARD)
-                .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.IDLE, TessenAnimations.TESSEN_SKILL_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.WALK, TessenAnimations.TESSEN_SKILL_WALK)
-                .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
-                .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.BLOCK, TessenAnimations.TESSEN_DUAL_GUARD)
-                .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WohSkills.FAN_STANCE)
-                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.FAN_STANCE)
-                .innateSkill(CapabilityItem.Styles.RANGED, (itemstack) -> WohSkills.FAN_STANCE);
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
 
+                .passiveSkill(WohSkills.FAN_STANCE);
         return builder;
     };
+  /*  public static final Function<Item, CapabilityItem.Builder> ENDER_BLASTER = (item) -> {
+        CapabilityItem.Builder builder = WeaponCapability.builder().zoomInType(CapabilityItem.ZoomInType.CUSTOM)
+                .category(WOMWeaponCategories.ENDERBLASTER)
+                .styleProvider((playerpatch) ->
+                        playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == WOMWeaponCategories.ENDERBLASTER ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND)
+                .hitSound((SoundEvent)EpicFightSounds.BLADE_HIT.get())
+                .collider(WOMWeaponColliders.PUNCH)
+                .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
+                        new StaticAnimation[]{
+                                WOMAnimations.ENDERBLASTER_ONEHAND_AUTO_1,
+                                WOMAnimations.ENDERBLASTER_ONEHAND_AUTO_2,
+                                WOMAnimations.ENDERBLASTER_ONEHAND_AUTO_3,
+                                WOMAnimations.ENDERBLASTER_ONEHAND_AUTO_4,
+                                WOMAnimations.ENDERBLASTER_ONEHAND_DASH,
+                                WOMAnimations.ENDERBLASTER_ONEHAND_JUMPKICK}
+                )
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        new StaticAnimation[]{
+                                WOMAnimations.ENDERBLASTER_TWOHAND_AUTO_1,
+                                WOMAnimations.ENDERBLASTER_TWOHAND_AUTO_2,
+                                WOMAnimations.ENDERBLASTER_TWOHAND_AUTO_3,
+                                WOMAnimations.ENDERBLASTER_TWOHAND_AUTO_4,
+                                WOMAnimations.ENDERBLASTER_ONEHAND_DASH,
+                                WOMAnimations.ENDERBLASTER_TWOHAND_TISHNAW}
+                )
+                .newStyleCombo(CapabilityItem.Styles.MOUNT,
+                        new StaticAnimation[]{Animations.SWORD_MOUNT_ATTACK}
+                ).innateSkill(CapabilityItem.Styles.ONE_HAND,
+                        (itemstack) ->
+                                WOMSkills.ENDER_BLAST
+                )
+                .innateSkill(CapabilityItem.Styles.TWO_HAND,
+                        (itemstack) -> WOMSkills.ENDER_FUSION)
+                .comboCancel((style) -> false)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, WOMAnimations.ENDERBLASTER_ONEHAND_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, WOMAnimations.ENDERBLASTER_ONEHAND_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.CHASE, WOMAnimations.ENDERBLASTER_ONEHAND_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, WOMAnimations.ENDERBLASTER_ONEHAND_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.SWIM, Animations.BIPED_SWIM)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, WOMAnimations.ENDERBLASTER_ONEHAND_AIMING)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, WOMAnimations.ENDERBLASTER_TWOHAND_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, WOMAnimations.ENDERBLASTER_TWOHAND_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.CHASE, WOMAnimations.ENDERBLASTER_ONEHAND_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, WOMAnimations.ENDERBLASTER_ONEHAND_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.SWIM, Animations.BIPED_SWIM)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, WOMAnimations.ENDERBLASTER_TWOHAND_AIMING)
+                .weaponCombinationPredicator((entitypatch) -> EpicFightCapabilities.getItemStackCapability(((LivingEntity)entitypatch.getOriginal()).getOffhandItem())
+                        .getWeaponCollider() == WOMWeaponColliders.PUNCH);
+        return builder;
+    };*/
     public static final Function<Item, CapabilityItem.Builder> TSUME = (item) -> {
         WeaponCapability.Builder builder = WeaponCapability.builder()
                 .category(WohWeaponCategories.TSUME)

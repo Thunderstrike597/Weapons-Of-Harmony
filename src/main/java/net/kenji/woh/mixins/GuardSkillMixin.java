@@ -40,15 +40,7 @@ public abstract class GuardSkillMixin {
                     } else return ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD;
                 }
         );
-        guardMotions.put(
-                WohWeaponCategories.TESSEN,
-                (item, player) -> {
-                    if (item.getStyle(player) == CapabilityItem.Styles.ONE_HAND) {
-                        return TessenAnimations.TESSEN_GUARD;
-                    }
-                    else return TessenAnimations.TESSEN_DUAL_GUARD;
-                }
-        );
+
         guardMotions.put(
                 WohWeaponCategories.TSUME,
                 (item, player) -> {
@@ -63,6 +55,12 @@ public abstract class GuardSkillMixin {
                         return WakizashiAnimations.WAKIZASHI_GUARD;
                     }
                     return WakizashiAnimations.WAKIZASHI_DUAL_GUARD;
+                }
+        );
+        guardMotions.put(
+                WohWeaponCategories.TESSEN,
+                (item, player) -> {
+                        return TessenAnimations.TESSEN_SKILL_HOLD;
                 }
         );
         guardMotions.put(

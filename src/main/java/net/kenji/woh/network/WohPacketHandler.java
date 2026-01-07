@@ -30,6 +30,11 @@ public class WohPacketHandler {
                 .encoder(SheathStatePacket::encode)
                 .consumerMainThread(SheathStatePacket::handle)
                 .add();
+        INSTANCE.messageBuilder(TessenInnatePacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(TessenInnatePacket::decode)
+                .encoder(TessenInnatePacket::encode)
+                .consumerMainThread(TessenInnatePacket::handle)
+                .add();
     }
 
     // Helper method to send packet to server

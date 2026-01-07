@@ -2,6 +2,7 @@ package net.kenji.woh;
 
 import com.mojang.logging.LogUtils;
 import net.kenji.woh.entities.ModEntities;
+import net.kenji.woh.gameasset.WohStyles;
 import net.kenji.woh.gameasset.WohWeaponCapabilityPresets;
 import net.kenji.woh.gameasset.WohWeaponCategories;
 import net.kenji.woh.gameasset.WohSkills;
@@ -28,6 +29,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.WeaponCategoryIconRegisterEvent;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
+import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -51,7 +53,7 @@ public class WeaponsOfHarmony {
 
         modEventBus.addListener(WeaponsOfHarmony::RegisterWeaponType);
         WeaponCategory.ENUM_MANAGER.registerEnumCls(MODID, WohWeaponCategories.class);
-
+        Style.ENUM_MANAGER.registerEnumCls(MODID, WohStyles.class);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(WeaponsOfHarmony::regIcon));
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WohConfigCommon.SPEC, "WeaponsOfHarmony-Common.toml");
