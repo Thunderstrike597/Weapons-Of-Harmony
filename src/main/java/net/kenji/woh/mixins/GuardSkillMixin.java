@@ -58,12 +58,6 @@ public abstract class GuardSkillMixin {
                 }
         );
         guardMotions.put(
-                WohWeaponCategories.TESSEN,
-                (item, player) -> {
-                        return TessenAnimations.TESSEN_SKILL_HOLD;
-                }
-        );
-        guardMotions.put(
                 WohWeaponCategories.ODACHI,
                 (item, player) -> {
                     return OdachiAnimations.ODACHI_GUARD;

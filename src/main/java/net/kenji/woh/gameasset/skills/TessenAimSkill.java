@@ -2,8 +2,10 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.gameasset.WohWeaponCategories;
 import net.kenji.woh.network.TessenInnatePacket;
 import net.kenji.woh.network.WohPacketHandler;
+import net.kenji.woh.registry.animation.TessenAnimations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -36,6 +38,12 @@ public class TessenAimSkill extends GuardSkill {
         this.maxDuration = 420;
         this.consumption = 20;
         this.maxStackSize = 1;
+        guardMotions.put(
+                WohWeaponCategories.TESSEN,
+                (item, player) -> {
+                    return TessenAnimations.TESSEN_SKILL_HOLD;
+                }
+        );
     }
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, value = Dist.CLIENT)
     public static class ClientInputTracker {
@@ -54,6 +62,7 @@ public class TessenAimSkill extends GuardSkill {
                 if (!wasDown.getOrDefault(id, false)) {
                     // Only send when state changes
                     wasDown.put(id, true);
+                    WohPacketHandler.sendToServer(new TessenInnatePacket(id, true));
                 }
                 counter.put(id, 0f);
             } else if (wasDown.getOrDefault(id, false)) {
@@ -65,8 +74,6 @@ public class TessenAimSkill extends GuardSkill {
                     WohPacketHandler.sendToServer(new TessenInnatePacket(id, false));
                 }
             }
-            WohPacketHandler.sendToServer(new TessenInnatePacket(id, wasDown.getOrDefault(player.getUUID(), false)));
-
         }
     }
 
