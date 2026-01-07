@@ -46,8 +46,7 @@
   "skill.woh.shotogatana_skill.tooltip": "Once the cooldown is charged, you can execute a different combo \ndepending on the current attack animation.",
   "skill.woh.shotogatana_skill.tooltip.extra": "If no attack animation is present, you will perform a sheathed slash too quick for the human eye to see...",
 
-  "skill.woh.fan_stance.tooltip": "Once the cooldown is charged, you can enter a stance in which allows you to have a completely new moveset. \nThis moveset is dedicated to thrown attacks, in which your tessen returns to you after thrown in each attack",
-  "skill.woh.fan_stance.tooltip.extra": "This Stance lasts for: ",
+  "skill.woh.throw_stance.tooltip": "You cannot guard with this weapon, however instead \nyou are able to aim and use ranged attacks via holding guard and attacking...",
 
   "skill.woh.enraged_claws.tooltip": "Once the cooldown is charged, you can enter a stance in which allows you to have a completely new moveset. \nThis moveset allows you to attack in rapid succession, pummeling any enemies in your way!",
   "skill.woh.enraged_claws.tooltip.extra": "This Stance lasts for: "

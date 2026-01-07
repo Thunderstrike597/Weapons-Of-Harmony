@@ -48,8 +48,8 @@
   "skill.woh.shotogatana_skill.tooltip": "Una vez cargado el enfriamiento, puedes ejecutar un combo diferente\ndependiendo de la animación de ataque actual.",
   "skill.woh.shotogatana_skill.tooltip.extra": "Si no hay una animación de ataque activa,\nejecutarás un corte enfundado demasiado rápido para el ojo humano...",
 
-  "skill.woh.fan_stance.tooltip": "Una vez cargado el enfriamiento, puedes entrar en una postura\nque te otorga un conjunto de movimientos completamente nuevo.\nEste estilo se centra en ataques lanzados, donde el tessen regresa a ti tras cada lanzamiento.",
-  "skill.woh.fan_stance.tooltip.extra": "Esta postura dura: ",
+  "skill.woh.throw_stance.tooltip": "Una vez cargado el enfriamiento, puedes entrar en una postura\nque te otorga un conjunto de movimientos completamente nuevo.\nEste estilo se centra en ataques lanzados, donde el tessen regresa a ti tras cada lanzamiento.",
+  "skill.woh.throw_stance.tooltip.extra": "Esta postura dura: ",
 
   "skill.woh.enraged_claws.tooltip": "Una vez cargado el enfriamiento, puedes entrar en una postura\nque te otorga un conjunto de movimientos completamente nuevo.\nEste estilo te permite atacar en rápida sucesión, aplastando a cualquier enemigo en tu camino.",
   "skill.woh.enraged_claws.tooltip.extra": "Esta postura dura: "

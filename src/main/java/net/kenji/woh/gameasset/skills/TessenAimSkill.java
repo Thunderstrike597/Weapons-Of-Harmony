@@ -102,9 +102,7 @@ public class TessenAimSkill extends GuardSkill {
                 .append(Component.literal(String.format("[%.0f]", this.consumption)).withStyle(ChatFormatting.AQUA)));
         list.add(Component.translatable(traslatableText + ".tooltip")
                 .withStyle(ChatFormatting.AQUA));
-        list.add(Component.translatable(traslatableText + ".tooltip.extra")
-                .withStyle(ChatFormatting.RED).append(String.valueOf(this.maxDuration / 20)));
-        return list;
+       return list;
     }
 
 
