@@ -1,6 +1,4 @@
 {
-  "renderer": "woh:shotogatana",
-  "sheath": "woh:shotogatana_sheath",
     "trail": {
       "color": [135, 205, 255],
 		"begin_pos": [0.0, 0.0, -0.1],

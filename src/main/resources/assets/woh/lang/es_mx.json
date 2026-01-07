@@ -42,14 +42,14 @@
   "item.woh.hardened_steel_ingot.tooltip": "Un metal extremadamente duro y resistente\nque puede usarse para forjar una gran variedad de armas.",
 
   "skill.woh.shotogatana_skill": "Habilidad de Shotogatana",
-  "skill.woh.fan_stance": "Postura del Abanico",
+  "skill.woh.throw_stance": "Postura de Lanzamiento",
   "skill.woh.enraged_claws": "Garras Enfurecidas",
 
   "skill.woh.shotogatana_skill.tooltip": "Una vez que el enfriamiento está cargado, puedes ejecutar un combo diferente\ndependiendo de la animación de ataque actual.",
   "skill.woh.shotogatana_skill.tooltip.extra": "Si no hay una animación de ataque activa,\nejecutarás un corte enfundado demasiado rápido para el ojo humano...",
 
-  "skill.woh.fan_stance.tooltip": "Una vez que el enfriamiento está cargado, puedes entrar en una postura\nque te da un conjunto de movimientos completamente nuevo.\nEste estilo se enfoca en ataques lanzados, donde el tessen regresa a ti después de cada lanzamiento.",
-  "skill.woh.fan_stance.tooltip.extra": "Esta postura dura: ",
+  "skill.woh.throw_stance.tooltip": "Una vez que el enfriamiento está cargado, puedes entrar en una postura\nque te da un conjunto de movimientos completamente nuevo.\nEste estilo se enfoca en ataques lanzados, donde el tessen regresa a ti después de cada lanzamiento.",
+  "skill.woh.throw_stance.tooltip.extra": "Esta postura dura: ",
 
   "skill.woh.enraged_claws.tooltip": "Una vez que el enfriamiento está cargado, puedes entrar en una postura\nque te da un conjunto de movimientos completamente nuevo.\nEste estilo te permite atacar rápidamente, aplastando a cualquier enemigo en tu camino.",
   "skill.woh.enraged_claws.tooltip.extra": "Esta postura dura: "

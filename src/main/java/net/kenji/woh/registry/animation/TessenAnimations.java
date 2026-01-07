@@ -1,6 +1,5 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
@@ -42,7 +41,12 @@ public class TessenAnimations {
     public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> TESSEN_SKILL_AUTO_1;
     public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> TESSEN_SKILL_AUTO_2;
     public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> TESSEN_SKILL_AUTO_3;
-    public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> TESSEN_SKILL_AUTO_4;
+
+
+    public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> TESSEN_SKILL_DUAL_AUTO_1;
+    public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> TESSEN_SKILL_DUAL_AUTO_2;
+    public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> TESSEN_SKILL_DUAL_AUTO_3;
+    public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> TESSEN_SKILL_DUAL_AUTO_4;
 
     public static AnimationManager.AnimationAccessor<? extends DashAttackAnimation> TESSEN_SKILL_DASH;
 
@@ -285,9 +289,9 @@ public class TessenAnimations {
                 -1
         );
 
-        TESSEN_SKILL_AUTO_1 = WOHAnimationUtils.createAttackAnimation(builder,
+        TESSEN_SKILL_DUAL_AUTO_1 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tessen/tessen_skill_auto_1",
+                "biped/combat/tessen/tessen_skill_dual_auto_1",
                 5,
                 0.1F,
                 1F,
@@ -307,9 +311,9 @@ public class TessenAnimations {
                 -1,
                 -1
         );
-        TESSEN_SKILL_AUTO_2 = WOHAnimationUtils.createAttackAnimation(builder,
+        TESSEN_SKILL_DUAL_AUTO_2 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tessen/tessen_skill_auto_2",
+                "biped/combat/tessen/tessen_skill_dual_auto_2",
                 5,
                 0.1F,
                 1F,
@@ -329,9 +333,9 @@ public class TessenAnimations {
                 -1,
                 -1
         );
-        TESSEN_SKILL_AUTO_3 = WOHAnimationUtils.createAttackAnimation(builder,
+        TESSEN_SKILL_DUAL_AUTO_3 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tessen/tessen_skill_auto_3",
+                "biped/combat/tessen/tessen_skill_dual_auto_3",
                 8,
                 0.1F,
                 1F,
@@ -351,9 +355,9 @@ public class TessenAnimations {
                 -1,
                 -1
         );
-        TESSEN_SKILL_AUTO_4 = WOHAnimationUtils.createAttackAnimation(builder,
+        TESSEN_SKILL_DUAL_AUTO_4 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tessen/tessen_skill_auto_4",
+                "biped/combat/tessen/tessen_skill_dual_auto_4",
                 8,
                 0.1F,
                 1F,
@@ -415,6 +419,72 @@ public class TessenAnimations {
                 new Joint[]{biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR},
                 StunType.SHORT,
                 null,
+                -1,
+                -1
+        );
+        TESSEN_SKILL_AUTO_1 = WOHAnimationUtils.createAttackAnimation(builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/tessen/tessen_skill_auto_1",
+                5,
+                0.1F,
+                1F,
+                2F,
+                0.1F,
+                new float[]{0.0F, 0.43F, 0.56F, 0.71F, 0.73F},
+                new float[]{0.28F, 0.44F, 0.57F, 0.72F, 0.92F},
+                new float[]{0.45F, 0.55F, 0.65F, 0.82F, 0.98F},
+                new float[]{1.5F, 1.5F, 1.5F, 1.5F, 1.5F},
+                new float[]{1.73F, 1.73F, 1.73F, 1.73F, 1.73F},
+                new Supplier[]{EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL},
+                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
+                new Joint[]{biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR},
+                StunType.SHORT,
+                -1,
+                -1
+        );
+        TESSEN_SKILL_AUTO_2 = WOHAnimationUtils.createAttackAnimation(builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/tessen/tessen_skill_auto_2",
+                5,
+                0.1F,
+                1F,
+                2F,
+                0.1F,
+                new float[]{0.0F, 0.43F, 0.56F, 0.71F, 0.83F},
+                new float[]{0.28F, 0.44F, 0.57F, 0.72F, 0.85F},
+                new float[]{0.45F, 0.55F, 0.65F, 0.82F, 0.9F},
+                new float[]{1.5F, 1.5F, 1.5F, 1.5F, 1.5F},
+                new float[]{1.73F, 1.73F, 1.73F, 1.73F, 1.73F},
+                new Supplier[]{EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL},
+                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
+                new Joint[]{biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR},
+                StunType.SHORT,
+                -1,
+                -1
+        );
+        TESSEN_SKILL_AUTO_3 = WOHAnimationUtils.createAttackAnimation(builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/tessen/tessen_skill_auto_3",
+                5,
+                0.1F,
+                1F,
+                2F,
+                0.1F,
+                new float[]{0.0F, 0.58F, 0.68F, 0.85F, 1F},
+                new float[]{0.48F, 0.60F, 0.72F, 0.9F, 1.10F},
+                new float[]{0.55F, 0.65F, 0.8F, 0.98F, 1.25F},
+                new float[]{1.5F, 1.5F, 1.5F, 1.5F, 1.5F},
+                new float[]{1.73F, 1.73F, 1.73F, 1.73F, 1.73F},
+                new Supplier[]{EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL},
+                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
+                new Joint[]{biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR},
+                StunType.SHORT,
                 -1,
                 -1
         );

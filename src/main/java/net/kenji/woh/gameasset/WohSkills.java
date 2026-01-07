@@ -2,7 +2,7 @@ package net.kenji.woh.gameasset;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.gameasset.skills.ShotogatanaSkillInnate;
-import net.kenji.woh.gameasset.skills.TessenSkillInnate;
+import net.kenji.woh.gameasset.skills.TessenAimSkill;
 import net.kenji.woh.gameasset.skills.TsumeSkillInnate;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -30,13 +30,12 @@ public class WohSkills {
                         .setCategory(SkillCategories.WEAPON_INNATE)
                         .setResource(Skill.Resource.COOLDOWN));
 
-        FAN_STANCE = modRegistry.build("fan_stance",
-                TessenSkillInnate::new,
-                WeaponInnateSkill.createWeaponInnateBuilder()
-                        .setActivateType(Skill.ActivateType.DURATION)
-                        .setCategory(SkillCategories.WEAPON_INNATE)
-                        .setResource(Skill.Resource.COOLDOWN)
-        );
+        FAN_STANCE = modRegistry.build("throw_stance", TessenAimSkill::new,
+                TessenAimSkill.createGuardBuilder()
+                        .setCategory(SkillCategories.WEAPON_PASSIVE)
+                        .setResource(Skill.Resource.NONE));
+
+
 
         ENRAGED_CLAWS = modRegistry.build("enraged_claws", TsumeSkillInnate::new,
                 WeaponInnateSkill.createWeaponInnateBuilder()

@@ -43,16 +43,7 @@ public abstract class GuardSkillMixin {
         guardMotions.put(
                 WohWeaponCategories.TESSEN,
                 (item, player) -> {
-                    if (item.getStyle(player) == CapabilityItem.Styles.ONE_HAND) {
-                        return TessenAnimations.TESSEN_GUARD;
-                    }
-                    else return TessenAnimations.TESSEN_DUAL_GUARD;
-                }
-        );
-        guardMotions.put(
-                WohWeaponCategories.TSUME,
-                (item, player) -> {
-                   return TsumeAnimations.TSUME_GUARD;
+                    return TessenAnimations.TESSEN_SKILL_HOLD;
                 }
         );
 

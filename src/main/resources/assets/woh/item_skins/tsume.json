@@ -1,6 +1,4 @@
 {
-  "renderer": "woh:tsume",
-  "sheath": "woh:tsume",
     "trail": {
       "color": [255, 255, 255],
 		"begin_pos": [-0.6, 0.0, -0.1],

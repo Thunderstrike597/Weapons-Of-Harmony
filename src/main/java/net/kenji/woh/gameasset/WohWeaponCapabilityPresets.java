@@ -1,5 +1,6 @@
 package net.kenji.woh.gameasset;
 
+import net.kenji.woh.gameasset.skills.TessenAimSkill;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.*;
 import net.minecraft.world.InteractionHand;
@@ -50,15 +51,18 @@ public class WohWeaponCapabilityPresets {
         WeaponCapability.Builder builder = WeaponCapability.builder()
                 .category(WohWeaponCategories.TESSEN)
                 .styleProvider((playerPatch) -> {
-                    if(playerPatch instanceof PlayerPatch<?> patch) {
-                        if (patch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == WohWeaponCategories.TESSEN) {
-                            if (patch.getSkill(SkillSlots.WEAPON_INNATE).isActivated())
-                                return CapabilityItem.Styles.RANGED;
-                            return CapabilityItem.Styles.TWO_HAND;
+                            if (playerPatch instanceof PlayerPatch<?> patch) {
+                                if (patch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == WohWeaponCategories.TESSEN) {
+                                    if (TessenAimSkill.isAiming(patch)) {
+                                        return WohStyles.THROWN_TWO_HAND;
+                                    }
+                                    return CapabilityItem.Styles.TWO_HAND;
+                                }
+                                if (TessenAimSkill.isAiming(patch))
+                                    return WohStyles.THROWN_ONE_HAND; // Change Later
+                            }
+                            return CapabilityItem.Styles.ONE_HAND;
                         }
-                    }
-                    return CapabilityItem.Styles.ONE_HAND;
-                    }
                 )
                 .weaponCombinationPredicator(
                         (entitypatch) ->
@@ -72,36 +76,43 @@ public class WohWeaponCapabilityPresets {
                         TessenAnimations.TESSEN_AUTO_2,
                         TessenAnimations.TESSEN_AUTO_3,
                         TessenAnimations.TESSEN_AUTO_4,
-                        Animations.DAGGER_DASH, Animations.DAGGER_AIR_SLASH)
+                        TessenAnimations.TESSEN_SKILL_DASH, Animations.DAGGER_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
                         TessenAnimations.TESSEN_DUAL_AUTO_1,
                         TessenAnimations.TESSEN_DUAL_AUTO_2,
                         TessenAnimations.TESSEN_DUAL_AUTO_3,
                         TessenAnimations.TESSEN_DUAL_AUTO_4,
                         TessenAnimations.TESSEN_DUAL_AUTO_5,
-                        Animations.DAGGER_DUAL_DASH, TessenAnimations.TESSEN_DUAL_AIRSLASH)
-                .newStyleCombo(CapabilityItem.Styles.RANGED,
-                        TessenAnimations.TESSEN_SKILL_AUTO_1,
-                        TessenAnimations.TESSEN_SKILL_AUTO_2,
-                        TessenAnimations.TESSEN_SKILL_AUTO_3,
-                        TessenAnimations.TESSEN_SKILL_AUTO_4,
+                        TessenAnimations.TESSEN_SKILL_DASH, TessenAnimations.TESSEN_DUAL_AIRSLASH)
+                .newStyleCombo(WohStyles.THROWN_TWO_HAND,
+                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_1,
+                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_2,
+                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_3,
+                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_4,
+                        TessenAnimations.TESSEN_SKILL_DASH, TessenAnimations.TESSEN_SKILL_AIRSLASH)
+                .newStyleCombo(WohStyles.THROWN_ONE_HAND,
+                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_1,
+                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_2,
+                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_3,
                         TessenAnimations.TESSEN_SKILL_DASH, TessenAnimations.TESSEN_SKILL_AIRSLASH)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
-                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_DUAL_GUARD)
-                .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.IDLE, TessenAnimations.TESSEN_SKILL_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.WALK, TessenAnimations.TESSEN_SKILL_WALK)
-                .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
-                .livingMotionModifier(CapabilityItem.Styles.RANGED, LivingMotions.BLOCK, TessenAnimations.TESSEN_DUAL_GUARD)
-                .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WohSkills.FAN_STANCE)
-                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.FAN_STANCE)
-                .innateSkill(CapabilityItem.Styles.RANGED, (itemstack) -> WohSkills.FAN_STANCE);
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
+                .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_SKILL_HOLD)
+                .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_SKILL_WALK)
+                .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
+                .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
+                .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_SKILL_HOLD)
+                .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_SKILL_WALK)
+                .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
+                .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
 
+                .passiveSkill(WohSkills.FAN_STANCE);
         return builder;
     };
     public static final Function<Item, CapabilityItem.Builder> TSUME = (item) -> {
