@@ -23,7 +23,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jline.utils.Log;
-import reascer.wom.skill.WOMSkillDataKeys;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.client.input.EpicFightKeyMappings;
 import yesman.epicfight.gameasset.EpicFightSkills;
