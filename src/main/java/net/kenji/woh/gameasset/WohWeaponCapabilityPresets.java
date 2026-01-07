@@ -3,8 +3,12 @@ package net.kenji.woh.gameasset;
 import net.kenji.woh.gameasset.skills.TessenAimSkill;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.*;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import reascer.wom.gameasset.WOMSkills;
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
@@ -14,6 +18,7 @@ import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
+import yesman.epicfight.world.capabilities.item.WeaponCapabilityPresets;
 
 import java.util.function.Function;
 
@@ -59,7 +64,7 @@ public class WohWeaponCapabilityPresets {
                                     return CapabilityItem.Styles.TWO_HAND;
                                 }
                                 if (TessenAimSkill.isAiming(patch))
-                                    return WohStyles.THROWN_ONE_HAND; // Change Later
+                                    return WohStyles.THROWN_ONE_HAND;
                             }
                             return CapabilityItem.Styles.ONE_HAND;
                         }
@@ -111,10 +116,81 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_SKILL_WALK)
                 .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
                 .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
+                .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WohSkills.FAN_STANCE)
+                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.FAN_STANCE)
+                .innateSkill(WohStyles.THROWN_TWO_HAND, (itemstack) -> WohSkills.FAN_STANCE)
+                .innateSkill(WohStyles.THROWN_ONE_HAND, (itemstack) -> WohSkills.FAN_STANCE);
 
-                .passiveSkill(WohSkills.FAN_STANCE);
+
         return builder;
     };
+    /*
+    public static final Function<Item, CapabilityItem.Builder> ENDER_BLASTER = (item) -> {
+        CapabilityItem.Builder builder = WeaponCapability.builder().zoomInType(
+                        CapabilityItem.ZoomInType.CUSTOM)
+                .category(WOMWeaponCategories.ENDERBLASTER)
+                .styleProvider((playerpatch) ->
+                        playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND)
+                                .getWeaponCategory() == WOMWeaponCategories
+                                .ENDERBLASTER ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND)
+                .hitSound((SoundEvent)EpicFightSounds.BLADE_HIT.get())
+                .collider(WOMWeaponColliders.PUNCH)
+                .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
+                        new AnimationManager.AnimationAccessor[]{AnimsEnderblaster.ENDERBLASTER_ONEHAND_AUTO_1,
+                                AnimsEnderblaster.ENDERBLASTER_ONEHAND_AUTO_2,
+                                AnimsEnderblaster.ENDERBLASTER_ONEHAND_AUTO_3,
+                                AnimsEnderblaster.ENDERBLASTER_ONEHAND_AUTO_4,
+                                AnimsEnderblaster.ENDERBLASTER_ONEHAND_DASH,
+                                AnimsEnderblaster.ENDERBLASTER_ONEHAND_JUMPKICK})
+                .newStyleCombo(
+                        CapabilityItem.Styles.TWO_HAND,
+                        new AnimationManager.AnimationAccessor[]{
+                                AnimsEnderblaster.ENDERBLASTER_TWOHAND_AUTO_1,
+                                AnimsEnderblaster.ENDERBLASTER_TWOHAND_AUTO_2,
+                                AnimsEnderblaster.ENDERBLASTER_TWOHAND_AUTO_3,
+                                AnimsEnderblaster.ENDERBLASTER_TWOHAND_AUTO_4,
+                                AnimsEnderblaster.ENDERBLASTER_ONEHAND_DASH,
+                                AnimsEnderblaster.ENDERBLASTER_TWOHAND_TISHNAW})
+                .newStyleCombo(CapabilityItem.Styles.MOUNT,
+                        new AnimationManager.AnimationAccessor[]{Animations.SWORD_MOUNT_ATTACK})
+                .innateSkill(CapabilityItem.Styles.ONE_HAND,
+                        (itemstack) -> WOMSkills.ENDER_BLAST)
+                .innateSkill(CapabilityItem.Styles.TWO_HAND,
+                        (itemstack) -> WOMSkills.ENDER_FUSION)
+                .comboCancel((style) -> false)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE,
+                        AnimsEnderblaster.ENDERBLASTER_ONEHAND_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK,
+                        AnimsEnderblaster.ENDERBLASTER_ONEHAND_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.CHASE,
+                        AnimsEnderblaster.ENDERBLASTER_ONEHAND_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN,
+                        AnimsEnderblaster.ENDERBLASTER_ONEHAND_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.SWIM, Animations.BIPED_SWIM)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK,
+                        AnimsEnderblaster.ENDERBLASTER_ONEHAND_AIMING)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
+                        LivingMotions.IDLE,
+                        AnimsEnderblaster.ENDERBLASTER_TWOHAND_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
+                        LivingMotions.WALK,
+                        AnimsEnderblaster.ENDERBLASTER_TWOHAND_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
+                        LivingMotions.CHASE, AnimsEnderblaster
+                                .ENDERBLASTER_ONEHAND_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
+                        LivingMotions.RUN, AnimsEnderblaster
+                                .ENDERBLASTER_ONEHAND_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
+                        LivingMotions.SWIM, Animations.BIPED_SWIM)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
+                        LivingMotions.BLOCK, AnimsEnderblaster
+                                .ENDERBLASTER_TWOHAND_AIMING)
+                .weaponCombinationPredicator((entitypatch) -> EpicFightCapabilities.getItemStackCapability(((LivingEntity)entitypatch.getOriginal())
+                        .getOffhandItem()).getWeaponCollider() == WOMWeaponColliders.PUNCH);
+        return builder;
+    };
+    */
     public static final Function<Item, CapabilityItem.Builder> TSUME = (item) -> {
         WeaponCapability.Builder builder = WeaponCapability.builder()
                 .category(WohWeaponCategories.TSUME)

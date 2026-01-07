@@ -31,11 +31,10 @@ public class WohSkills {
                         .setResource(Skill.Resource.COOLDOWN));
 
         FAN_STANCE = modRegistry.build("throw_stance", TessenAimSkill::new,
-                TessenAimSkill.createGuardBuilder()
-                        .setCategory(SkillCategories.WEAPON_PASSIVE)
+                TessenAimSkill.createWeaponInnateBuilder()
+                        .setActivateType(Skill.ActivateType.HELD)
+                        .setCategory(SkillCategories.WEAPON_INNATE)  // Changed to WEAPON_INNATE
                         .setResource(Skill.Resource.NONE));
-
-
 
         ENRAGED_CLAWS = modRegistry.build("enraged_claws", TsumeSkillInnate::new,
                 WeaponInnateSkill.createWeaponInnateBuilder()

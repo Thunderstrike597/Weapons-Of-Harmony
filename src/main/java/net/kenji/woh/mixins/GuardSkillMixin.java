@@ -40,10 +40,11 @@ public abstract class GuardSkillMixin {
                     } else return ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD;
                 }
         );
+
         guardMotions.put(
-                WohWeaponCategories.TESSEN,
+                WohWeaponCategories.TSUME,
                 (item, player) -> {
-                    return TessenAnimations.TESSEN_SKILL_HOLD;
+                   return TsumeAnimations.TSUME_GUARD;
                 }
         );
 

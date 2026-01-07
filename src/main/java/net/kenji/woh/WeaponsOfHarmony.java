@@ -2,10 +2,8 @@ package net.kenji.woh;
 
 import com.mojang.logging.LogUtils;
 import net.kenji.woh.entities.ModEntities;
-import net.kenji.woh.gameasset.WohWeaponCapabilityPresets;
-import net.kenji.woh.gameasset.WohWeaponCategories;
+import net.kenji.woh.gameasset.*;
 import net.kenji.woh.network.WohPacketHandler;
-import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.registry.WohSounds;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.WohAnimations;
@@ -29,6 +27,8 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.WeaponCategoryIconRegisterEvent;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
+import yesman.epicfight.skill.SkillCategory;
+import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -52,6 +52,8 @@ public class WeaponsOfHarmony {
 
         modEventBus.addListener(WeaponsOfHarmony::RegisterWeaponType);
         WeaponCategory.ENUM_MANAGER.registerEnumCls(MODID, WohWeaponCategories.class);
+        Style.ENUM_MANAGER.registerEnumCls(MODID, WohStyles.class);
+        SkillCategory.ENUM_MANAGER.registerEnumCls(MODID, WohSkillCategories.class);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(WeaponsOfHarmony::regIcon));
 

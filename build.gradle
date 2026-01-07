@@ -108,7 +108,7 @@ dependencies {
     implementation fg.deobf("curse.maven:epic-fight-mod-405076:7345468")
 
     //implementation fg.deobf("curse.maven:epicfight-resurrection-1151542:6931390")
-    //implementation fg.deobf("curse.maven:weapons-of-miracles-epicfight-918614:5889471")
+    implementation fg.deobf("curse.maven:weapons-of-miracles-epicfight-918614:7363591")
 
     implementation fg.deobf("curse.maven:jei-238222:5533463")
     implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220")
