@@ -1,6 +1,7 @@
 package net.kenji.woh.gameasset;
 
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.gameasset.skills.KatajutsaPassive;
 import net.kenji.woh.gameasset.skills.ShotogatanaSkillInnate;
 import net.kenji.woh.gameasset.skills.TessenAimSkill;
 import net.kenji.woh.gameasset.skills.TsumeSkillInnate;
@@ -17,6 +18,7 @@ public class WohSkills {
     public static Skill SHOTOGATANA_SKILL;
     public static Skill FAN_STANCE;
     public static Skill ENRAGED_CLAWS;
+    public static Skill KATAJUTSU;
 
 
     @SubscribeEvent
@@ -42,6 +44,10 @@ public class WohSkills {
                         .setCategory(SkillCategories.WEAPON_INNATE)
                         .setResource(Skill.Resource.COOLDOWN)
         );
+        KATAJUTSU = modRegistry.build("katajutsu", KatajutsaPassive::new,
+                KatajutsaPassive.createBuilder()
+                        .setCategory(SkillCategories.PASSIVE)
+        );;
     }
 
 

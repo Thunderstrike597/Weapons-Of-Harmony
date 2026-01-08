@@ -1,6 +1,5 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
@@ -24,8 +23,12 @@ public class GenericAnimations {
     public static AnimationManager.AnimationAccessor<StaticAnimation> DEFEAT_IDLE;
     public static AnimationManager.AnimationAccessor<StaticAnimation> DEFEAT_KNEEL;
 
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> COMBAT_FIST_AUTO_1;
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> COMBAT_FIST_AUTO_2;
+    public static AnimationManager.AnimationAccessor<StaticAnimation> KATAJUTSU_IDLE;
+
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> KATAJUTSU_AUTO_1;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> KATAJUTSU_AUTO_2;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> KATAJUTSU_AUTO_3;
+
     public static AnimationManager.AnimationAccessor<? extends DashAttackAnimation> COMBAT_FIST_DASH;
     public static AnimationManager.AnimationAccessor<? extends AirSlashAnimation> COMBAT_FIST_AIRKICK;
 
@@ -35,20 +38,21 @@ public class GenericAnimations {
 
         DEFEAT_IDLE = builder.nextAccessor("biped/living/generic/defeat_idle", accessor -> new StaticAnimation(true,accessor, biped));
         DEFEAT_KNEEL = builder.nextAccessor("biped/living/generic/defeat_kneel", accessor -> new StaticAnimation(true,accessor, biped));
+        KATAJUTSU_IDLE = builder.nextAccessor("biped/living/katajutsu/katajutsu_idle", accessor -> new StaticAnimation(true,accessor, biped));
 
-        COMBAT_FIST_AUTO_1 = WOHAnimationUtils.createAttackAnimation(builder,
+        KATAJUTSU_AUTO_1 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/generic/combat_fist_auto_1",
+                "biped/combat/katajutsu/katajutsu_auto_1",
                 1,
                 0.1F,
                 1F,
                 2F,
                 0.25F,
                 new float[]{0.0F},
-                new float[]{0.3F},
+                new float[]{0.15F},
+                new float[]{0.23F},
                 new float[]{0.4F},
-                new float[]{0.6F},
-                new float[]{0.8F},
+                new float[]{0.62F},
                 new Supplier[]{EpicFightSounds.WHOOSH},
                 new Supplier[]{EpicFightSounds.BLUNT_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
@@ -59,24 +63,46 @@ public class GenericAnimations {
                 -1
         );
 
-        COMBAT_FIST_AUTO_2 = WOHAnimationUtils.createAttackAnimation(builder,
+        KATAJUTSU_AUTO_2 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/generic/combat_fist_auto_2",
+                "biped/combat/katajutsu/katajutsu_auto_2",
                 1,
                 0.1F,
                 1F,
                 2F,
                 0.25F,
                 new float[]{0.0F},
-                new float[]{0.07F},
-                new float[]{0.15F},
-                new float[]{0.25F},
-                new float[]{0.45F},
+                new float[]{0.1F},
+                new float[]{0.18F},
+                new float[]{0.38F},
+                new float[]{0.5F},
                 new Supplier[]{EpicFightSounds.WHOOSH},
                 new Supplier[]{EpicFightSounds.BLUNT_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.FIST},
                 new Joint[]{biped.get().toolL},
+                StunType.SHORT,
+                -1,
+                -1
+        );
+        KATAJUTSU_AUTO_3 = WOHAnimationUtils.createAttackAnimation(builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/katajutsu/katajutsu_auto_3",
+                1,
+                0.1F,
+                1F,
+                2F,
+                0.25F,
+                new float[]{0.0F},
+                new float[]{0.25F},
+                new float[]{0.38F},
+                new float[]{0.60F},
+                new float[]{1.05F},
+                new Supplier[]{EpicFightSounds.WHOOSH},
+                new Supplier[]{EpicFightSounds.BLUNT_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
+                new Collider[]{ColliderPreset.FIST},
+                new Joint[]{biped.get().legR},
                 StunType.SHORT,
                 -1,
                 -1
