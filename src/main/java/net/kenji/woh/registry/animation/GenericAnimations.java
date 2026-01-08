@@ -17,8 +17,12 @@ public class GenericAnimations {
     public static StaticAnimation DEFEAT_IDLE;
     public static StaticAnimation DEFEAT_KNEEL;
 
-    public static StaticAnimation COMBAT_FIST_AUTO_1;
-    public static StaticAnimation COMBAT_FIST_AUTO_2;
+    public static StaticAnimation KATAJUTSU_IDLE;
+
+    public static StaticAnimation KATAJUTSU_AUTO_1;
+    public static StaticAnimation KATAJUTSU_AUTO_2;
+    public static StaticAnimation KATAJUTSU_AUTO_3;
+
     public static StaticAnimation COMBAT_FIST_DASH;
     public static StaticAnimation COMBAT_FIST_AIRKICK;
 
@@ -27,10 +31,12 @@ public class GenericAnimations {
 
         DEFEAT_IDLE = (new StaticAnimation(0.35f, true, "biped/living/generic/defeat_idle", biped));
         DEFEAT_KNEEL = (new StaticAnimation(0.35f, false, "biped/living/generic/defeat_kneel", biped));
+        KATAJUTSU_IDLE = (new StaticAnimation(0.35f, true, "biped/living/katajutsu/katajutsu_idle", biped));
 
-        COMBAT_FIST_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
+
+        KATAJUTSU_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/generic/combat_fist_auto_1",
+                "biped/combat/katajutsu/katajutsu_auto_1",
                 1,
                 0.1F,
                 1F,
@@ -51,9 +57,9 @@ public class GenericAnimations {
                 -1
         );
 
-        COMBAT_FIST_AUTO_2 = WOHAnimationUtils.createAttackAnimation(
+        KATAJUTSU_AUTO_2 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/generic/combat_fist_auto_2",
+                "biped/combat/katajutsu/katajutsu_auto_2",
                 1,
                 0.1F,
                 1F,
@@ -69,6 +75,28 @@ public class GenericAnimations {
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.FIST},
                 new Joint[]{biped.toolL},
+                StunType.SHORT,
+                -1,
+                -1
+        );
+        KATAJUTSU_AUTO_3 = WOHAnimationUtils.createAttackAnimation(
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/katajutsu/katajutsu_auto_3",
+                1,
+                0.1F,
+                1F,
+                2F,
+                0.25F,
+                new float[]{0.0F},
+                new float[]{0.25F},
+                new float[]{0.38F},
+                new float[]{0.60F},
+                new float[]{1.05F},
+                new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
+                new SoundEvent[]{EpicFightSounds.BLUNT_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
+                new Collider[]{ColliderPreset.FIST},
+                new Joint[]{biped.legR},
                 StunType.SHORT,
                 -1,
                 -1
