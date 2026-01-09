@@ -74,6 +74,7 @@ public class WeaponsOfHarmony {
         event.getTypeEntry().put(new ResourceLocation(MODID, "shotogatana"), WohWeaponCapabilityPresets.SHOTOGATANA);
         event.getTypeEntry().put(new ResourceLocation(MODID, "tessen"), WohWeaponCapabilityPresets.TESSEN);
         event.getTypeEntry().put(new ResourceLocation(MODID, "tsume"), WohWeaponCapabilityPresets.TSUME);
+        event.getTypeEntry().put(new ResourceLocation(MODID, "arbiters_blade"), WohWeaponCapabilityPresets.ARBITERS_BLADE);
 
         event.getTypeEntry().put(new ResourceLocation(MODID, "wakizashi"), WohWeaponCapabilityPresets.WAKIZASHI);
         event.getTypeEntry().put(new ResourceLocation(MODID, "odachi"), WohWeaponCapabilityPresets.ODACHI);
@@ -84,6 +85,7 @@ public class WeaponsOfHarmony {
         event.registerCategory(WohWeaponCategories.SHOTOGATANA, new ItemStack((ItemLike) WohItems.SHOTOGATANA.get()));
         event.registerCategory(WohWeaponCategories.TESSEN, new ItemStack((ItemLike) WohItems.TESSEN.get()));
         event.registerCategory(WohWeaponCategories.TSUME, new ItemStack((ItemLike) WohItems.TSUME.get()));
+        event.registerCategory(WohWeaponCategories.ARBITERS_BLADE, new ItemStack((ItemLike) WohItems.ARBITERS_BLADE.get()));
 
         event.registerCategory(WohWeaponCategories.WAKIZASHI, new ItemStack((ItemLike) WohItems.WAKIZASHI.get()));
         event.registerCategory(WohWeaponCategories.ODACHI, new ItemStack((ItemLike) WohItems.ODACHI.get()));

@@ -3,11 +3,8 @@ package net.kenji.woh.gameasset;
 import net.kenji.woh.gameasset.skills.TessenAimSkill;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.*;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
-import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
@@ -160,6 +157,31 @@ public class WohWeaponCapabilityPresets {
                 .innateSkill(CapabilityItem.Styles.COMMON, (itemstack) -> WohSkills.ENRAGED_CLAWS);
 
 
+        return builder;
+    };
+    public static final Function<Item, CapabilityItem.Builder> ARBITERS_BLADE = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(WohWeaponCategories.ARBITERS_BLADE)
+                .styleProvider((playerPatch) -> {
+                    return CapabilityItem.Styles.ONE_HAND;
+                })
+                .weaponCombinationPredicator(
+                        (entitypatch) ->
+                                EpicFightCapabilities.getItemStackCapability(entitypatch.getOriginal().getOffhandItem()).getWeaponCategory()
+                                        == WohWeaponCategories.ARBITERS_BLADE)
+                .hitSound(EpicFightSounds.BLADE_HIT.get())
+                .collider(ColliderPreset.LONGSWORD)
+                .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_1,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_2,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_3,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_4,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_5,
+                        Animations.LONGSWORD_DASH, Animations.LONGSWORD_AIR_SLASH)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, Animations.BIPED_RUN_LONGSWORD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.LONGSWORD_GUARD);
         return builder;
     };
     public static final Function<Item, CapabilityItem.Builder> WAKIZASHI = (item) -> {

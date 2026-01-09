@@ -35,7 +35,7 @@ public class ArbitersBlade extends HolsterBaseItem {
     );
 
     public ArbitersBlade(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, 0, 0.5f, builder, hasTooltip, tooltipColor);
+        super(tier, 0, 1f, builder, hasTooltip, tooltipColor);
     }
 
     @Override
