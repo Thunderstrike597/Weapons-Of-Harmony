@@ -10,7 +10,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-public class WOHTabs {
+public class WohTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, WeaponsOfHarmony.MODID);
 
@@ -35,7 +35,7 @@ public class WOHTabs {
                 output.accept(WohItems.BROKEN_BLADE_AND_SHEATH.get());
                 output.accept(WohItems.BROKEN_FAN_BLADE.get());
                 output.accept(WohItems.BROKEN_CLAWS.get());
-
+                output.accept(WohItems.ARBITERS_BLADE.get());
             })
             .build());
 

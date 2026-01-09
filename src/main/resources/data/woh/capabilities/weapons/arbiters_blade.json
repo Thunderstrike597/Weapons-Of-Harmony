@@ -1,0 +1,10 @@
+{
+  "attributes":
+  {
+    "one_hand":
+    {
+     "speed_bonus": 0.4
+    }
+  },
+  "type": "epicfight:longsword"
+}

@@ -11,6 +11,7 @@ public enum WohWeaponTiers implements Tier {
     SHOTOGATANA(4, 2200, 9.0F, 7.0F, 22, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get(), WohItems.BROKEN_BLADE_AND_SHEATH.get()})),
     TESSEN(4, 1750, 9.0F, 4.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get()})),
     TSUME(4, 1750, 9.0F, 5.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get()})),
+    ARBITERS_BLADE(4, 1750, 9.0F, 5.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get()})),
 
     WAKIZASHI(4, 1750, 9.0F, 5.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get()})),
     ODACHI(4, 1750, 9.0F, 11.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get()}));
