@@ -6,6 +6,7 @@ import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -38,11 +39,19 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
     private static final Map<UUID, Boolean> isAttackEnding = new HashMap<>();
     private static final Map<UUID, Boolean> isInAttack = new HashMap<>();
 
+    private boolean attackStart = false;
     private StaticAnimation endAnimation;
     private boolean ignoreFallDamage = false;
+    private float slashAngle = -1f;
 
     public WOHAnimationUtils.AttackAnimationType attackType = null;
 
+    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, Armature armature, boolean ignoreFallDamage, Float slashAngle, Phase... phases) {
+        super(convertTime, path, armature, phases);
+        this.endAnimation = endAnimation;
+        this.attackType = attackType;
+        this.slashAngle = slashAngle;
+    }
     public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, Armature armature, StaticAnimation endAnimation,Phase... phases) {
         super(convertTime, path, armature, phases);
         this.endAnimation = endAnimation;
@@ -58,6 +67,9 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
     private static final UUID SLOW_UUID =
             UUID.randomUUID();
 
+    public float getSlashAngle(){
+        return slashAngle;
+    }
 
 
     private static AttributeModifier slowModifier = new AttributeModifier(
@@ -153,14 +165,24 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                 }
             }
             isAttacking.remove(playerID);
+            attackStart = false;
         }
         super.end(entitypatch, nextAnimation, isEnd);
     }
+    public boolean isAttackBegin(){
+        if(attackStart){
+            attackStart = false;
+            return true;
+        }
+        return false;
+    }
+
 
     @Override
     public void begin(LivingEntityPatch<?> entitypatch) {
         if(entitypatch instanceof PlayerPatch<?> playerPatch) {
             UUID playerID = playerPatch.getOriginal().getUUID();
+            attackStart = true;
             isAttacking.put(playerID, true);
         }
         super.begin(entitypatch);

@@ -42,6 +42,7 @@ public class WohPacketHandler {
         INSTANCE.sendToServer(packet);
     }
 
+
     // Helper method to send packet to specific player
     public static void sendToPlayer(Object packet, ServerPlayer player) {
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), packet);

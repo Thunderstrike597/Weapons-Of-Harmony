@@ -2,7 +2,9 @@ package net.kenji.woh.client.client_events;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.client.ModModelLayers;
+import net.kenji.woh.client.enitity_models.BeamSlashModel;
 import net.kenji.woh.client.enitity_models.ExiledRoninModel;
+import net.kenji.woh.client.entity_renderers.BeamSlashRenderer;
 import net.kenji.woh.client.entity_renderers.ExiledRoninRenderer;
 import net.kenji.woh.client.layers.HolsteredItemLayer;
 import net.kenji.woh.client.layers.OffHandHolsteredItemLayer;
@@ -45,11 +47,17 @@ public class ClientEvents {
     @SubscribeEvent
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModModelLayers.EXILED_RONIN_LAYER, ExiledRoninModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.BEAM_SLASH_ENTITY_LAYER, BeamSlashModel::createBodyLayer);
+
     }
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
       event.enqueueWork(() -> {
           EntityRenderers.register(ModEntities.EXILED_RONIN.get(), ExiledRoninRenderer::new);
+          EntityRenderers.register(
+                  ModEntities.BEAM_SLASH.get(),
+                  BeamSlashRenderer::new
+          );
           ItemProperties.register(
                   WohItems.SHOTOGATANA.get(),
                   new ResourceLocation("woh", "unsheathed"),

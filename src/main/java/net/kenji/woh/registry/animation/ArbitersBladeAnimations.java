@@ -47,7 +47,8 @@ public class ArbitersBladeAnimations {
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
                 -1F,
-                -1F
+                -1F,
+                -45
         );
         ARBITERS_BLADE_AUTO_2 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
@@ -69,7 +70,8 @@ public class ArbitersBladeAnimations {
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
                 -1F,
-                -1F
+                -1F,
+                -35
         );
         ARBITERS_BLADE_AUTO_3 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
@@ -91,7 +93,8 @@ public class ArbitersBladeAnimations {
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
                 -1F,
-                -1F
+                -1F,
+                -45
         );
         ARBITERS_BLADE_AUTO_4 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP,

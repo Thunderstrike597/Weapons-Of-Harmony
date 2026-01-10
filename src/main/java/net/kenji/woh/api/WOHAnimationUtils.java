@@ -34,7 +34,6 @@ public class WOHAnimationUtils {
         AIR_ATTACK
     }
 
-
     public static class ReusableEvents{
         static AnimationEvent.AnimationEventConsumer unSheathEvent = (
                 (livingEntityPatch, staticAnimation, objects) -> {
@@ -195,6 +194,94 @@ public class WOHAnimationUtils {
                         path, null, phaseCount, convertTime, attackSpeed, attackDamage, impact,
                         start, antic, contact, recovery, end,
                         hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, true
+                );
+                break;
+            case DASH_ATTACK:
+                animation = new WohDashAttackAnimation(type,
+                        path, phaseCount, convertTime, attackSpeed,
+                        start, antic, contact, recovery, end,
+                        hitSound, swingSound, hitParticle, stunType
+                );
+                break;
+            case DASH_ATTACK_JUMP:
+                animation = new WohDashAttackAnimation(type,
+                        path, phaseCount, convertTime, attackSpeed,
+                        start, antic, contact, recovery, end,
+                        hitSound, swingSound, hitParticle, stunType
+                );
+                break;
+        }
+        boolean stopEndEvent = false;
+        boolean stopStartEvent = false;
+
+        if(absEnd <= -1){
+            stopEndEvent = true;
+        }
+        if(absStart <= -1){
+            stopStartEvent = true;
+        }
+
+        // Register timestamp
+        TimeStampManager.register(animation, absStart, absEnd);
+
+        // Add events at those exact timestamps
+
+        if(!stopEndEvent && !stopStartEvent) {
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.BOTH),
+                    AnimationEvent.TimeStampedEvent.create(absEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
+            });
+        }
+        if(!stopEndEvent && stopStartEvent){
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absEnd, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
+            });
+        }
+        if(!stopStartEvent && stopEndEvent){
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(absStart, ReusableEvents.unSheathEvent, AnimationEvent.Side.BOTH),
+            });
+
+        }
+        return animation;
+    }
+    public static StaticAnimation createAttackAnimation(
+            AttackAnimationType type,
+            String path,
+            int phaseCount,
+            float convertTime,
+            float attackSpeed,
+            float attackDamage,
+            float impact,
+            float[] start,
+            float[] antic,
+            float[] contact,
+            float[] recovery,
+            float[] end,
+            SoundEvent[] hitSound,
+            SoundEvent[] swingSound,
+            RegistryObject<HitParticleType>[] hitParticle,
+            Collider[] colliders,
+            Joint[] colliderJoints,
+            StunType stunType,
+            float absStart,
+            float absEnd,
+            float slashAngle
+    ) {
+        AttackAnimation animation = null;
+        switch(type) {
+            case BASIC_ATTACK, BASIC_ATTACK_SHEATH:
+                animation = new WohAttackAnimation(type,
+                        path, null, phaseCount, convertTime, attackSpeed, attackDamage, impact,
+                        start, antic, contact, recovery, end,
+                        hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, false, slashAngle
+                );
+                break;
+            case BASIC_ATTACK_JUMP:
+                animation = new WohAttackAnimation(type,
+                        path, null, phaseCount, convertTime, attackSpeed, attackDamage, impact,
+                        start, antic, contact, recovery, end,
+                        hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, true, slashAngle
                 );
                 break;
             case DASH_ATTACK:
