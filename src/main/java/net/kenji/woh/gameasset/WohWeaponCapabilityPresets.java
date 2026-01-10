@@ -1,5 +1,6 @@
 package net.kenji.woh.gameasset;
 
+import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.gameasset.skills.TessenAimSkill;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.*;
@@ -53,12 +54,12 @@ public class WohWeaponCapabilityPresets {
                 .styleProvider((playerPatch) -> {
                             if (playerPatch instanceof PlayerPatch<?> patch) {
                                 if (patch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == WohWeaponCategories.TESSEN) {
-                                    if (TessenAimSkill.isAiming(patch)) {
+                                    if (AimManager.isAiming(patch)) {
                                         return WohStyles.THROWN_TWO_HAND;
                                     }
                                     return CapabilityItem.Styles.TWO_HAND;
                                 }
-                                if (TessenAimSkill.isAiming(patch))
+                                if (AimManager.isAiming(patch))
                                     return WohStyles.THROWN_ONE_HAND;
                             }
                             return CapabilityItem.Styles.ONE_HAND;

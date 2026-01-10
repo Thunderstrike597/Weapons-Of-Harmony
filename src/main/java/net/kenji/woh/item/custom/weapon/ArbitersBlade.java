@@ -39,6 +39,11 @@ public class ArbitersBlade extends HolsterBaseItem {
     }
 
     @Override
+    public boolean isFoil(ItemStack stack) {
+        return stack.hasTag() && stack.getTag().getBoolean("woh_force_glint");
+    }
+
+    @Override
     public boolean overrideStackedOnOther(ItemStack pStack, Slot pSlot, ClickAction pAction, Player pPlayer) {
         return false;
     }

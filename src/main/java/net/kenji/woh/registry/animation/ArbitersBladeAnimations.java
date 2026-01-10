@@ -22,10 +22,20 @@ public class ArbitersBladeAnimations {
     public static StaticAnimation ARBITERS_BLADE_AUTO_4;
     public static StaticAnimation ARBITERS_BLADE_AUTO_5;
 
+    public static StaticAnimation ARBITERS_BLADE_SKILL_ACTIVATE_START;
+    public static StaticAnimation ARBITERS_BLADE_SKILL_ACTIVATE_MID;
+    public static StaticAnimation ARBITERS_BLADE_SKILL_ACTIVATE_END;
+
+
     public static void build(){
         HumanoidArmature biped = Armatures.BIPED;
 
         ARBITERS_BLADE_HOLD = (new StaticAnimation(0.35f, true, "biped/living/arbiters_blade/arbiters_blade_hold", biped));
+
+        ARBITERS_BLADE_SKILL_ACTIVATE_START = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_skill_activate_start", biped));
+        ARBITERS_BLADE_SKILL_ACTIVATE_MID = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_skill_activate_mid", biped));
+        ARBITERS_BLADE_SKILL_ACTIVATE_END = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_skill_activate_end", biped));
+
 
         ARBITERS_BLADE_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,

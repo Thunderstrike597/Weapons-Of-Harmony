@@ -10,6 +10,7 @@ import net.kenji.woh.client.layers.HolsteredItemLayer;
 import net.kenji.woh.client.layers.OffHandHolsteredItemLayer;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.registry.WohItems;
+import net.kenji.woh.render.ArbitersBladeRender;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.kenji.woh.render.TsumeRender;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -36,6 +37,7 @@ public class ClientEvents {
     public static void RenderRegistry(PatchedRenderersEvent.Add event) {
         event.addItemRenderer((Item) WohItems.SHOTOGATANA.get(), new ShotogatanaRender());
         event.addItemRenderer((Item) WohItems.TSUME.get(), new TsumeRender());
+        event.addItemRenderer((Item) WohItems.ARBITERS_BLADE.get(), new ArbitersBladeRender());
 
     }
 

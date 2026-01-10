@@ -69,7 +69,7 @@ public class BeamSlashRenderer extends EntityRenderer<BeamSlashEntity> {
         }
 
         VertexConsumer vc = buffer.getBuffer(
-                RenderType.entityTranslucent(getTextureLocation(entity))
+                RenderType.entityTranslucentEmissive(getTextureLocation(entity))
         );
 
         this.model.renderToBuffer(

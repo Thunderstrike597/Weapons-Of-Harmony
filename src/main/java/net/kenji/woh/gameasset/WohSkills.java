@@ -45,7 +45,7 @@ public class WohSkills {
         );
         ARBITERS_SLASH = modRegistry.build("arbiters_slash", ArbitersSlash::new,
                 ArbitersSlash.createBuilder()
-                        .setActivateType(Skill.ActivateType.DURATION)
+                        .setActivateType(Skill.ActivateType.CHARGING)
                         .setCategory(SkillCategories.WEAPON_INNATE)
                         .setResource(Skill.Resource.COOLDOWN)
         );
