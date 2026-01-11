@@ -2,12 +2,15 @@ package net.kenji.woh.client.client_events;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.client.ModModelLayers;
+import net.kenji.woh.client.enitity_models.BeamSlashModel;
 import net.kenji.woh.client.enitity_models.ExiledRoninModel;
+import net.kenji.woh.client.entity_renderers.BeamSlashRenderer;
 import net.kenji.woh.client.entity_renderers.ExiledRoninRenderer;
 import net.kenji.woh.client.layers.HolsteredItemLayer;
 import net.kenji.woh.client.layers.OffHandHolsteredItemLayer;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.registry.WohItems;
+import net.kenji.woh.render.ArbitersBladeRender;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.kenji.woh.render.TsumeRender;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -36,6 +39,7 @@ public class ClientEvents {
     public static void registerRenderer(PatchedRenderersEvent.RegisterItemRenderer event) {
         event.addItemRenderer(WeaponsOfHarmony.identifier("shotogatana"), ShotogatanaRender::new);
         event.addItemRenderer(WeaponsOfHarmony.identifier("tsume"), TsumeRender::new);
+        event.addItemRenderer(WeaponsOfHarmony.identifier("arbiters_blade"), ArbitersBladeRender::new);
     }
 
     @SubscribeEvent
@@ -46,11 +50,16 @@ public class ClientEvents {
     @SubscribeEvent
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModModelLayers.EXILED_RONIN_LAYER, ExiledRoninModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.BEAM_SLASH_ENTITY_LAYER, BeamSlashModel::createBodyLayer);
     }
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
       event.enqueueWork(() -> {
           EntityRenderers.register(ModEntities.EXILED_RONIN.get(), ExiledRoninRenderer::new);
+          EntityRenderers.register(
+                  ModEntities.BEAM_SLASH.get(),
+                  BeamSlashRenderer::new
+          );
           ItemProperties.register(
                   WohItems.SHOTOGATANA.get(),
                   new ResourceLocation("woh", "unsheathed"),

@@ -44,13 +44,32 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
 
     private AnimationManager.AnimationAccessor<StaticAnimation> endAnimation;
     private boolean ignoreFallDamage = false;
-
     public WOHAnimationUtils.AttackAnimationType attackType = null;
-
+    private boolean attackStart = false;
+    private float slashAngle = -1f;
+    private float movementEnd = -1;
+    private boolean hasAttacked = false;
     public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, AssetAccessor<? extends Armature> armature, AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,Phase... phases) {
         super(convertTime, path, armature, phases);
         this.endAnimation = endAnimation;
         this.attackType = attackType;
+    }
+    public BasisAttackAnimation(
+            WOHAnimationUtils.AttackAnimationType attackType,
+            float convertTime,
+            AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> accessor,  // ADD THIS!
+            AssetAccessor<? extends HumanoidArmature> armature,
+            AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,
+            float slashAngle,
+            float movementEnd,
+            Phase... phases
+    ) {
+        super(convertTime, accessor, armature,phases);  // Pass accessor to BasicAttackAnimation
+        this.endAnimation = endAnimation;
+        this.ignoreFallDamage = ignoreFallDamage;
+        this.attackType = attackType;
+        this.slashAngle = slashAngle;
+        this.movementEnd = movementEnd;
     }
     public BasisAttackAnimation(
             WOHAnimationUtils.AttackAnimationType attackType,
@@ -79,6 +98,9 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
             AttributeModifier.Operation.MULTIPLY_TOTAL
     );
 
+    public float getSlashAngle(){
+        return slashAngle;
+    }
 
     @Override
     protected void attackTick(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> animation) {
@@ -86,20 +108,22 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
             AnimationPlayer animPlayer = playerPatch.getAnimator().getPlayerFor(this.accessor);
             if (animPlayer != null) {
                 float time = animPlayer.getElapsedTime();
-                        UUID playerId = playerPatch.getOriginal().getUUID();
+                UUID playerId = playerPatch.getOriginal().getUUID();
                 AttributeInstance speed = playerPatch.getOriginal()
                         .getAttribute(Attributes.MOVEMENT_SPEED);
                 Phase phase = phases[phases.length - 1];
                 TimeStampManager.TimeStampData timeStampData = TimeStampManager.get(animation.get().getRealAnimation().get());
-                if (time < phase.recovery && time > 0.05F) {
-                    isInAttack.putIfAbsent(playerId, true);
-                    isAttackEnding.remove(playerId);
-                    if (playerPatch.getOriginal().level().isClientSide) {
-                        Minecraft mc = Minecraft.getInstance();
-                        mc.options.keyUp.setDown(false);
-                        mc.options.keyDown.setDown(false);
-                        mc.options.keyLeft.setDown(false);
-                        mc.options.keyRight.setDown(false);
+                if (time < phase.recovery || (movementEnd != -1 & time < movementEnd)) {
+                    if (time > 0.05F) {
+                        isInAttack.putIfAbsent(playerId, true);
+                        isAttackEnding.remove(playerId);
+                        if (playerPatch.getOriginal().level().isClientSide) {
+                            Minecraft mc = Minecraft.getInstance();
+                            mc.options.keyUp.setDown(false);
+                            mc.options.keyDown.setDown(false);
+                            mc.options.keyLeft.setDown(false);
+                            mc.options.keyRight.setDown(false);
+                        }
                     }
                 } else if (time > phase.recovery) {
                     isInAttack.remove(playerId);
@@ -108,11 +132,17 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                         isAttackEnding.put(playerId, true);
                     }
                 }
+                float castTime = (phase.contact + phase.recovery) * 0.18f;
+
+                if (time >= castTime && !hasAttacked) {
+                    attackStart = true;
+                    hasAttacked = true;
+                }
                 if (ignoreFallDamage)
                     playerPatch.getOriginal().resetFallDistance();
             }
+            super.attackTick(entitypatch, animation);
         }
-        super.attackTick(entitypatch, animation);
     }
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public class ClientEvents {
@@ -120,7 +150,15 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
         public static void onPLayerTick(TickEvent.PlayerTickEvent event) {
             Player player = event.player;
             boolean attacking = isInAttack.getOrDefault(player.getUUID(), false);
-
+            if(player.level().isClientSide){
+                Minecraft mc = Minecraft.getInstance();
+                if(attacking){
+                    mc.options.keyUp.setDown(false);
+                    mc.options.keyDown.setDown(false);
+                    mc.options.keyLeft.setDown(false);
+                    mc.options.keyRight.setDown(false);
+                }
+            }
             player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
                 if (cap instanceof ServerPlayerPatch playerPatch) {
                     if( playerPatch.getEntityState().attacking()) {
@@ -168,9 +206,19 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                 }
             }
             isAttacking.remove(playerID);
+            attackStart = false;
+            hasAttacked = false;
         }
         super.end(entitypatch, nextAnimation, isEnd);
     }
+    public boolean isAttackBegin(){
+        if(attackStart){
+            attackStart = false;
+            return true;
+        }
+        return false;
+    }
+
 
     @Override
     public void begin(LivingEntityPatch<?> entitypatch) {

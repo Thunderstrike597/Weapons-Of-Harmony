@@ -1,10 +1,7 @@
 package net.kenji.woh.gameasset;
 
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.gameasset.skills.KatajutsaPassive;
-import net.kenji.woh.gameasset.skills.ShotogatanaSkillInnate;
-import net.kenji.woh.gameasset.skills.TessenAimSkill;
-import net.kenji.woh.gameasset.skills.TsumeSkillInnate;
+import net.kenji.woh.gameasset.skills.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.forgeevent.SkillBuildEvent;
@@ -19,8 +16,7 @@ public class WohSkills {
     public static Skill FAN_STANCE;
     public static Skill ENRAGED_CLAWS;
     public static Skill KATAJUTSU;
-
-
+    public static Skill ARBITERS_SLASH;
     @SubscribeEvent
     public static void buildSkillEvent(SkillBuildEvent build){
         SkillBuildEvent.ModRegistryWorker modRegistry = build.createRegistryWorker(WeaponsOfHarmony.MODID);
@@ -48,6 +44,12 @@ public class WohSkills {
                 KatajutsaPassive.createBuilder()
                         .setCategory(SkillCategories.PASSIVE)
         );;
+        ARBITERS_SLASH = modRegistry.build("arbiters_slash", ArbitersSlashSkill::new,
+                ArbitersSlashSkill.createGuardBuilder()
+                        .setActivateType(Skill.ActivateType.HELD)
+                        .setCategory(SkillCategories.WEAPON_INNATE)
+                        .setResource(Skill.Resource.COOLDOWN)
+        );
     }
 
 

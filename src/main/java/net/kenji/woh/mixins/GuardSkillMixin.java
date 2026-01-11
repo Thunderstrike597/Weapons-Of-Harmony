@@ -1,6 +1,7 @@
 package net.kenji.woh.mixins;
 
 import net.kenji.woh.api.manager.ShotogatanaManager;
+import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.gameasset.WohWeaponCategories;
 import net.kenji.woh.registry.animation.*;
 import net.kenji.woh.render.ShotogatanaRender;
@@ -10,11 +11,17 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import yesman.epicfight.api.animation.AnimationManager;
+import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.gameasset.Animations;
+import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.skill.guard.GuardSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.function.BiFunction;
 
@@ -63,5 +70,14 @@ public abstract class GuardSkillMixin {
                     return OdachiAnimations.ODACHI_GUARD;
                 }
         );
+    }
+
+    @Inject(method = "getGuardMotion", at = @At("RETURN"), cancellable = true, remap = false)
+    private void getGuardMotion(SkillContainer container, PlayerPatch<?> playerpatch, CapabilityItem itemCapability, GuardSkill.BlockType blockType, CallbackInfoReturnable<AnimationManager.AnimationAccessor<? extends StaticAnimation>> cir) {
+        if(container != null){
+            if(!container.isActivated()){
+                cir.setReturnValue(Animations.LONGSWORD_GUARD);
+            }
+        }
     }
 }

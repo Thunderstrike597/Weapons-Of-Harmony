@@ -25,6 +25,7 @@ public class WOHTabs {
                 output.accept(WohItems.SHOTOGATANA.get());
                 output.accept(WohItems.TESSEN.get());
                 output.accept(WohItems.TSUME.get());
+                output.accept(WohItems.ARBITERS_BLADE.get());
                 output.accept(WohItems.WAKIZASHI.get());
                 output.accept(WohItems.ODACHI.get());
                 output.accept(WohItems.FOLDED_IRON.get());

@@ -42,6 +42,7 @@
   "skill.woh.shotogatana_skill": "Shotogatana Skill",
   "skill.woh.throw_stance": "Throw Stance",
   "skill.woh.enraged_claws": "Enraged Claws",
+  "skill.woh.katajutsu": "Katajutsu",
 
   "skill.woh.shotogatana_skill.tooltip": "Once the cooldown is charged, you can execute a different combo \ndepending on the current attack animation.",
   "skill.woh.shotogatana_skill.tooltip.extra": "If no attack animation is present, you will perform a sheathed slash too quick for the human eye to see...",

@@ -289,6 +289,123 @@ public class WOHAnimationUtils {
         DEFERRED_SETUP.add(setupSupplier);
         return animation;
     }
+    public static AnimationManager.AnimationAccessor<BasicAttackAnimation> createAttackAnimation(
+            AnimationManager.AnimationBuilder builder,
+            AttackAnimationType type,
+            String path,
+            int phaseCount,
+            float convertTime,
+            float attackSpeed,
+            float attackDamage,
+            float impact,
+            float[] start,
+            float[] antic,
+            float[] contact,
+            float[] recovery,
+            float[] end,
+            float movementEnd,
+            Supplier<SoundEvent>[] swingSound,
+            Supplier<SoundEvent>[] hitSound,
+            RegistryObject<HitParticleType>[] hitParticle,
+            Collider[] colliders,
+            Joint[] colliderJoints,
+            StunType stunType,
+            float normalizedStart,
+            float normalizedEnd,
+            float slashAngle
+    ) {
+        AnimationManager.AnimationAccessor<BasicAttackAnimation> animation;
+        switch(type) {
+            case BASIC_ATTACK, BASIC_ATTACK_SHEATH:
+                animation = builder.nextAccessor(path, accessor -> new WohAttackAnimation(
+                        convertTime,        // convertTime first
+                        accessor,           // PASS THE ACCESSOR!
+                        type,
+                        null,               // endAnimation
+                        phaseCount,
+                        attackSpeed,
+                        attackDamage,
+                        impact,
+                        start,
+                        antic,
+                        contact,
+                        recovery,
+                        end,
+                        swingSound,
+                        hitSound,
+                        hitParticle,
+                        stunType,
+                        colliders,
+                        colliderJoints,
+                        false,
+                        slashAngle,
+                        movementEnd
+                ));
+                break;
+            case BASIC_ATTACK_JUMP:
+                animation = builder.nextAccessor(path, accessor -> new WohAttackAnimation(
+                        convertTime,        // convertTime first
+                        accessor,           // PASS THE ACCESSOR!
+                        type,
+                        null,               // endAnimation
+                        phaseCount,
+                        attackSpeed,
+                        attackDamage,
+                        impact,
+                        start,
+                        antic,
+                        contact,
+                        recovery,
+                        end,
+                        swingSound,
+                        hitSound,
+                        hitParticle,
+                        stunType,
+                        colliders,
+                        colliderJoints,
+                        true,
+                        slashAngle,
+                        movementEnd
+                ));
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown animation type: " + type);
+        }
+
+        AnimationManager.AnimationAccessor<? extends AttackAnimation> finalAnimation = animation;
+
+        Supplier<StaticAnimation> setupSupplier = () -> {
+            AttackAnimation anim = finalAnimation.get();
+
+            boolean stopEndEvent = normalizedEnd <= -1;
+            boolean stopStartEvent = normalizedStart <= -1;
+
+            TimeStampManager.register(anim, normalizedStart, normalizedEnd);
+
+            float absoluteStart = anim.getTotalTime() * normalizedStart;
+            float absoluteEnd = anim.getTotalTime() * normalizedEnd;
+
+            if (!stopEndEvent && !stopStartEvent) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
+                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
+                });
+            } else if (!stopEndEvent) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
+                });
+            } else if (!stopStartEvent) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH)
+                });
+            }
+
+            return anim;
+        };
+
+        DEFERRED_SETUP.add(setupSupplier);
+        return animation;
+    }
 
         public static AnimationManager.AnimationAccessor<BasicAttackAnimation> createAttackAnimation(
             AnimationManager.AnimationBuilder builder,

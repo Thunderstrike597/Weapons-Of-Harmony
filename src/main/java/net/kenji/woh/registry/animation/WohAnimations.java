@@ -24,6 +24,7 @@ public class WohAnimations {
         ShotogatanaAnimations.build(builder);
         TessenAnimations.build(builder);
         TsumeAnimations.build(builder);
+        ArbitersBladeAnimations.build((builder));
         WakizashiAnimations.build(builder);
         OdachiAnimations.build(builder);
 

@@ -2,9 +2,9 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.gameasset.WohWeaponCategories;
-import net.kenji.woh.network.TessenInnatePacket;
 import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.animation.TessenAnimations;
 import net.minecraft.ChatFormatting;
@@ -46,11 +46,6 @@ import java.util.UUID;
 
 public class TessenAimSkill extends WeaponInnateSkill {
 
-    public static Map<UUID, Float> storedResource = new HashMap<>();
-
-    public static Map<UUID, Boolean> wasDown = new HashMap<>();
-    public static Map<UUID, Float> counter = new HashMap<>();
-
     private static UUID EVENT_UUID = UUID.randomUUID();
 
     public TessenAimSkill(SkillBuilder<WeaponInnateSkill> builder) {
@@ -71,43 +66,12 @@ public class TessenAimSkill extends WeaponInnateSkill {
 
     }
 
-        @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, value = Dist.CLIENT)
-    public static class ClientInputTracker {
-
-        @SubscribeEvent
-        public static void onClientTick(TickEvent.ClientTickEvent event) {
-            if (event.phase != TickEvent.Phase.END) return;
-
-            Minecraft mc = Minecraft.getInstance();
-            LocalPlayer player = mc.player;
-            if (player == null) return;
-
-            UUID id = player.getUUID();
-
-            if (EpicFightKeyMappings.GUARD.isDown()) {
-                if (!wasDown.getOrDefault(id, false)) {
-                    // Only send when state changes
-                    wasDown.put(id, true);
-                    WohPacketHandler.sendToServer(new TessenInnatePacket(id, true));
-                }
-                counter.put(id, 0f);
-            } else if (wasDown.getOrDefault(id, false)) {
-                counter.put(id, counter.getOrDefault(id, 0f) + 1f);
-
-                if (counter.get(id) >= 2.5) {
-                    wasDown.put(id, false);
-                    counter.put(id, 0f);
-                    WohPacketHandler.sendToServer(new TessenInnatePacket(id, false));
-                }
-            }
-        }
-    }
 
     @OnlyIn(Dist.CLIENT)
     public void onInitiateClient(SkillContainer container) {
         super.onInitiateClient(container);
         container.getExecutor().getEventListener().addEventListener(PlayerEventListener.EventType.UPDATE_COMPOSITE_LIVING_MOTION_EVENT, EVENT_UUID, (event) -> {
-            if(wasDown.getOrDefault(container.getExecutor().getOriginal().getUUID(), false)) {
+            if(AimManager.wasDown.getOrDefault(container.getExecutor().getOriginal().getUUID(), false)) {
                 event.setMotion(LivingMotions.BLOCK);
             }
         });
@@ -115,7 +79,7 @@ public class TessenAimSkill extends WeaponInnateSkill {
 
     public static boolean isAiming(PlayerPatch<?> patch) {
         UUID id = patch.getOriginal().getUUID();
-        return wasDown.getOrDefault(id, false);
+        return AimManager.wasDown.getOrDefault(id, false);
     }
 
     @Override

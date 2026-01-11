@@ -1,0 +1,41 @@
+{
+  "loader": "forge:separate_transforms",
+  "base": {
+    "loader": "forge:obj",
+    "model": "woh:models/item/obj/arbiters_blade.obj",
+    "flip_v": true,
+    "display": {
+      "thirdperson_righthand": {
+        "translation": [7.75, -9, 9],
+        "rotation": [91.5, 0, 0],
+        "scale": [0.95, 0.95, 0.95]
+      },
+      "firstperson_righthand": {
+        "translation": [13, -6, 0],
+        "rotation": [85, 0, 0],
+        "scale": [0.95, 0.95, 0.95]
+      }
+    }
+  },
+  "perspectives": {
+    "ground": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "woh:item/weapon/arbiters_blade"
+      }
+    },
+    "gui": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "woh:item/weapon/arbiters_blade"
+      },
+      "gui_light": "front"
+    },
+    "fixed": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "woh:item/weapon/arbiters_blade"
+      }
+    }
+  }
+}
