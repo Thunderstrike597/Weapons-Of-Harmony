@@ -89,8 +89,21 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
                 container.getExecuter().getAnimator().addLivingAnimation(LivingMotions.BLOCK, Animations.LONGSWORD_GUARD);
         }
         if (container.getExecuter().getSkillChargingTicks(1.0F) > (float)getAllowedMaxChargingTicks()) {
-            if(!container.isActivated())
+            if(!container.isActivated()) {
                 container.getExecuter().playAnimationSynchronized(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_END, 0.1F);
+                if(container.getExecuter().getOriginal().level() instanceof ServerLevel serverLevel) {
+                    BlockPos blockPos = container.getExecuter().getOriginal().blockPosition();
+
+                    serverLevel.playSound(
+                            null,
+                            blockPos,
+                            SoundEvents.ENCHANTMENT_TABLE_USE,
+                            SoundSource.PLAYERS,
+                            1.0F,
+                            1.0F
+                    );
+                }
+            }
             container.activate();
         }
 
@@ -125,6 +138,11 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
         super.executeOnServer(executor, args);
     }
 
+    @Override
+    public void executeOnClient(LocalPlayerPatch executor, FriendlyByteBuf args) {
+        super.executeOnClient(executor, args);
+    }
+
     private void onBeamSlash(PlayerPatch<?> playerPatch, BasisAttackAnimation basisAttackAnimation, ServerLevel serverLevel){
         if(serverLevel != null) {
             BlockPos blockPos = playerPatch.getOriginal().blockPosition();
@@ -134,7 +152,7 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
                 float yVelocity = AimManager.isAiming(playerPatch) ? travelSpeedMultiplier : 0;
 
                 spawnedEntity.addDeltaMovement(lookDir.multiply(travelSpeedMultiplier, yVelocity, travelSpeedMultiplier));
-                spawnedEntity.setYRot(playerPatch.getOriginal().getYRot());
+                spawnedEntity.setYRot(playerPatch.getOriginal().getYHeadRot());
                 spawnedEntity.setSlashAngle(basisAttackAnimation.getSlashAngle());
                 spawnedEntity.setCasterAndAnimation(playerPatch, basisAttackAnimation);
 
@@ -151,6 +169,14 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
                         castSound,
                         SoundSource.PLAYERS,
                         1.0F,
+                        1.0F
+                );
+                serverLevel.playSound(
+                        null,
+                        blockPos,
+                        SoundEvents.ENCHANTMENT_TABLE_USE,
+                        SoundSource.PLAYERS,
+                        0.55F,
                         1.0F
                 );
             }

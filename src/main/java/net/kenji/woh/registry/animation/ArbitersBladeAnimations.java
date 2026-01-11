@@ -88,7 +88,7 @@ public class ArbitersBladeAnimations {
                 StunType.SHORT,
                 -1F,
                 -1F,
-                -35
+                -32
         );
         ARBITERS_BLADE_AUTO_3 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
@@ -112,7 +112,7 @@ public class ArbitersBladeAnimations {
                 StunType.SHORT,
                 -1F,
                 -1F,
-                -45
+                -28
         );
         ARBITERS_BLADE_AUTO_4 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP,
@@ -127,6 +127,7 @@ public class ArbitersBladeAnimations {
                 new float[]{0.5F},
                 new float[]{1.15f},
                 new float[]{2.5f},
+                1.25F,
                 new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
@@ -134,7 +135,8 @@ public class ArbitersBladeAnimations {
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
                 -1F,
-                -1F
+                -1F,
+                -70
         );
         ARBITERS_BLADE_AUTO_5 = WOHAnimationUtils.createAttackAnimation(
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP,
