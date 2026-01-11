@@ -48,8 +48,8 @@ public class WohAttackAnimation extends BasisAttackAnimation {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
                 .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false);
     }
-    public WohAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, String path, @Nullable StaticAnimation endAnimation, int phaseCount, float convertTime, float attackSpeed, float damage, float impact, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, SoundEvent[] swingSound, SoundEvent[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean ignoreFallDamage, float slashAngle) {
-        super(attackType, convertTime, path, biped, ignoreFallDamage, slashAngle, buildPhases(phaseCount, start ,antic, contact, recovery, end, hitSound, swingSound, hitParticle, colliders, colliderJoints));
+    public WohAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, String path, @Nullable StaticAnimation endAnimation, int phaseCount, float convertTime, float attackSpeed, float damage, float impact, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, SoundEvent[] swingSound, SoundEvent[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean ignoreFallDamage, float slashAngle, float movementEnd) {
+        super(attackType, convertTime, path, biped, ignoreFallDamage, slashAngle, movementEnd,buildPhases(phaseCount, start ,antic, contact, recovery, end, hitSound, swingSound, hitParticle, colliders, colliderJoints));
         this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.setter(damage))
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(impact))

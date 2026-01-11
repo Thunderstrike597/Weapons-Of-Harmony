@@ -3,16 +3,12 @@ package net.kenji.woh.gameasset.animations;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.WOHAnimationUtils;
 import net.kenji.woh.api.manager.ShotogatanaManager;
-import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -43,14 +39,17 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
     private StaticAnimation endAnimation;
     private boolean ignoreFallDamage = false;
     private float slashAngle = -1f;
+    private float movementEnd = -1;
+    private boolean hasAttacked = false;
 
     public WOHAnimationUtils.AttackAnimationType attackType = null;
 
-    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, Armature armature, boolean ignoreFallDamage, Float slashAngle, Phase... phases) {
+    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, Armature armature, boolean ignoreFallDamage, Float slashAngle, float movementEnd,Phase... phases) {
         super(convertTime, path, armature, phases);
         this.endAnimation = endAnimation;
         this.attackType = attackType;
         this.slashAngle = slashAngle;
+        this.movementEnd = movementEnd;
     }
     public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, Armature armature, StaticAnimation endAnimation,Phase... phases) {
         super(convertTime, path, armature, phases);
@@ -87,17 +86,18 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
             AttributeInstance speed = playerPatch.getOriginal()
                     .getAttribute(Attributes.MOVEMENT_SPEED);
             Phase phase = phases[phases.length - 1];
-
-            if (time < phase.recovery && time > 0.05F) {
-                isInAttack.putIfAbsent(playerId, true);
-                isAttackEnding.remove(playerId);
-                if (playerPatch.getOriginal().level().isClientSide) {
-                    Minecraft mc = Minecraft.getInstance();
-                    mc.options.keyUp.setDown(false);
-                    mc.options.keyDown.setDown(false);
-                    mc.options.keyLeft.setDown(false);
-                    mc.options.keyRight.setDown(false);
-                }
+            if (time < phase.recovery || (movementEnd != -1 & time < movementEnd)) {
+               if(time > 0.05F) {
+                   isInAttack.putIfAbsent(playerId, true);
+                   isAttackEnding.remove(playerId);
+                   if (playerPatch.getOriginal().level().isClientSide) {
+                       Minecraft mc = Minecraft.getInstance();
+                       mc.options.keyUp.setDown(false);
+                       mc.options.keyDown.setDown(false);
+                       mc.options.keyLeft.setDown(false);
+                       mc.options.keyRight.setDown(false);
+                   }
+               }
             } else if (time > phase.recovery) {
                 isInAttack.remove(playerId);
                 boolean attackEnding = isAttackEnding.getOrDefault(playerId, false);
@@ -105,21 +105,33 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                     isAttackEnding.put(playerId, true);
                 }
             }
+            float castTime = (phase.contact + phase.recovery) * 0.18f;
+
+            if (time >= castTime && !hasAttacked) {
+                attackStart = true;
+                hasAttacked = true;
+            }
             if (ignoreFallDamage)
                 playerPatch.getOriginal().resetFallDistance();
         }
         super.attackTick(entitypatch, animation);
     }
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-    public class ClientEvents {
+    public class ForgeEvents {
         @SubscribeEvent
         public static void onPLayerTick(TickEvent.PlayerTickEvent event) {
             Player player = event.player;
             boolean attacking = isInAttack.getOrDefault(player.getUUID(), false);
-            if(player.level().isClientSide && attacking) {
-                LocalPlayer localPlayer = (LocalPlayer) player;
-
+            if(player.level().isClientSide){
+                Minecraft mc = Minecraft.getInstance();
+                if(attacking){
+                    mc.options.keyUp.setDown(false);
+                    mc.options.keyDown.setDown(false);
+                    mc.options.keyLeft.setDown(false);
+                    mc.options.keyRight.setDown(false);
+                }
             }
+
             player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
                 if (cap instanceof ServerPlayerPatch playerPatch) {
                     if( playerPatch.getEntityState().attacking()) {
@@ -166,6 +178,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
             }
             isAttacking.remove(playerID);
             attackStart = false;
+            hasAttacked = false;
         }
         super.end(entitypatch, nextAnimation, isEnd);
     }
@@ -182,7 +195,6 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
     public void begin(LivingEntityPatch<?> entitypatch) {
         if(entitypatch instanceof PlayerPatch<?> playerPatch) {
             UUID playerID = playerPatch.getOriginal().getUUID();
-            attackStart = true;
             isAttacking.put(playerID, true);
         }
         super.begin(entitypatch);

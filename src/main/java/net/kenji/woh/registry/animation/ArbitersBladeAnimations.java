@@ -22,9 +22,13 @@ public class ArbitersBladeAnimations {
     public static StaticAnimation ARBITERS_BLADE_AUTO_4;
     public static StaticAnimation ARBITERS_BLADE_AUTO_5;
 
+    public static StaticAnimation ARBITERS_BLADE_AIM_AUTO_1;
+
     public static StaticAnimation ARBITERS_BLADE_SKILL_ACTIVATE_START;
     public static StaticAnimation ARBITERS_BLADE_SKILL_ACTIVATE_MID;
     public static StaticAnimation ARBITERS_BLADE_SKILL_ACTIVATE_END;
+
+    public static StaticAnimation ARBITERS_BLADE_AIM;
 
 
     public static void build(){
@@ -36,6 +40,7 @@ public class ArbitersBladeAnimations {
         ARBITERS_BLADE_SKILL_ACTIVATE_MID = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_skill_activate_mid", biped));
         ARBITERS_BLADE_SKILL_ACTIVATE_END = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_skill_activate_end", biped));
 
+        ARBITERS_BLADE_AIM = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_aim", biped));
 
         ARBITERS_BLADE_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
@@ -50,6 +55,7 @@ public class ArbitersBladeAnimations {
                 new float[]{0.36F},
                 new float[]{0.42f},
                 new float[]{1.5f},
+                0.95F,
                 new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
@@ -70,9 +76,10 @@ public class ArbitersBladeAnimations {
                 0.45F,
                 new float[]{0.0F},
                 new float[]{0.38F},
-                new float[]{0.48F},
-                new float[]{0.5f},
+                new float[]{0.46F},
+                new float[]{0.56f},
                 new float[]{1.5f},
+                1.05F,
                 new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
@@ -96,6 +103,7 @@ public class ArbitersBladeAnimations {
                 new float[]{0.46F},
                 new float[]{0.5f},
                 new float[]{2f},
+                1.25F,
                 new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
@@ -149,6 +157,30 @@ public class ArbitersBladeAnimations {
                 StunType.SHORT,
                 -1F,
                 -1F
+        );
+        ARBITERS_BLADE_AIM_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/arbiters_blade/arbiters_blade_aim_auto_1",
+                1,
+                0.35F,
+                1F,
+                6F,
+                0.45F,
+                new float[]{0.0F},
+                new float[]{0.25F},
+                new float[]{0.36F},
+                new float[]{0.42f},
+                new float[]{1.5f},
+                0.64F,
+                new SoundEvent[]{EpicFightSounds.WHOOSH.get()},
+                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.LONGSWORD},
+                new Joint[]{biped.toolR},
+                StunType.SHORT,
+                -1F,
+                -1F,
+                -45
         );
         /*ODACHI_AIRSLASH = WOHAnimationUtils.createAirAttackAnimation(
                 "biped/combat/odachi/odachi_airslash",

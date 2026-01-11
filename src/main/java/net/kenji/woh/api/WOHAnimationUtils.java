@@ -258,6 +258,7 @@ public class WOHAnimationUtils {
             float[] contact,
             float[] recovery,
             float[] end,
+            float movementEnd,
             SoundEvent[] hitSound,
             SoundEvent[] swingSound,
             RegistryObject<HitParticleType>[] hitParticle,
@@ -274,14 +275,14 @@ public class WOHAnimationUtils {
                 animation = new WohAttackAnimation(type,
                         path, null, phaseCount, convertTime, attackSpeed, attackDamage, impact,
                         start, antic, contact, recovery, end,
-                        hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, false, slashAngle
+                        hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, false, slashAngle, movementEnd
                 );
                 break;
             case BASIC_ATTACK_JUMP:
                 animation = new WohAttackAnimation(type,
                         path, null, phaseCount, convertTime, attackSpeed, attackDamage, impact,
                         start, antic, contact, recovery, end,
-                        hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, true, slashAngle
+                        hitSound, swingSound, hitParticle, stunType, colliders, colliderJoints, true, slashAngle, movementEnd
                 );
                 break;
             case DASH_ATTACK:

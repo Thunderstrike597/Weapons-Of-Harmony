@@ -43,8 +43,8 @@ public class WohSkills {
         KATAJUTSU = modRegistry.build("katajutsu", KatajutsaPassive::new,
                 KatajutsaPassive.createBuilder().setCategory(SkillCategories.PASSIVE)
         );
-        ARBITERS_SLASH = modRegistry.build("arbiters_slash", ArbitersSlash::new,
-                ArbitersSlash.createBuilder()
+        ARBITERS_SLASH = modRegistry.build("arbiters_slash", ArbitersSlashSkill::new,
+                ArbitersSlashSkill.createGuardBuilder()
                         .setActivateType(Skill.ActivateType.CHARGING)
                         .setCategory(SkillCategories.WEAPON_INNATE)
                         .setResource(Skill.Resource.COOLDOWN)
