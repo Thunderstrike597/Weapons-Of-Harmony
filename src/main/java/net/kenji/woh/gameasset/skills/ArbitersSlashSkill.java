@@ -21,6 +21,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationPlayer;
@@ -41,9 +42,12 @@ import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
+import java.util.*;
+
 public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
 
     public static float travelSpeedMultiplier = 1.75f;
+    private static final Map<UUID, List<BasisAttackAnimation>> beamCastMap = new HashMap<>();
 
     public ArbitersSlashSkill(Builder builder) {
         super(builder);
@@ -113,11 +117,43 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
                 container.getExecuter().getAnimator().addLivingAnimation(LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM);
 
             PlayerPatch<?> playerPatch = container.getExecuter();
+            Player player = playerPatch.getOriginal();
             if (playerPatch.getAnimator().getPlayerFor(null).getAnimation() instanceof BasisAttackAnimation attackAnim) {
                if(playerPatch.getOriginal().level() instanceof ServerLevel serverLevel) {
                    if (attackAnim.isAttackBegin()) {
                        if(attackAnim.getSlashAngle() != -1)
-                           onBeamSlash(playerPatch, attackAnim, serverLevel);
+                           if(beamCastMap.get(player.getUUID()) == null) {
+                               List<BasisAttackAnimation> anims = new ArrayList<>();
+                               anims.add(attackAnim);
+                               onBeamSlash(playerPatch, attackAnim, serverLevel);
+                               beamCastMap.put(player.getUUID(), anims);
+                           }
+                           else{
+                               List<BasisAttackAnimation> anims = beamCastMap.get(player.getUUID());
+                               boolean shouldCast = true;
+                               for(BasisAttackAnimation anim : anims){
+                                   if(anim == attackAnim){
+                                       shouldCast = false;
+                                       break;
+                                   }
+                               }
+                               if(shouldCast){
+                                   onBeamSlash(playerPatch, attackAnim, serverLevel);
+                                   anims.add(attackAnim);
+                                   beamCastMap.put(player.getUUID(), anims);
+                               }
+                           }
+                   }
+                   List<BasisAttackAnimation> anims = beamCastMap.get(player.getUUID());
+                   if (anims != null) {
+                       AnimationPlayer current = playerPatch.getAnimator().getPlayerFor(null);
+                       anims.removeIf(anim ->
+                               current == null || current.getAnimation() != anim
+                       );
+
+                       if (anims.isEmpty()) {
+                           beamCastMap.remove(player.getUUID());
+                       }
                    }
                }
             }
