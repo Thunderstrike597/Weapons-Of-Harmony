@@ -3,12 +3,11 @@ package net.kenji.woh.gameasset.skills;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
-import net.kenji.woh.gameasset.WohWeaponCategories;
 import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
 import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -16,8 +15,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
@@ -30,25 +30,29 @@ import yesman.epicfight.client.input.EpicFightKeyMappings;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.network.server.SPSkillExecutionFeedback;
+import yesman.epicfight.skill.Skill;
+import yesman.epicfight.skill.SkillBuilder;
 import yesman.epicfight.skill.SkillContainer;
-import yesman.epicfight.skill.guard.GuardSkill;
 import yesman.epicfight.skill.modules.ChargeableSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
-import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
-public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
+import java.util.*;
+
+public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
 
     public static float travelSpeedMultiplier = 1.75f;
 
-    public ArbitersSlashSkill(Builder builder) {
+    private SkillContainer currentContainer;
+
+    private static final Map<UUID, Boolean> wasHoldingMap = new HashMap<>();
+
+    private static final Map<UUID, List<BasisAttackAnimation>> beamCastMap = new HashMap<>();
+
+    public ArbitersSlashSkill(SkillBuilder builder) {
         super(builder);
         this.maxDuration = 420;
         this.consumption = 10;
         this.maxStackSize = 1;
-        guardMotions.put(
-                WohWeaponCategories.ARBITERS_BLADE,
-                (item, player) -> ArbitersBladeAnimations.ARBITERS_BLADE_AIM
-        );
     }
 
     @Override
@@ -56,17 +60,13 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
         return EpicFightSkills.SWEEPING_EDGE.getSkillTexture();
     }
 
-    @Override
-    protected boolean isBlockableSource(DamageSource damageSource, boolean advanced) {
-        return false;
-    }
 
     @Override
     public void updateContainer(SkillContainer container) {
         // Handle charging phase (before activation)
+        currentContainer = container;
         if (!container.isActivated()) {
             float chargingAmount = container.getExecutor().getChargingAmount();
-
             // Update animation based on charging progress
             if (chargingAmount > 1) {
                 AnimationPlayer animationPlayer = container.getExecutor().getAnimator().getPlayerFor(null);
@@ -115,24 +115,71 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
 
         // Handle active phase (after activation)
         if (container.isActivated()) {
-            // Switch to aim animation
+            Player player = container.getExecutor().getOriginal();
+            if (player.level().isClientSide) {
+                Minecraft mc = Minecraft.getInstance();
+                UUID id = player.getUUID();
+
+                boolean isHolding = EpicFightKeyMappings.GUARD.isDown();
+                boolean wasHolding = wasHoldingMap.getOrDefault(id, false);
+
+                if (isHolding && !wasHolding) {
+                    // === PRESS (start) ===
+                    onGuardPress(container);
+                }
+
+                if (!isHolding && wasHolding) {
+                    // === RELEASE (stop) ===
+                    onGuardRelease(container);
+                }
+                wasHoldingMap.put(id, isHolding);
+            }
             if (container.getExecutor().getAnimator().getLivingAnimation(
-                    LivingMotions.BLOCK, Animations.LONGSWORD_GUARD) != ArbitersBladeAnimations.ARBITERS_BLADE_AIM) {
+                    LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM) != Animations.LONGSWORD_GUARD) {
                 container.getExecutor().getAnimator().addLivingAnimation(
                         LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM
                 );
             }
-
             // Check for attack animations and spawn beam slash
             PlayerPatch<?> playerPatch = container.getExecutor();
-            AnimationPlayer player = playerPatch.getAnimator().getPlayerFor(null);
+            AnimationPlayer animPlayer = playerPatch.getAnimator().getPlayerFor(null);
 
-            if (player != null && player.getAnimation().get() instanceof BasisAttackAnimation attackAnim) {
+            if (animPlayer != null && animPlayer.getAnimation().get() instanceof BasisAttackAnimation attackAnim) {
 
                 if (playerPatch.getOriginal().level() instanceof ServerLevel serverLevel) {
                     if (attackAnim.isAttackBegin() && attackAnim.getSlashAngle() != -1) {
-                        Log.info("IS ATTACKING WITH BASIS ATTACK");
-                        onBeamSlash(playerPatch, attackAnim.getAccessor(), serverLevel);
+                        if(beamCastMap.get(player.getUUID()) == null) {
+                            List<BasisAttackAnimation> anims = new ArrayList<>();
+                            anims.add(attackAnim);
+                            onBeamSlash(playerPatch, attackAnim.getAccessor(), serverLevel);
+                            beamCastMap.put(player.getUUID(), anims);
+                        }
+                        else{
+                           List<BasisAttackAnimation> anims = beamCastMap.get(player.getUUID());
+                           boolean shouldCast = true;
+                           for(BasisAttackAnimation anim : anims){
+                               if(anim == attackAnim){
+                                   shouldCast = false;
+                                   break;
+                               }
+                           }
+                           if(shouldCast){
+                               onBeamSlash(playerPatch, attackAnim.getAccessor(), serverLevel);
+                               anims.add(attackAnim);
+                               beamCastMap.put(player.getUUID(), anims);
+                           }
+                        }
+                    }
+                    List<BasisAttackAnimation> anims = beamCastMap.get(player.getUUID());
+                    if (anims != null) {
+                        AnimationPlayer current = playerPatch.getAnimator().getPlayerFor(null);
+                        anims.removeIf(anim ->
+                                current == null || current.getAnimation().get() != anim
+                        );
+
+                        if (anims.isEmpty()) {
+                            beamCastMap.remove(player.getUUID());
+                        }
                     }
                 }
             }
@@ -205,6 +252,21 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
         container.getExecutor().setChargingAmount(0);
     }
 
+    private AssetAccessor<StaticAnimation> getAimAnimation(){
+        return ArbitersBladeAnimations.ARBITERS_BLADE_AIM;
+    }
+
+    private void onGuardPress(SkillContainer container){
+        container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.IDLE, getAimAnimation());
+        container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.WALK, getAimAnimation());
+    }
+    private void onGuardRelease(SkillContainer container){
+        container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.IDLE, container.getExecutor().getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(container.getExecutor(), InteractionHand.MAIN_HAND).get(LivingMotions.IDLE));
+        container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.WALK, container.getExecutor().getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(container.getExecutor(), InteractionHand.MAIN_HAND).get(LivingMotions.WALK));
+
+    }
+
+
     @Override
     public void onStopHolding(SkillContainer container, SPSkillExecutionFeedback feedback) {
         // Don't deactivate immediately - let the skill finish naturally
@@ -216,12 +278,14 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
 
     @Override
     public void startHolding(SkillContainer container) {
-        // DON'T call super.startHolding() - it activates immediately
-        // Instead, initialize charging
-        container.getExecutor().setChargingAmount(0);
-        container.getExecutor().playAnimationSynchronized(
-                ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_START, 0.1F
-        );
+        if(!container.isActivated()) {
+            container.getExecutor().setChargingAmount(0);
+            container.getExecutor().playAnimationSynchronized(
+                    ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_START, 0.1F
+            );
+            return;
+        }
+
     }
 
     @Override

@@ -211,6 +211,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
         }
         super.end(entitypatch, nextAnimation, isEnd);
     }
+
     public boolean isAttackBegin(){
         if(attackStart){
             attackStart = false;

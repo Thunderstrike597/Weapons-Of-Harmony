@@ -35,10 +35,11 @@ public class ArbitersBladeRender extends RenderItemBase {
     public ArbitersBladeRender(JsonElement jsonElement) {
         super(jsonElement);
         if (jsonElement.getAsJsonObject().has("blade")) {
-            this.bladeStack = new ItemStack((ItemLike) Objects.requireNonNull((Item) ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(jsonElement.getAsJsonObject().get("arbiters_blade").getAsString()))));
+            this.bladeStack = new ItemStack((ItemLike) Objects.requireNonNull((Item) ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(jsonElement.getAsJsonObject().get("blade").getAsString()))));
         }else {
             this.bladeStack = new ItemStack((ItemLike) WohItems.ARBITERS_BLADE.get());
         }
+
     }
 
 
