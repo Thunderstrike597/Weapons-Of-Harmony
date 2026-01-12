@@ -19,7 +19,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
@@ -50,7 +49,7 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
 
     public ArbitersSlashSkill(SkillBuilder builder) {
         super(builder);
-        this.maxDuration = 420;
+        this.maxDuration = 350;
         this.consumption = 10;
         this.maxStackSize = 1;
     }
@@ -125,12 +124,12 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
 
                 if (isHolding && !wasHolding) {
                     // === PRESS (start) ===
-                    onGuardPress(container);
+                    onAimPress(container);
                 }
 
                 if (!isHolding && wasHolding) {
                     // === RELEASE (stop) ===
-                    onGuardRelease(container);
+                    onAimRelease(container);
                 }
                 wasHoldingMap.put(id, isHolding);
             }
@@ -187,6 +186,10 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
             // Decrement duration
             if (container.getRemainDuration() > 0) {
                 container.setDuration(container.getRemainDuration() - 1);
+            }
+            else{
+                container.deactivate();
+                resetHolding(container);
             }
         }
 
@@ -256,11 +259,11 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
         return ArbitersBladeAnimations.ARBITERS_BLADE_AIM;
     }
 
-    private void onGuardPress(SkillContainer container){
+    private void onAimPress(SkillContainer container){
         container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.IDLE, getAimAnimation());
         container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.WALK, getAimAnimation());
     }
-    private void onGuardRelease(SkillContainer container){
+    private void onAimRelease(SkillContainer container){
         container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.IDLE, container.getExecutor().getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(container.getExecutor(), InteractionHand.MAIN_HAND).get(LivingMotions.IDLE));
         container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.WALK, container.getExecutor().getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(container.getExecutor(), InteractionHand.MAIN_HAND).get(LivingMotions.WALK));
 
