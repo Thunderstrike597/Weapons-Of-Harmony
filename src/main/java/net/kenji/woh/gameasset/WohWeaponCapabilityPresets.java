@@ -15,7 +15,6 @@ import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
-import yesman.epicfight.world.capabilities.item.WeaponCapabilityPresets;
 
 import java.util.function.Function;
 
@@ -241,6 +240,7 @@ public class WohWeaponCapabilityPresets {
                             if (AimManager.isAiming(patch)) {
                                 return WohStyles.AIMING;
                             }
+                            return CapabilityItem.Styles.COMMON;
                         }
                     }
                     return CapabilityItem.Styles.ONE_HAND;
@@ -257,18 +257,27 @@ public class WohWeaponCapabilityPresets {
                         ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_3,
                         ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_4,
                         ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_5,
-                        Animations.LONGSWORD_DASH, Animations.LONGSWORD_AIR_SLASH)
+                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_4, ArbitersBladeAnimations.ARBITERS_BLADE_AIRSLASH)
+                .newStyleCombo(CapabilityItem.Styles.COMMON,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_1,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_2,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_3,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_4,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_4, ArbitersBladeAnimations.ARBITERS_BLADE_AIRSLASH)
                 .newStyleCombo(WohStyles.AIMING,
-                        ArbitersBladeAnimations.ARBITERS_BLADE_AIM_AUTO_1,
-                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_2,
-                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_3,
-                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_4,
-                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_5,
-                        Animations.LONGSWORD_DASH, Animations.LONGSWORD_AIR_SLASH)
+                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AIM_AUTO_1,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_2,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_3,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_4,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_4, ArbitersBladeAnimations.ARBITERS_BLADE_AIRSLASH)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, Animations.BIPED_RUN_LONGSWORD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
+                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.RUN, Animations.BIPED_RUN_LONGSWORD)
+                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.RUN, Animations.BIPED_RUN_LONGSWORD)
