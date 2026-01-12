@@ -255,6 +255,7 @@ public class WohWeaponCapabilityPresets {
                         ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_1,
                         ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_2,
                         ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_3,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_3,
                         ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_4,
                         ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_5,
                         ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_4, ArbitersBladeAnimations.ARBITERS_BLADE_AIRSLASH)
