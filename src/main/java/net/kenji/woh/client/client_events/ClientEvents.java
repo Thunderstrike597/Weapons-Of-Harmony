@@ -1,6 +1,7 @@
 package net.kenji.woh.client.client_events;
 
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.block.ModBlockEntities;
 import net.kenji.woh.client.ModModelLayers;
 import net.kenji.woh.client.enitity_models.BeamSlashModel;
 import net.kenji.woh.client.enitity_models.ExiledRoninModel;
@@ -13,6 +14,8 @@ import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.render.ArbitersBladeRender;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.kenji.woh.render.TsumeRender;
+import net.kenji.woh.render.block.SwordPedistoolRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -58,6 +61,10 @@ public class ClientEvents {
           EntityRenderers.register(
                   ModEntities.BEAM_SLASH.get(),
                   BeamSlashRenderer::new
+          );
+          BlockEntityRenderers.register(
+                  ModBlockEntities.SWORD_PEDISTOOL_BE.get(),
+                  SwordPedistoolRenderer::new
           );
           ItemProperties.register(
                   WohItems.SHOTOGATANA.get(),

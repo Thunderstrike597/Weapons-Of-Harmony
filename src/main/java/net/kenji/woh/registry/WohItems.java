@@ -1,12 +1,14 @@
 package net.kenji.woh.registry;
 
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.block.ModBlocks;
 import net.kenji.woh.item.custom.armor.RoninAttire;
 import net.kenji.woh.item.custom.shield.ArbitersShield;
 import net.kenji.woh.item.custom.weapon.*;
 import net.kenji.woh.item.custom.base.ResourceItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -53,6 +55,8 @@ public class WohItems {
     public static final RegistryObject<Item> RONIN_TUNIC = ITEMS.register("ronin_tunic", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.CHESTPLATE));
     public static final RegistryObject<Item> RONIN_LEGGINGS = ITEMS.register("ronin_leggings", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.LEGGINGS));
     public static final RegistryObject<Item> RONIN_BOOTS = ITEMS.register("ronin_boots", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.BOOTS));
+
+    public static final RegistryObject<Item> SWORD_PEDISTOOL = ITEMS.register("sword_pedistool", () -> new BlockItem(ModBlocks.SWORD_PEDISTOOL.get(), new Item.Properties()));
 
 
     public static void register(IEventBus eventBus) {

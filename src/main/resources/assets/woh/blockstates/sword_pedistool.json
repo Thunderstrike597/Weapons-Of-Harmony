@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "": {
+      "model": "woh:block/sword_pedistool",
+      "uvlock": true
+    }
+  }
+}
