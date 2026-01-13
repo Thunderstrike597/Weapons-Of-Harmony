@@ -1,0 +1,46 @@
+{
+  "loader": "forge:separate_transforms",
+  "base": {
+    "loader": "forge:obj",
+    "model": "woh:models/item/obj/arbiters_shield.obj",
+    "flip_v": true,
+    "display": {
+      "thirdperson_righthand": {
+        "translation": [5.75, -8, 7.5],
+        "rotation": [0, 0, 0],
+        "scale": [0.6, 0.6, 0.6]
+      },
+      "thirdperson_lefthand": {
+        "translation": [-4, 3, 6],
+        "rotation": [0, 0, 0],
+        "scale": [0.65, 0.65, 0.65]
+      },
+      "firstperson_righthand": {
+        "translation": [13, -6, 0],
+        "rotation": [85, 0, 0],
+        "scale": [0.6, 0.6, 0.6]
+      }
+    }
+  },
+  "perspectives": {
+    "ground": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "woh:item/arbiters_shield"
+      }
+    },
+    "gui": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "woh:item/arbiters_shield"
+      },
+      "gui_light": "front"
+    },
+    "fixed": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "woh:item/arbiters_shield"
+      }
+    }
+  }
+}

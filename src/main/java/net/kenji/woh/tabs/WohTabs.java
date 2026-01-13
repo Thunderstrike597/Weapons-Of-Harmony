@@ -28,6 +28,7 @@ public class WohTabs {
                 output.accept(WohItems.ARBITERS_BLADE.get());
                 output.accept(WohItems.WAKIZASHI.get());
                 output.accept(WohItems.ODACHI.get());
+                output.accept(WohItems.ARBITERS_SHIELD.get());
                 output.accept(WohItems.FOLDED_IRON.get());
                 output.accept(WohItems.FOLDED_STEEL.get());
                 output.accept(WohItems.HARDENED_STEEL_INGOT.get());

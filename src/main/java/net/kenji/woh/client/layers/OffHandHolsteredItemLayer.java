@@ -1,7 +1,7 @@
 package net.kenji.woh.client.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.kenji.woh.item.custom.base.HolsterBaseItem;
+import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -74,7 +74,7 @@ public class OffHandHolsteredItemLayer<T extends Player, M extends PlayerModel<T
                 if (stack.isEmpty() || !showItem) return;
                 if (!stack.isEmpty() && !offHandStack.isEmpty()) {
 
-                    if (offHandStack.getItem() instanceof HolsterBaseItem holsterItem) {
+                    if (offHandStack.getItem() instanceof HolsterWeaponBase holsterItem) {
                         if (holsterItem.canOffHandHolster) {
                             Vec3 offHandPos = holsterItem.holsterTransform.translationPair.value;
                             Vec3 offhandSize = holsterItem.holsterTransform.scalePair.value;
@@ -120,7 +120,7 @@ public class OffHandHolsteredItemLayer<T extends Player, M extends PlayerModel<T
         player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
             if (cap instanceof PlayerPatch<?> patch) {
                 boolean isValid = patch.isOffhandItemValid();
-                if (offHandItem.getItem() instanceof HolsterBaseItem holsterBaseItem) {
+                if (offHandItem.getItem() instanceof HolsterWeaponBase holsterBaseItem) {
                     if (isValid) {
                         ItemStack offHandStack = patch.getValidItemInHand(InteractionHand.OFF_HAND);
                         if (holsterBaseItem.unholsteredItem != null) {

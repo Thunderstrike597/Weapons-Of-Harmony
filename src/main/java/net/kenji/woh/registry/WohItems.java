@@ -2,6 +2,7 @@ package net.kenji.woh.registry;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.item.custom.armor.RoninAttire;
+import net.kenji.woh.item.custom.shield.ArbitersShield;
 import net.kenji.woh.item.custom.weapon.*;
 import net.kenji.woh.item.custom.base.ResourceItem;
 import net.minecraft.ChatFormatting;
@@ -16,12 +17,14 @@ public class WohItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, WeaponsOfHarmony.MODID);
 
-    public static final RegistryObject<Item> SHOTOGATANA_SHEATH = ITEMS.register("z_shotogatana_sheath", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SHOTOGATANA_IN_SHEATH = ITEMS.register("z_shotogatana_in_sheath", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SHOTOGATANA_SHEATH = ITEMS.register("z_shotogatana_sheath", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> WAKIZASHI_IN_SHEATH = ITEMS.register("z_wakizashi_in_sheath", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> WAKIZASHI_SHEATH = ITEMS.register("z_wakizashi_sheath", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ODACHI_IN_SHEATH = ITEMS.register("z_odachi_in_sheath", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ODACHI_SHEATH = ITEMS.register("z_odachi_sheath", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> ARBITERS_BLADE_IN_SHEATH = ITEMS.register("z_arbiters_blade_in_sheath", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> ARBITERS_BLADE_SHEATH = ITEMS.register("z_arbiters_blade_sheath", () -> new Item(new Item.Properties()));
 
 
     public static final RegistryObject<Item> SHOTOGATANA = ITEMS.register("shotogatana", () -> new Shotogatana(WohWeaponTiers.SHOTOGATANA, new Item.Properties(), true, ChatFormatting.AQUA));
@@ -32,6 +35,7 @@ public class WohItems {
     public static final RegistryObject<Item> WAKIZASHI = ITEMS.register("wakizashi", () -> new Wakizashi(WohWeaponTiers.WAKIZASHI, new Item.Properties(), true, ChatFormatting.BLUE));
     public static final RegistryObject<Item> ODACHI = ITEMS.register("odachi", () -> new Odachi(WohWeaponTiers.ODACHI, new Item.Properties(), true, ChatFormatting.BLUE));
 
+    public static final RegistryObject<Item> ARBITERS_SHIELD = ITEMS.register("arbiters_shield", () -> new ArbitersShield(new Item.Properties(), true, ChatFormatting.AQUA));
 
     public static final RegistryObject<Item> FOLDED_IRON = ITEMS.register("folded_iron", () -> new ResourceItem(new Item.Properties().stacksTo(64), true, ChatFormatting.GRAY));
     public static final RegistryObject<Item> FOLDED_STEEL = ITEMS.register("folded_steel", () -> new ResourceItem(new Item.Properties().stacksTo(64), true, ChatFormatting.GRAY));
