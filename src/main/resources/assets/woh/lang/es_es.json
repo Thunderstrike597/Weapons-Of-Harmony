@@ -1,22 +1,25 @@
 {
-  "creativetab.woh": "Armas de Armonía",
+  "creativetab.woh": "Armas de la Armonía",
 
   "item.woh.z_shotogatana_sheath": "Vaina de Shotogatana",
-  "item.woh.z_shotogatana_in_sheath": "Shotogatana Enfundada",
+  "item.woh.z_shotogatana_in_sheath": "Shotogatana Envainada",
 
   "item.woh.shotogatana": "Shotogatana",
   "item.woh.tessen": "Tessen",
   "item.woh.tsume": "Tsume",
   "item.woh.wakizashi": "Wakizashi",
-  "item.woh.odachi": "Odachi",
+  "item.woh.odachi": "Ōdachi",
+
+  "item.woh.arbiters_blade": "Hoja del Árbitro",
+  "item.woh.arbiters_shield": "Escudo del Árbitro",
 
   "item.woh.folded_iron": "Hierro Plegado",
   "item.woh.folded_steel": "Acero Plegado",
   "item.woh.hardened_steel_ingot": "Lingote de Acero Endurecido",
 
   "item.woh.hardened_blade": "Hoja Endurecida",
-  "item.woh.patterned_handle": "Empuñadura Decorada",
-  "item.woh.gold_tsuba": "Tsuba Dorada",
+  "item.woh.patterned_handle": "Empuñadura Ornamentada",
+  "item.woh.gold_tsuba": "Tsuba de Oro",
 
   "item.woh.blade_curve_module": "Módulo de Curvatura de Hoja",
   "item.woh.weapon_repair_module": "Módulo de Reparación de Armas",
@@ -30,27 +33,33 @@
   "item.woh.ronin_leggings": "Grebas de Ronin",
   "item.woh.ronin_boots": "Botas de Ronin",
 
-  "item.woh.shotogatana.tooltip": "Una hoja precisa acompañada de una saya.\nÁgil y capaz de atravesar incluso la armadura más resistente con estilo.",
-  "item.woh.tessen.tooltip": "Un ágil abanico de guerra que ataca con rápida precisión.\nEsta poderosa arma puede lanzarse cuando se usa otra en la mano secundaria,\npermitiendo ataques a distancia.",
-  "item.woh.tsume.tooltip": "Un par de garras afiladas diseñadas para ataques rápidos a corta distancia.",
+  "item.woh.shotogatana.tooltip": "Una hoja precisa acompañada de una saya.\nÁgil y capaz de atravesar incluso la armadura más resistente con elegancia.",
+  "item.woh.tessen.tooltip": "Un ágil abanico de guerra que golpea con rápida precisión.\nEsta poderosa arma puede lanzarse\ncuando se empuña otra en la mano secundaria, permitiendo ataques a distancia.",
+  "item.woh.tsume.tooltip": "Un par de garras afiladas diseñadas para ataques a corta distancia.",
+  "item.woh.arbiters_blade.tooltip": "Una hoja misteriosa y antigua que parece albergar algún tipo de poder oculto...\n¿O incluso valor?",
+  "item.woh.arbiters_shield.tooltip": "Un escudo metálico extremadamente resistente.\nEl metal empleado parece de origen desconocido.",
 
-  "item.woh.wakizashi.tooltip": "Una hoja corta y ágil de un solo filo, capaz de empuñarse en dual.",
-  "item.woh.odachi.tooltip": "Una gran espada de un solo filo, lenta pero extremadamente poderosa.",
+  "item.woh.wakizashi.tooltip": "Una hoja corta y ágil, de un solo filo, capaz de empuñarse en combate dual.",
+  "item.woh.odachi.tooltip": "Una gran espada de un solo filo, lenta pero devastadora.",
 
-  "item.woh.folded_iron.tooltip": "Un fragmento de hierro con una densidad mucho mayor que el hierro común.\nAunque resistente, tiende a ser frágil si no se funde primero.",
+  "item.woh.folded_iron.tooltip": "Un fragmento de hierro con una densidad muy superior al hierro común.\nAunque resistente, tiende a ser frágil si no se funde previamente.",
   "item.woh.folded_steel.tooltip": "Un fragmento de acero extremadamente denso.",
-  "item.woh.hardened_steel_ingot.tooltip": "Un metal extremadamente duro y resistente\nque puede usarse para forjar una gran variedad de armas.",
+  "item.woh.hardened_steel_ingot.tooltip": "Un metal increíblemente duro y resistente\nque puede utilizarse para forjar armas de gran variedad.",
 
   "skill.woh.shotogatana_skill": "Habilidad de Shotogatana",
   "skill.woh.throw_stance": "Postura de Lanzamiento",
   "skill.woh.enraged_claws": "Garras Enfurecidas",
+  "skill.woh.katajutsu": "Katajutsu",
+  "skill.woh.arbiters_slash": "Corte del Árbitro",
 
-  "skill.woh.shotogatana_skill.tooltip": "Una vez cargado el enfriamiento, puedes ejecutar un combo diferente\ndependiendo de la animación de ataque actual.",
-  "skill.woh.shotogatana_skill.tooltip.extra": "Si no hay una animación de ataque activa,\nejecutarás un corte enfundado demasiado rápido para el ojo humano...",
+  "skill.woh.shotogatana_skill.tooltip": "Una vez cargado el tiempo de reutilización, puedes ejecutar un combo distinto\ndependiendo de la animación de ataque actual.",
+  "skill.woh.shotogatana_skill.tooltip.extra": "Si no hay ninguna animación de ataque activa,\nejecutarás un corte envainado demasiado rápido para el ojo humano...",
 
-  "skill.woh.throw_stance.tooltip": "Una vez cargado el enfriamiento, puedes entrar en una postura\nque te otorga un conjunto de movimientos completamente nuevo.\nEste estilo se centra en ataques lanzados, donde el tessen regresa a ti tras cada lanzamiento.",
-  "skill.woh.throw_stance.tooltip.extra": "Esta postura dura: ",
+  "skill.woh.throw_stance.tooltip": "No puedes bloquear con esta arma,\npero en su lugar puedes apuntar y realizar ataques a distancia\nmanteniendo la guardia y atacando...",
 
-  "skill.woh.enraged_claws.tooltip": "Una vez cargado el enfriamiento, puedes entrar en una postura\nque te otorga un conjunto de movimientos completamente nuevo.\nEste estilo te permite atacar en rápida sucesión, aplastando a cualquier enemigo en tu camino.",
-  "skill.woh.enraged_claws.tooltip.extra": "Esta postura dura: "
+  "skill.woh.enraged_claws.tooltip": "Una vez cargado el tiempo de reutilización, puedes adoptar una postura\nque te otorga un conjunto de movimientos completamente nuevo.\nEste estilo permite atacar en rápida sucesión,\narrasando a cualquier enemigo que se interponga en tu camino.",
+  "skill.woh.enraged_claws.tooltip.extra": "Esta postura dura: ",
+
+  "skill.woh.arbiters_slash.tooltip": "Cuando el arma está completamente cargada,\nla hoja entra en un estado especial,\npermitiendo al usuario lanzar cortadores mágicos giratorios y afilados.",
+  "skill.woh.arbiters_slash.tooltip.extra": "Este estado dura: "
 }
