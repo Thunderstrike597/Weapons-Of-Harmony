@@ -4,6 +4,9 @@ import net.kenji.woh.item.custom.base.HolsterShieldBase;
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
@@ -50,10 +53,17 @@ public class ArbitersShield extends HolsterShieldBase {
     }
 
 
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
+        if(pPlayer.getItemInHand(InteractionHand.MAIN_HAND).getItem() == WohItems.ARBITERS_BLADE.get()) {
+            return super.use(pLevel, pPlayer, pHand);
+        }
+        return InteractionResultHolder.pass(pPlayer.getItemInHand(InteractionHand.OFF_HAND));
+    }
 
     @Override
     public boolean canAttackBlock(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer) {
-       if(shouldRender(pPlayer, this)) {
+       if(pPlayer.getItemInHand(InteractionHand.MAIN_HAND).getItem() == WohItems.ARBITERS_BLADE.get()) {
            return super.canAttackBlock(pState, pLevel, pPos, pPlayer);
        }
        return false;
