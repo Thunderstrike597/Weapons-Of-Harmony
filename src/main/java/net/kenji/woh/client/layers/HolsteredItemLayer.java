@@ -1,7 +1,7 @@
 package net.kenji.woh.client.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.kenji.woh.item.custom.base.HolsterBaseItem;
+import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -144,7 +144,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
 
         if (stack.isEmpty() || !showItem) return;
 
-        if (!(stack.getItem() instanceof HolsterBaseItem holsterItem)) return;
+        if (!(stack.getItem() instanceof HolsterWeaponBase holsterItem)) return;
 
         if(holsterItem.holsterTransform == null) return;
 
@@ -156,11 +156,11 @@ public class HolsteredItemLayer extends ModelRenderLayer<
                 : ItemStack.EMPTY;
 
         RotationAdjustments rotAdj = rotationAdjustmentsMap.computeIfAbsent(itemSlotIndex, k -> {
-            HolsterBaseItem.QuaternionFPair rotPair = holsterItem.holsterTransform.rotationPair;
+            HolsterWeaponBase.QuaternionFPair rotPair = holsterItem.holsterTransform.rotationPair;
             return new RotationAdjustments(rotPair.keyX, rotPair.keyY, rotPair.keyZ);
         });
         TranslationAdjustments posAdj = translationdjustmentsMap.computeIfAbsent(itemSlotIndex, k -> {
-            HolsterBaseItem.Vec3Pair posPair = holsterItem.holsterTransform.translationPair;
+            HolsterWeaponBase.Vec3Pair posPair = holsterItem.holsterTransform.translationPair;
             return new TranslationAdjustments(posPair.keyX, posPair.keyY, posPair.keyZ);
         });
 
@@ -203,7 +203,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         }
     }
 
-    private static @NotNull Matrix4f getMatrix4f(OpenMatrix4f[] poses, HolsterBaseItem holsterItem) {
+    private static @NotNull Matrix4f getMatrix4f(OpenMatrix4f[] poses, HolsterWeaponBase holsterItem) {
         OpenMatrix4f bodyMatrix = poses[holsterItem.holsterJoints.getHotBarJoint().getId()];
 
 
@@ -220,7 +220,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
     private ItemStack findHolsteredItem(Player player){
         int index = trueSlotIndex;
             Slot slot = player.inventoryMenu.slots.get(index);
-            if(slot.getItem().getItem() instanceof HolsterBaseItem holsterBaseItem){
+            if(slot.getItem().getItem() instanceof HolsterWeaponBase holsterBaseItem){
                 if(slot.getItem() != player.getMainHandItem() || holsterBaseItem.unholsteredItem != null) {
                     return slot.getItem();
                 }
@@ -235,7 +235,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             if (cap instanceof PlayerPatch<?> patch) {
                 boolean isValid = patch.isOffhandItemValid();
                 ItemStack offHandStack = patch.getValidItemInHand(InteractionHand.OFF_HAND);
-                if(isValid && offHandStack.getItem() instanceof HolsterBaseItem){
+                if(isValid && offHandStack.getItem() instanceof HolsterWeaponBase){
                     stack.set(offHandStack);
                 }
             }

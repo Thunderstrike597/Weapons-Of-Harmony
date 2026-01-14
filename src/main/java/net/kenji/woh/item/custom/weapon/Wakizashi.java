@@ -1,6 +1,6 @@
 package net.kenji.woh.item.custom.weapon;
 
-import net.kenji.woh.item.custom.base.HolsterBaseItem;
+import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import yesman.epicfight.gameasset.Armatures;
 
-public class Wakizashi extends HolsterBaseItem {
+public class Wakizashi extends HolsterWeaponBase {
 
     static Vec3Pair holsterPos = new Vec3Pair(
             -0.32800245F, 0.4959988F, -0.79599875F,

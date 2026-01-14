@@ -1,6 +1,8 @@
 package net.kenji.woh;
 
 import com.mojang.logging.LogUtils;
+import net.kenji.woh.block.ModBlockEntities;
+import net.kenji.woh.block.ModBlocks;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.gameasset.*;
 import net.kenji.woh.network.WohPacketHandler;
@@ -48,6 +50,8 @@ public class WeaponsOfHarmony {
         WohItems.register(modEventBus);
         WOHTabs.register(modEventBus);
         ModEntities.register(modEventBus);
+        ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
         WohSounds.SOUNDS.register(modEventBus);
 
         modEventBus.addListener(WeaponsOfHarmony::RegisterWeaponType);

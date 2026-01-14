@@ -11,6 +11,7 @@ import net.kenji.woh.client.layers.OffHandHolsteredItemLayer;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.render.ArbitersBladeRender;
+import net.kenji.woh.render.ArbitersShieldRender;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.kenji.woh.render.TsumeRender;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -40,6 +41,8 @@ public class ClientEvents {
         event.addItemRenderer(WeaponsOfHarmony.identifier("shotogatana"), ShotogatanaRender::new);
         event.addItemRenderer(WeaponsOfHarmony.identifier("tsume"), TsumeRender::new);
         event.addItemRenderer(WeaponsOfHarmony.identifier("arbiters_blade"), ArbitersBladeRender::new);
+        event.addItemRenderer(WeaponsOfHarmony.identifier("arbiters_shield"), ArbitersShieldRender::new);
+
     }
 
     @SubscribeEvent
@@ -88,16 +91,9 @@ public class ClientEvents {
         if (renderer instanceof PPlayerRenderer playerRenderer) {
             for(int i = 0; i < 8; i++) {
                 playerRenderer.addCustomLayer(new HolsteredItemLayer(null, i));
+                playerRenderer.addCustomLayer(new OffHandHolsteredItemLayer(null));
+
             }
         }
-    }
-    @SubscribeEvent
-    public static void addLayers(AddLayers event) {
-        event.getSkins().forEach((s) -> {
-            EntityRenderer<? extends Player> renderer = event.getSkin(s);
-            if (renderer instanceof LivingEntityRenderer livingRenderer) {
-                livingRenderer.addLayer(new OffHandHolsteredItemLayer(livingRenderer));
-            }
-        });
     }
 }

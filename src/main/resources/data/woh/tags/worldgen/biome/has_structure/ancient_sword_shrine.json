@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:meadow",
+    "minecraft:bamboo_jungle",
+    "minecraft:cherry_grove",
+    "minecraft:jungle",
+    "minecraft:taiga"
+  ]
+}

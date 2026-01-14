@@ -2,14 +2,13 @@ package net.kenji.woh.item.custom.base;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import yesman.epicfight.api.animation.Joint;
 
 import java.util.function.Supplier;
 
-public class HolsterBaseItem extends WohWeaponItem {
+public class HolsterShieldBase extends WohShieldItem {
 
 
     public static class Vec3Pair{
@@ -92,22 +91,22 @@ public class HolsterBaseItem extends WohWeaponItem {
     public JointPair holsterJoints;
     public boolean canOffHandHolster;
 
-    public HolsterBaseItem(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, Item unholsterItem, boolean holsterOffhand, JointPair holsterJoints) {
-        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor);
+    public HolsterShieldBase(Item.Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, Item unholsterItem, boolean holsterOffhand, JointPair holsterJoints) {
+        super(builder, hasTooltip, tooltipColor);
         this.holsterTransform = holsterTransform;
         this.holsterItem = holsterItem;
         this.unholsteredItem = unholsterItem;
         this.canOffHandHolster = holsterOffhand;
         this.holsterJoints = holsterJoints;
     }
-    public HolsterBaseItem(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, boolean holsterOffhand, JointPair holsterJoints) {
-        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor);
+    public HolsterShieldBase(Item.Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, boolean holsterOffhand, JointPair holsterJoints) {
+        super(builder, hasTooltip, tooltipColor);
         this.holsterTransform = holsterTransform;
         this.holsterItem = holsterItem;
         this.canOffHandHolster = holsterOffhand;
         this.holsterJoints = holsterJoints;
     }
-    public HolsterBaseItem(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor) {
-        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor);
+    public HolsterShieldBase(Item.Properties builder, boolean hasTooltip, ChatFormatting tooltipColor) {
+        super(builder, hasTooltip, tooltipColor);
     }
 }
