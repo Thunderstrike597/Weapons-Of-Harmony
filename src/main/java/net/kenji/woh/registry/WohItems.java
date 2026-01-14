@@ -37,7 +37,7 @@ public class WohItems {
     public static final RegistryObject<Item> WAKIZASHI = ITEMS.register("wakizashi", () -> new Wakizashi(WohWeaponTiers.WAKIZASHI, new Item.Properties(), true, ChatFormatting.BLUE));
     public static final RegistryObject<Item> ODACHI = ITEMS.register("odachi", () -> new Odachi(WohWeaponTiers.ODACHI, new Item.Properties(), true, ChatFormatting.BLUE));
 
-    public static final RegistryObject<Item> ARBITERS_SHIELD = ITEMS.register("arbiters_shield", () -> new ArbitersShield(new Item.Properties(), true, ChatFormatting.AQUA));
+    public static final RegistryObject<Item> ARBITERS_SHIELD = ITEMS.register("arbiters_shield", () -> new ArbitersShield(new Item.Properties().defaultDurability(3400), true, ChatFormatting.AQUA));
 
     public static final RegistryObject<Item> FOLDED_IRON = ITEMS.register("folded_iron", () -> new ResourceItem(new Item.Properties().stacksTo(64), true, ChatFormatting.GRAY));
     public static final RegistryObject<Item> FOLDED_STEEL = ITEMS.register("folded_steel", () -> new ResourceItem(new Item.Properties().stacksTo(64), true, ChatFormatting.GRAY));
