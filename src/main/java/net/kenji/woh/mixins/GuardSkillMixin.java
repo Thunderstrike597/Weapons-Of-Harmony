@@ -5,9 +5,12 @@ import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.gameasset.WohStyles;
 import net.kenji.woh.gameasset.WohWeaponCategories;
+import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.registry.animation.*;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ShieldItem;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -79,8 +82,13 @@ public abstract class GuardSkillMixin {
     private void getCustomLivingMotion(PlayerPatch<?> playerpatch, CapabilityItem itemCapability, GuardSkill.BlockType blockType, CallbackInfoReturnable<StaticAnimation> cir) {
         SkillContainer container = playerpatch.getSkill(WohSkills.ARBITERS_SLASH);
         if(container != null){
-            if(!container.isActivated()){
-                cir.setReturnValue(Animations.LONGSWORD_GUARD);
+            Player player = container.getExecuter().getOriginal();
+            if(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == WohItems.ARBITERS_BLADE.get()) {
+                if (!container.isActivated()) {
+                    if(!(player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof ShieldItem)) {
+                        cir.setReturnValue(Animations.LONGSWORD_GUARD);
+                    }
+                }
             }
         }
     }
