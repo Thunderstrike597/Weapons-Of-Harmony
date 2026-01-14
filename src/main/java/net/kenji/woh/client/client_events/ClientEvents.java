@@ -12,6 +12,7 @@ import net.kenji.woh.client.layers.OffHandHolsteredItemLayer;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.render.ArbitersBladeRender;
+import net.kenji.woh.render.ArbitersShieldRender;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.kenji.woh.render.TsumeRender;
 import net.kenji.woh.render.block.SwordPedistoolRenderer;
@@ -41,7 +42,7 @@ public class ClientEvents {
         event.addItemRenderer((Item) WohItems.SHOTOGATANA.get(), new ShotogatanaRender());
         event.addItemRenderer((Item) WohItems.TSUME.get(), new TsumeRender());
         event.addItemRenderer((Item) WohItems.ARBITERS_BLADE.get(), new ArbitersBladeRender());
-
+        event.addItemRenderer((Item) WohItems.ARBITERS_SHIELD.get(), new ArbitersShieldRender());
     }
 
     @SubscribeEvent
@@ -94,16 +95,8 @@ public class ClientEvents {
         if (renderer instanceof PPlayerRenderer playerRenderer) {
             for(int i = 0; i < 8; i++) {
                 playerRenderer.addCustomLayer(new HolsteredItemLayer(null, i));
+                playerRenderer.addCustomLayer(new OffHandHolsteredItemLayer(null));
             }
         }
-    }
-    @SubscribeEvent
-    public static void addLayers(AddLayers event) {
-        event.getSkins().forEach((s) -> {
-            EntityRenderer<? extends Player> renderer = event.getSkin(s);
-            if (renderer instanceof LivingEntityRenderer livingRenderer) {
-                livingRenderer.addLayer(new OffHandHolsteredItemLayer(livingRenderer));
-            }
-        });
     }
 }

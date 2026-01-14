@@ -1,14 +1,16 @@
 package net.kenji.woh.item.custom.base;
 
+import net.kenji.woh.item.custom.weapon.ArbitersBlade;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import yesman.epicfight.world.item.WeaponItem;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +27,10 @@ public class WohShieldItem extends ShieldItem {
         super(builder);
         this.tooltipColor = tooltipColor;
         this.hasTooltip = hasTooltip;
+    }
+    public boolean shouldRender(Player player, Item item){
+        ItemStack holdingItem = player.getItemInHand(InteractionHand.MAIN_HAND);
+        return holdingItem.getItem() == item;
     }
 
 
