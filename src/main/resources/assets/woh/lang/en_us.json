@@ -9,6 +9,9 @@
   "item.woh.wakizashi": "Wakizashi",
   "item.woh.odachi": "Odachi",
 
+  "item.woh.arbiters_blade": "Arbiters Blade",
+  "item.woh.arbiters_shield": "Arbiters Shield",
+
   "item.woh.folded_iron": "Folded Iron",
   "item.woh.folded_steel": "Folded Steel",
   "item.woh.hardened_steel_ingot": "Hardened Steel Ingot",
@@ -31,6 +34,8 @@
   "item.woh.shotogatana.tooltip": "A precise blade paired with a siya. \n nimble and capable of cutting through the toughest of armor with style",
   "item.woh.tessen.tooltip": "A nimble war fan that strikes with quick precision. \n this mighty weapon is able to be thrown \nwhen paired with another in the offhand, allowing for ranged attacks",
   "item.woh.tsume.tooltip": "A pair of sharp claws designed with close range swiping attacks in mind.",
+  "item.woh.arbiters_blade.tooltip": "A Mysterious And Ancient Blade That Seems to Hold Some Sort Of Hidden Power.. Or even. Courage?",
+  "item.woh.arbiters_shield.tooltip": "An Extremely Durable Metal Shield, the metal used in the shield seems unworldly?",
 
   "item.woh.wakizashi.tooltip": "A short and nimble, one sided blade that is capable of being dual wielded",
   "item.woh.odachi.tooltip": "A large, one sided greatsword that is slow but powerful",
@@ -43,6 +48,7 @@
   "skill.woh.throw_stance": "Throw Stance",
   "skill.woh.enraged_claws": "Enraged Claws",
   "skill.woh.katajutsu": "Katajutsu",
+  "skill.woh.arbiters_slash": "Arbiters Slash",
 
   "skill.woh.shotogatana_skill.tooltip": "Once the cooldown is charged, you can execute a different combo \ndepending on the current attack animation.",
   "skill.woh.shotogatana_skill.tooltip.extra": "If no attack animation is present, you will perform a sheathed slash too quick for the human eye to see...",
@@ -50,5 +56,8 @@
   "skill.woh.throw_stance.tooltip": "You cannot guard with this weapon, however instead \nyou are able to aim and use ranged attacks via holding guard and attacking...",
 
   "skill.woh.enraged_claws.tooltip": "Once the cooldown is charged, you can enter a stance in which allows you to have a completely new moveset. \nThis moveset allows you to attack in rapid succession, pummeling any enemies in your way!",
-  "skill.woh.enraged_claws.tooltip.extra": "This Stance lasts for: "
+  "skill.woh.enraged_claws.tooltip.extra": "This Stance lasts for: ",
+  "skill.woh.arbiters_slash.tooltip": "Once the weapon is fully charged, the blade will enter a state, \nallowing the user to cast magic sharp spinning wheel cutters..",
+  "skill.woh.arbiters_slash.tooltip.extra": "This State Last For: "
+
 }

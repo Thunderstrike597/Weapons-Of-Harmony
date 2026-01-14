@@ -1,5 +1,6 @@
 package net.kenji.woh.gameasset.skills;
 
+import com.google.common.collect.Lists;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
@@ -9,9 +10,11 @@ import net.kenji.woh.gameasset.WohWeaponCategories;
 import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
 import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
 import net.kenji.woh.registry.animation.TsumeAnimations;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -22,6 +25,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationPlayer;
@@ -41,6 +45,7 @@ import yesman.epicfight.skill.guard.GuardSkill;
 import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
+import yesman.epicfight.world.capabilities.item.CapabilityItem;
 
 import java.util.*;
 
@@ -217,6 +222,18 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
                 );
             }
         }
+    }
+    @Override
+    public List<Component> getTooltipOnItem(ItemStack itemStack, CapabilityItem cap, PlayerPatch<?> playerCap) {
+        List<Component> list = Lists.newArrayList();
+        String traslatableText = this.getTranslationKey();
+        list.add(Component.translatable(traslatableText).withStyle(ChatFormatting.WHITE)
+                .append(Component.literal(String.format("[%.0f]", this.consumption)).withStyle(ChatFormatting.AQUA)));
+        list.add(Component.translatable(traslatableText + ".tooltip")
+                .withStyle(ChatFormatting.AQUA));
+        list.add(Component.translatable(traslatableText + ".tooltip.extra")
+                .withStyle(ChatFormatting.RED).append(String.valueOf(this.maxDuration / 20)));
+        return list;
     }
 
     @Override
