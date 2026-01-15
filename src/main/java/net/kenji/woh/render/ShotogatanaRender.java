@@ -3,10 +3,9 @@ package net.kenji.woh.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.manager.ShotogatanaManager;
-import net.kenji.woh.gameasset.animations.BasisAirAttackAnimation;
-import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
-import net.kenji.woh.gameasset.animations.WohSheathAnimation;
-import net.kenji.woh.item.custom.weapon.Shotogatana;
+import net.kenji.woh.gameasset.animation_types.BasisAirAttackAnimation;
+import net.kenji.woh.gameasset.animation_types.BasisAttackAnimation;
+import net.kenji.woh.gameasset.animation_types.WohSheathAnimation;
 import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.kenji.woh.registry.WohItems;
@@ -19,23 +18,16 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.animation.AnimationPlayer;
-import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.renderer.patched.item.RenderItemBase;
 import yesman.epicfight.model.armature.HumanoidArmature;
-import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)

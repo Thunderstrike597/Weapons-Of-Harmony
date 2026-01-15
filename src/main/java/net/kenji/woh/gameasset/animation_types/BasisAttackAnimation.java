@@ -1,8 +1,10 @@
-package net.kenji.woh.gameasset.animations;
+package net.kenji.woh.gameasset.animation_types;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.WOHAnimationUtils;
 import net.kenji.woh.api.manager.ShotogatanaManager;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -10,9 +12,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.model.Armature;
@@ -104,6 +106,10 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                 if (!attackEnding) {
                     isAttackEnding.put(playerId, true);
                 }
+                if(playerPatch.getOriginal().level().isClientSide()){
+                    Minecraft mc = Minecraft.getInstance();
+                    resyncMovementKeys(mc);
+                }
             }
             float castTime = (phase.contact + phase.recovery) * 0.18f;
 
@@ -163,6 +169,19 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                 }
             });
         }
+        @SubscribeEvent
+        public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event){
+           UUID playerId = event.getEntity().getUUID();
+           if(isAttacking.get(playerId) != null)
+               isAttacking.remove(playerId);
+           if(BasisAttackAnimation.isInAttack.get(playerId) != null)
+                BasisAttackAnimation.isInAttack.remove(playerId);
+
+           if(event.getEntity().level().isClientSide()){
+                Minecraft mc = Minecraft.getInstance();
+                resyncMovementKeys(mc);
+           }
+        }
     }
 
     @Override
@@ -177,10 +196,31 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                 }
             }
             isAttacking.remove(playerID);
+            BasisAttackAnimation.isInAttack.remove(playerID);
             attackStart = false;
             hasAttacked = false;
+            if(playerPatch.getOriginal().level().isClientSide()){
+                Minecraft mc = Minecraft.getInstance();
+                resyncMovementKeys(mc);
+            }
         }
         super.end(entitypatch, nextAnimation, isEnd);
+    }
+
+    private static void resyncMovementKeys(Minecraft mc) {
+        long window = mc.getWindow().getWindow();
+
+        resync(mc.options.keyUp, window);
+        resync(mc.options.keyDown, window);
+        resync(mc.options.keyLeft, window);
+        resync(mc.options.keyRight, window);
+    }
+
+    private static void resync(KeyMapping key, long window) {
+        InputConstants.Key input = key.getKey();
+        boolean physicallyDown = InputConstants.isKeyDown(window, input.getValue());
+
+        key.setDown(physicallyDown);
     }
     public boolean isAttackBegin(){
         if(attackStart){

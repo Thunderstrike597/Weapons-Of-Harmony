@@ -1,6 +1,6 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
-import net.kenji.woh.gameasset.animations.WohSheathAnimation;
+import net.kenji.woh.gameasset.animation_types.WohSheathAnimation;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
