@@ -16,21 +16,19 @@ import yesman.epicfight.gameasset.Armatures;
 
 public class ArbitersShield extends HolsterShieldBase {
 
-
     static Vec3Pair holsterPos = new Vec3Pair(
-            0.49599558F, 0.1F, 0.1F,    // Hotbar: slightly right, up near shoulder, behind back
-            0.49599558F, 0.1F, 0.1F    // Offhand: same position
+            0.35F, 0.1F, 0F,    // Hotbar: slightly right, up near shoulder, behind back
+            0.35F, 0.1F, 0F    // Offhand: same position
     );
 
     static Vec3Pair holsterSize = new Vec3Pair(
-            0.6F, 0.6F, 0.6F,
-            0.6F, 0.6F, 0.6F);
+            0.5F, 0.5F, 0.5F,
+            0.5F, 0.5F, 0.5F);
 
     static QuaternionFPair holsterRotation = new QuaternionFPair(
-            50, 50, -55,   // Changed Z from +60 to -45
-            50, 50, -55
+            78, 40, -80,   // Changed Z from +60 to -45
+            78, 40, -80
     );
-
     private static HolsterTransform holsterTransform = new HolsterTransform(
             holsterPos,
             holsterSize,

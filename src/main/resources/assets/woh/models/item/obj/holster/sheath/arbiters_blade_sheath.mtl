@@ -1,10 +1,9 @@
-# Blender 4.4.3 MTL File: 'Arbiters Blade.blend'
+# Blender 4.4.3 MTL File: 'Arbiters Blade2.blend'
 # www.blender.org
 
 newmtl SheathBody
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
-Kd 0.000000 0.016332 0.284562
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.500000
@@ -14,7 +13,6 @@ map_Kd woh:item/material/arbiters_blade_sheath
 newmtl SheathPart
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
-Kd 1.000000 0.765957 0.000000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.500000
