@@ -14,8 +14,8 @@ public class ArbitersBlade extends HolsterWeaponBase {
 
 
     static Vec3Pair holsterPos = new Vec3Pair(
-            0.49599558F, 1.05F, -0.14F,    // Hotbar: slightly right, up near shoulder, behind back
-            0.49599558F, 1.05F, -0.22799583F    // Offhand: same position
+            0.49599558F, 1.05F, -0.175F,    // Hotbar: slightly right, up near shoulder, behind back
+            0.49599558F, 1.05F, -0.175F    // Offhand: same position
     );
 
 
