@@ -1,6 +1,6 @@
 package net.kenji.woh.entities.custom;
 
-import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
+import net.kenji.woh.gameasset.animation_types.BasisAttackAnimation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -16,7 +16,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
-import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.utils.math.ValueModifier;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;

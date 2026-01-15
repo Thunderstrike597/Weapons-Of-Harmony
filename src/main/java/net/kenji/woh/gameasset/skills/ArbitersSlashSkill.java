@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
-import net.kenji.woh.gameasset.animations.BasisAttackAnimation;
+import net.kenji.woh.gameasset.animation_types.BasisAttackAnimation;
 import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
@@ -144,7 +144,7 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
                         LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM
                 );
             }
-            // Check for attack animations and spawn beam slash
+            // Check for attack animation_types and spawn beam slash
             PlayerPatch<?> playerPatch = container.getExecutor();
             AnimationPlayer animPlayer = playerPatch.getAnimator().getPlayerFor(null);
 

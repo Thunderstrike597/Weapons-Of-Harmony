@@ -1,22 +1,20 @@
-package net.kenji.woh.gameasset.animations;
+package net.kenji.woh.gameasset.animation_types;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.TimeStampManager;
 import net.kenji.woh.api.WOHAnimationUtils;
 import net.kenji.woh.api.manager.ShotogatanaManager;
-import net.kenji.woh.render.ShotogatanaRender;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.types.*;
@@ -90,14 +88,6 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
             UUID.randomUUID();
 
 
-
-    private static AttributeModifier slowModifier = new AttributeModifier(
-            SLOW_UUID,
-            "woh_animation_lock",
-            -0.8D,
-            AttributeModifier.Operation.MULTIPLY_TOTAL
-    );
-
     public float getSlashAngle(){
         return slashAngle;
     }
@@ -130,6 +120,10 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                     boolean attackEnding = isAttackEnding.getOrDefault(playerId, false);
                     if (!attackEnding) {
                         isAttackEnding.put(playerId, true);
+                    }
+                    if(playerPatch.getOriginal().level().isClientSide()){
+                        Minecraft mc = Minecraft.getInstance();
+                        resyncMovementKeys(mc);
                     }
                 }
                 float castTime = (phase.contact + phase.recovery) * 0.18f;
@@ -192,6 +186,19 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                 }
             });
         }
+        @SubscribeEvent
+        public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event){
+            UUID playerId = event.getEntity().getUUID();
+            if(isAttacking.get(playerId) != null)
+                isAttacking.remove(playerId);
+            if(BasisAttackAnimation.isInAttack.get(playerId) != null)
+                BasisAttackAnimation.isInAttack.remove(playerId);
+
+            if(event.getEntity().level().isClientSide()){
+                Minecraft mc = Minecraft.getInstance();
+                resyncMovementKeys(mc);
+            }
+        }
     }
 
     @Override
@@ -206,10 +213,31 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                 }
             }
             isAttacking.remove(playerID);
+            BasisAttackAnimation.isInAttack.remove(playerID);
             attackStart = false;
             hasAttacked = false;
+            if(playerPatch.getOriginal().level().isClientSide()){
+                Minecraft mc = Minecraft.getInstance();
+                resyncMovementKeys(mc);
+            }
         }
         super.end(entitypatch, nextAnimation, isEnd);
+    }
+
+    private static void resyncMovementKeys(Minecraft mc) {
+        long window = mc.getWindow().getWindow();
+
+        resync(mc.options.keyUp, window);
+        resync(mc.options.keyDown, window);
+        resync(mc.options.keyLeft, window);
+        resync(mc.options.keyRight, window);
+    }
+
+    private static void resync(KeyMapping key, long window) {
+        InputConstants.Key input = key.getKey();
+        boolean physicallyDown = InputConstants.isKeyDown(window, input.getValue());
+
+        key.setDown(physicallyDown);
     }
 
     public boolean isAttackBegin(){

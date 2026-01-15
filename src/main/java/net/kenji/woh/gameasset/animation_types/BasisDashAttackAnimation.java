@@ -1,10 +1,9 @@
-package net.kenji.woh.gameasset.animations;
+package net.kenji.woh.gameasset.animation_types;
 
 import net.kenji.woh.api.WOHAnimationUtils;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.asset.AssetAccessor;
-import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;

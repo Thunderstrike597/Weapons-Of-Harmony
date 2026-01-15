@@ -1,4 +1,4 @@
-package net.kenji.woh.gameasset.animations;
+package net.kenji.woh.gameasset.animation_types;
 
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.AirSlashAnimation;

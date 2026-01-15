@@ -1,14 +1,12 @@
 package net.kenji.woh.api;
 
 import net.kenji.woh.api.manager.ShotogatanaManager;
-import net.kenji.woh.gameasset.animations.*;
+import net.kenji.woh.gameasset.animation_types.*;
 import net.kenji.woh.network.SheathStatePacket;
 import net.kenji.woh.network.WohPacketHandler;
-import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.RegistryObject;
-import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.LivingMotions;
