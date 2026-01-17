@@ -2,11 +2,14 @@ package net.kenji.woh.item.custom.weapon;
 
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.kenji.woh.registry.WohItems;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.Level;
+import org.jline.utils.Log;
 import yesman.epicfight.gameasset.Armatures;
 
 public class ArbitersBlade extends HolsterWeaponBase {
