@@ -8,13 +8,14 @@ import net.minecraft.world.level.ItemLike;
 import java.util.function.Supplier;
 
 public enum WohWeaponTiers implements Tier {
-    SHOTOGATANA(4, 2200, 9.0F, 7.0F, 22, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get(), WohItems.BROKEN_BLADE_AND_SHEATH.get()})),
-    TESSEN(4, 1750, 9.0F, 4.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get()})),
-    TSUME(4, 1750, 9.0F, 5.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get()})),
-    ARBITERS_BLADE(4, 1750, 9.0F, 5.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get()})),
+    SHOTOGATANA(4, 2200, 9.0F, 7.0F, 22, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get(), WohItems.BROKEN_BLADE_AND_SHEATH.get(), WohItems.WEAPON_REPAIR_MODULE.get()})),
+    TESSEN(4, 1750, 9.0F, 4.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get(), WohItems.BROKEN_FAN_BLADE.get(), WohItems.WEAPON_REPAIR_MODULE.get()})),
+    TSUME(4, 1750, 9.0F, 5.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get(), WohItems.BROKEN_CLAWS.get(), WohItems.WEAPON_REPAIR_MODULE.get()})),
+    ARBITERS_BLADE(4, 1750, 9.0F, 5.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.WEAPON_REPAIR_MODULE.get()})),
 
     WAKIZASHI(4, 1750, 9.0F, 5.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get()})),
     ODACHI(4, 1750, 9.0F, 11.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get()}));
+
 
     private final int harvestLevel;
     private final int maxUses;
