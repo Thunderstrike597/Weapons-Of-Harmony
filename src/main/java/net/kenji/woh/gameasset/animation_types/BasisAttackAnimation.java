@@ -166,17 +166,18 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                         if (!isSheathed) {
                             List<AnimationManager.AnimationAccessor<? extends AttackAnimation>> autoAttackMotion = weaponCap.getAutoAttackMotion(playerPatch);
                             for(int i = 0; i < autoAttackMotion.size(); i++) {
-                                AttackAnimation attackAnim = autoAttackMotion.get(i).get();
-                                if(attackAnim instanceof BasisAttackAnimation basisAttackAnimation) {
-                                    if(basisAttackAnimation.attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH) {
-                                        int currentComboCounter = playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK).getDataManager().getDataValue(SkillDataKeys.COMBO_COUNTER.get());
-                                        if(currentComboCounter <= i) {
-                                            BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.ANOTHER_ACTION_ANIMATION,
-                                                    playerPatch,
-                                                    playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK),
-                                                    autoAttackMotion.get(i),
-                                                    i + 1
-                                            );
+                                if(autoAttackMotion.get(i) instanceof AttackAnimation attackAnim) {
+                                    if (attackAnim instanceof BasisAttackAnimation basisAttackAnimation) {
+                                        if (basisAttackAnimation.attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH) {
+                                            int currentComboCounter = playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK).getDataManager().getDataValue(SkillDataKeys.COMBO_COUNTER.get());
+                                            if (currentComboCounter <= i) {
+                                                BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.ANOTHER_ACTION_ANIMATION,
+                                                        playerPatch,
+                                                        playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK),
+                                                        autoAttackMotion.get(i),
+                                                        i + 1
+                                                );
+                                            }
                                         }
                                     }
                                 }

@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.world.capabilities.item.ShieldCapability;
 
 public class ArbitersShield extends HolsterShieldBase {
 
@@ -42,13 +43,13 @@ public class ArbitersShield extends HolsterShieldBase {
 
     public ArbitersShield(Item.Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
         super(builder, hasTooltip, tooltipColor, holsterTransform, ItemStack.EMPTY.getItem(), ItemStack.EMPTY.getItem(), false, holsterJoints);
+
     }
 
     @Override
     public boolean overrideStackedOnOther(ItemStack pStack, Slot pSlot, ClickAction pAction, Player pPlayer) {
         return false;
     }
-
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
