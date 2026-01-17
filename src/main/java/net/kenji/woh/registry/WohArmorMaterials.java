@@ -14,13 +14,21 @@ import java.util.EnumMap;
 import java.util.function.Supplier;
 
 public enum WohArmorMaterials implements StringRepresentable, ArmorMaterial {
-    RONIN("woh:ronin",5, Util.make(new EnumMap<>(ArmorItem.Type.class), (mat) -> {
+    RONIN("woh:ronin",650, Util.make(new EnumMap<>(ArmorItem.Type.class), (mat) -> {
         mat.put(ArmorItem.Type.BOOTS, 2);
         mat.put(ArmorItem.Type.LEGGINGS, 5);
         mat.put(ArmorItem.Type.CHESTPLATE, 6);
         mat.put(ArmorItem.Type.HELMET, 3);
     }), 11, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, 0.0F, () -> {
         return Ingredient.of(Items.IRON_INGOT);
+    }),
+    ARBITER("woh:arbiter",1200, Util.make(new EnumMap<>(ArmorItem.Type.class), (mat) -> {
+        mat.put(ArmorItem.Type.BOOTS, 1);
+        mat.put(ArmorItem.Type.LEGGINGS, 2);
+        mat.put(ArmorItem.Type.CHESTPLATE, 4);
+        mat.put(ArmorItem.Type.HELMET, 2);
+    }), 11, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
+        return Ingredient.of(Items.LEATHER);
     });
 
     private final String name;

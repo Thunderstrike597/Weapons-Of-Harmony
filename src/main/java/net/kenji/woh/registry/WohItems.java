@@ -2,6 +2,7 @@ package net.kenji.woh.registry;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.block.ModBlocks;
+import net.kenji.woh.item.custom.armor.ArbitersOutfit;
 import net.kenji.woh.item.custom.armor.RoninAttire;
 import net.kenji.woh.item.custom.shield.ArbitersShield;
 import net.kenji.woh.item.custom.weapon.*;
@@ -37,7 +38,7 @@ public class WohItems {
     public static final RegistryObject<Item> WAKIZASHI = ITEMS.register("wakizashi", () -> new Wakizashi(WohWeaponTiers.WAKIZASHI, new Item.Properties(), true, ChatFormatting.BLUE));
     public static final RegistryObject<Item> ODACHI = ITEMS.register("odachi", () -> new Odachi(WohWeaponTiers.ODACHI, new Item.Properties(), true, ChatFormatting.BLUE));
 
-    public static final RegistryObject<Item> ARBITERS_SHIELD = ITEMS.register("arbiters_shield", () -> new ArbitersShield(new Item.Properties(), true, ChatFormatting.AQUA));
+    public static final RegistryObject<Item> ARBITERS_SHIELD = ITEMS.register("arbiters_shield", () -> new ArbitersShield(new Item.Properties().defaultDurability(3400), true, ChatFormatting.AQUA));
 
     public static final RegistryObject<Item> FOLDED_IRON = ITEMS.register("folded_iron", () -> new ResourceItem(new Item.Properties().stacksTo(64), true, ChatFormatting.GRAY));
     public static final RegistryObject<Item> FOLDED_STEEL = ITEMS.register("folded_steel", () -> new ResourceItem(new Item.Properties().stacksTo(64), true, ChatFormatting.GRAY));
@@ -45,6 +46,8 @@ public class WohItems {
 
     public static final RegistryObject<Item> BLADE_CURVE_MODULE = ITEMS.register("blade_curve_module", () -> new ResourceItem(new Item.Properties().stacksTo(16), false, ChatFormatting.GRAY));
     public static final RegistryObject<Item> WEAPON_REPAIR_MODULE = ITEMS.register("weapon_repair_module", () -> new ResourceItem(new Item.Properties().stacksTo(16), false, ChatFormatting.GRAY));
+    public static final RegistryObject<Item> MYSTERIOUS_CLOTH = ITEMS.register("mysterious_cloth", () -> new ResourceItem(new Item.Properties().stacksTo(16), false, ChatFormatting.GRAY));
+
 
     public static final RegistryObject<Item> BROKEN_BLADE_AND_SHEATH = ITEMS.register("broken_blade", () -> new ResourceItem(new Item.Properties().stacksTo(1), false, ChatFormatting.GRAY));
     public static final RegistryObject<Item> BROKEN_FAN_BLADE = ITEMS.register("broken_fan_blade", () -> new ResourceItem(new Item.Properties().stacksTo(1), false, ChatFormatting.GRAY));
@@ -56,8 +59,14 @@ public class WohItems {
     public static final RegistryObject<Item> RONIN_LEGGINGS = ITEMS.register("ronin_leggings", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.LEGGINGS));
     public static final RegistryObject<Item> RONIN_BOOTS = ITEMS.register("ronin_boots", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.BOOTS));
 
-    public static final RegistryObject<Item> SWORD_PEDISTOOL = ITEMS.register("sword_pedistool", () -> new BlockItem(ModBlocks.SWORD_PEDISTOOL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ARBITERS_HAT = ITEMS.register("arbiters_hat", () -> new ArbitersOutfit(new Item.Properties(), ArmorItem.Type.HELMET));
+    public static final RegistryObject<Item> ARBITERS_TUNIC = ITEMS.register("arbiters_tunic", () -> new ArbitersOutfit(new Item.Properties(), ArmorItem.Type.CHESTPLATE));
+    public static final RegistryObject<Item> ARBITERS_LEGGINGS = ITEMS.register("arbiters_leggings", () -> new ArbitersOutfit(new Item.Properties(), ArmorItem.Type.LEGGINGS));
+    public static final RegistryObject<Item> ARBITERS_BOOTS = ITEMS.register("arbiters_boots", () -> new ArbitersOutfit(new Item.Properties(), ArmorItem.Type.BOOTS));
 
+
+
+    public static final RegistryObject<Item> SWORD_PEDISTOOL = ITEMS.register("sword_pedistool", () -> new BlockItem(ModBlocks.SWORD_PEDISTOOL.get(), new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

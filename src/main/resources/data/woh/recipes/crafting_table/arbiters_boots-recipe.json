@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "woh:mysterious_cloth"
+    },
+    "B": {
+      "item": "minecraft:leather"
+    }
+  },
+  "pattern": [
+    "   ",
+    "A A",
+    "B B"
+  ],
+  "result": {
+    "item": "woh:arbiters_boots"
+  }
+}

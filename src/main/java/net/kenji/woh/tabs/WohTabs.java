@@ -10,7 +10,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-public class WOHTabs {
+public class WohTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, WeaponsOfHarmony.MODID);
 
@@ -22,21 +22,30 @@ public class WOHTabs {
                 output.accept(WohItems.RONIN_TUNIC.get());
                 output.accept(WohItems.RONIN_LEGGINGS.get());
                 output.accept(WohItems.RONIN_BOOTS.get());
+                output.accept(WohItems.ARBITERS_HAT.get());
+                output.accept(WohItems.ARBITERS_TUNIC.get());
+                output.accept(WohItems.ARBITERS_LEGGINGS.get());
+                output.accept(WohItems.ARBITERS_BOOTS.get());
+
                 output.accept(WohItems.SHOTOGATANA.get());
                 output.accept(WohItems.TESSEN.get());
                 output.accept(WohItems.TSUME.get());
                 output.accept(WohItems.ARBITERS_BLADE.get());
+                output.accept(WohItems.ARBITERS_SHIELD.get());
                 output.accept(WohItems.WAKIZASHI.get());
                 output.accept(WohItems.ODACHI.get());
+
+
                 output.accept(WohItems.FOLDED_IRON.get());
                 output.accept(WohItems.FOLDED_STEEL.get());
                 output.accept(WohItems.HARDENED_STEEL_INGOT.get());
                 output.accept(WohItems.BLADE_CURVE_MODULE.get());
                 output.accept(WohItems.WEAPON_REPAIR_MODULE.get());
+                output.accept(WohItems.MYSTERIOUS_CLOTH.get());
+
                 output.accept(WohItems.BROKEN_BLADE_AND_SHEATH.get());
                 output.accept(WohItems.BROKEN_FAN_BLADE.get());
                 output.accept(WohItems.BROKEN_CLAWS.get());
-
             })
             .build());
 

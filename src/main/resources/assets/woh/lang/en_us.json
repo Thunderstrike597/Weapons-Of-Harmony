@@ -22,6 +22,7 @@
 
   "item.woh.blade_curve_module":"Blade Curve Module",
   "item.woh.weapon_repair_module":"Weapon Repair Module",
+  "item.woh.mysterious_cloth":"Mysterious Cloth",
 
   "item.woh.broken_blade": "Broken Blade & Sheath",
   "item.woh.broken_fan_blade": "Broken Fan Blade",
@@ -30,6 +31,10 @@
   "item.woh.ronin_tunic": "Ronin Tunic",
   "item.woh.ronin_leggings": "Ronin Leggings",
   "item.woh.ronin_boots": "Ronin Boots",
+  "item.woh.arbiters_hat": "Arbiters Hat",
+  "item.woh.arbiters_tunic": "Arbiters Tunic",
+  "item.woh.arbiters_leggings": "Arbiters Leggings",
+  "item.woh.arbiters_boots": "Arbiters Boots",
 
   "item.woh.shotogatana.tooltip": "A precise blade paired with a siya. \n nimble and capable of cutting through the toughest of armor with style",
   "item.woh.tessen.tooltip": "A nimble war fan that strikes with quick precision. \n this mighty weapon is able to be thrown \nwhen paired with another in the offhand, allowing for ranged attacks",

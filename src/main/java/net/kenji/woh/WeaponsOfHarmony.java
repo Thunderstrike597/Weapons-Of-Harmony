@@ -10,7 +10,7 @@ import net.kenji.woh.registry.WohSounds;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.WohAnimations;
 import net.kenji.woh.registry.WohItems;
-import net.kenji.woh.tabs.WOHTabs;
+import net.kenji.woh.tabs.WohTabs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -48,7 +48,7 @@ public class WeaponsOfHarmony {
         modEventBus.addListener(this::commonSetup);
 
         WohItems.register(modEventBus);
-        WOHTabs.register(modEventBus);
+        WohTabs.register(modEventBus);
         ModEntities.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
