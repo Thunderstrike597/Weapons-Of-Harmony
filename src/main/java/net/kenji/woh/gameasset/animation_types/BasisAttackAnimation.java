@@ -153,7 +153,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                                 if(autoAttackMotion.get(i) instanceof BasisAttackAnimation basisAttackAnimation) {
                                     if(basisAttackAnimation.attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH) {
                                         int currentComboCounter = playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK).getDataManager().getDataValue(SkillDataKeys.COMBO_COUNTER.get());
-                                       if(currentComboCounter <= i) {
+                                        if(currentComboCounter <= i) {
                                            BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.ANOTHER_ACTION_ANIMATION,
                                                    playerPatch,
                                                    playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK),

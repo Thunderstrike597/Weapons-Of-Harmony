@@ -85,6 +85,7 @@ public class SkeletonRoninEvents {
 
         // Only our custom skeletons
         if (!skeleton.getPersistentData().getBoolean(RONIN_TAG)) return;
+
         double dropChance = skeleton.getPersistentData().getBoolean(SURRENDER_ATTEMPTED_TAG) ? 1 : 0.45F;
 
         // 25% chance to drop the special item

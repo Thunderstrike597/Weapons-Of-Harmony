@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "woh:mysterious_cloth"
+    },
+    "B": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "B B",
+    "B B"
+  ],
+  "result": {
+    "item": "woh:arbiters_leggings"
+  }
+}
