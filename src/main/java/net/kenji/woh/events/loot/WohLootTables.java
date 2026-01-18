@@ -55,9 +55,16 @@ public class WohLootTables {
                 WohItems.ARBITERS_BOOTS.get());
 
         // === ARBITER SHIELD (rarest) ===
-        addShield(event, BuiltInLootTables.STRONGHOLD_CORRIDOR);
-        addShield(event, BuiltInLootTables.JUNGLE_TEMPLE);
-        addShield(event, BuiltInLootTables.WOODLAND_MANSION);
+        addShield(event, BuiltInLootTables.STRONGHOLD_CORRIDOR, 0.1F);
+        addShield(event, BuiltInLootTables.JUNGLE_TEMPLE, 0.125F);
+        addShield(event, BuiltInLootTables.WOODLAND_MANSION, 0.115F);
+        addShield(event, BuiltInLootTables.VILLAGE_ARMORER, 0.115F);
+        addShield(event, BuiltInLootTables.VILLAGE_WEAPONSMITH, 0.115F);
+        addShield(event, BuiltInLootTables.PILLAGER_OUTPOST, 0.16F);
+        addShield(event, BuiltInLootTables.ANCIENT_CITY, 0.2F);
+        addShield(event, BuiltInLootTables.SIMPLE_DUNGEON, 0.1F);
+        addShield(event, BuiltInLootTables.BURIED_TREASURE, 0.08F);
+        addShield(event, BuiltInLootTables.WEAPONSMITH_GIFT, 0.4F);
 
         addSkillBook(event, BuiltInLootTables.DESERT_PYRAMID, new String[]{"woh:katajutsu"}, 0.035F);
         addSkillBook(event, BuiltInLootTables.STRONGHOLD_LIBRARY, new String[]{"woh:katajutsu"}, 0.05F);
@@ -108,13 +115,14 @@ public class WohLootTables {
     }
 
     private static void addShield(LootTableLoadEvent event,
-                                  net.minecraft.resources.ResourceLocation table) {
+                                  net.minecraft.resources.ResourceLocation table,
+                                  float chance) {
 
         if (!event.getName().equals(table)) return;
 
         event.getTable().addPool(
                 LootPool.lootPool()
-                        .when(LootItemRandomChanceCondition.randomChance(ARBITER_SHIELD_CHANCE))
+                        .when(LootItemRandomChanceCondition.randomChance(chance))
                         .add(LootItem.lootTableItem(WohItems.ARBITERS_SHIELD.get()))
                         .build()
         );

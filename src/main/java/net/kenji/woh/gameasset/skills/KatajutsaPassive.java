@@ -1,7 +1,9 @@
 package net.kenji.woh.gameasset.skills;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.skill.passive.PassiveSkill;
@@ -20,6 +22,10 @@ public class KatajutsaPassive extends PassiveSkill {
         super(builder);
         this.damageBonus = 6;
         this.speedBonus = 0.6F;
+    }
+    @Override
+    public ResourceLocation getSkillTexture() {
+        return EpicFightSkills.RELENTLESS_COMBO.getSkillTexture();
     }
 
     @Override

@@ -39,8 +39,9 @@ public class TsumeSkillInnate extends WeaponInnateSkill {
 
     @Override
     public ResourceLocation getSkillTexture() {
-        return EpicFightSkills.PARRYING.getSkillTexture();
+        return EpicFightSkills.RELENTLESS_COMBO.getSkillTexture();
     }
+
 
     public ItemStack lastMainHandItem = ItemStack.EMPTY;
 

@@ -18,6 +18,17 @@
         "walk": "woh:biped/living/tessen/tessen_dual_hold"
       },
       "style": "one_hand"
+    },
+    {
+      "weapon_categories": [
+        "ranged"
+      ],
+      "ranged": {
+        "idle": "epicfight:biped/living/hold_crossbow",
+        "walk": "epicfight:biped/living/hold_crossbow",
+        "chase": "epicfight:biped/living/hold_crossbow"
+      },
+      "style": "common"
     }
   ],
   "faction": "illager",

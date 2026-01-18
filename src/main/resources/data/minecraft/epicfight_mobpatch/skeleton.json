@@ -11,6 +11,17 @@
         "chase": "woh:biped/living/shotogatana/shotogatana_unsheathed_walk"
       },
       "style": "common"
+    },
+    {
+      "weapon_categories": [
+        "ranged"
+      ],
+      "livingmotions": {
+        "idle": "epicfight:biped/living/idle",
+        "walk": "epicfight:biped/living/walk",
+        "chase": "epicfight:biped/living/walk"
+      },
+      "style": "common"
     }
   ],
   "hit_sound": "epicfight:entity.hit.blade",

@@ -1,0 +1,39 @@
+{
+  "name": "Obtaining The Armor Types",
+  "icon": "woh:arbiters_tunic",
+  "category": "woh:gear",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "title": "Ronin Armor Set",
+      "item": {
+        "item": "woh:ronin_headwear"
+      },
+      "text": "This set of Armor can be obtained via a chance to drop from the Ronin Skeleton- A rarer variant of skeleton that carries a Shotogatana"
+    },
+    {
+      "type": "patchouli:image",
+      "title": "Ronin Skeleton",
+      "images": [
+        "woh:textures/book_images/ronin_skeleton.png"
+      ],
+      "text": ""
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Arbiters Outfit",
+      "item": {
+        "item": "woh:arbiters_tunic"
+      },
+      "text": "The Arbiters Outfit, once belonging to a Courageous hero can be crafted... However -> "
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Mysterious Cloth",
+      "item": {
+        "item": "woh:mysterious_cloth"
+      },
+      "text": "In order to craft this outfit you'll need to find Mysterious Cloth, which can be found in dungeon and village chests at a rare chance"
+    }
+  ]
+}

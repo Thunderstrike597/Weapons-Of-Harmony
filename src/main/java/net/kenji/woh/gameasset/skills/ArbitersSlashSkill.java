@@ -64,9 +64,8 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
 
     @Override
     public ResourceLocation getSkillTexture() {
-        return EpicFightSkills.SWEEPING_EDGE.getSkillTexture();
+        return EpicFightSkills.TECHNICIAN.getSkillTexture();
     }
-
     @Override
     protected boolean isBlockableSource(DamageSource damageSource, boolean advanced) {
         return false;
