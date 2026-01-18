@@ -1,0 +1,19 @@
+{
+  "name": "Obtaining Other Gear",
+  "icon": "woh:arbiters_shield",
+  "category": "woh:gear",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "title": "Arbiters Shield",
+      "item": {
+        "item": "woh:arbiters_shield"
+      },
+      "text": "This is the Arbiters Shield, once wielded in tangent with the Arbiters Sword by a courageous hero."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The $(i)Arbiters Shield$() can be obtained from a Villager With An $(o)Armorer Profession$() at expert level, however this isn't guaranteed... There is by default a $(0-f)0.4$() out of 1 for it to appear in trades"
+    }
+  ]
+}

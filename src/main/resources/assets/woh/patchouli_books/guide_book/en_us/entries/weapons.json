@@ -1,0 +1,71 @@
+{
+  "name": "Obtaining The Weapons",
+  "icon": "woh:arbiters_blade",
+  "category": "woh:gear",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "title": "Shotogatana",
+      "item": {
+        "item": "woh:shotogatana"
+      },
+      "text": "This is the Shotogatana.. This Elegant Weapon is obtained via repairing a broken Blade with a Weapon Repair Module at a smithing table.."
+    },
+    {
+      "type": "patchouli:image",
+      "title": "Ronin Skeleton",
+      "images": [
+        "woh:textures/book_images/ronin_skeleton.png"
+      ],
+      "text": "This is the Ronin Skeleton, this enemy is a variant of the Skeleton which has a small chance to spawn instead of the normal variant.. When killed, it has a chance to drop: Broken Blade, Weapon Repair Module, Weapon Curve Module, One of It's Ronin Armor Pieces. Default Spawn Chance: 0.08 out of 1"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Tessen",
+      "item": {
+        "item": "woh:tessen"
+      },
+      "text": "This is the Tessen.. This Deadly bladed War Fan is obtained via repairing a broken Fan Blade with a Weapon Repair Module at a smithing table!"
+    },
+    {
+      "type": "patchouli:image",
+      "title": "War Fan Pillager",
+      "images": [
+        "woh:textures/book_images/warfan_pillager.png"
+      ],
+      "text": "This is the War Fan Pillager, this enemy is a variant of the Pillager which has a small chance to spawn instead of the regular variant.. When killed, it has a chance to drop: Broken War Fan, Weapon Repair Module. Default Spawn Chance: 0.2 out of 1"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Tsume",
+      "item": {
+        "item": "woh:tsume"
+      },
+      "text": "This is the Tsume.. The Tsume are a pair of deadly claws capable of slicing through the toughest armor! This can be obtained via repairing broken claws With A Weapon Repair Module at a smithing table!"
+    },
+    {
+      "type": "patchouli:image",
+      "title": "Clawed Zombie Villager",
+      "images": [
+        "woh:textures/book_images/clawed_zombie_villager.png"
+      ],
+      "text": "This is the Clawed Zombie Villager, this enemy is a variant of the Zombie Villager which has a small chance to spawn instead of the regular variant.. When killed, it has a chance to drop: Broken Claws, Weapon Repair Module. Default Spawn Chance: 0.25 out of 1"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Arbiters Blade",
+      "item": {
+        "item": "woh:arbiters_blade"
+      },
+      "text": "This is the Arbiters Blade.. This rare sword, giving courage to the one who wields it, is found from the $(o)Ancient Sword Shrine$()... A rare structure which contains a magical sword in stone..."
+    },
+    {
+      "type": "patchouli:image",
+      "title": "Ancient Sword Shrine",
+      "images": [
+        "woh:textures/book_images/ancient_sword_shrine.png"
+      ],
+      "text": "Unlike The First Three Weapons, the $(i)$(o)Arbiter's Blade$() is a $(o)magical weapon of courage$().. Therefor cannot be crafter or easily found on an enemy. The Sword is instead found inside an $(o)Ancient Shrine$(), this shrine is only found in 5 biomes: $(i)$(o)Meadow, Cherry Grove, Bamboo Jungle, Jungle And Taiga.$()"
+    }
+  ]
+}

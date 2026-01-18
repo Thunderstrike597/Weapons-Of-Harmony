@@ -43,6 +43,7 @@ public class WohSkills {
         KATAJUTSU = modRegistry.build("katajutsu", KatajutsaPassive::new,
                 KatajutsaPassive.createBuilder()
                         .setCategory(SkillCategories.PASSIVE)
+                        .setResource(Skill.Resource.NONE)
         );;
         ARBITERS_SLASH = modRegistry.build("arbiters_slash", ArbitersSlashSkill::new,
                 ArbitersSlashSkill.createBuilder()

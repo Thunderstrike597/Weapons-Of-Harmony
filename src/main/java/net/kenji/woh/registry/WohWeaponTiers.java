@@ -23,7 +23,7 @@ public enum WohWeaponTiers implements Tier {
     private final float efficiency;
     private final float attackDamage;
     private final int enchantability;
-    private final Supplier<Ingredient> repairMaterial;
+    private final LazyLoadedValue<Ingredient> repairMaterial;
 
 
     WohWeaponTiers(int harvestLevelIn, int maxUsesIn, float efficiencyIn, float attackDamageIn, int enchantabilityIn, Supplier<Ingredient> repairMaterialIn) {
@@ -32,7 +32,7 @@ public enum WohWeaponTiers implements Tier {
        this.efficiency = efficiencyIn;
        this.attackDamage = attackDamageIn;
        this.enchantability = enchantabilityIn;
-       this.repairMaterial = repairMaterialIn;
+       this.repairMaterial = new LazyLoadedValue<>(repairMaterialIn);
    }
 
 

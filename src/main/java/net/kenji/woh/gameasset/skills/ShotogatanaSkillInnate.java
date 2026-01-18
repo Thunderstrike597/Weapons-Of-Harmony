@@ -53,7 +53,7 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
 
     @Override
     public ResourceLocation getSkillTexture() {
-        return EpicFightSkills.GRASPING_SPIRE.getSkillTexture();
+        return EpicFightSkills.RUSHING_TEMPO.getSkillTexture();
     }
 
     @Override

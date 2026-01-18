@@ -61,7 +61,7 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
 
     @Override
     public ResourceLocation getSkillTexture() {
-        return EpicFightSkills.SWEEPING_EDGE.getSkillTexture();
+        return EpicFightSkills.TECHNICIAN.getSkillTexture();
     }
 
 
