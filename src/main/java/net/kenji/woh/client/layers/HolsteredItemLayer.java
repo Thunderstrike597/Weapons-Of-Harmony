@@ -38,6 +38,7 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static net.kenji.woh.WohConfigClient.HOLSTER_HIDDEN_ITEMS;
@@ -52,7 +53,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         > {
     public int itemSlotIndex;
     public int trueSlotIndex;
-
+    public static Map<UUID, Boolean> debugMode = new HashMap<>();
 
     // Store adjustments per slot index
     public static Map<Integer, RotationAdjustments> rotationAdjustmentsMap = new HashMap<>();
@@ -124,6 +125,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         return !HOLSTER_HIDDEN_ITEMS.get().contains(id.toString());
     }
 
+
     @Override
     protected void renderLayer(
             AbstractClientPlayerPatch<AbstractClientPlayer> patch,
@@ -146,6 +148,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
 
         if (!(stack.getItem() instanceof HolsterWeaponBase holsterItem)) return;
 
+
         if(holsterItem.holsterTransform == null) return;
 
         ItemStack holsterStack = holsterItem.holsterItem != null
@@ -164,11 +167,10 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             return new TranslationAdjustments(posPair.keyX, posPair.keyY, posPair.keyZ);
         });
 
+
         Vec3 pos = posAdj.getTranslation();
         Vec3 scale = holsterItem.holsterTransform.scalePair.key;
         Quaternionf rot = rotAdj.getRotation();
-
-
 
         poseStack.pushPose();
         try {
@@ -219,12 +221,12 @@ public class HolsteredItemLayer extends ModelRenderLayer<
 
     private ItemStack findHolsteredItem(Player player){
         int index = trueSlotIndex;
-            Slot slot = player.inventoryMenu.slots.get(index);
-            if(slot.getItem().getItem() instanceof HolsterWeaponBase holsterBaseItem){
-                if(slot.getItem() != player.getMainHandItem() || holsterBaseItem.unholsteredItem != null) {
-                    return slot.getItem();
-                }
+        Slot slot = player.inventoryMenu.slots.get(index);
+        if(slot.getItem().getItem() instanceof HolsterWeaponBase holsterBaseItem){
+            if(slot.getItem() != player.getMainHandItem() || holsterBaseItem.unholsteredItem != null) {
+                return slot.getItem();
             }
+        }
         return ItemStack.EMPTY;
     }
 
@@ -246,25 +248,24 @@ public class HolsteredItemLayer extends ModelRenderLayer<
     @OnlyIn(Dist.CLIENT)
     public static class SubEventHandler {
         public static int selectedIndex = 0;
-        public static boolean debugActive = false;
         public static int getSelectedSlot(){
             return selectedIndex;
         }
         @SubscribeEvent
         public void onKeyPress(InputEvent.Key event) {
             // Get the player's currently selected hotbar slot
-
+            UUID uuid = UUID.fromString(Minecraft.getInstance().getUser().getUuid());
             Player player = Minecraft.getInstance().player;
             if (player == null) {
                 if(event.getKey() == GLFW.GLFW_KEY_KP_MULTIPLY){
-                    debugActive = true;
+                    HolsteredItemLayer.debugMode.put(uuid, true);
                 }
                 if(event.getKey() == GLFW.GLFW_KEY_KP_DIVIDE){
-                    debugActive = false;
+                    HolsteredItemLayer.debugMode.remove(uuid);
                 }
                 return;
             }
-            if(!debugActive)
+            if(!HolsteredItemLayer.debugMode.getOrDefault(player.getUUID(), false))
                 return;
 
             if(event.getKey() == GLFW.GLFW_KEY_0)
