@@ -7,6 +7,7 @@ import net.kenji.woh.registry.WohItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -70,6 +71,10 @@ public class OffHandHolsteredItemLayer extends ModelRenderLayer<
             float partialTicks,
             float ageInTicks
     ) {
+        int currentLightLevel = LevelRenderer.getLightColor(
+                player.level(),
+                player.blockPosition()
+        );
         ItemStack stack = findOffHandHolsteredItem(player);
         boolean showItem = showHolsterFor(stack.getItem());
 
@@ -102,7 +107,7 @@ public class OffHandHolsteredItemLayer extends ModelRenderLayer<
                     Minecraft.getInstance().getItemRenderer().renderStatic(
                             stack,
                             ItemDisplayContext.NONE,
-                            light,
+                            currentLightLevel,
                             OverlayTexture.NO_OVERLAY,
                             poseStack,
                             buffer,
@@ -139,7 +144,7 @@ public class OffHandHolsteredItemLayer extends ModelRenderLayer<
                     Minecraft.getInstance().getItemRenderer().renderStatic(
                             stack,
                             ItemDisplayContext.NONE,
-                            light,
+                            currentLightLevel,
                             OverlayTexture.NO_OVERLAY,
                             poseStack,
                             buffer,

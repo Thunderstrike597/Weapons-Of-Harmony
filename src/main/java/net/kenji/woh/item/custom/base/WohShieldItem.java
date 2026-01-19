@@ -29,7 +29,7 @@ public class WohShieldItem extends ShieldItem {
     }
     public boolean shouldRender(Player player, Item item){
         ItemStack holdingItem = player.getItemInHand(InteractionHand.MAIN_HAND);
-        return holdingItem.getItem() == item;
+        return holdingItem.getItem() == item | player.isUsingItem() & player.getUseItem().getItem() == this;
     }
 
 

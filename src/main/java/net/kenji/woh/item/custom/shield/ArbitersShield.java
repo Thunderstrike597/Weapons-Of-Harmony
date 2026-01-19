@@ -52,14 +52,6 @@ public class ArbitersShield extends HolsterShieldBase {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
-        if(pPlayer.getItemInHand(InteractionHand.MAIN_HAND).getItem() == WohItems.ARBITERS_BLADE.get()) {
-            return super.use(pLevel, pPlayer, pHand);
-        }
-        return InteractionResultHolder.pass(pPlayer.getItemInHand(InteractionHand.OFF_HAND));
-    }
-
-    @Override
     public boolean canAttackBlock(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer) {
        if(pPlayer.getItemInHand(InteractionHand.MAIN_HAND).getItem() == WohItems.ARBITERS_BLADE.get()) {
            return super.canAttackBlock(pState, pLevel, pPos, pPlayer);
