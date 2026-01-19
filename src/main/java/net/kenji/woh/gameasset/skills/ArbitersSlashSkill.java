@@ -250,12 +250,12 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
 
     @Override
     public int getAllowedMaxChargingTicks() {
-        return 40;
+        return 100;
     }
 
     @Override
     public int getMaxChargingTicks() {
-        return 40;
+        return 100;
     }
 
     @Override
