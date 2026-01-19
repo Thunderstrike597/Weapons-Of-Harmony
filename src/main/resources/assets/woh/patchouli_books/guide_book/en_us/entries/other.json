@@ -13,7 +13,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "The $(i)Arbiters Shield$() can be obtained from a Villager With An $(o)Armorer Profession$() at expert level, however this isn't guaranteed... There is by default a $(0-f)0.4$() out of 1 for it to appear in trades"
+      "text": "The $(i)Arbiters Shield$() can be obtained from a Villager With An $(o)Armorer Profession$() at expert level, however this isn't guaranteed... There is by default a $(0-f)0.4$() out of 1 for it to appear in trades. If you don't like villagers or can't access them, you can also get it at a rare chance from various structures!"
     }
   ]
 }

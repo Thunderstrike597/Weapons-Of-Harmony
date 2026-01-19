@@ -54,7 +54,7 @@ public class ArbitersShield extends HolsterShieldBase {
     );
 
     public ArbitersShield(Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(builder, hasTooltip, tooltipColor, holsterTransform, ItemStack.EMPTY.getItem(), ItemStack.EMPTY.getItem(), false, holsterJoints, () -> GenericAnimations.ARBITERS_SHIELD_BLOCK);
+        super(builder, hasTooltip, tooltipColor, holsterTransform, ItemStack.EMPTY.getItem(), ItemStack.EMPTY.getItem(), false, holsterJoints, () -> Animations.BIPED_BLOCK);
     }
 
     @Override

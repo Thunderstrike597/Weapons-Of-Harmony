@@ -204,7 +204,6 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, Animations.BIPED_RUN_LONGSWORD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK_SHIELD, GenericAnimations.ARBITERS_SHIELD_BLOCK)
 
                 .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
