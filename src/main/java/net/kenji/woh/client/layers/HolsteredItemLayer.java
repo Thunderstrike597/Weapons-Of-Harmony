@@ -5,6 +5,7 @@ import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -141,6 +142,11 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             float ageInTicks
     ) {
 
+        int currentLightLevel = LevelRenderer.getLightColor(
+                player.level(),
+                player.blockPosition()
+        );
+
         ItemStack stack = findHolsteredItem(player);
         boolean showItem = showHolsterFor(stack.getItem());
 
@@ -192,7 +198,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
                 Minecraft.getInstance().getItemRenderer().renderStatic(
                         renderStack,
                         ItemDisplayContext.NONE,
-                        light,
+                        currentLightLevel,
                         OverlayTexture.NO_OVERLAY,
                         poseStack,
                         buffer,
@@ -254,7 +260,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         @SubscribeEvent
         public void onKeyPress(InputEvent.Key event) {
             // Get the player's currently selected hotbar slot
-            UUID uuid = UUID.fromString(Minecraft.getInstance().getUser().getUuid());
+            UUID uuid = Minecraft.getInstance().getUser().getProfileId();
             Player player = Minecraft.getInstance().player;
             if (player == null) {
                 if(event.getKey() == GLFW.GLFW_KEY_KP_MULTIPLY){

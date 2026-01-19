@@ -6,6 +6,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import yesman.epicfight.api.animation.Joint;
+import yesman.epicfight.api.animation.types.StaticAnimation;
 
 import java.util.function.Supplier;
 
@@ -92,22 +93,23 @@ public class HolsterShieldBase extends WohShieldItem {
     public JointPair holsterJoints;
     public boolean canOffHandHolster;
 
-    public HolsterShieldBase(Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, Item unholsterItem, boolean holsterOffhand, JointPair holsterJoints) {
-        super(builder, hasTooltip, tooltipColor);
+    public HolsterShieldBase(Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, Item unholsterItem, boolean holsterOffhand, JointPair holsterJoints, Supplier<StaticAnimation> blockAnimation) {
+        super(builder, hasTooltip, tooltipColor, blockAnimation);
         this.holsterTransform = holsterTransform;
         this.holsterItem = holsterItem;
         this.unholsteredItem = unholsterItem;
         this.canOffHandHolster = holsterOffhand;
         this.holsterJoints = holsterJoints;
+
     }
-    public HolsterShieldBase(Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, boolean holsterOffhand, JointPair holsterJoints) {
-        super(builder, hasTooltip, tooltipColor);
+    public HolsterShieldBase(Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, boolean holsterOffhand, JointPair holsterJoints, Supplier<StaticAnimation> blockAnimation) {
+        super(builder, hasTooltip, tooltipColor, blockAnimation);
         this.holsterTransform = holsterTransform;
         this.holsterItem = holsterItem;
         this.canOffHandHolster = holsterOffhand;
         this.holsterJoints = holsterJoints;
     }
-    public HolsterShieldBase(Properties builder, boolean hasTooltip, ChatFormatting tooltipColor) {
-        super(builder, hasTooltip, tooltipColor);
+    public HolsterShieldBase(Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, Supplier<StaticAnimation> blockAnimation) {
+        super(builder, hasTooltip, tooltipColor, blockAnimation);
     }
 }

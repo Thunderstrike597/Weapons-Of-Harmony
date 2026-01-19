@@ -26,12 +26,16 @@ public class GenericAnimations {
     public static StaticAnimation COMBAT_FIST_DASH;
     public static StaticAnimation COMBAT_FIST_AIRKICK;
 
+    public static StaticAnimation ARBITERS_SHIELD_BLOCK;
+
+
     public static void build(){
         HumanoidArmature biped = Armatures.BIPED;
 
         DEFEAT_IDLE = (new StaticAnimation(0.35f, true, "biped/living/generic/defeat_idle", biped));
         DEFEAT_KNEEL = (new StaticAnimation(0.35f, false, "biped/living/generic/defeat_kneel", biped));
         KATAJUTSU_IDLE = (new StaticAnimation(0.35f, true, "biped/living/katajutsu/katajutsu_idle", biped));
+        ARBITERS_SHIELD_BLOCK = (new StaticAnimation(0.35f, true, "biped/living/generic/arbiters_shield_block", biped));
 
 
         KATAJUTSU_AUTO_1 = WOHAnimationUtils.createAttackAnimation(

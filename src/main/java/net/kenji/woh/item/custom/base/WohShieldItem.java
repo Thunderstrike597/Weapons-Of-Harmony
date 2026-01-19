@@ -11,26 +11,33 @@ import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.gameasset.Animations;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 public class WohShieldItem extends ShieldItem {
    private ChatFormatting tooltipColor;
    private boolean hasTooltip = true;
-
-   public Map<UUID, Boolean> isRendered = new HashMap<>();
-
-    public WohShieldItem(Properties builder, boolean hasTooltip, ChatFormatting tooltipColor) {
+    private Supplier<StaticAnimation> blockAnimationSupplier;
+    public WohShieldItem(Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, Supplier<StaticAnimation> blockAnimation) {
         super(builder);
         this.tooltipColor = tooltipColor;
         this.hasTooltip = hasTooltip;
+        this.blockAnimationSupplier = blockAnimation != null ? blockAnimation : () -> Animations.BIPED_BLOCK;
+
     }
     public boolean shouldRender(Player player, Item item){
         ItemStack holdingItem = player.getItemInHand(InteractionHand.MAIN_HAND);
-        return holdingItem.getItem() == item;
+        return holdingItem.getItem() == item | player.isUsingItem() & player.getUseItem().getItem() == this;
+    }
+
+    public StaticAnimation getBlockAnimation(){
+        return blockAnimationSupplier.get();
     }
 
 
