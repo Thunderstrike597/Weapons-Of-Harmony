@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.gameasset.WohSkills;
+import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.Model;
@@ -72,24 +73,25 @@ public class ArbitersBladeRender extends RenderItemBase {
             float partialTicks
     ) {
 
-
-        // 2️⃣ Conditional emissive pass
-        if (!shouldRenderEmissive(entitypatch)) {
-            // 1️⃣ Normal render
-            super.renderItemInHand(
-                    stack,
-                    entitypatch,
-                    hand,
-                    armature,
-                    poses,
-                    buffer,
-                    poseStack,
-                    packedLight,
-                    partialTicks
-            );
-            return;
+        if(bladeStack.getItem() instanceof HolsterWeaponBase holsterWeaponBase) {
+         if(!shouldRenderEmissive(entitypatch)) {
+             if (entitypatch instanceof PlayerPatch<?> playerPatch && holsterWeaponBase.shouldRenderInHand(playerPatch, bladeStack.getItem()) || !(entitypatch instanceof PlayerPatch<?>)){
+                 // 1️⃣ Normal render
+                 super.renderItemInHand(
+                         stack,
+                         entitypatch,
+                         hand,
+                         armature,
+                         poses,
+                         buffer,
+                         poseStack,
+                         packedLight,
+                         partialTicks
+                 );
+             }
+             return;
+         }
         }
-
         int fullBright = 0xF000F0;
 
         ItemStack glintStack = getGlintStack(entitypatch);

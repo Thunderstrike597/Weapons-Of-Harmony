@@ -1,6 +1,5 @@
 package net.kenji.woh.item.custom.base;
 
-import net.kenji.woh.item.custom.weapon.ArbitersBlade;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -13,11 +12,9 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.Animations;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.function.Supplier;
 
 public class WohShieldItem extends ShieldItem {
@@ -31,9 +28,9 @@ public class WohShieldItem extends ShieldItem {
         this.blockAnimationSupplier = blockAnimation != null ? blockAnimation : () -> Animations.BIPED_BLOCK;
 
     }
-    public boolean shouldRender(Player player, Item item){
-        ItemStack holdingItem = player.getItemInHand(InteractionHand.MAIN_HAND);
-        return holdingItem.getItem() == item | player.isUsingItem() & player.getUseItem().getItem() == this;
+    public boolean shouldRenderInHand(PlayerPatch<?> playerPatch, Item item){
+        ItemStack holdingItem = playerPatch.getOriginal().getItemInHand(InteractionHand.MAIN_HAND);
+        return (holdingItem.getItem() == item | playerPatch.getOriginal().isUsingItem() & playerPatch.getOriginal().getUseItem().getItem() == this) && playerPatch.isBattleMode();
     }
 
     public StaticAnimation getBlockAnimation(){

@@ -3,7 +3,6 @@ package net.kenji.woh.client.layers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.kenji.woh.item.custom.base.HolsterShieldBase;
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
-import net.kenji.woh.item.custom.weapon.ArbitersBlade;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
@@ -207,7 +206,7 @@ public class OffHandHolsteredItemLayer extends ModelRenderLayer<
                     }
                 }
                 if (offHandItem.getItem() instanceof HolsterShieldBase holsterBaseItem) {
-                    if (!holsterBaseItem.shouldRender(player, WohItems.ARBITERS_BLADE.get())) {
+                    if (!holsterBaseItem.shouldRenderInHand(patch, WohItems.ARBITERS_BLADE.get())) {
                         stack.set(holsterBaseItem.getDefaultInstance());
                     }
                 }
