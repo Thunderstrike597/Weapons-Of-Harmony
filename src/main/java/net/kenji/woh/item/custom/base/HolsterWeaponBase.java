@@ -1,11 +1,14 @@
 package net.kenji.woh.item.custom.base;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import yesman.epicfight.api.animation.Joint;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.function.Supplier;
 
@@ -85,6 +88,10 @@ public class HolsterWeaponBase extends WohWeaponItem {
         }
     }
 
+    public boolean shouldRenderInHand(PlayerPatch<?> playerPatch, Item item){
+        ItemStack holdingItem = playerPatch.getOriginal().getItemInHand(InteractionHand.MAIN_HAND);
+        return (holdingItem.getItem() == item) && playerPatch.isEpicFightMode();
+    }
 
     public HolsterTransform holsterTransform;
     public Item holsterItem;

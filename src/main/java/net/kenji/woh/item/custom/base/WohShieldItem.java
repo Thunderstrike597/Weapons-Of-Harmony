@@ -10,6 +10,7 @@ import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +28,9 @@ public class WohShieldItem extends ShieldItem {
         this.tooltipColor = tooltipColor;
         this.hasTooltip = hasTooltip;
     }
-    public boolean shouldRender(Player player, Item item){
-        ItemStack holdingItem = player.getItemInHand(InteractionHand.MAIN_HAND);
-        return holdingItem.getItem() == item | player.isUsingItem() & player.getUseItem().getItem() == this;
+    public boolean shouldRenderInHand(PlayerPatch<?> playerPatch, Item item){
+        ItemStack holdingItem = playerPatch.getOriginal().getItemInHand(InteractionHand.MAIN_HAND);
+        return (holdingItem.getItem() == item | playerPatch.getOriginal().isUsingItem() & playerPatch.getOriginal().getUseItem().getItem() == this) && playerPatch.isEpicFightMode();
     }
 
 

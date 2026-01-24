@@ -16,7 +16,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.renderer.patched.item.RenderItemBase;
-import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
@@ -49,9 +48,9 @@ public class ArbitersShieldRender extends RenderItemBase {
             float partialTicks
     ) {
 
-        if(entitypatch instanceof PlayerPatch<?> playerPatch) {
+        if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             if (stack.getItem() instanceof WohShieldItem shieldItem) {
-                if (shieldItem.shouldRender(playerPatch.getOriginal(), WohItems.ARBITERS_BLADE.get()))
+                if (shieldItem.shouldRenderInHand(playerPatch, WohItems.ARBITERS_BLADE.get())) {
                     super.renderItemInHand(
                             stack,
                             playerPatch,
@@ -62,9 +61,8 @@ public class ArbitersShieldRender extends RenderItemBase {
                             packedLight,
                             partialTicks
                     );
-                return;
+                }
             }
         }
-        poseStack.popPose();
     }
 }

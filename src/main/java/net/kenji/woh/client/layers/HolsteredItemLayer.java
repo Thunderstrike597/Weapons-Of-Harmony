@@ -188,9 +188,9 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             poseStack.scale((float) scale.x, (float) scale.y, (float) scale.z);
 
             ItemStack renderStack =
-                    player.getMainHandItem() != stack
-                            ? holsterStack
-                            : unholsterStack;
+                    holsterItem.shouldRenderInHand(patch, holsterItem)
+                            ? unholsterStack
+                            : holsterStack;
 
             if (!renderStack.isEmpty()) {
                 Minecraft.getInstance().getItemRenderer().renderStatic(

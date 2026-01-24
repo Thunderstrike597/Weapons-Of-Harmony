@@ -204,7 +204,7 @@ public class OffHandHolsteredItemLayer extends ModelRenderLayer<
                     }
                 }
                 if (offHandItem.getItem() instanceof HolsterShieldBase holsterBaseItem) {
-                    if (!holsterBaseItem.shouldRender(player, WohItems.ARBITERS_BLADE.get())) {
+                    if (!holsterBaseItem.shouldRenderInHand(patch, WohItems.ARBITERS_BLADE.get())) {
                         stack.set(holsterBaseItem.getDefaultInstance());
                     }
                 }
