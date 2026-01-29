@@ -57,8 +57,8 @@ public class HolsteredItemLayer extends ModelRenderLayer<
     public static Map<UUID, Boolean> debugMode = new HashMap<>();
 
     // Store adjustments per slot index
-    public static Map<Integer, RotationAdjustments> rotationAdjustmentsMap = new HashMap<>();
-    public static Map<Integer, TranslationAdjustments> translationdjustmentsMap = new HashMap<>();
+    public static Map<String, RotationAdjustments> rotationAdjustmentsMap = new HashMap<>();
+    public static Map<String, TranslationAdjustments> translationdjustmentsMap = new HashMap<>();
 
     public class RotationAdjustments {
         public float xVal;
@@ -162,14 +162,19 @@ public class HolsteredItemLayer extends ModelRenderLayer<
                 ? holsterItem.unholsteredItem.getDefaultInstance()
                 : ItemStack.EMPTY;
 
-        RotationAdjustments rotAdj = rotationAdjustmentsMap.computeIfAbsent(itemSlotIndex, k -> {
+        ResourceLocation key = ForgeRegistries.ITEMS.getKey(holsterItem);
+        if(key == null) return;
+        String itemKey = key.toString();
+
+        RotationAdjustments rotAdj = rotationAdjustmentsMap.computeIfAbsent(itemKey, k -> {
             HolsterWeaponBase.QuaternionFPair rotPair = holsterItem.holsterTransform.rotationPair;
             return new RotationAdjustments(rotPair.keyX, rotPair.keyY, rotPair.keyZ);
         });
-        TranslationAdjustments posAdj = translationdjustmentsMap.computeIfAbsent(itemSlotIndex, k -> {
+        TranslationAdjustments posAdj = translationdjustmentsMap.computeIfAbsent(itemKey, k -> {
             HolsterWeaponBase.Vec3Pair posPair = holsterItem.holsterTransform.translationPair;
             return new TranslationAdjustments(posPair.keyX, posPair.keyY, posPair.keyZ);
         });
+
 
 
         Vec3 pos = posAdj.getTranslation();
