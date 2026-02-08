@@ -1,6 +1,7 @@
-package net.kenji.woh.client.layers;
+package net.kenji.woh.compat.combat_hotbar.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.kenji.epic_fight_combat_hotbar.capability.ModCapabilities;
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
@@ -12,6 +13,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -22,6 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.Logging;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +48,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static net.kenji.woh.WohConfigClient.HOLSTER_HIDDEN_ITEMS;
 
 @OnlyIn(Dist.CLIENT)
-public class HolsteredItemLayer extends ModelRenderLayer<
+public class HolsteredItemCompatLayer extends ModelRenderLayer<
         AbstractClientPlayer,
         AbstractClientPlayerPatch<AbstractClientPlayer>,
         PlayerModel<AbstractClientPlayer>,
@@ -110,7 +113,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         public void addZRotValue(float value) { zVal += value; }
     }
 
-    public HolsteredItemLayer(MeshProvider<HumanoidMesh> mesh, int slotIndex) {
+    public HolsteredItemCompatLayer(MeshProvider<HumanoidMesh> mesh, int slotIndex) {
         super(mesh);
         if (rotationAdjustmentsMap.isEmpty()) {
             MinecraftForge.EVENT_BUS.register(new SubEventHandler());
@@ -141,7 +144,10 @@ public class HolsteredItemLayer extends ModelRenderLayer<
     ) {
 
         if(itemSlot == null){
-            itemSlot = player.inventoryMenu.slots.get(36 + slotIndex);
+            Log.info("Logging Combat Hotbar Slot!");
+            player.getCapability(ModCapabilities.COMBAT_HOTBAR).ifPresent((cap) ->{
+                itemSlot = getCombatHotbarSlot(player.inventoryMenu, slotIndex);
+            });
         }
 
         int currentLightLevel = LevelRenderer.getLightColor(
@@ -215,6 +221,20 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             poseStack.popPose();
         }
     }
+    private Slot getCombatHotbarSlot(InventoryMenu menu, int capabilityIndex) {
+        // Your combat slots start after all vanilla slots
+        // Vanilla InventoryMenu has 46 slots (0-45)
+        // Your 4 combat slots would be at indices 46, 47, 48, 49
+
+        int vanillaSlotCount = 46; // 9 hotbar + 27 inventory + 4 armor + 1 offhand + 4 crafting + 1 result
+        int combatSlotIndex = vanillaSlotCount + capabilityIndex;
+
+        if (combatSlotIndex < menu.slots.size()) {
+            return menu.slots.get(combatSlotIndex);
+        }
+
+        return null;
+    }
 
     private static @NotNull Matrix4f getMatrix4f(OpenMatrix4f[] poses, HolsterWeaponBase holsterItem) {
         OpenMatrix4f bodyMatrix = poses[holsterItem.holsterJoints.getHotBarJoint().getId()];
@@ -268,14 +288,14 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             Player player = Minecraft.getInstance().player;
             if (player == null) {
                 if(event.getKey() == GLFW.GLFW_KEY_KP_MULTIPLY){
-                    HolsteredItemLayer.debugMode.put(uuid, true);
+                    HolsteredItemCompatLayer.debugMode.put(uuid, true);
                 }
                 if(event.getKey() == GLFW.GLFW_KEY_KP_DIVIDE){
-                    HolsteredItemLayer.debugMode.remove(uuid);
+                    HolsteredItemCompatLayer.debugMode.remove(uuid);
                 }
                 return;
             }
-            if(!HolsteredItemLayer.debugMode.getOrDefault(player.getUUID(), false))
+            if(!HolsteredItemCompatLayer.debugMode.getOrDefault(player.getUUID(), false))
                 return;
 
             if(event.getKey() == GLFW.GLFW_KEY_0)

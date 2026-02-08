@@ -3,6 +3,7 @@ package net.kenji.woh;
 import com.mojang.logging.LogUtils;
 import net.kenji.woh.block.ModBlockEntities;
 import net.kenji.woh.block.ModBlocks;
+import net.kenji.woh.compat.combat_hotbar.CombatHotbarRenderCompat;
 import net.kenji.woh.entities.ModEntities;
 import net.kenji.woh.gameasset.WohStyles;
 import net.kenji.woh.gameasset.WohWeaponCapabilityPresets;
@@ -23,6 +24,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -68,6 +70,9 @@ public class WeaponsOfHarmony {
         modEventBus.addListener(WohAnimations::registerAnimations);
         modEventBus.addListener(WohSkills::buildSkillEvent);
         MinecraftForge.EVENT_BUS.addListener(this::addReloadListnerEvent);
+       if(ModList.get().isLoaded("epic_fight_combat_hotbar")){
+           CombatHotbarRenderCompat.Init();
+       }
 
     }
 

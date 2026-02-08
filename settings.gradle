@@ -1,3 +1,6 @@
+// 1️⃣ Include EpicFight as a workspace mod
+
+// 2️⃣ Plugin management for Gradle plugins
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -11,6 +14,7 @@ pluginManagement {
     }
 }
 
+// 3️⃣ Apply any settings plugins (if needed)
 plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
 }
