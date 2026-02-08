@@ -30,7 +30,7 @@ public class WohShieldItem extends ShieldItem {
     }
     public boolean shouldRenderInHand(PlayerPatch<?> playerPatch, Item item){
         ItemStack holdingItem = playerPatch.getOriginal().getItemInHand(InteractionHand.MAIN_HAND);
-        return ((holdingItem.getItem() == item & playerPatch.getOriginal().getUseItem().getItem() == this) && playerPatch.isEpicFightMode()) || playerPatch.getOriginal().isUsingItem();
+        return (holdingItem.getItem() == item && playerPatch.isEpicFightMode()) || (playerPatch.getOriginal().isUsingItem() && playerPatch.getOriginal().getUseItem().getItem() == this);
     }
 
 
