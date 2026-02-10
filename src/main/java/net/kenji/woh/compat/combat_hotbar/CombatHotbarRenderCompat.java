@@ -24,7 +24,8 @@ public class CombatHotbarRenderCompat {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
             modBus.addListener(CombatHotbarRenderCompat.ClientEvents::onModifyPatchedRenderers);
-        });    }
+        });
+    }
 
     public static class ClientEvents{
         @OnlyIn(Dist.CLIENT)

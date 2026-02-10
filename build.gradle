@@ -116,14 +116,15 @@ dependencies {
     //implementation fg.deobf("curse.maven:epicfight-resurrection-1151542:6024094")
     //implementation fg.deobf("curse.maven:weapons-of-miracles-epicfight-918614:5889471")
 
-    //implementation fg.deobf(files('D:\\I ProjectFiles\\Mod Development\\Mod Projects\\WeaponsOfHarmony - versions\\EpicFight-WeaponsOfHarmony\\build\\libs/20.9.7-CombatHotbar-Forge-1.0.jar'))
     implementation fg.deobf("curse.maven:corpse-316582:7018272")
     implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220")
     implementation fg.deobf("curse.maven:patchouli-306770:4966125")
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
-    implementation("net.kenji:epic_fight_combat_hotbar:1.0.0")
+
+    implementation("net.kenji:epic_fight_combat_hotbar-efm-20-9-7:1.0.0")
+
 }
 
 tasks.named('processResources', ProcessResources).configure {
