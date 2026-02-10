@@ -111,6 +111,9 @@ dependencies {
     //implementation fg.deobf("curse.maven:epicfight-resurrection-1151542:6931390")
     //implementation fg.deobf("curse.maven:weapons-of-miracles-epicfight-918614:7363591")
 
+    implementation fg.deobf("curse.maven:corpse-316582:7018272")
+
+
     implementation("net.kenji:epic_fight_combat_hotbar-efm-20-14-4:1.0.0")
 
 
