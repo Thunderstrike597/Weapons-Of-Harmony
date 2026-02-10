@@ -60,6 +60,7 @@ minecraft {
 
 sourceSets.main.resources.srcDir 'src/main/resources'
 repositories {
+    mavenLocal()
     maven {
         name = "Illusive Soulworks maven"
         url = "https://maven.theillusivec4.top/"
@@ -109,6 +110,9 @@ dependencies {
 
     //implementation fg.deobf("curse.maven:epicfight-resurrection-1151542:6931390")
     //implementation fg.deobf("curse.maven:weapons-of-miracles-epicfight-918614:7363591")
+
+    implementation("net.kenji:epic_fight_combat_hotbar-efm-20-14-4:1.0.0")
+
 
     implementation fg.deobf("curse.maven:jei-238222:5533463")
     implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220")
