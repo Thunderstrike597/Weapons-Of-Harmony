@@ -1,6 +1,5 @@
 package net.kenji.woh.entities.custom;
 
-import net.kenji.woh.gameasset.animation_types.BasisAttackAnimation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -15,12 +14,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jline.utils.Log;
-import yesman.epicfight.api.animation.AnimationManager;
+import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.utils.math.ValueModifier;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
-import yesman.epicfight.world.damagesource.EpicFightDamageSource;
-import yesman.epicfight.world.damagesource.StunType;
+import yesman.epicfight.world.damagesource.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +34,7 @@ public class BeamSlashEntity extends Entity {
             SynchedEntityData.defineId(BeamSlashEntity.class, EntityDataSerializers.FLOAT);
 
     private PlayerPatch<?> caster;
-    private AnimationManager.AnimationAccessor<BasisAttackAnimation> castAnimation;
+    private StaticAnimation castAnimation;
 
     private float hitCooldown;
     private float maxCooldown = 8;
@@ -50,7 +48,7 @@ public class BeamSlashEntity extends Entity {
         this.hitCooldown = maxCooldown;
     }
 
-    public void setCasterAndAnimation(PlayerPatch<?> playerPatch, AnimationManager.AnimationAccessor<BasisAttackAnimation> animation){
+    public void setCasterAndAnimation(PlayerPatch<?> playerPatch, StaticAnimation animation){
         caster = playerPatch;
         castAnimation = animation;
     }
@@ -100,6 +98,7 @@ public class BeamSlashEntity extends Entity {
 
         if(this.level().isClientSide)
             return;
+        if(caster == null)return;
 
         // Decrement cooldowns first
         hitCooldowns.replaceAll((uuid, ticks) -> ticks - 1);
@@ -142,11 +141,11 @@ public class BeamSlashEntity extends Entity {
             if (livingEntity != caster.getOriginal()) {
                 EpicFightDamageSource efSource =
                         new EpicFightDamageSource(
-                                caster.getDamageSource(castAnimation, InteractionHand.MAIN_HAND)
+                                caster.getDamageSource(castAnimation.getAccessor(), InteractionHand.MAIN_HAND)
                         )
                                 .setUsedItem(caster.getOriginal().getMainHandItem())
                                 .setStunType(StunType.SHORT)
-                                .setAnimation(castAnimation)
+                                .setAnimation(castAnimation.getAccessor())
                                 .attachDamageModifier(ValueModifier.setter(5));
 
                 caster.attack(efSource, livingEntity, InteractionHand.MAIN_HAND);

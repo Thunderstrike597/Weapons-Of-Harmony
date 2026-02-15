@@ -6,9 +6,9 @@
 	{
     	"thirdperson_righthand":
     	{
-     		"translation": [5.85, -3.75, 6.5],
+     		"translation": [6.25, -3.75, 8],
      		"rotation": [97.5, 0, 0],
-     		"scale": [0.8, 0.8, 0.8]
+     		"scale": [0.9, 1, 0.85]
     	},
     	"firstperson_righthand":
     	{

@@ -4,9 +4,10 @@ import yesman.epicfight.world.capabilities.item.Style;
 
 public enum WohStyles implements Style {
     THROWN_ONE_HAND(true),
-    THROWN_TWO_HAND(false),
-    AIMING(true);
-
+    THROWN_TWO_HAND(true),
+    AIMING(true),
+    UNSHEATHED(false),
+    ENRAGED_CLAWS(false);
     final boolean canUseOffhand;
     final int id;
 

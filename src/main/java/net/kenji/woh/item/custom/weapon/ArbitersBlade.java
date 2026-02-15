@@ -2,14 +2,11 @@ package net.kenji.woh.item.custom.weapon;
 
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.kenji.woh.registry.WohItems;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.level.Level;
-import org.jline.utils.Log;
 import yesman.epicfight.gameasset.Armatures;
 
 public class ArbitersBlade extends HolsterWeaponBase {
@@ -17,8 +14,8 @@ public class ArbitersBlade extends HolsterWeaponBase {
 
 
     static Vec3Pair holsterPos = new Vec3Pair(
-            0.49599558F, 1.05F, -0.14F,    // Hotbar: slightly right, up near shoulder, behind back
-            0.49599558F, 1.05F, -0.22799583F    // Offhand: same position
+            0.49599558F, 1.05F, -0.175F,    // Hotbar: slightly right, up near shoulder, behind back
+            0.49599558F, 1.05F, -0.175F    // Offhand: same position
     );
 
 
@@ -42,7 +39,7 @@ public class ArbitersBlade extends HolsterWeaponBase {
     );
 
     public ArbitersBlade(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, 0, 1f, builder, hasTooltip, tooltipColor, holsterTransform, WohItems.ARBITERS_BLADE_IN_SHEATH.get(), WohItems.ARBITERS_BLADE_SHEATH.get(), true, holsterJoints);
+        super(tier, 0, -2.75F, builder, hasTooltip, tooltipColor, holsterTransform, WohItems.ARBITERS_BLADE_IN_SHEATH.get(), WohItems.ARBITERS_BLADE_SHEATH.get(), true, holsterJoints);
     }
 
     @Override

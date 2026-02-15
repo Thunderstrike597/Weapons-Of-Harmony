@@ -1,3 +1,8 @@
 {
-  "type": "woh:shotogatana"
+  "type": "woh:shotogatana",
+  "attributes": {
+    "common": {
+      "speed_bonus": 0
+    }
+  }
 }

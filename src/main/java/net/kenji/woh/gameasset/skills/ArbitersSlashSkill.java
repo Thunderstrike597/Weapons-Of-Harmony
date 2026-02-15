@@ -2,7 +2,7 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import net.kenji.woh.api.manager.AimManager;
-import net.kenji.woh.entities.ModEntities;
+import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
 import net.kenji.woh.gameasset.animation_types.BasisAttackAnimation;
 import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
@@ -26,6 +26,7 @@ import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
+import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
@@ -49,7 +50,7 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     private SkillContainer currentContainer;
 
     private static final Map<UUID, Boolean> wasHoldingMap = new HashMap<>();
-
+    public static Map<StaticAnimation, Integer> slashAngleMap = new HashMap<>();
     private static final Map<UUID, List<BasisAttackAnimation>> beamCastMap = new HashMap<>();
 
     public ArbitersSlashSkill(SkillBuilder builder) {
@@ -201,37 +202,43 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
         super.updateContainer(container);
     }
 
-    private void onBeamSlash(PlayerPatch<?> playerPatch,
-                             AnimationManager.AnimationAccessor<BasisAttackAnimation> basisAttackAnimation,
-                             ServerLevel serverLevel) {
-        BlockPos blockPos = playerPatch.getOriginal().blockPosition();
-        BeamSlashEntity spawnedEntity = ModEntities.BEAM_SLASH.get().spawn(
-                serverLevel, blockPos, MobSpawnType.TRIGGERED
-        );
-
-        if (spawnedEntity != null) {
+    private void onBeamSlash(PlayerPatch<?> playerPatch, AnimationManager.AnimationAccessor<AttackAnimation> basisAttackAnimation, ServerLevel serverLevel){
+        if(serverLevel != null) {
+            BlockPos blockPos = playerPatch.getOriginal().blockPosition();
+            BeamSlashEntity spawnedEntity = WohEntities.BEAM_SLASH.get().spawn(serverLevel, blockPos, MobSpawnType.TRIGGERED);
             Vec3 lookDir = playerPatch.getOriginal().getLookAngle();
-            float yVelocity = AimManager.isAiming(playerPatch) ? travelSpeedMultiplier : 0;
+            if (spawnedEntity != null) {
+                float yVelocity = AimManager.isAiming(playerPatch) ? travelSpeedMultiplier : 0;
 
-            spawnedEntity.addDeltaMovement(
-                    lookDir.multiply(travelSpeedMultiplier, yVelocity, travelSpeedMultiplier)
-            );
-            spawnedEntity.setYRot(playerPatch.getOriginal().getYHeadRot());
-            spawnedEntity.setSlashAngle(basisAttackAnimation.get().getSlashAngle());
-            spawnedEntity.setCasterAndAnimation(playerPatch, basisAttackAnimation);
+                spawnedEntity.addDeltaMovement(lookDir.multiply(travelSpeedMultiplier, yVelocity, travelSpeedMultiplier));
+                spawnedEntity.setYRot(playerPatch.getOriginal().getYHeadRot());
+                spawnedEntity.setSlashAngle(slashAngleMap.getOrDefault(basisAttackAnimation.get(), -45));
+                spawnedEntity.setCasterAndAnimation(playerPatch, basisAttackAnimation.get());
 
-            // Play sound effects
-            SoundEvent[] castSounds = {
-                    SoundEvents.TRIDENT_RIPTIDE_1,
-                    SoundEvents.TRIDENT_RIPTIDE_2,
-                    SoundEvents.TRIDENT_RIPTIDE_3
-            };
-            int castIndex = (int) Mth.randomBetween(RandomSource.create(), 0, 2);
-            SoundEvent castSound = castSounds[castIndex];
 
-            serverLevel.playSound(null, blockPos, castSound, SoundSource.PLAYERS, 1.0F, 1.0F);
-            serverLevel.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE,
-                    SoundSource.PLAYERS, 0.55F, 1.0F);
+                SoundEvent cast1 = SoundEvents.TRIDENT_RIPTIDE_1;
+                SoundEvent cast2 = SoundEvents.TRIDENT_RIPTIDE_2;
+                SoundEvent cast3 = SoundEvents.TRIDENT_RIPTIDE_3;
+                int castIndex = (int) Mth.randomBetween(RandomSource.create(), 0, 2);
+                SoundEvent castSound = castIndex == 0 ? cast1 : castIndex == 1 ? cast2 : cast3;
+
+                serverLevel.playSound(
+                        null,
+                        blockPos,
+                        castSound,
+                        SoundSource.PLAYERS,
+                        1.0F,
+                        1.0F
+                );
+                serverLevel.playSound(
+                        null,
+                        blockPos,
+                        SoundEvents.ENCHANTMENT_TABLE_USE,
+                        SoundSource.PLAYERS,
+                        0.55F,
+                        1.0F
+                );
+            }
         }
     }
 

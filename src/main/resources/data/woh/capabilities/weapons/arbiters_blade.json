@@ -1,3 +1,8 @@
 {
-  "type": "woh:arbiters_blade"
+  "type": "woh:arbiters_blade",
+  "attributes": {
+    "common": {
+      "speed_bonus": 0
+    }
+  }
 }

@@ -13,6 +13,7 @@ import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 public class WohSkills {
 
     public static Skill SHOTOGATANA_SKILL;
+    public static Skill SHEATH_STANCE;
     public static Skill FAN_STANCE;
     public static Skill ENRAGED_CLAWS;
     public static Skill KATAJUTSU;
@@ -27,7 +28,12 @@ public class WohSkills {
                         .setActivateType(Skill.ActivateType.ONE_SHOT)
                         .setCategory(SkillCategories.WEAPON_INNATE)
                         .setResource(Skill.Resource.COOLDOWN));
-
+        SHEATH_STANCE = modRegistry.build("shotogatana_two_hand_stance", NewShotogatanaSkillInnate::new,
+                TsumeSkillInnate.createBuilder()
+                        .setActivateType(Skill.ActivateType.DURATION)
+                        .setCategory(SkillCategories.WEAPON_INNATE)
+                        .setResource(Skill.Resource.COOLDOWN)
+        );
         FAN_STANCE = modRegistry.build("throw_stance", TessenAimSkill::new,
                 TessenAimSkill.createWeaponInnateBuilder()
                         .setActivateType(Skill.ActivateType.HELD)

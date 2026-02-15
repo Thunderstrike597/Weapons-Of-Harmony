@@ -34,7 +34,6 @@ import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.mesh.HumanoidMesh;
 import yesman.epicfight.client.renderer.patched.layer.ModelRenderLayer;
 import yesman.epicfight.client.world.capabilites.entitypatch.player.AbstractClientPlayerPatch;
-import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
@@ -53,8 +52,8 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>,
         HumanoidMesh
         > {
-    public int itemSlotIndex;
-    public int trueSlotIndex;
+    public int slotIndex;
+    public Slot itemSlot;
     public static Map<UUID, Boolean> debugMode = new HashMap<>();
 
     // Store adjustments per slot index
@@ -80,7 +79,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         }
 
         public void LogCurrentValues() {
-            Log.info("Rotation Values For SlotIndex: " + itemSlotIndex + " - X: " + xVal + " Y: " + yVal + " Z: " + zVal);
+            Log.info("Rotation Values For SlotIndex: " + itemSlot + " - X: " + xVal + " Y: " + yVal + " Z: " + zVal);
         }
 
         public void addXRotValue(float value) { xVal += value; }
@@ -103,7 +102,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         }
 
         public void LogCurrentValues() {
-            Log.info("Translation Values For SlotIndex: " + itemSlotIndex + " - X: " + xVal + " Y: " + yVal + " Z: " + zVal);
+            Log.info("Translation Values For SlotIndex: " + itemSlot + " - X: " + xVal + " Y: " + yVal + " Z: " + zVal);
         }
 
         public void addXRotValue(float value) { xVal += value; }
@@ -116,9 +115,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         if (rotationAdjustmentsMap.isEmpty()) {
             MinecraftForge.EVENT_BUS.register(new SubEventHandler());
         }
-        this.itemSlotIndex = slotIndex;
-        this.trueSlotIndex = 36 + slotIndex;
-
+        this.slotIndex = slotIndex;
     }
     public static boolean showHolsterFor(Item item) {
         ResourceLocation id = ForgeRegistries.ITEMS.getKey(item);
@@ -142,10 +139,15 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             float partialTicks,
             float ageInTicks
     ) {
+
+
+        itemSlot = player.inventoryMenu.slots.get(36 + slotIndex);
+
         int currentLightLevel = LevelRenderer.getLightColor(
                 player.level(),
                 player.blockPosition()
         );
+
         ItemStack stack = findHolsteredItem(player);
         boolean showItem = showHolsterFor(stack.getItem());
 
@@ -162,7 +164,6 @@ public class HolsteredItemLayer extends ModelRenderLayer<
         ItemStack unholsterStack = holsterItem.unholsteredItem != null
                 ? holsterItem.unholsteredItem.getDefaultInstance()
                 : ItemStack.EMPTY;
-
         ResourceLocation key = ForgeRegistries.ITEMS.getKey(holsterItem);
         if(key == null) return;
         String itemKey = key.toString();
@@ -175,7 +176,6 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             HolsterWeaponBase.Vec3Pair posPair = holsterItem.holsterTransform.translationPair;
             return new TranslationAdjustments(posPair.keyX, posPair.keyY, posPair.keyZ);
         });
-
 
 
         Vec3 pos = posAdj.getTranslation();
@@ -193,10 +193,11 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             poseStack.mulPose(rot);
             poseStack.scale((float) scale.x, (float) scale.y, (float) scale.z);
 
+
             ItemStack renderStack =
-                    holsterItem.shouldRenderInHand(patch, holsterItem)
+                    holsterItem.shouldRenderUnholstered(patch)
                             ? unholsterStack
-                            : holsterStack;
+                            : holsterItem.shouldRenderHolstered(patch) ? holsterStack : ItemStack.EMPTY;
 
             if (!renderStack.isEmpty()) {
                 Minecraft.getInstance().getItemRenderer().renderStatic(
@@ -230,13 +231,12 @@ public class HolsteredItemLayer extends ModelRenderLayer<
     }
 
     private ItemStack findHolsteredItem(Player player){
-        int index = trueSlotIndex;
-        Slot slot = player.inventoryMenu.slots.get(index);
-        if(slot.getItem().getItem() instanceof HolsterWeaponBase holsterBaseItem){
-            if(slot.getItem() != player.getMainHandItem() || holsterBaseItem.unholsteredItem != null) {
-                return slot.getItem();
+        ;
+            if(itemSlot.getItem().getItem() instanceof HolsterWeaponBase holsterBaseItem){
+                if(itemSlot.getItem() != player.getMainHandItem() || holsterBaseItem.unholsteredItem != null) {
+                    return itemSlot.getItem();
+                }
             }
-        }
         return ItemStack.EMPTY;
     }
 

@@ -2,6 +2,8 @@ package net.kenji.woh.events;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.WohConfigCommon;
+import net.kenji.woh.entities.WohEntities;
+import net.kenji.woh.entities.custom.alt_entities.RoninSkeletonEntity;
 import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.registry.animation.GenericAnimations;
 import net.minecraft.server.TickTask;
@@ -9,7 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
@@ -35,8 +37,6 @@ public class SkeletonRoninEvents {
     private static Map<UUID, Float> defeatYRot = new HashMap<>();
     private static Map<UUID, Boolean> isTransition = new HashMap<>();
 
-    private static final String WAS_EXISTING_TAG = "was_existing_entity";
-    private static final String RONIN_TAG = "woh_ronin_skeleton";
     private static final String SURRENDER_ATTEMPTED_TAG = "surrender_attempted";
     private static final String SURRENDER_SUCCESS_TAG = "surrender_succeeded";
 
@@ -46,49 +46,28 @@ public class SkeletonRoninEvents {
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinLevelEvent event) {
         if (!(event.getEntity() instanceof Skeleton skeleton)) return;
-        if(skeleton.getPersistentData().getBoolean(WAS_EXISTING_TAG))
-            return;
-        skeleton.getPersistentData().putBoolean(WAS_EXISTING_TAG, true);
+        if(event.loadedFromDisk()) return;
 
         if (event.getLevel().isClientSide()) return;
+        if(!(event.getLevel() instanceof ServerLevel serverLevel)) return;
         if (skeleton.tickCount != 0) return;
 
         if (skeleton.getRandom().nextFloat() < WohConfigCommon.RONIN_SKELETON_SPAWN_CHANCE.get()) {
-            skeleton.setItemSlot(
-                    EquipmentSlot.MAINHAND,
-                    new ItemStack(WohItems.SHOTOGATANA.get())
-            );
-            skeleton.setItemSlot(
-                    EquipmentSlot.HEAD,
-                    new ItemStack(WohItems.METAL_RONIN_HEADWEAR.get())
-            );
-            skeleton.setItemSlot(
-                    EquipmentSlot.CHEST,
-                    new ItemStack(WohItems.RONIN_TUNIC.get())
-            );
-            skeleton.setItemSlot(
-                    EquipmentSlot.LEGS,
-                    new ItemStack(WohItems.RONIN_LEGGINGS.get())
-            );
-
-            skeleton.setDropChance(EquipmentSlot.MAINHAND, 0.0f);
-            skeleton.setDropChance(EquipmentSlot.HEAD, 0.35f);
-
-            // ✅ Mark this skeleton
-            skeleton.getPersistentData().putBoolean(RONIN_TAG, true);
+            event.setCanceled(true);
+            WohEntities.RONIN_SKELETON.get().spawn(serverLevel, event.getEntity().blockPosition(), MobSpawnType.NATURAL);
         }
     }
     @SubscribeEvent
     public static void onLivingDrops(LivingDropsEvent event) {
-        if (!(event.getEntity() instanceof Skeleton skeleton)) return;
-        if (skeleton.level().isClientSide()) return;
+        if (!(event.getEntity() instanceof RoninSkeletonEntity ronin)) return;
+        if (ronin.level().isClientSide()) return;
 
         // Only our custom skeletons
-        if (!skeleton.getPersistentData().getBoolean(RONIN_TAG)) return;
-        double dropChance = skeleton.getPersistentData().getBoolean(SURRENDER_ATTEMPTED_TAG) ? 1 : 0.45F;
+
+        double dropChance = ronin.getPersistentData().getBoolean(SURRENDER_ATTEMPTED_TAG) ? 1 : 0.45F;
 
         // 25% chance to drop the special item
-        if (skeleton.getRandom().nextFloat() < dropChance) {
+        if (ronin.getRandom().nextFloat() < dropChance) {
             double chance = Math.random();
             ItemStack drop = new ItemStack(WohItems.WEAPON_REPAIR_MODULE.get());
 
@@ -100,20 +79,20 @@ public class SkeletonRoninEvents {
                 if(chance2 < weaponRepairModuleChance) {
                     event.getDrops().add(
                             new ItemEntity(
-                                    skeleton.level(),
-                                    skeleton.getX(),
-                                    skeleton.getY(),
-                                    skeleton.getZ(),
+                                    ronin.level(),
+                                    ronin.getX(),
+                                    ronin.getY(),
+                                    ronin.getZ(),
                                     drop
                             )
                     );
                 }else {
                     event.getDrops().add(
                             new ItemEntity(
-                                    skeleton.level(),
-                                    skeleton.getX(),
-                                    skeleton.getY(),
-                                    skeleton.getZ(),
+                                    ronin.level(),
+                                    ronin.getX(),
+                                    ronin.getY(),
+                                    ronin.getZ(),
                                     drop2
                             )
                     );
@@ -121,16 +100,16 @@ public class SkeletonRoninEvents {
             } else {
                 event.getDrops().add(
                         new ItemEntity(
-                                skeleton.level(),
-                                skeleton.getX(),
-                                skeleton.getY(),
-                                skeleton.getZ(),
+                                ronin.level(),
+                                ronin.getX(),
+                                ronin.getY(),
+                                ronin.getZ(),
                                 drop3
                         )
                 );
             }
         }
-        if (skeleton.getRandom().nextFloat() < 0.8f) {
+        if (ronin.getRandom().nextFloat() < 0.8f) {
             int itemDropIndex = (int) Mth.randomBetween(RandomSource.create(), 0, 3);
 
             ItemStack drop1 = new ItemStack(WohItems.METAL_RONIN_HEADWEAR.get());
@@ -141,52 +120,52 @@ public class SkeletonRoninEvents {
 
             switch (itemDropIndex){
                 case 0:
-                    if(skeleton.getRandom().nextFloat() < 0.58F) {
+                    if(ronin.getRandom().nextFloat() < 0.58F) {
                         event.getDrops().add(
                                 new ItemEntity(
-                                        skeleton.level(),
-                                        skeleton.getX(),
-                                        skeleton.getY(),
-                                        skeleton.getZ(),
+                                        ronin.level(),
+                                        ronin.getX(),
+                                        ronin.getY(),
+                                        ronin.getZ(),
                                         drop1
                                 )
                         );
                     }
                 break;
                 case 1:
-                    if(skeleton.getRandom().nextFloat() < 0.4F) {
+                    if(ronin.getRandom().nextFloat() < 0.4F) {
                         event.getDrops().add(
                                 new ItemEntity(
-                                        skeleton.level(),
-                                        skeleton.getX(),
-                                        skeleton.getY(),
-                                        skeleton.getZ(),
+                                        ronin.level(),
+                                        ronin.getX(),
+                                        ronin.getY(),
+                                        ronin.getZ(),
                                         drop2
                                 )
                         );
                     }
                     break;
                 case 2:
-                    if(skeleton.getRandom().nextFloat() < 0.35F) {
+                    if(ronin.getRandom().nextFloat() < 0.35F) {
                         event.getDrops().add(
                                 new ItemEntity(
-                                        skeleton.level(),
-                                        skeleton.getX(),
-                                        skeleton.getY(),
-                                        skeleton.getZ(),
+                                        ronin.level(),
+                                        ronin.getX(),
+                                        ronin.getY(),
+                                        ronin.getZ(),
                                         drop3
                                 )
                         );
                     }
                     break;
                 case 3:
-                    if(skeleton.getRandom().nextFloat() < 0.28F) {
+                    if(ronin.getRandom().nextFloat() < 0.28F) {
                         event.getDrops().add(
                                 new ItemEntity(
-                                        skeleton.level(),
-                                        skeleton.getX(),
-                                        skeleton.getY(),
-                                        skeleton.getZ(),
+                                        ronin.level(),
+                                        ronin.getX(),
+                                        ronin.getY(),
+                                        ronin.getZ(),
                                         drop4
                                 )
                         );
@@ -196,20 +175,19 @@ public class SkeletonRoninEvents {
     }
     @SubscribeEvent
     public static void onLivingHurt(LivingDamageEvent event) {
-        if (event.getEntity() instanceof Skeleton skeleton) {
-            if (!skeleton.getPersistentData().getBoolean(RONIN_TAG))
-                return;
+        if (event.getEntity() instanceof RoninSkeletonEntity ronin) {
+
             if (event.getSource().getEntity() instanceof Player player) {
 
-                float postDamageHealth = skeleton.getHealth() - event.getAmount();
-                UUID skeletonId = skeleton.getUUID();
+                float postDamageHealth = ronin.getHealth() - event.getAmount();
+                UUID skeletonId = ronin.getUUID();
 
-                boolean hasAttempted = skeleton.getPersistentData().getBoolean(SURRENDER_ATTEMPTED_TAG);
-                if (postDamageHealth < skeleton.getMaxHealth() / 3 && !hasAttempted) {
-                    skeleton.getPersistentData().putBoolean(SURRENDER_ATTEMPTED_TAG, true);
+                boolean hasAttempted = ronin.getPersistentData().getBoolean(SURRENDER_ATTEMPTED_TAG);
+                if (postDamageHealth < ronin.getMaxHealth() / 3 && !hasAttempted) {
+                    ronin.getPersistentData().putBoolean(SURRENDER_ATTEMPTED_TAG, true);
                     double chance = Math.random();
                     if (chance < WohConfigCommon.RONIN_SKELETON_SURRENDER_CHANCE.get()) {
-                        skeleton.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
+                        ronin.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
                             if (cap instanceof LivingEntityPatch<?> livingPatch) {
 
                                 livingPatch.playAnimationSynchronized(GenericAnimations.DEFEAT_KNEEL, 0.0F);
@@ -217,7 +195,7 @@ public class SkeletonRoninEvents {
                                     player.playSound(EpicFightSounds.CLASH.get());
                                     player.playSound(SoundEvents.PLAYER_ATTACK_CRIT);
                                 }
-                                defeatYRot.putIfAbsent(skeletonId, skeleton.getYRot());
+                                defeatYRot.putIfAbsent(skeletonId, ronin.getYRot());
                                 isTransition.put(skeletonId, true);
                                 scheduleAfterAnimation(livingPatch, 30);}
                         });

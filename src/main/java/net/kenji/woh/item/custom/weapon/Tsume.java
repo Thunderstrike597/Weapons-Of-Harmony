@@ -35,7 +35,7 @@ public class Tsume extends HolsterWeaponBase {
     );
 
     public Tsume(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, 0, 0.9f, builder, hasTooltip, tooltipColor);
+        super(tier, 0, 1.8f, builder, hasTooltip, tooltipColor);
     }
 
     @Override

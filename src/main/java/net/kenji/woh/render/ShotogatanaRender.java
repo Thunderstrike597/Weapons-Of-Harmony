@@ -33,6 +33,8 @@ import yesman.epicfight.client.renderer.patched.item.RenderItemBase;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -49,6 +51,9 @@ public class ShotogatanaRender extends RenderItemBase {
 
     private AnimationManager.AnimationAccessor<StaticAnimation> sheathAnim = ShotogatanaAnimations.SHOTOGATANA_SHEATH;
     private AnimationManager.AnimationAccessor<StaticAnimation> unsheathAnim = ShotogatanaAnimations.SHOTOGATANA_UNSHEATH;
+
+    public static Map<UUID, Boolean> renderSheathMap = new HashMap<>();
+
     public ShotogatanaRender(JsonElement jsonElement) {
         super(jsonElement);
         if (jsonElement.getAsJsonObject().has("shotogatana_sheath")) {
@@ -61,7 +66,6 @@ public class ShotogatanaRender extends RenderItemBase {
     }
 
 
-
     private ItemStack getStack(LivingEntityPatch<?> entitypatch) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             if (sheathAnim == null || unsheathAnim == null)
@@ -72,35 +76,29 @@ public class ShotogatanaRender extends RenderItemBase {
             AnimationPlayer animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.LOWEST).animationPlayer;
             AnimationPlayer highAnimPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
 
-            DynamicAnimation current = animPlayer.getAnimation().orElse(null);
-
-            if (current != idleSheathAnim.get() && current != walkSheathAnim.get()) {
-                animPlayer = entitypatch.getClientAnimator()
-                        .getCompositeLayer(Layer.Priority.MIDDLE).animationPlayer;
-                current = animPlayer.getAnimation().orElse(null);
+            if(animPlayer.getAnimation() != idleSheathAnim && animPlayer.getAnimation() != walkSheathAnim) {
+                animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.MIDDLE).animationPlayer;
             }
-
-            if (current != idleSheathAnim.get() && current != walkSheathAnim.get()) {
-                animPlayer = entitypatch.getClientAnimator()
-                        .getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
+            if(animPlayer.getAnimation() != idleSheathAnim && animPlayer.getAnimation() != walkSheathAnim) {
+                animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
             }
 
 
-            if (!animPlayer.getAnimation().get().isBasicAttackAnimation() && !(highAnimPlayer.getAnimation().get() instanceof WohSheathAnimation)) {
-                if (playerPatch.getSkill(WohSkills.SHOTOGATANA_SKILL) != null) {
+            if(!animPlayer.getAnimation().get().isBasicAttackAnimation() && !(highAnimPlayer.getAnimation() instanceof WohSheathAnimation)) {
+                if(playerPatch.getSkill(WohSkills.SHOTOGATANA_SKILL) != null) {
                     if (!isSheathed && !playerPatch.getSkill(WohSkills.SHOTOGATANA_SKILL).isActivated()) {
                         boolean isAttacking = BasisAttackAnimation.isAttacking.getOrDefault(playerID, false);
                         boolean isAirAttacking = BasisAirAttackAnimation.isAttacking.getOrDefault(playerID, false);
                         if (!isAttacking && !isAirAttacking) {
                             if (WohSheathAnimation.shouldAnimReplay.getOrDefault(playerID, true)) {
-                                playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
+                                // playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
                             }
                         }
                     }
                 }
             }
 
-            if (isSheathed) {
+            if(isSheathed){
                 return sheathedWeaponStack;
             }
         }

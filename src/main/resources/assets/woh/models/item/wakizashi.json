@@ -6,14 +6,14 @@
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {
-        "translation": [5.75, -8, 7.5],
+        "translation": [8, -8.5, 7.8],
         "rotation": [92, 0, 0],
-        "scale": [0.9, 0.9, 0.75]
+        "scale": [1, 1, 0.85]
       },
       "thirdperson_lefthand": {
-        "translation": [-7, -8.5, 7],
+        "translation": [-8, -8.5, 7.8],
         "rotation": [90, 0, 0],
-        "scale": [0.9, 0.9, 0.75]
+        "scale": [1, 1, 0.85]
       },
       "firstperson_righthand": {
         "translation": [13, -6, 0],

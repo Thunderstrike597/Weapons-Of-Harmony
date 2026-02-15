@@ -12,7 +12,7 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.function.Supplier;
 
-public class HolsterWeaponBase extends WohWeaponItem {
+public abstract class HolsterWeaponBase extends WohWeaponItem {
 
 
     public static class Vec3Pair{
@@ -88,16 +88,23 @@ public class HolsterWeaponBase extends WohWeaponItem {
         }
     }
 
-    public boolean shouldRenderInHand(PlayerPatch<?> playerPatch, Item item){
-        ItemStack holdingItem = playerPatch.getOriginal().getItemInHand(InteractionHand.MAIN_HAND);
-        return (holdingItem.getItem() == item) && playerPatch.isEpicFightMode();
-    }
 
     public HolsterTransform holsterTransform;
     public Item holsterItem;
     public Item unholsteredItem;
     public JointPair holsterJoints;
     public boolean canOffHandHolster;
+
+    public boolean shouldRenderHolstered(PlayerPatch<?> player){
+        return !shouldRenderInHand(player);
+    }
+    public boolean shouldRenderUnholstered(PlayerPatch<?> player){
+        return !shouldRenderHolstered(player);
+    }
+    public boolean shouldRenderInHand(PlayerPatch<?> playerPatch){
+        ItemStack holdingItem = playerPatch.getOriginal().getItemInHand(InteractionHand.MAIN_HAND);
+        return (holdingItem.getItem() == this) && playerPatch.isEpicFightMode();
+    }
 
     public HolsterWeaponBase(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, Item unholsterItem, boolean holsterOffhand, JointPair holsterJoints) {
         super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor);

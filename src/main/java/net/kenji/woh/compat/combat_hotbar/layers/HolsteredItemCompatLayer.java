@@ -141,12 +141,10 @@ public class HolsteredItemCompatLayer extends ModelRenderLayer<
             float partialTicks,
             float ageInTicks
     ) {
-
-        if(itemSlot == null){
-            player.getCapability(ModCapabilities.COMBAT_HOTBAR).ifPresent((cap) ->{
+         player.getCapability(ModCapabilities.COMBAT_HOTBAR).ifPresent((cap) ->{
                 itemSlot = getCombatHotbarSlot(player.inventoryMenu, slotIndex);
             });
-        }
+        if (itemSlot == null) return;
 
         int currentLightLevel = LevelRenderer.getLightColor(
                 player.level(),
@@ -199,9 +197,9 @@ public class HolsteredItemCompatLayer extends ModelRenderLayer<
             poseStack.scale((float) scale.x, (float) scale.y, (float) scale.z);
 
             ItemStack renderStack =
-                    holsterItem.shouldRenderInHand(patch, holsterItem)
+                    holsterItem.shouldRenderUnholstered(patch)
                             ? unholsterStack
-                            : holsterStack;
+                            : holsterItem.shouldRenderHolstered(patch) ? holsterStack : ItemStack.EMPTY;
 
             if (!renderStack.isEmpty()) {
                 Minecraft.getInstance().getItemRenderer().renderStatic(
