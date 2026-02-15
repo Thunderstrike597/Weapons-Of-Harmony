@@ -278,9 +278,11 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.RUN, Animations.BIPED_RUN_LONGSWORD)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.BLOCK_SHIELD, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
-
                 .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH)
+                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH)
+                .innateSkill(CapabilityItem.Styles.COMMON, (itemstack) -> WohSkills.ARBITERS_SLASH)
                 .innateSkill(WohStyles.AIMING, (itemstack) -> WohSkills.ARBITERS_SLASH);
+
         return builder;
     };
     public static final Function<Item, CapabilityItem.Builder> WAKIZASHI = (item) -> {

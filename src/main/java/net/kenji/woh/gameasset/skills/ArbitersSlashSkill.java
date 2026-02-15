@@ -162,6 +162,8 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
                 spawnedEntity.setSlashAngle(slashAngleMap.getOrDefault(basisAttackAnimation, -45));
                 spawnedEntity.setCasterAndAnimation(playerPatch, basisAttackAnimation);
 
+                beamCastMap.put(basisAttackAnimation, spawnedEntity);
+
 
                 SoundEvent cast1 = SoundEvents.TRIDENT_RIPTIDE_1;
                 SoundEvent cast2 = SoundEvents.TRIDENT_RIPTIDE_2;
