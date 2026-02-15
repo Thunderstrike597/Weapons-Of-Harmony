@@ -52,7 +52,7 @@ public class TsumeRender extends RenderItemBase {
 
         // Only render katana in hand when NOT in_sheath
         OpenMatrix4f modelMatrix = new OpenMatrix4f(this.offhandCorrectionMatrix);
-        modelMatrix.mulFront(poses[armature.toolL.getId()]);
+        modelMatrix.mulFront(poses[armature.handL.getId()]);
         poseStack.pushPose();
         this.mulPoseStack(poseStack, modelMatrix);
         poseStack.translate(-finalOffset, 0.0F, 0.0F);
@@ -70,7 +70,7 @@ public class TsumeRender extends RenderItemBase {
         poseStack.popPose();
 
         OpenMatrix4f modelRMatrix = new OpenMatrix4f(this.mainhandcorrectionMatrix);
-        modelRMatrix.mulFront(poses[armature.toolR.getId()]);
+        modelRMatrix.mulFront(poses[armature.handR.getId()]);
         poseStack.pushPose();
         this.mulPoseStack(poseStack, modelRMatrix);
         poseStack.translate(finalOffset, 0.0F, 0.0F);

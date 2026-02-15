@@ -50,10 +50,14 @@ public abstract class GuardSkillMixin {
                 WohWeaponCategories.SHOTOGATANA,
                 (item, player) -> {
                     boolean isSheathed = ShotogatanaManager.sheathWeapon.getOrDefault(player.getOriginal().getUUID(), false);
-                    if (isSheathed) {
-                        return ShotogatanaAnimations.SHOTOGATANA_GUARD;
-                    } else return ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD;
+                  if(player.getSkill(WohSkills.SHEATH_STANCE) == null || !player.getSkill(WohSkills.SHEATH_STANCE).isActivated()) {
+                      if (isSheathed) {
+                          return ShotogatanaAnimations.SHOTOGATANA_GUARD;
+                      } else return ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD;
+                  }
+                  return Animations.LONGSWORD_GUARD;
                 }
+
         );
 
         guardMotions.put(

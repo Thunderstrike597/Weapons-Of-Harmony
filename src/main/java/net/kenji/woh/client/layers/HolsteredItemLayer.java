@@ -140,9 +140,8 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             float ageInTicks
     ) {
 
-        if(itemSlot == null){
-            itemSlot = player.inventoryMenu.slots.get(36 + slotIndex);
-        }
+
+        itemSlot = player.inventoryMenu.slots.get(36 + slotIndex);
 
         int currentLightLevel = LevelRenderer.getLightColor(
                 player.level(),
@@ -194,10 +193,11 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             poseStack.mulPose(rot);
             poseStack.scale((float) scale.x, (float) scale.y, (float) scale.z);
 
+
             ItemStack renderStack =
-                    holsterItem.shouldRenderInHand(patch, holsterItem)
+                    holsterItem.shouldRenderUnholstered(patch)
                             ? unholsterStack
-                            : holsterStack;
+                            : holsterItem.shouldRenderHolstered(patch) ? holsterStack : ItemStack.EMPTY;
 
             if (!renderStack.isEmpty()) {
                 Minecraft.getInstance().getItemRenderer().renderStatic(

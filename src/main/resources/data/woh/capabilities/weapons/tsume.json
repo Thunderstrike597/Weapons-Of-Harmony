@@ -1,3 +1,11 @@
 {
-  "type": "woh:tsume"
+  "type": "woh:tsume",
+  "attributes": {
+    "two_hand": {
+      "speed_bonus": -4
+    },
+    "enraged_claws": {
+      "speed_bonus": -4
+    }
+  }
 }

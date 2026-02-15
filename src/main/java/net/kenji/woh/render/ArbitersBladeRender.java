@@ -75,7 +75,7 @@ public class ArbitersBladeRender extends RenderItemBase {
 
         if(bladeStack.getItem() instanceof HolsterWeaponBase holsterWeaponBase) {
          if(!shouldRenderEmissive(entitypatch)) {
-             if (entitypatch instanceof PlayerPatch<?> playerPatch && holsterWeaponBase.shouldRenderInHand(playerPatch, bladeStack.getItem()) || !(entitypatch instanceof PlayerPatch<?>)){
+             if (entitypatch instanceof PlayerPatch<?> playerPatch && holsterWeaponBase.shouldRenderInHand(playerPatch) || !(entitypatch instanceof PlayerPatch<?>)){
                  // 1️⃣ Normal render
                  super.renderItemInHand(
                          stack,

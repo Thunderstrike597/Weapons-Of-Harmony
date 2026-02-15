@@ -1,3 +1,6 @@
 {
-  "type": "woh:tessen"
+  "type": "woh:tessen",
+  "common": {
+    "speed_bonus": 0
+  }
 }

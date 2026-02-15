@@ -20,6 +20,7 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ShotogatanaManager {
     public static final Map<UUID, Boolean> sheathWeapon = new HashMap<>();
+
     public static final Map<UUID, Boolean> hasSetupWeapon = new HashMap<>();
 
     @SubscribeEvent

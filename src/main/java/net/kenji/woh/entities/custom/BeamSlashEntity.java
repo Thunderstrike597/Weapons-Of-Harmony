@@ -98,6 +98,7 @@ public class BeamSlashEntity extends Entity {
 
         if(this.level().isClientSide)
             return;
+        if(caster == null)return;
 
         // Decrement cooldowns first
         hitCooldowns.replaceAll((uuid, ticks) -> ticks - 1);

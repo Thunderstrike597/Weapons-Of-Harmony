@@ -7,6 +7,7 @@ import net.kenji.woh.gameasset.animation_types.BasisAirAttackAnimation;
 import net.kenji.woh.gameasset.animation_types.BasisAttackAnimation;
 import net.kenji.woh.gameasset.animation_types.WohSheathAnimation;
 import net.kenji.woh.gameasset.WohSkills;
+import net.kenji.woh.item.custom.weapon.Shotogatana;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.client.Minecraft;
@@ -28,6 +29,8 @@ import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
@@ -42,6 +45,8 @@ public class ShotogatanaRender extends RenderItemBase {
 
     private StaticAnimation sheathAnim = ShotogatanaAnimations.SHOTOGATANA_SHEATH;
     private StaticAnimation unsheathAnim = ShotogatanaAnimations.SHOTOGATANA_UNSHEATH;
+
+    public static Map<UUID, Boolean> renderSheathMap = new HashMap<>();
 
     public ShotogatanaRender() {
         this.katana = new ItemStack((ItemLike) WohItems.SHOTOGATANA.get());
@@ -69,13 +74,13 @@ public class ShotogatanaRender extends RenderItemBase {
 
 
             if(!animPlayer.getAnimation().isBasicAttackAnimation() && !(highAnimPlayer.getAnimation() instanceof WohSheathAnimation)) {
-                if(playerPatch.getSkill(WohSkills.SHEATH_STANCE) != null) {
-                    if (!isSheathed && !playerPatch.getSkill(WohSkills.SHEATH_STANCE).isActivated()) {
+                if(playerPatch.getSkill(WohSkills.SHOTOGATANA_SKILL) != null) {
+                    if (!isSheathed && !playerPatch.getSkill(WohSkills.SHOTOGATANA_SKILL).isActivated()) {
                         boolean isAttacking = BasisAttackAnimation.isAttacking.getOrDefault(playerID, false);
                         boolean isAirAttacking = BasisAirAttackAnimation.isAttacking.getOrDefault(playerID, false);
                         if (!isAttacking && !isAirAttacking) {
                             if (WohSheathAnimation.shouldAnimReplay.getOrDefault(playerID, true)) {
-                                playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
+                               // playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
                             }
                         }
                     }
@@ -106,7 +111,9 @@ public class ShotogatanaRender extends RenderItemBase {
         ItemStack sheathItem = getStack(entitypatch);
         boolean sheathed = (sheathItem == sheathedWeaponStack);
 
-        if (entitypatch.getOriginal() instanceof Player) {
+        if (entitypatch instanceof PlayerPatch<?> playerPatch) {
+            renderSheathMap.put(playerPatch.getOriginal().getUUID(), sheathed);
+
             if (!sheathed) {
                 // Only render katana in hand when NOT in_sheath
                 OpenMatrix4f modelMatrix = new OpenMatrix4f(this.mainhandcorrectionMatrix);
@@ -124,6 +131,12 @@ public class ShotogatanaRender extends RenderItemBase {
                         null,
                         0
                 );
+                if(katana.getItem() instanceof Shotogatana shotogatana){
+                    if(shotogatana.shouldRenderUnholstered(playerPatch)){
+                        poseStack.popPose();
+                        return;
+                    }
+                }
 
                 poseStack.popPose();
             }

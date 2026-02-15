@@ -35,7 +35,7 @@ public class Wakizashi extends HolsterWeaponBase {
     );
 
     public Wakizashi(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, 0, 0.8f, builder, hasTooltip, tooltipColor, holsterTransform, WohItems.WAKIZASHI_IN_SHEATH.get(), WohItems.WAKIZASHI_SHEATH.get(), true, holsterJoints);
+        super(tier, 0, -1.6f, builder, hasTooltip, tooltipColor, holsterTransform, WohItems.WAKIZASHI_IN_SHEATH.get(), WohItems.WAKIZASHI_SHEATH.get(), true, holsterJoints);
     }
 
 

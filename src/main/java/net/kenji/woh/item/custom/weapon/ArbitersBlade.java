@@ -39,7 +39,7 @@ public class ArbitersBlade extends HolsterWeaponBase {
     );
 
     public ArbitersBlade(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, 0, 1f, builder, hasTooltip, tooltipColor, holsterTransform, WohItems.ARBITERS_BLADE_IN_SHEATH.get(), WohItems.ARBITERS_BLADE_SHEATH.get(), true, holsterJoints);
+        super(tier, 0, -2.75F, builder, hasTooltip, tooltipColor, holsterTransform, WohItems.ARBITERS_BLADE_IN_SHEATH.get(), WohItems.ARBITERS_BLADE_SHEATH.get(), true, holsterJoints);
     }
 
     @Override

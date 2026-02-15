@@ -1,3 +1,6 @@
 {
-  "type": "woh:odachi"
+  "type": "woh:odachi",
+  "common": {
+    "speed_bonus": 0
+  }
 }

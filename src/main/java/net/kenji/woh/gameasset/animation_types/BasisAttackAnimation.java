@@ -35,7 +35,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
 
     public static final Map<UUID, Boolean> isAttacking = new HashMap<>();
     private static final Map<UUID, Boolean> isAttackEnding = new HashMap<>();
-    private static final Map<UUID, Boolean> isInAttack = new HashMap<>();
+    public static final Map<UUID, Boolean> isInAttack = new HashMap<>();
 
     private boolean attackStart = false;
     private StaticAnimation endAnimation;
@@ -90,7 +90,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
             Phase phase = phases[phases.length - 1];
             if (time < phase.recovery || (movementEnd != -1 & time < movementEnd)) {
                if(time > 0.05F) {
-                   isInAttack.putIfAbsent(playerId, true);
+                  // isInAttack.putIfAbsent(playerId, true);
                    isAttackEnding.remove(playerId);
                    if (playerPatch.getOriginal().level().isClientSide) {
                        Minecraft mc = Minecraft.getInstance();
@@ -101,7 +101,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                    }
                }
             } else if (time > phase.recovery) {
-                isInAttack.remove(playerId);
+               // isInAttack.remove(playerId);
                 boolean attackEnding = isAttackEnding.getOrDefault(playerId, false);
                 if (!attackEnding) {
                     isAttackEnding.put(playerId, true);
@@ -148,22 +148,8 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                     if (capItem instanceof WeaponCapability weaponCap) {
                         boolean isSheathed = ShotogatanaManager.sheathWeapon.getOrDefault(playerID, false);
                         if (!isSheathed) {
-                            List<AnimationProvider<?>> autoAttackMotion = weaponCap.getAutoAttckMotion(playerPatch);
-                            for(int i = 0; i < autoAttackMotion.size(); i++) {
-                                if(autoAttackMotion.get(i) instanceof BasisAttackAnimation basisAttackAnimation) {
-                                    if(basisAttackAnimation.attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH) {
-                                        int currentComboCounter = playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK).getDataManager().getDataValue(SkillDataKeys.COMBO_COUNTER.get());
-                                        if(currentComboCounter <= i) {
-                                           BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.ANOTHER_ACTION_ANIMATION,
-                                                   playerPatch,
-                                                   playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK),
-                                                   autoAttackMotion.get(i).get(),
-                                                   i + 1
-                                           );
-                                       }
-                                    }
-                                }
-                            }
+
+
                         }
                     }
                 }
@@ -190,11 +176,6 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
             UUID playerID = playerPatch.getOriginal().getUUID();
             boolean isInAttack = isAttacking.getOrDefault(playerID, false);
 
-            if(isAttackEnding.getOrDefault(playerID, false)) {
-                if (endAnimation != null && nextAnimation != endAnimation && !isInAttack) {
-                    playerPatch.playAnimationSynchronized(endAnimation, 0.3f);
-                }
-            }
             isAttacking.remove(playerID);
             BasisAttackAnimation.isInAttack.remove(playerID);
             attackStart = false;

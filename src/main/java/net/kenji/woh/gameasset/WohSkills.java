@@ -12,6 +12,7 @@ import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID)
 public class WohSkills {
 
+    public static Skill SHOTOGATANA_SKILL;
     public static Skill SHEATH_STANCE;
     public static Skill FAN_STANCE;
     public static Skill ENRAGED_CLAWS;
@@ -22,13 +23,18 @@ public class WohSkills {
     public static void buildSkillEvent(SkillBuildEvent build){
         SkillBuildEvent.ModRegistryWorker modRegistry = build.createRegistryWorker(WeaponsOfHarmony.MODID);
 
-        SHEATH_STANCE = (WeaponInnateSkill)modRegistry.build("shotogatana_skill",
+        SHOTOGATANA_SKILL = (WeaponInnateSkill)modRegistry.build("shotogatana_skill",
                 ShotogatanaSkillInnate::new,
                 WeaponInnateSkill.createWeaponInnateBuilder()
                         .setActivateType(Skill.ActivateType.ONE_SHOT)
                         .setCategory(SkillCategories.WEAPON_INNATE)
                         .setResource(Skill.Resource.COOLDOWN));
-
+        SHEATH_STANCE = modRegistry.build("shotogatana_two_hand_stance", NewShotogatanaSkillInnate::new,
+                TsumeSkillInnate.createBuilder()
+                        .setActivateType(Skill.ActivateType.DURATION)
+                        .setCategory(SkillCategories.WEAPON_INNATE)
+                        .setResource(Skill.Resource.COOLDOWN)
+        );
         FAN_STANCE = modRegistry.build("throw_stance", TessenAimSkill::new,
                 TessenAimSkill.createGuardBuilder()
                         .setCategory(SkillCategories.WEAPON_PASSIVE)

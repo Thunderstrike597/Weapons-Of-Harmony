@@ -2,6 +2,7 @@ package net.kenji.woh.item.custom.base;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
@@ -12,7 +13,7 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.function.Supplier;
 
-public class HolsterWeaponBase extends WohWeaponItem {
+public abstract class HolsterWeaponBase extends WohWeaponItem {
 
 
     public static class Vec3Pair{
@@ -95,9 +96,15 @@ public class HolsterWeaponBase extends WohWeaponItem {
     public JointPair holsterJoints;
     public boolean canOffHandHolster;
 
-    public boolean shouldRenderInHand(PlayerPatch<?> playerPatch, Item item){
+    public boolean shouldRenderHolstered(PlayerPatch<?> player){
+        return !shouldRenderInHand(player);
+    }
+    public boolean shouldRenderUnholstered(PlayerPatch<?> player){
+        return !shouldRenderHolstered(player);
+    }
+    public boolean shouldRenderInHand(PlayerPatch<?> playerPatch){
         ItemStack holdingItem = playerPatch.getOriginal().getItemInHand(InteractionHand.MAIN_HAND);
-        return (holdingItem.getItem() == item) && playerPatch.isBattleMode();
+        return (holdingItem.getItem() == this) && playerPatch.isBattleMode();
     }
 
     public HolsterWeaponBase(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, Item unholsterItem, boolean holsterOffhand, JointPair holsterJoints) {

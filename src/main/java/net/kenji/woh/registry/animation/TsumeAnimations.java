@@ -166,7 +166,7 @@ public class TsumeAnimations {
                 "biped/combat/tsume/tsume_airslash",
                 3,
                 0.1F,
-                1F,
+                0.1F,
                 6F,
                 0.2F,
                 new float[]{0.0F, 0.38F, 0.70F},

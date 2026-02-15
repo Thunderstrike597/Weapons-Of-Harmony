@@ -187,7 +187,6 @@ public class ShotogatanaAnimations {
                 StunType.SHORT,
                 -1F,
                 -1F
-
         );
 
         SHOTOGATANA_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
@@ -195,7 +194,7 @@ public class ShotogatanaAnimations {
                 "biped/combat/shotogatana/shotogatana_auto_1",
                 1,
                 0.15F,
-                1F,
+                0.02F,
                 6.5F,
                 0.5F,
                 new float[]{0.0F},
@@ -210,7 +209,7 @@ public class ShotogatanaAnimations {
                 new Joint[]{biped.toolR},
                 StunType.LONG,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT1,
-                0.2f,
+                0.28f,
                 -1
         );
         SHOTOGATANA_AUTO_2 = WOHAnimationUtils.createAttackAnimation(
@@ -218,7 +217,7 @@ public class ShotogatanaAnimations {
                 "biped/combat/shotogatana/shotogatana_auto_2",
                 1,
                 0.15F,
-                1F,
+                0.04F,
                 5.5F,
                 0.5F,
                 new float[]{0.0F},
@@ -241,7 +240,7 @@ public class ShotogatanaAnimations {
                 "biped/combat/shotogatana/shotogatana_auto_3",
                 1,
                 0.15F,
-                1F,
+                0.04F,
                 5.5F,
                 0.5F,
                 new float[]{0.0F},
@@ -264,7 +263,7 @@ public class ShotogatanaAnimations {
                 "biped/combat/shotogatana/shotogatana_auto_4",
                 1,
                 0.15F,
-                1F,
+                0.04F,
                 5F,
                 0.5F,
                 new float[]{0.0F},
@@ -287,7 +286,7 @@ public class ShotogatanaAnimations {
                 "biped/combat/shotogatana/shotogatana_auto_5",
                 2,
                 0.15F,
-                1F,
+                0.04F,
                 6F,
                 0.5F,
                 new float[]{0.0F, 0.5F},
@@ -310,7 +309,7 @@ public class ShotogatanaAnimations {
                 "biped/combat/shotogatana/shotogatana_auto_6",
                 1,
                 0.15F,
-                1F,
+                0.04F,
                 7F,
                 0.5F,
                 new float[]{0.0F},
@@ -334,7 +333,7 @@ public class ShotogatanaAnimations {
                 "biped/combat/shotogatana/shotogatana_dash",
                 1,
                 0.05F,
-                1F,
+                0.02F,
                 6F,
                 2F,
                 new float[]{0.0F},
@@ -355,7 +354,7 @@ public class ShotogatanaAnimations {
                 "biped/combat/shotogatana/shotogatana_airslash",
                 1,
                 0.1F,
-                1F,
+                0.02F,
                 5.75F,
                 2F,
                 new float[]{0.0F},
@@ -378,7 +377,7 @@ public class ShotogatanaAnimations {
                 "biped/skill/shotogatana/shotogatana_skill_innate",
                 2,
                 0.05F,
-                1F,
+                0.02F,
                 6F,
                 0.2F,
                 new float[]{0.0F, 0.88F},

@@ -1,10 +1,11 @@
 package net.kenji.woh;
 
 import com.mojang.logging.LogUtils;
+import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.block.ModBlockEntities;
 import net.kenji.woh.block.ModBlocks;
 import net.kenji.woh.compat.combat_hotbar.CombatHotbarRenderCompat;
-import net.kenji.woh.entities.ModEntities;
+import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.gameasset.WohStyles;
 import net.kenji.woh.gameasset.WohWeaponCapabilityPresets;
 import net.kenji.woh.gameasset.WohWeaponCategories;
@@ -12,6 +13,7 @@ import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.WohSounds;
 import net.kenji.woh.registry.WohColliderPreset;
+import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
 import net.kenji.woh.registry.animation.WohAnimations;
 import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.tabs.WohTabs;
@@ -29,13 +31,15 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.WeaponCategoryIconRegisterEvent;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
-import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
+
+import static net.kenji.woh.gameasset.skills.ArbitersSlashSkill.slashAngleMap;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(WeaponsOfHarmony.MODID)
@@ -53,7 +57,7 @@ public class WeaponsOfHarmony {
 
         WohItems.register(modEventBus);
         WohTabs.register(modEventBus);
-        ModEntities.register(modEventBus);
+        WohEntities.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         WohSounds.SOUNDS.register(modEventBus);
@@ -69,13 +73,21 @@ public class WeaponsOfHarmony {
 
         modEventBus.addListener(WohAnimations::registerAnimations);
         modEventBus.addListener(WohSkills::buildSkillEvent);
+        modEventBus.addListener(this::initializeSlashAngles);
         MinecraftForge.EVENT_BUS.addListener(this::addReloadListnerEvent);
        if(ModList.get().isLoaded("epic_fight_combat_hotbar")){
            CombatHotbarRenderCompat.Init();
        }
-
     }
-
+    private void initializeSlashAngles(FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AIM_AUTO_1, -45);
+            slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO1, 45);
+            slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO2, 0);
+            slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO3, 90);
+            slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO4, 45);
+        });
+    }
     private void commonSetup(final net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) {
         event.enqueueWork(WohPacketHandler::register);
     }

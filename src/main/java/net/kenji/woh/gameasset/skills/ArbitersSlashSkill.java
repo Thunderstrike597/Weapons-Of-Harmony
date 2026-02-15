@@ -2,10 +2,9 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import net.kenji.woh.api.manager.AimManager;
-import net.kenji.woh.entities.ModEntities;
+import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
 import net.kenji.woh.gameasset.WohWeaponCategories;
-import net.kenji.woh.gameasset.animation_types.BasisAttackAnimation;
 import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
@@ -26,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
+import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.client.events.engine.ControllEngine;
@@ -46,7 +46,9 @@ import java.util.*;
 public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
 
     public static float travelSpeedMultiplier = 1.75f;
-    private static final Map<UUID, List<BasisAttackAnimation>> beamCastMap = new HashMap<>();
+    public static Map<StaticAnimation, Integer> slashAngleMap = new HashMap<>();
+    private static final Map<UUID, List<AttackAnimation>> beamCastMap = new HashMap<>();
+
 
     public ArbitersSlashSkill(Builder builder) {
         super(builder);
@@ -116,20 +118,19 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
 
             PlayerPatch<?> playerPatch = container.getExecuter();
             Player player = playerPatch.getOriginal();
-            if (playerPatch.getAnimator().getPlayerFor(null).getAnimation() instanceof BasisAttackAnimation attackAnim) {
+            if (playerPatch.getAnimator().getPlayerFor(null).getAnimation() instanceof AttackAnimation attackAnim) {
                if(playerPatch.getOriginal().level() instanceof ServerLevel serverLevel) {
-                   if (attackAnim.isAttackBegin()) {
-                       if(attackAnim.getSlashAngle() != -1)
+                   if (playerPatch.getAnimator().getPlayerFor(null).getElapsedTime() >= (attackAnim.phases[0].contact + attackAnim.phases[0].start) * 0.5) {
                            if(beamCastMap.get(player.getUUID()) == null) {
-                               List<BasisAttackAnimation> anims = new ArrayList<>();
+                               List<AttackAnimation> anims = new ArrayList<>();
                                anims.add(attackAnim);
                                onBeamSlash(playerPatch, attackAnim, serverLevel);
                                beamCastMap.put(player.getUUID(), anims);
                            }
                            else{
-                               List<BasisAttackAnimation> anims = beamCastMap.get(player.getUUID());
+                               List<AttackAnimation> anims = beamCastMap.get(player.getUUID());
                                boolean shouldCast = true;
-                               for(BasisAttackAnimation anim : anims){
+                               for(AttackAnimation anim : anims){
                                    if(anim == attackAnim){
                                        shouldCast = false;
                                        break;
@@ -142,7 +143,7 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
                                }
                            }
                    }
-                   List<BasisAttackAnimation> anims = beamCastMap.get(player.getUUID());
+                   List<AttackAnimation> anims = beamCastMap.get(player.getUUID());
                    if (anims != null) {
                        AnimationPlayer current = playerPatch.getAnimator().getPlayerFor(null);
                        anims.removeIf(anim ->
@@ -177,17 +178,17 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
         super.executeOnClient(executor, args);
     }
 
-    private void onBeamSlash(PlayerPatch<?> playerPatch, BasisAttackAnimation basisAttackAnimation, ServerLevel serverLevel){
+    private void onBeamSlash(PlayerPatch<?> playerPatch, AttackAnimation basisAttackAnimation, ServerLevel serverLevel){
         if(serverLevel != null) {
             BlockPos blockPos = playerPatch.getOriginal().blockPosition();
-            BeamSlashEntity spawnedEntity = ModEntities.BEAM_SLASH.get().spawn(serverLevel, blockPos, MobSpawnType.TRIGGERED);
+            BeamSlashEntity spawnedEntity = WohEntities.BEAM_SLASH.get().spawn(serverLevel, blockPos, MobSpawnType.TRIGGERED);
             Vec3 lookDir = playerPatch.getOriginal().getLookAngle();
             if (spawnedEntity != null) {
                 float yVelocity = AimManager.isAiming(playerPatch) ? travelSpeedMultiplier : 0;
 
                 spawnedEntity.addDeltaMovement(lookDir.multiply(travelSpeedMultiplier, yVelocity, travelSpeedMultiplier));
                 spawnedEntity.setYRot(playerPatch.getOriginal().getYHeadRot());
-                spawnedEntity.setSlashAngle(basisAttackAnimation.getSlashAngle());
+                spawnedEntity.setSlashAngle(slashAngleMap.getOrDefault(basisAttackAnimation, -45));
                 spawnedEntity.setCasterAndAnimation(playerPatch, basisAttackAnimation);
 
 

@@ -1,3 +1,11 @@
 {
-  "type": "woh:wakizashi"
+  "type": "woh:wakizashi",
+  "attributes": {
+    "one_hand": {
+      "speed_bonus": -0.2
+    },
+    "two_hand": {
+      "speed_bonus": -1.5
+    }
+  }
 }

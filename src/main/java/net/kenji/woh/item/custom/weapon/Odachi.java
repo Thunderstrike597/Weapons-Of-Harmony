@@ -38,7 +38,7 @@ public class Odachi extends HolsterWeaponBase {
     );
 
     public Odachi(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, 0, 0.8f, builder, hasTooltip, tooltipColor, holsterTransform, WohItems.ODACHI_IN_SHEATH.get(), WohItems.ODACHI_SHEATH.get(), false, holsterJoints);
+        super(tier, 0, -3f, builder, hasTooltip, tooltipColor, holsterTransform, WohItems.ODACHI_IN_SHEATH.get(), WohItems.ODACHI_SHEATH.get(), false, holsterJoints);
     }
 
     @Override

@@ -70,7 +70,7 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
                 player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
                     if(cap instanceof PlayerPatch<?> playerPatch){
                         if(currentResource != 0){
-                            SkillContainer container = playerPatch.getSkill(WohSkills.SHEATH_STANCE);
+                            SkillContainer container = playerPatch.getSkill(WohSkills.SHOTOGATANA_SKILL);
 
 
 
