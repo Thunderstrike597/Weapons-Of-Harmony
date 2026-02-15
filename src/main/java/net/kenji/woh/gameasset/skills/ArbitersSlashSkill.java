@@ -47,7 +47,7 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
 
     public static float travelSpeedMultiplier = 1.75f;
     public static Map<StaticAnimation, Integer> slashAngleMap = new HashMap<>();
-    private static final Map<UUID, List<AttackAnimation>> beamCastMap = new HashMap<>();
+    private static final Map<AttackAnimation, BeamSlashEntity> beamCastMap = new HashMap<>();
 
 
     public ArbitersSlashSkill(Builder builder) {
@@ -119,42 +119,13 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
             PlayerPatch<?> playerPatch = container.getExecuter();
             Player player = playerPatch.getOriginal();
             if (playerPatch.getAnimator().getPlayerFor(null).getAnimation() instanceof AttackAnimation attackAnim) {
-               if(playerPatch.getOriginal().level() instanceof ServerLevel serverLevel) {
-                   if (playerPatch.getAnimator().getPlayerFor(null).getElapsedTime() >= (attackAnim.phases[0].contact + attackAnim.phases[0].start) * 0.5) {
-                           if(beamCastMap.get(player.getUUID()) == null) {
-                               List<AttackAnimation> anims = new ArrayList<>();
-                               anims.add(attackAnim);
-                               onBeamSlash(playerPatch, attackAnim, serverLevel);
-                               beamCastMap.put(player.getUUID(), anims);
-                           }
-                           else{
-                               List<AttackAnimation> anims = beamCastMap.get(player.getUUID());
-                               boolean shouldCast = true;
-                               for(AttackAnimation anim : anims){
-                                   if(anim == attackAnim){
-                                       shouldCast = false;
-                                       break;
-                                   }
-                               }
-                               if(shouldCast){
-                                   onBeamSlash(playerPatch, attackAnim, serverLevel);
-                                   anims.add(attackAnim);
-                                   beamCastMap.put(player.getUUID(), anims);
-                               }
-                           }
-                   }
-                   List<AttackAnimation> anims = beamCastMap.get(player.getUUID());
-                   if (anims != null) {
-                       AnimationPlayer current = playerPatch.getAnimator().getPlayerFor(null);
-                       anims.removeIf(anim ->
-                               current == null || current.getAnimation() != anim
-                       );
-
-                       if (anims.isEmpty()) {
-                           beamCastMap.remove(player.getUUID());
-                       }
-                   }
-               }
+                if(playerPatch.getOriginal().level() instanceof ServerLevel serverLevel) {
+                    if (playerPatch.getAnimator().getPlayerFor(null).getElapsedTime() >= (attackAnim.phases[0].contact + attackAnim.phases[0].start) * 0.5) {
+                        if(beamCastMap.get(attackAnim) == null || serverLevel.getEntity(beamCastMap.get(attackAnim).getUUID()) == null){
+                            onBeamSlash(playerPatch, attackAnim, serverLevel);
+                        }
+                    }
+                }
             }
             if(container.getRemainDuration() > 0) {
                 container.setDuration(container.getRemainDuration() - 1);
