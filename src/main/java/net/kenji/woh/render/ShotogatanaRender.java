@@ -8,6 +8,7 @@ import net.kenji.woh.gameasset.animation_types.BasisAirAttackAnimation;
 import net.kenji.woh.gameasset.animation_types.BasisAttackAnimation;
 import net.kenji.woh.gameasset.animation_types.WohSheathAnimation;
 import net.kenji.woh.gameasset.WohSkills;
+import net.kenji.woh.item.custom.weapon.Shotogatana;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -115,12 +116,22 @@ public class ShotogatanaRender extends RenderItemBase {
         // Compare the actual items, not ItemStack references
         boolean isSheathed = ItemStack.isSameItem(sheathItem, sheathedWeaponStack);
 
+
         // Only render the katana if it's NOT sheathed AND it's a player
-        if (!isSheathed && entitypatch instanceof PlayerPatch<?>) {
-            poseStack.pushPose();
-            MathUtils.mulStack(poseStack, modelMatrix);
-            itemRenderer.renderStatic(katana, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
-            poseStack.popPose();
+        if (entitypatch instanceof PlayerPatch<?> playerPatch) {
+            renderSheathMap.put(playerPatch.getOriginal().getUUID(), isSheathed);
+            if (!isSheathed) {
+                poseStack.pushPose();
+                MathUtils.mulStack(poseStack, modelMatrix);
+                itemRenderer.renderStatic(katana, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
+                if (katana.getItem() instanceof Shotogatana shotogatana) {
+                    if (shotogatana.shouldRenderUnholstered(playerPatch)) {
+                        poseStack.popPose();
+                        return;
+                    }
+                }
+                poseStack.popPose();
+            }
         }
 
         modelMatrix = this.getCorrectionMatrix(entitypatch, InteractionHand.OFF_HAND, poses);
