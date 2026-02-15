@@ -284,7 +284,7 @@ public class WohWeaponCapabilityPresets {
 
                 .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH)
                 .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH)
-
+                .innateSkill(CapabilityItem.Styles.COMMON, (itemstack) -> WohSkills.ARBITERS_SLASH)
                 .innateSkill(WohStyles.AIMING, (itemstack) -> WohSkills.ARBITERS_SLASH);
         return builder;
     };
