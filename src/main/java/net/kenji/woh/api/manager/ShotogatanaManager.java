@@ -21,12 +21,14 @@ import java.util.UUID;
 public class ShotogatanaManager {
     public static final Map<UUID, Boolean> sheathWeapon = new HashMap<>();
     public static final Map<UUID, Boolean> hasSetupWeapon = new HashMap<>();
+    public static final Map<UUID, Integer> queSheathCounter = new HashMap<>();
 
     @SubscribeEvent
     public static void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
         UUID playerId = event.getEntity().getUUID();
         sheathWeapon.remove(playerId);
         hasSetupWeapon.remove(playerId);
+
     }
 
     @SubscribeEvent
@@ -38,6 +40,7 @@ public class ShotogatanaManager {
             if (!hasSetup) {
                 sheathWeapon.put(playerId, true);
                 hasSetupWeapon.put(playerId, true);
+                queSheathCounter.put(playerId, 20);
             }
         }
         if (player.getMainHandItem().getItem() instanceof Shotogatana) {

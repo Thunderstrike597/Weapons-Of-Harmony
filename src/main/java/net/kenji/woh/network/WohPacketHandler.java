@@ -35,6 +35,11 @@ public class WohPacketHandler {
                 .encoder(AimHoldPacket::encode)
                 .consumerMainThread(AimHoldPacket::handle)
                 .add();
+        INSTANCE.messageBuilder(ClientSheathStatePacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(ClientSheathStatePacket::decode)
+                .encoder(ClientSheathStatePacket::encode)
+                .consumerMainThread(ClientSheathStatePacket::handle)
+                .add();
     }
 
     // Helper method to send packet to server

@@ -200,7 +200,7 @@ public class ShotogatanaAnimations {
                 "biped/combat/shotogatana/shotogatana_auto_1",
                 1,
                 0.15F,
-                0.03F,
+                -1F,
                 6.5F,
                 0.5F,
                 new float[]{0.0F},

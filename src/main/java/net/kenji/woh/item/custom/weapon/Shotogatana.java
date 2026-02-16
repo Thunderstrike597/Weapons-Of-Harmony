@@ -1,6 +1,7 @@
 package net.kenji.woh.item.custom.weapon;
 
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.manager.AttackManager;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
@@ -79,28 +80,39 @@ public class Shotogatana extends HolsterWeaponBase {
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class ForgeEvents {
         public static boolean queSheath;
-        private static int queSheathCounter = 20;
+
         @SubscribeEvent
         public static void onPlayerTick(TickEvent.PlayerTickEvent event){
-           Player player = event.player;
-            if(!player.level().isClientSide()) return;
+            Player player = event.player;
 
+            /*
             player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent((cap) -> {
-                if(cap instanceof PlayerPatch<?> playerPatch){
+                if(cap instanceof PlayerPatch<?> playerPatch) {
                     CapabilityItem itemCap = playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
                     AnimationPlayer animPlayer = playerPatch.getAnimator().getPlayerFor(null);
+                    int counter = ShotogatanaManager.queSheathCounter.getOrDefault(player.getUUID(), 20);
 
-                    if(queSheath){
-                        if(!(animPlayer.getAnimation().get() instanceof AttackAnimation)) {
-                            playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
-                            queSheath = false;
-                            queSheathCounter = 0;
+
+
+                    if (!ShotogatanaManager.sheathWeapon.getOrDefault(player.getUUID(), false)) {
+                        if (counter >= 40) {
+                            // Check if already playing sheath animation
+                            if (animPlayer.getAnimation().get() != ShotogatanaAnimations.SHOTOGATANA_SHEATH) {
+                                // Check if NOT in attack (using your AttackManager)
+                                if (!AttackManager.isInAttack.getOrDefault(player.getUUID(), false)) {
+                                    // Optional: Also check current animation isn't an attack
+                                    if (!(animPlayer.getAnimation().get() instanceof AttackAnimation)) {
+                                        playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
+                                        ShotogatanaManager.queSheathCounter.put(player.getUUID(), 0);
+                                    }
+                                }
+                            }
+                        } else {
+                            ShotogatanaManager.queSheathCounter.put(player.getUUID(), counter + 1);
                         }
                     }
-                    if(queSheathCounter < 20)
-                        queSheathCounter++;
                 }
-            });
+            });*/
         }
     }
 

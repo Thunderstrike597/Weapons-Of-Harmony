@@ -32,9 +32,10 @@ public class AttackAnimationMixin {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             AttackManager.isInAttack.remove(playerPatch.getOriginal().getUUID());
             if (playerPatch.getOriginal().getMainHandItem().getItem() instanceof Shotogatana) {
+                ShotogatanaManager.queSheathCounter.put(playerPatch.getOriginal().getUUID(), 20);
                 if (playerPatch.getSkill(WohSkills.SHEATH_STANCE) == null || !playerPatch.getSkill(WohSkills.SHEATH_STANCE).isActivated()) {
                     if (!ShotogatanaManager.sheathWeapon.getOrDefault(playerPatch.getOriginal().getUUID(), false)) {
-                        if (nextAnimation == null || isEnd & nextAnimation != ShotogatanaAnimations.SHOTOGATANA_SHEATH) {
+                        if (nextAnimation == null || (isEnd & nextAnimation != ShotogatanaAnimations.SHOTOGATANA_SHEATH && !(nextAnimation instanceof AttackAnimation))) {
                             playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.3f);
                         }
                     }
@@ -47,7 +48,7 @@ public class AttackAnimationMixin {
         }
     }
 
-        @Inject(method = "attackTick", at = @At("HEAD"))
+    @Inject(method = "attackTick", at = @At("HEAD"))
     public void onAttackTick(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> animation, CallbackInfo ci) {
         AttackAnimation attackAnimation = (AttackAnimation) (Object) this;
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
@@ -64,7 +65,7 @@ public class AttackAnimationMixin {
                 if (time > (phase.recovery + phase.end) * 0.65F)
                     AttackManager.isInAttack.remove(playerId);
             }
-            if(time > phase.recovery && time < (phase.recovery + phase.end) * 0.2){
+          /*  if(time > phase.recovery && time < (phase.recovery + phase.end) * 0.2){
                 AnimationPlayer animationPlayer = playerPatch.getAnimator().getPlayerFor(attackAnimation.getAccessor());
                 attackAnimation.addProperty(
                         AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,
@@ -76,7 +77,7 @@ public class AttackAnimationMixin {
                             return originalSpeed; // Normal speed otherwise
                         }
                 );
-            }
+            }*/
             StaticAnimation staticAnimation = playerPatch.getAnimator().getLivingAnimation(playerPatch.getCurrentLivingMotion(), Animations.BIPED_IDLE).get();
 
             DynamicAnimationAccessor dynamicAnimationMixin = (DynamicAnimationAccessor)(Object)staticAnimation;

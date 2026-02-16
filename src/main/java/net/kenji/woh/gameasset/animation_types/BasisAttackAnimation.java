@@ -164,24 +164,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                         boolean isSheathed = ShotogatanaManager.sheathWeapon.getOrDefault(playerID, false);
 
                         if (!isSheathed) {
-                            List<AnimationManager.AnimationAccessor<? extends AttackAnimation>> autoAttackMotion = weaponCap.getAutoAttackMotion(playerPatch);
-                            for(int i = 0; i < autoAttackMotion.size(); i++) {
-                                if(autoAttackMotion.get(i) instanceof AttackAnimation attackAnim) {
-                                    if (attackAnim instanceof BasisAttackAnimation basisAttackAnimation) {
-                                        if (basisAttackAnimation.attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_SHEATH) {
-                                            int currentComboCounter = playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK).getDataManager().getDataValue(SkillDataKeys.COMBO_COUNTER.get());
-                                            if (currentComboCounter <= i) {
-                                                BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.ANOTHER_ACTION_ANIMATION,
-                                                        playerPatch,
-                                                        playerPatch.getSkill(EpicFightSkills.BASIC_ATTACK),
-                                                        autoAttackMotion.get(i),
-                                                        i + 1
-                                                );
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+
                         }
                     }
                 }
@@ -206,13 +189,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
     public void end(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> nextAnimation, boolean isEnd) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             UUID playerID = playerPatch.getOriginal().getUUID();
-            boolean isInAttack = isAttacking.getOrDefault(playerID, false);
 
-            if(isAttackEnding.getOrDefault(playerID, false)) {
-                if (endAnimation != null && nextAnimation != endAnimation && !isInAttack) {
-                    playerPatch.playAnimationSynchronized(endAnimation, 0.3f);
-                }
-            }
             isAttacking.remove(playerID);
             BasisAttackAnimation.isInAttack.remove(playerID);
             attackStart = false;
