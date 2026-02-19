@@ -70,7 +70,7 @@ public class ClientEvents {
           );
           ItemProperties.register(
                   WohItems.SHOTOGATANA.get(),
-                  new ResourceLocation("woh", "unsheathed"),
+                  ResourceLocation.fromNamespaceAndPath(WeaponsOfHarmony.MODID, "unsheathed"),
                   (stack, level, entity, seed) -> {
                       if(entity instanceof Player player) {
                           return player.getMainHandItem().getItem() == WohItems.SHOTOGATANA.get() ? 1.0F : 0.0F;
@@ -80,7 +80,7 @@ public class ClientEvents {
           );
           ItemProperties.register(
                   WohItems.WAKIZASHI.get(),
-                  new ResourceLocation("woh", "wakizashi_unsheathed"),
+                  ResourceLocation.fromNamespaceAndPath(WeaponsOfHarmony.MODID, "wakizashi_unsheathed"),
                   (stack, level, entity, seed) -> {
                       if(entity instanceof Player player) {
                           return player.getMainHandItem().getItem() == stack.getItem() ? 1.0F : 0.0F;
