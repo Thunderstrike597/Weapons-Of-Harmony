@@ -15,6 +15,9 @@ import net.kenji.woh.render.ArbitersShieldRender;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.kenji.woh.render.TsumeRender;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.PillagerRenderer;
+import net.minecraft.client.renderer.entity.SkeletonRenderer;
+import net.minecraft.client.renderer.entity.ZombieVillagerRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -53,6 +56,10 @@ public class ClientEvents {
     public static void onClientSetup(FMLClientSetupEvent event) {
       event.enqueueWork(() -> {
           EntityRenderers.register(WohEntities.EXILED_RONIN.get(), ExiledRoninRenderer::new);
+          EntityRenderers.register(WohEntities.RONIN_SKELETON.get(), SkeletonRenderer::new);
+          EntityRenderers.register(WohEntities.WAR_FAN_PILLAGER.get(), PillagerRenderer::new);
+          EntityRenderers.register(WohEntities.CLAWED_ZOMBIE_VILLAGER.get(), ZombieVillagerRenderer::new);
+
           EntityRenderers.register(
                   WohEntities.BEAM_SLASH.get(),
                   BeamSlashRenderer::new
