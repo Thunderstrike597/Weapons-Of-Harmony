@@ -79,6 +79,7 @@ import yesman.epicfight.api.utils.TimePairList;
 import yesman.epicfight.api.utils.HitEntityList.Priority;
 import yesman.epicfight.api.utils.math.ValueModifier;
 import yesman.epicfight.api.utils.math.Vec3f;
+import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.gameasset.EpicFightSounds;
@@ -105,7 +106,12 @@ public class CorruptAnimationsMixin {
     @Shadow
     private static AnimationEvent.E0 CHASE;
     @Shadow
-    private static AnimationEvent.E0 COMBO_BREAK;
+    private static final AnimationEvent.E0 COMBO_BREAK = (entitypatch, animation, params) -> {
+        if (entitypatch instanceof ServerPlayerPatch patch) {
+            BasicAttack.setComboCounterWithEvent(Causal.TIME_EXPIRED, patch, patch.getSkill(SkillSlots.BASIC_ATTACK), Animations.EMPTY_ANIMATION.getAccessor(), 0);
+        }
+
+    };
     @Shadow
     private static AnimationEvent.E0 CUT;
 
@@ -115,7 +121,6 @@ public class CorruptAnimationsMixin {
     @Inject(method = "build", at = @At("HEAD"), cancellable = true)
     private static void build(AnimationManager.AnimationBuilder builder, CallbackInfo ci) {
         ci.cancel();
-
         CorruptAnimations.DUAL_TACHI_SKILL_EXECUTED = builder.nextAccessor("biped/hit/executed", (accessor) -> (ExecutedAnimation)(new ExecutedAnimation(0.01F, 3.0F, accessor, Armatures.BIPED)).addProperty(ActionAnimationProperty.CANCELABLE_MOVE, false).addProperty(ActionAnimationProperty.STOP_MOVEMENT, true).addProperty(ActionAnimationProperty.MOVE_VERTICAL, false).addProperty(ActionAnimationProperty.NO_GRAVITY_TIME, TimePairList.create(new float[]{0.0F, Float.MAX_VALUE})).addState(EntityState.MOVEMENT_LOCKED, true).addState(EntityState.TURNING_LOCKED, true).addState(EntityState.LOCKON_ROTATE, true).addState(EntityState.CAN_SKILL_EXECUTION, false).addState(EntityState.CAN_BASIC_ATTACK, false));
         CorruptAnimations.DUAL_TACHI_SKILL_EXECUTE = builder.nextAccessor("biped/new/skill/sekiro", (accessor) -> (ExecuteAnimation)(new ExecuteAnimation(0.01F, accessor, Armatures.BIPED, new AttackAnimation.Phase[]{(new AttackAnimation.Phase(0.0F, 1.05F, 1.15F, 1.2F, 1.2F, ((HumanoidArmature)Armatures.BIPED.get()).rootJoint, ColliderPreset.BIPED_BODY_COLLIDER)).addProperty(AttackPhaseProperty.HIT_SOUND, (SoundEvent)EpicFightSounds.NEUTRALIZE_BOSSES.get()).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.NONE).addProperty(AttackPhaseProperty.PARTICLE, EpicFightParticles.AIR_BURST).addProperty(AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.setter(0.5F)), (new AttackAnimation.Phase(1.21F, 2.25F, 2.35F, 3.15F, Float.MAX_VALUE, ((HumanoidArmature)Armatures.BIPED.get()).toolR, CorruptCollider.EXECUTE)).addProperty(AttackPhaseProperty.HIT_SOUND, (SoundEvent)CorruptSound.DAMAGE.get()).addProperty(AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(2.0F)).addProperty(AttackPhaseProperty.ARMOR_NEGATION_MODIFIER, ValueModifier.setter(100.0F)).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.NONE)})).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.NONE).addProperty(ActionAnimationProperty.CANCELABLE_MOVE, false).addProperty(ActionAnimationProperty.STOP_MOVEMENT, true).addProperty(ActionAnimationProperty.COORD_SET_BEGIN, null).addProperty(ActionAnimationProperty.COORD_SET_TICK, MoveCoordFunctions.TRACE_TARGET_LOCATION_ROTATION).addProperty(ActionAnimationProperty.ENTITY_YROT_PROVIDER, MoveCoordFunctions.LOOK_DEST).addState(EntityState.MOVEMENT_LOCKED, true).addState(EntityState.TURNING_LOCKED, true).addState(EntityState.LOCKON_ROTATE, true).addState(EntityState.CAN_SKILL_EXECUTION, false).addState(EntityState.CAN_BASIC_ATTACK, false).addProperty(StaticAnimationProperty.PLAY_SPEED_MODIFIER, ReusableSources.CONSTANT_ONE));
         CorruptAnimations.TACHI_EXECUTED = builder.nextAccessor("biped/new/skill/tachi_executed", (accessor) -> (ExecutedAnimation)(new ExecutedAnimation(0.05F, 2.3F, accessor, Armatures.BIPED)).addProperty(ActionAnimationProperty.CANCELABLE_MOVE, false).addProperty(ActionAnimationProperty.STOP_MOVEMENT, true).addProperty(ActionAnimationProperty.MOVE_VERTICAL, false).addState(EntityState.MOVEMENT_LOCKED, true).addState(EntityState.TURNING_LOCKED, true).addState(EntityState.LOCKON_ROTATE, true).addState(EntityState.CAN_SKILL_EXECUTION, false).addState(EntityState.CAN_BASIC_ATTACK, false).addProperty(StaticAnimationProperty.PLAY_SPEED_MODIFIER, CorruptAnimations.TACHI_EX));
