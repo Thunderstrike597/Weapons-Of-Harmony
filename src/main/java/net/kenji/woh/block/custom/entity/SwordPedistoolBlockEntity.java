@@ -7,6 +7,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,6 +17,7 @@ public class SwordPedistoolBlockEntity extends BlockEntity {
 
     public static final String SWORD_TAKEN_TAG = "arbiter_sword_taken";
     private boolean swordTaken = false;
+
 
     public SwordPedistoolBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.SWORD_PEDISTOOL_BE.get(), pos, state);
@@ -33,6 +36,7 @@ public class SwordPedistoolBlockEntity extends BlockEntity {
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
         }
     }
+
 
     @Override
     protected void saveAdditional(CompoundTag tag) {

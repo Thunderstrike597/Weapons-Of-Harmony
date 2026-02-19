@@ -187,7 +187,6 @@ public class WohWeaponCapabilityPresets {
                 .newStyleCombo(WohStyles.ENRAGED_CLAWS,
                         AnimsEnderblaster.ENDERBLASTER_ONEHAND_AUTO_3,
                         AnimsAgony.AGONY_AUTO_1,
-                        WOMAnimations.ANTITHEUS_AUTO_2,
                         WOMAnimations.TORMENT_BERSERK_AUTO_1,
                         WOMAnimations.TORMENT_BERSERK_AUTO_2,
                         AnimsHerrscher.HERRSCHER_TRANE,

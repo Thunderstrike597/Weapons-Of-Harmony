@@ -19,6 +19,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jline.utils.Log;
+import org.joml.Quaternionf;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.utils.math.MathUtils;
@@ -65,46 +67,49 @@ public class TsumeRender extends RenderItemBase {
 
         ItemStack tsumeItem = tsumeStack;
 
+        poseStack.pushPose();
+        poseStack.translate(-finalOffset, 0.0F, 0.0F);
+        MathUtils.mulStack(poseStack, modelMatrixOffHand);
+
+        itemRenderer.renderStatic(tsumeItem, ItemDisplayContext.THIRD_PERSON_LEFT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
+        poseStack.popPose();
 
         poseStack.pushPose();
         poseStack.translate(finalOffset, 0.0F, 0.0F);
-
         MathUtils.mulStack(poseStack, modelMatrixMainHand);
+        if(entitypatch.getEntityState().attacking()){
+            poseStack.mulPose(new Quaternionf().rotationY((float) Math.toRadians(-90)));
+        }
         itemRenderer.renderStatic(tsumeItem, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
         poseStack.popPose();
 
-
-        poseStack.pushPose();
-        poseStack.translate(-finalOffset, 0.0F, 0.0F);
-
-        MathUtils.mulStack(poseStack, modelMatrixOffHand);
-        itemRenderer.renderStatic(tsumeItem, ItemDisplayContext.THIRD_PERSON_LEFT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
-        poseStack.popPose();
-        super.renderItemInHand(stack, entitypatch, hand, poses, buffer, poseStack, packedLight, partialTicks);
     }
 
     public OpenMatrix4f getCorrectionMatrixForHand(LivingEntityPatch<?> entitypatch, InteractionHand hand, OpenMatrix4f[] poses) {
         Joint parentJoint = null;
-        if (this.alwInHand) {
-            Armature var6 = entitypatch.getArmature();
-            if (var6 instanceof HumanoidArmature humanoidArmature) {
-                parentJoint = hand == InteractionHand.MAIN_HAND ? humanoidArmature.handR : humanoidArmature.handL;
-            }
+        Armature armature = entitypatch.getArmature();
 
-            if (parentJoint == null) {
-                parentJoint = entitypatch.getArmature().rootJoint;
-            }
-        } else {
-            parentJoint = entitypatch.getParentJointOfHand(hand);
+        if (armature instanceof HumanoidArmature humanoidArmature) {
+            parentJoint = hand == InteractionHand.MAIN_HAND ? humanoidArmature.handR : humanoidArmature.handL;
         }
 
+        if (parentJoint == null) {
+            parentJoint = entitypatch.getArmature().rootJoint;
+        }
+
+        // Use the per-hand correction matrix if the user defined one in JSON,
+        // otherwise fall back to identity (since handR/handL aren't in the global maps)
+        OpenMatrix4f correction;
         switch (hand) {
-            case MAIN_HAND -> this.transformHolder.load((OpenMatrix4f)this.mainhandCorrectionTransforms.getOrDefault(parentJoint.getName(), (OpenMatrix4f)GLOBAL_MAINHAND_ITEM_TRANSFORMS.get(parentJoint.getName())));
-            case OFF_HAND -> this.transformHolder.load((OpenMatrix4f)this.offhandCorrectionTransforms.getOrDefault(parentJoint.getName(), (OpenMatrix4f)GLOBAL_OFFHAND_ITEM_TRANSFORMS.get(parentJoint.getName())));
+            case MAIN_HAND -> correction = (OpenMatrix4f) this.mainhandCorrectionTransforms
+                    .getOrDefault(parentJoint.getName(), new OpenMatrix4f()); // identity fallback
+            case OFF_HAND -> correction = (OpenMatrix4f) this.offhandCorrectionTransforms
+                    .getOrDefault(parentJoint.getName(), new OpenMatrix4f()); // identity fallback
+            default -> correction = new OpenMatrix4f();
         }
 
-        this.transformHolder.mulFront(poses[parentJoint.getId()]);
-        return this.transformHolder;
+        OpenMatrix4f result = new OpenMatrix4f(correction);
+        result.mulFront(poses[parentJoint.getId()]);
+        return result;
     }
-
 }
