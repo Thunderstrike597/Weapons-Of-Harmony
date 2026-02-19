@@ -1,6 +1,12 @@
 {
   "type": "woh:arbiters_blade",
   "attributes": {
+    "one_hand": {
+      "damage_bonus": 0
+    },
+    "two_hand": {
+      "damage_bonus": 2.75
+    },
     "common": {
       "speed_bonus": 0
     }

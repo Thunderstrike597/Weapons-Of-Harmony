@@ -44,8 +44,9 @@ public class SwordPedistoolBlock extends BaseEntityBlock {
 
         if (!pedestal.isSwordTaken()) {
             ItemStack sword = pedestal.getDisplayedItem();
-            player.addItem(sword);
-            pedestal.takeSword();
+            boolean success = player.addItem(sword);
+            if(success)
+                pedestal.takeSword();
             return InteractionResult.SUCCESS;
         }
 
