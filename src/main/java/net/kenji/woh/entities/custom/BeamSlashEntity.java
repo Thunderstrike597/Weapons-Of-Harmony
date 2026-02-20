@@ -1,5 +1,6 @@
 package net.kenji.woh.entities.custom;
 
+import net.kenji.woh.WeaponsOfHarmony;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -13,6 +14,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.jline.utils.Log;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.utils.math.ValueModifier;
@@ -20,11 +24,7 @@ import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.damagesource.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import java.util.*;
 
 public class BeamSlashEntity extends Entity {
     public int life = 18;
@@ -32,6 +32,8 @@ public class BeamSlashEntity extends Entity {
             SynchedEntityData.defineId(BeamSlashEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> Y_ROT =
             SynchedEntityData.defineId(BeamSlashEntity.class, EntityDataSerializers.FLOAT);
+
+    public static Map<UUID, BeamSlashEntity> beamSlashEntitiesToDestory = new HashMap<>();
 
     private PlayerPatch<?> caster;
     private StaticAnimation castAnimation;
@@ -46,6 +48,18 @@ public class BeamSlashEntity extends Entity {
         this.noPhysics = true;
         this.setNoGravity(true);
         this.hitCooldown = maxCooldown;
+    }
+    @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    public static class EntityEvents{
+
+        @SubscribeEvent
+        public static void onEntityJoin(EntityJoinLevelEvent event){
+            if(event.loadedFromDisk()){
+                if(event.getEntity() instanceof BeamSlashEntity beamSlashEntity){
+                    BeamSlashEntity.beamSlashEntitiesToDestory.put(beamSlashEntity.uuid, beamSlashEntity);
+                }
+            }
+        }
     }
 
     public void setCasterAndAnimation(PlayerPatch<?> playerPatch, StaticAnimation animation){
@@ -77,6 +91,13 @@ public class BeamSlashEntity extends Entity {
 
     public float getSlashAngle() {
         return this.entityData.get(SLASH_ANGLE);
+    }
+
+    @Override
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
+        if(beamSlashEntitiesToDestory.get(this.getUUID()) != null)
+            this.kill();
     }
 
     @Override
