@@ -311,7 +311,6 @@ public class WohWeaponCapabilityPresets {
                         CorruptAnimations.KATANA_AUTO2,
                         WOMAnimations.TORMENT_AUTO_1,
                         AnimsEnderblaster.ENDERBLASTER_ONEHAND_AUTO_3,
-                        WOMAnimations.ANTITHEUS_AUTO_1,
                         AnimsSolar.SOLAR_OBSCURIDAD_AUTO_2,
                         CorruptAnimations.SWORD_SLASH, CorruptAnimations.SWORD_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
