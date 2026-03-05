@@ -35,6 +35,7 @@ import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.network.server.SPSkillExecutionFeedback;
 import yesman.epicfight.skill.ChargeableSkill;
+import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.skill.guard.GuardSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -43,7 +44,7 @@ import yesman.epicfight.world.capabilities.item.CapabilityItem;
 
 import java.util.*;
 
-public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
+public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
 
     public static float travelSpeedMultiplier = 1.75f;
     public static Map<StaticAnimation, Integer> slashAngleMap = new HashMap<>();
@@ -55,12 +56,6 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
         this.maxDuration = 420;
         this.consumption = 10;
         this.maxStackSize = 1;
-        guardMotions.put(
-                WohWeaponCategories.ARBITERS_BLADE,
-                (item, player) -> {
-                    return ArbitersBladeAnimations.ARBITERS_BLADE_AIM;
-                }
-        );
     }
 
 
@@ -68,11 +63,6 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
     public ResourceLocation getSkillTexture() {
         return EpicFightSkills.TECHNICIAN.getSkillTexture();
     }
-    @Override
-    protected boolean isBlockableSource(DamageSource damageSource, boolean advanced) {
-        return false;
-    }
-
 
     @Override
     public void updateContainer(SkillContainer container) {
@@ -137,7 +127,6 @@ public class ArbitersSlashSkill extends GuardSkill implements ChargeableSkill {
         }
         super.updateContainer(container);
     }
-
 
     @Override
     public void executeOnServer(ServerPlayerPatch executor, FriendlyByteBuf args) {

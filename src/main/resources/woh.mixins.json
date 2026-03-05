@@ -8,7 +8,8 @@
     "GuardSkillMixin",
     "AttackAnimationMixin",
     "DynamicAnimationMixin",
-    "DynamicAnimationAccessor"
+    "DynamicAnimationAccessor",
+    "ShieldCapabilityMixin"
   ],
   "client": [
 

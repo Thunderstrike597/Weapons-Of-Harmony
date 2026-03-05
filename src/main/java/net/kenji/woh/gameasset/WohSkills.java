@@ -51,7 +51,7 @@ public class WohSkills {
                         .setResource(Skill.Resource.NONE)
         );
         ARBITERS_SLASH = modRegistry.build("arbiters_slash", ArbitersSlashSkill::new,
-                ArbitersSlashSkill.createGuardBuilder()
+                ArbitersSlashSkill.createBuilder()
                         .setActivateType(Skill.ActivateType.CHARGING)
                         .setCategory(SkillCategories.WEAPON_INNATE)
                         .setResource(Skill.Resource.COOLDOWN)

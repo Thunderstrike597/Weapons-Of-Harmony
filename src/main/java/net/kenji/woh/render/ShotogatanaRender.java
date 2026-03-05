@@ -57,8 +57,6 @@ public class ShotogatanaRender extends RenderItemBase {
 
     private ItemStack getStack(LivingEntityPatch<?> entitypatch) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
-            if (sheathAnim == null || unsheathAnim == null)
-                return sheathStack;
             UUID playerID = playerPatch.getOriginal().getUUID();
             boolean isSheathed = ShotogatanaManager.sheathWeapon.getOrDefault(playerID, false);
 

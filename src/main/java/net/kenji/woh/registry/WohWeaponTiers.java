@@ -4,6 +4,7 @@ import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import yesman.epicfight.world.item.EpicFightItemTier;
 
 import java.util.function.Supplier;
 
@@ -15,8 +16,6 @@ public enum WohWeaponTiers implements Tier {
 
     WAKIZASHI(4, 1750, 9.0F, 5.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get()})),
     ODACHI(4, 1750, 9.0F, 11.0F, 18, () -> Ingredient.of(new ItemLike[]{WohItems.FOLDED_STEEL.get()}));
-
-
     private final int harvestLevel;
     private final int maxUses;
     private final float efficiency;

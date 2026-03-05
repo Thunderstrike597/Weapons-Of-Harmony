@@ -18,6 +18,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.Nullable;
+import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.client.input.EpicFightKeyMappings;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.guard.GuardSkill;
@@ -42,6 +44,11 @@ public class TessenAimSkill extends GuardSkill {
                     return TessenAnimations.TESSEN_SKILL_HOLD;
                 }
         );
+    }
+
+    @Override
+    protected @Nullable StaticAnimation getGuardMotion(PlayerPatch<?> playerpatch, CapabilityItem itemCapability, BlockType blockType) {
+        return TessenAnimations.TESSEN_SKILL_HOLD;
     }
 
     @Override

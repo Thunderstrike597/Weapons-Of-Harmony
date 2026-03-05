@@ -3,6 +3,33 @@
   {
     "category":"master",
     "subtitle":"entity.weapon.sword_unsheathe",
-    "sounds":[{"name":"woh:entity/weapon/sword_unsheathe", "stream":true}]
+    "sounds":[
+      {
+        "name":"woh:entity/weapon/sword_unsheathe",
+        "stream":true
+      }
+    ]
+  },
+  "entity.weapon.shotogatana_swing":
+  {
+    "category":"master",
+    "subtitle":"entity.weapon.shotogatana_swing",
+    "sounds":[
+      {
+        "name":"woh:entity/weapon/shotogatana_swing",
+        "stream":true
+      }
+    ]
+  },
+  "entity.weapon.odachi_swing":
+  {
+    "category":"master",
+    "subtitle":"entity.weapon.odachi_swing",
+    "sounds":[
+      {
+        "name":"woh:entity/weapon/odachi_swing",
+        "stream":true
+      }
+    ]
   }
 }

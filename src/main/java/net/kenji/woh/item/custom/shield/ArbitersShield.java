@@ -65,8 +65,6 @@ public class ArbitersShield extends HolsterShieldBase {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
-
-
         return super.use(pLevel, pPlayer, pHand);
     }
 

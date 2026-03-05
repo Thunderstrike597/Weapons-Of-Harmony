@@ -1,6 +1,8 @@
 {
   "type": "woh:odachi",
-  "common": {
-    "speed_bonus": 0
+  "attributes": {
+    "two_hand": {
+      "speed_bonus": 2
+    }
   }
 }

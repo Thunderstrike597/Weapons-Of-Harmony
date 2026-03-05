@@ -1,5 +1,9 @@
 package net.kenji.woh.api;
 
+import net.kenji.woh.api.animation_types.ShotogatanaAirAttackAnimation;
+import net.kenji.woh.api.animation_types.ShotogatanaAttackAnimation;
+import net.kenji.woh.api.animation_types.ShotogatanaDashAttackAnimation;
+import net.kenji.woh.api.animation_types.TessenThrowAttackAnimation;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.animation_types.*;
 import net.kenji.woh.network.SheathStatePacket;
@@ -7,6 +11,7 @@ import net.kenji.woh.network.WohPacketHandler;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.RegistryObject;
+import org.jline.utils.Log;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.property.AnimationEvent;
@@ -61,6 +66,7 @@ public class WOHAnimationUtils {
                             );
 
                         }
+                        Log.info("Loggign Sheathe!");
                         ShotogatanaManager.sheathWeapon.remove(playerId);
                         ShotogatanaManager.sheathWeapon.put(playerId, true);
                         if (player.level().isClientSide) {
@@ -154,7 +160,34 @@ public class WOHAnimationUtils {
         }
         return animation;
     }
+    public static StaticAnimation createTessenThrowAttackAnimation(
+            String path,
+            int phaseCount,
+            float convertTime,
+            float start,
+            float antic,
+            float contact,
+            float recovery,
+            float end,
+            float attackSpeed,
+            SoundEvent swingSound,
+            SoundEvent hitSound,
+            RegistryObject<HitParticleType> hitParticle,
+            Collider colliders,
+            TessenThrowAttackAnimation.ThrowType throwType,
+            StunType stunType,
+            float throwStart,
+            float ThrowEnd
+    ) {
+        AttackAnimation animation = null;
 
+        animation = new TessenThrowAttackAnimation(convertTime,
+                path, attackSpeed, throwStart, ThrowEnd, phaseCount,
+                start, antic, contact, recovery, end,
+                swingSound, hitSound, hitParticle, stunType, colliders, throwType, false
+        );
+        return animation;
+    }
 
 
     public static StaticAnimation createAttackAnimation(
@@ -242,6 +275,113 @@ public class WOHAnimationUtils {
             });
 
         }
+        return animation;
+    }
+    public static StaticAnimation createShotogatanaAttackAnimation(
+            AttackAnimationType type,
+            String path,
+            int phaseCount,
+            float convertTime,
+            float[] start,
+            float[] antic,
+            float[] contact,
+            float[] recovery,
+            float[] end,
+            SoundEvent[] swingSound,
+            SoundEvent[] hitSound,
+            RegistryObject<HitParticleType>[] hitParticle,
+            Collider[] colliders,
+            Joint[] colliderJoints,
+            StunType stunType,
+            float unsheatheTime,
+            float sheathTime
+    ) {
+        AttackAnimation animation = null;
+        switch(type) {
+            case BASIC_ATTACK, BASIC_ATTACK_SHEATH:
+                animation = new ShotogatanaAttackAnimation(convertTime,
+                        path, unsheatheTime, sheathTime,phaseCount,
+                        start, antic, contact, recovery, end,
+                        swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, false
+                );
+                break;
+            case DASH_ATTACK:
+                animation = new ShotogatanaDashAttackAnimation(convertTime,
+                        path, unsheatheTime, sheathTime,phaseCount,
+                        start, antic, contact, recovery, end,
+                        swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, false
+                );
+                break;
+        }
+        boolean stopEndEvent = false;
+        boolean stopStartEvent = false;
+
+        if(sheathTime <= -1){
+            stopEndEvent = true;
+        }
+        if(unsheatheTime <= -1){
+            stopStartEvent = true;
+        }
+
+        // Register timestamp
+        TimeStampManager.register(animation, unsheatheTime, sheathTime);
+
+        // Add events at those exact timestamps
+            animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                    AnimationEvent.TimeStampedEvent.create(unsheatheTime, ReusableEvents.unSheathEvent, AnimationEvent.Side.BOTH),
+                    AnimationEvent.TimeStampedEvent.create(sheathTime, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
+            });
+        return animation;
+    }
+    public static StaticAnimation createShotogatanaAirAttackAnimation(
+            AttackAnimationType type,
+            String path,
+            int phaseCount,
+            float convertTime,
+            float[] start,
+            float[] antic,
+            float[] contact,
+            float[] recovery,
+            float[] end,
+            SoundEvent[] swingSound,
+            SoundEvent[] hitSound,
+            RegistryObject<HitParticleType>[] hitParticle,
+            Collider[] colliders,
+            Joint[] colliderJoints,
+            StunType stunType,
+            float[] airTime,
+            boolean ignoreFallDamage,
+            float unsheatheTime,
+            float sheathTime
+    ) {
+        AttackAnimation animation = null;
+
+        animation = new ShotogatanaAirAttackAnimation(
+                convertTime,
+                path, unsheatheTime, sheathTime,phaseCount,
+                start, antic, contact, recovery, end,
+                swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, airTime, ignoreFallDamage
+        );
+
+
+        boolean stopEndEvent = false;
+        boolean stopStartEvent = false;
+
+        if(sheathTime <= -1){
+            stopEndEvent = true;
+        }
+        if(unsheatheTime <= -1){
+            stopStartEvent = true;
+        }
+
+        // Register timestamp
+        TimeStampManager.register(animation, unsheatheTime, sheathTime);
+
+        // Add events at those exact timestamps
+        animation.addEvents(new AnimationEvent.TimeStampedEvent[]{
+                AnimationEvent.TimeStampedEvent.create(unsheatheTime, ReusableEvents.unSheathEvent, AnimationEvent.Side.BOTH),
+                AnimationEvent.TimeStampedEvent.create(sheathTime, ReusableEvents.sheathEvent, AnimationEvent.Side.BOTH)
+        });
         return animation;
     }
     public static StaticAnimation createAttackAnimation(

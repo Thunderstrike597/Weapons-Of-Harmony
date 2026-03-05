@@ -112,7 +112,7 @@ public class Shotogatana extends HolsterWeaponBase {
 
                     if(queSheath){
                         if(!(animPlayer.getAnimation() instanceof AttackAnimation)) {
-                            playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
+                            //playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
                             queSheath = false;
                             queSheathCounter = 0;
                         }

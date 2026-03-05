@@ -1,12 +1,14 @@
 package net.kenji.woh.api.manager;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import net.kenji.woh.WeaponsOfHarmony;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
@@ -17,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class AttackManager {
     public static final Map<UUID, Boolean> isInAttack = new HashMap<>();
     public static final Map<UUID, Boolean> isInAttackForCombo = new HashMap<>();
