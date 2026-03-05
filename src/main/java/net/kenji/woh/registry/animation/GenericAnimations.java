@@ -24,6 +24,8 @@ public class GenericAnimations {
     public static AnimationManager.AnimationAccessor<StaticAnimation> DEFEAT_KNEEL;
 
     public static AnimationManager.AnimationAccessor<StaticAnimation> KATAJUTSU_IDLE;
+    public static AnimationManager.AnimationAccessor<? extends StaticAnimation> ARBITERS_SHIELD_BLOCK;
+
 
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> KATAJUTSU_AUTO_1;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> KATAJUTSU_AUTO_2;
@@ -39,6 +41,7 @@ public class GenericAnimations {
         DEFEAT_IDLE = builder.nextAccessor("biped/living/generic/defeat_idle", accessor -> new StaticAnimation(true,accessor, biped));
         DEFEAT_KNEEL = builder.nextAccessor("biped/living/generic/defeat_kneel", accessor -> new StaticAnimation(true,accessor, biped));
         KATAJUTSU_IDLE = builder.nextAccessor("biped/living/katajutsu/katajutsu_idle", accessor -> new StaticAnimation(true,accessor, biped));
+        ARBITERS_SHIELD_BLOCK = builder.nextAccessor("biped/living/generic/arbiters_shield_block", accessor -> new StaticAnimation(true, accessor, biped));
 
         KATAJUTSU_AUTO_1 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,

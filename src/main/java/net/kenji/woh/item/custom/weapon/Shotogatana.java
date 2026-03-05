@@ -1,29 +1,47 @@
 package net.kenji.woh.item.custom.weapon;
 
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.api.manager.AttackManager;
+import net.kenji.woh.api.WOHAnimationUtils;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.WohSkills;
+import net.kenji.woh.gameasset.WohStyles;
+import net.kenji.woh.gameasset.animation_types.BasisAttackAnimation;
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
 import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.gameasset.EpicFightSkills;
+import yesman.epicfight.skill.BasicAttack;
+import yesman.epicfight.skill.SkillDataKeys;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
+import yesman.epicfight.world.capabilities.item.WeaponCapability;
+import yesman.epicfight.world.entity.eventlistener.ComboCounterHandleEvent;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class Shotogatana extends HolsterWeaponBase {
 
@@ -80,39 +98,28 @@ public class Shotogatana extends HolsterWeaponBase {
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class ForgeEvents {
         public static boolean queSheath;
-
+        private static int queSheathCounter = 20;
         @SubscribeEvent
         public static void onPlayerTick(TickEvent.PlayerTickEvent event){
             Player player = event.player;
+            if(!player.level().isClientSide()) return;
 
-            /*
             player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent((cap) -> {
-                if(cap instanceof PlayerPatch<?> playerPatch) {
+                if(cap instanceof PlayerPatch<?> playerPatch){
                     CapabilityItem itemCap = playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
                     AnimationPlayer animPlayer = playerPatch.getAnimator().getPlayerFor(null);
-                    int counter = ShotogatanaManager.queSheathCounter.getOrDefault(player.getUUID(), 20);
 
-
-
-                    if (!ShotogatanaManager.sheathWeapon.getOrDefault(player.getUUID(), false)) {
-                        if (counter >= 40) {
-                            // Check if already playing sheath animation
-                            if (animPlayer.getAnimation().get() != ShotogatanaAnimations.SHOTOGATANA_SHEATH) {
-                                // Check if NOT in attack (using your AttackManager)
-                                if (!AttackManager.isInAttack.getOrDefault(player.getUUID(), false)) {
-                                    // Optional: Also check current animation isn't an attack
-                                    if (!(animPlayer.getAnimation().get() instanceof AttackAnimation)) {
-                                        playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
-                                        ShotogatanaManager.queSheathCounter.put(player.getUUID(), 0);
-                                    }
-                                }
-                            }
-                        } else {
-                            ShotogatanaManager.queSheathCounter.put(player.getUUID(), counter + 1);
+                    if(queSheath){
+                        if(!(animPlayer.getAnimation() instanceof AttackAnimation)) {
+                            //playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.2F);
+                            queSheath = false;
+                            queSheathCounter = 0;
                         }
                     }
+                    if(queSheathCounter < 20)
+                        queSheathCounter++;
                 }
-            });*/
+            });
         }
     }
 

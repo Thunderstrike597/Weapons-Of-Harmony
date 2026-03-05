@@ -60,6 +60,5 @@ public class ShotogatanaManager {
     public static void onDeath(PlayerEvent.PlayerRespawnEvent event) {
         UUID playerId = event.getEntity().getUUID();
         hasSetupWeapon.replace(playerId, false);
-
     }
 }

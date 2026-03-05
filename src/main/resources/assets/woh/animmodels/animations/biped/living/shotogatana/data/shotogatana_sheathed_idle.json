@@ -1,5 +1,5 @@
 {
-  "layer":"COMPOSITE_LAYER",
+  "layer":"BASE_LAYER",
   "priority":"LOWEST",
   "masks":
   [
@@ -9,6 +9,10 @@
     },
     {
       "livingmotion":"IDLE",
+      "type":"none"
+    },
+    {
+      "livingmotion":"WALK",
       "type":"none"
     },
     {

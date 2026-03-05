@@ -49,18 +49,19 @@ public class WohWeaponCapabilityPresets {
                 .hitSound(EpicFightSounds.BLADE_HIT.get())
                 .collider(ColliderPreset.TACHI)
                 .newStyleCombo(CapabilityItem.Styles.SHEATH,
-                        ShotogatanaAnimations.SHOTOGATANA_AUTO_1,
-                        CorruptAnimations.KATANA_AUTO2,
-                        CorruptAnimations.SWORD_ONEHAND_AUTO1,
-                        AnimsSatsujin.SATSUJIN_AUTO_3,
-                        AnimsHerrscher.HERRSCHER_AUTO_1,
-                        ShotogatanaAnimations.SHOTOGATANA_DASH, ShotogatanaAnimations.SHOTOGATANA_AIRSLASH)
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_1,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_2,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_3,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_4,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_5,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_DASH, ShotogatanaAnimations.SHOTOGATANA_NEW_AIRSLASH)
                 .newStyleCombo(WohStyles.UNSHEATHED,
-                        CorruptAnimations.KATANA_AUTO1,
-                        CorruptAnimations.KATANA_AUTO2,
-                        CorruptAnimations.SWORD_ONEHAND_AUTO1,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_UNSHEATHED_AUTO_1,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_2,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_3,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_4,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_5,
                         AnimsSatsujin.SATSUJIN_AUTO_3,
-                        AnimsHerrscher.HERRSCHER_AUTO_1,
                         CorruptAnimations.SWORD_SLASH, AnimsHerrscher.HERRSCHER_AUSROTTUNG)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
                         CorruptAnimations.LETHAL_SLICING_START,
@@ -118,35 +119,35 @@ public class WohWeaponCapabilityPresets {
                 .hitSound(EpicFightSounds.BLADE_HIT.get())
                 .collider(ColliderPreset.DAGGER)
                 .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
-                        TessenAnimations.TESSEN_AUTO_1,
-                        TessenAnimations.TESSEN_AUTO_2,
-                        TessenAnimations.TESSEN_AUTO_3,
+                        TessenAnimations.TESSEN_NEW_AUTO_1,
+                        TessenAnimations.TESSEN_NEW_AUTO_2,
+                        TessenAnimations.TESSEN_NEW_AUTO_3,
                         TessenAnimations.TESSEN_AUTO_4,
                         TessenAnimations.TESSEN_SKILL_DASH, Animations.DAGGER_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
-                        TessenAnimations.TESSEN_DUAL_AUTO_1,
-                        TessenAnimations.TESSEN_DUAL_AUTO_2,
-                        TessenAnimations.TESSEN_DUAL_AUTO_3,
-                        TessenAnimations.TESSEN_DUAL_AUTO_4,
-                        TessenAnimations.TESSEN_DUAL_AUTO_5,
+                        TessenAnimations.TESSEN_NEW_DUAL_AUTO_1,
+                        TessenAnimations.TESSEN_NEW_DUAL_AUTO_2,
+                        TessenAnimations.TESSEN_NEW_DUAL_AUTO_3,
+                        TessenAnimations.TESSEN_NEW_DUAL_AUTO_4,
                         TessenAnimations.TESSEN_SKILL_DASH, TessenAnimations.TESSEN_DUAL_AIRSLASH)
                 .newStyleCombo(WohStyles.THROWN_TWO_HAND,
-                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_1,
-                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_2,
-                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_3,
-                        TessenAnimations.TESSEN_SKILL_DUAL_AUTO_4,
+                        TessenAnimations.TESSEN_NEW_SKILL_AUTO_1,
+                        TessenAnimations.TESSEN_NEW_SKILL_DUAL_AUTO_2,
+                        TessenAnimations.TESSEN_NEW_SKILL_DUAL_AUTO_3,
+                        TessenAnimations.TESSEN_NEW_SKILL_DUAL_AUTO_4,
                         TessenAnimations.TESSEN_SKILL_DASH, TessenAnimations.TESSEN_SKILL_AIRSLASH)
                 .newStyleCombo(WohStyles.THROWN_ONE_HAND,
-                        TessenAnimations.TESSEN_SKILL_AUTO_1,
-                        TessenAnimations.TESSEN_SKILL_AUTO_2,
-                        TessenAnimations.TESSEN_SKILL_AUTO_3,
+                        TessenAnimations.TESSEN_NEW_SKILL_AUTO_1,
+                        TessenAnimations.TESSEN_NEW_SKILL_AUTO_2,
+                        TessenAnimations.TESSEN_NEW_SKILL_AUTO_3,
+                        TessenAnimations.TESSEN_NEW_SKILL_AUTO_4,
                         TessenAnimations.TESSEN_SKILL_DASH, TessenAnimations.TESSEN_SKILL_AIRSLASH)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_NEW_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_NEW_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_NEW_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_NEW_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
                 .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_SKILL_HOLD)
@@ -161,6 +162,7 @@ public class WohWeaponCapabilityPresets {
                 .passiveSkill(WohSkills.FAN_STANCE);
         return builder;
     };
+
     public static final Function<Item, CapabilityItem.Builder> TSUME = (item) -> {
         WeaponCapability.Builder builder = WeaponCapability.builder()
                 .category(WohWeaponCategories.TSUME)
@@ -179,14 +181,14 @@ public class WohWeaponCapabilityPresets {
                 .hitSound(EpicFightSounds.BLADE_HIT.get())
                 .collider(WohColliderPreset.TSUME_CLAWS)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
-                        CorruptAnimations.DUAL_TACHI_AUTO1,
-                        CorruptAnimations.DUAL_TACHI_AUTO2,
-                        CorruptAnimations.DUAL_TACHI_AUTO3,
-                        CorruptAnimations.DUAL_TACHI_AUTO4,
+                        TsumeAnimations.TSUME_NEW_AUTO_1,
+                        TsumeAnimations.TSUME_NEW_AUTO_2,
+                        TsumeAnimations.TSUME_NEW_AUTO_3,
                         CorruptAnimations.BLADE_RUSH1, TsumeAnimations.TSUME_AIRSLASH)
                 .newStyleCombo(WohStyles.ENRAGED_CLAWS,
                         AnimsEnderblaster.ENDERBLASTER_ONEHAND_AUTO_3,
                         AnimsAgony.AGONY_AUTO_1,
+                        WOMAnimations.ANTITHEUS_AUTO_2,
                         WOMAnimations.TORMENT_BERSERK_AUTO_1,
                         WOMAnimations.TORMENT_BERSERK_AUTO_2,
                         AnimsHerrscher.HERRSCHER_TRANE,
@@ -231,9 +233,9 @@ public class WohWeaponCapabilityPresets {
                 .hitSound(EpicFightSounds.BLADE_HIT.get())
                 .collider(ColliderPreset.LONGSWORD)
                 .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
-                        AnimsHerrscher.HERRSCHER_AUTO_1,
                         CorruptAnimations.SWORD_ONEHAND_AUTO1,
                         CorruptAnimations.SWORD_ONEHAND_AUTO2,
+                        CorruptAnimations.LONGSWORD_OLD_AUTO2,
                         AnimsHerrscher.GESETZ_AUTO_1,
                         AnimsSolar.SOLAR_OBSCURIDAD_AUTO_2,
                         CorruptAnimations.SWORD_ONEHAND_AUTO4,
@@ -265,6 +267,8 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, Animations.BIPED_WALK_LONGSWORD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, Animations.BIPED_RUN_LONGSWORD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.LONGSWORD_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK_SHIELD, Animations.LONGSWORD_GUARD)
+
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, CorruptAnimations.BIPED_HOLD_KATANA)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, Animations.BIPED_WALK_LONGSWORD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, CorruptAnimations.RUN_KATANA)
@@ -280,11 +284,11 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.RUN, Animations.BIPED_RUN_LONGSWORD)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.BLOCK_SHIELD, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
-
                 .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH)
                 .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH)
                 .innateSkill(CapabilityItem.Styles.COMMON, (itemstack) -> WohSkills.ARBITERS_SLASH)
                 .innateSkill(WohStyles.AIMING, (itemstack) -> WohSkills.ARBITERS_SLASH);
+
         return builder;
     };
     public static final Function<Item, CapabilityItem.Builder> WAKIZASHI = (item) -> {

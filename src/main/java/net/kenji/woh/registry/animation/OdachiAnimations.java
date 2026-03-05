@@ -29,6 +29,12 @@ public class OdachiAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ODACHI_AUTO_4;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ODACHI_AUTO_5;
 
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ODACHI_NEW_AUTO_1;
+    public static AnimationManager.AnimationAccessor ODACHI_NEW_AUTO_2;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ODACHI_NEW_AUTO_3;
+    public static AnimationManager.AnimationAccessor ODACHI_NEW_AUTO_4;
+
+
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ODACHI_DASH;
     public static AnimationManager.AnimationAccessor<? extends AirSlashAnimation> ODACHI_AIRSLASH;
 
@@ -200,6 +206,99 @@ public class OdachiAnimations {
                 -1,
                 1
         );
+        ODACHI_NEW_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
+                builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/new/odachi/odachi_auto_1",
+                1,
+                0.1F,
+                0.35F,
+                7F,
+                0.45F,
+                new float[]{0.0F},
+                new float[]{0.52F},
+                new float[]{0.63F},
+                new float[]{0.80F},
+                new float[]{2.43f},
+                new Supplier[]{EpicFightSounds.WHOOSH_BIG},
+                new Supplier[]{EpicFightSounds.BLADE_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.GREATSWORD},
+                new Joint[]{biped.get().toolR},
+                StunType.LONG,
+                -1F,
+                -1F
 
+        );
+        ODACHI_NEW_AUTO_2 = WOHAnimationUtils.createAttackAnimation(
+                builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/new/odachi/odachi_auto_2",
+                3,
+                0.12F,
+                0.35F,
+                7F,
+                0.45F,
+                new float[]{0.0F, 1.20F, 1.45F},
+                new float[]{0.55F, 1.23F, 1.55F},
+                new float[]{0.70F, 1.35F, 1.68F},
+                new float[]{1.78F, 1.78F, 1.78F},
+                new float[]{3.02F, 3.02F, 3.02F},
+                new Supplier[]{EpicFightSounds.WHOOSH_BIG, EpicFightSounds.WHOOSH_BIG, EpicFightSounds.WHOOSH_BIG},
+                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.GREATSWORD, ColliderPreset.GREATSWORD, ColliderPreset.GREATSWORD},
+                new Joint[]{biped.get().toolR, biped.get().toolR, biped.get().toolR},
+                StunType.LONG,
+                -1F,
+                -1F
+
+        );
+        ODACHI_NEW_AUTO_3 = WOHAnimationUtils.createAttackAnimation(
+                builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/new/odachi/odachi_auto_3",
+                2,
+                0.12F,
+                0.35F,
+                7F,
+                0.45F,
+                new float[]{0.0F, 1.00F},
+                new float[]{0.45F, 1.28F},
+                new float[]{0.56F, 1.40F},
+                new float[]{1.64f, 1.64f},
+                new float[]{3.10f, 3.10f},
+                new Supplier[]{EpicFightSounds.WHOOSH_BIG, EpicFightSounds.WHOOSH_BIG},
+                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.GREATSWORD, ColliderPreset.GREATSWORD},
+                new Joint[]{biped.get().toolR, biped.get().toolR},
+                StunType.LONG,
+                -1F,
+                -1F
+        );
+        ODACHI_NEW_AUTO_4 = WOHAnimationUtils.createAttackAnimation(
+                builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/new/odachi/odachi_auto_4",
+                1,
+                0.12F,
+                0.35F,
+                7F,
+                0.45F,
+                new float[]{0.0F},
+                new float[]{0.85F},
+                new float[]{1.08F},
+                new float[]{1.80f},
+                new float[]{3.10f},
+                new Supplier[]{EpicFightSounds.WHOOSH_BIG},
+                new Supplier[]{EpicFightSounds.BLADE_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.GREATSWORD},
+                new Joint[]{biped.get().toolR},
+                StunType.LONG,
+                -1F,
+                -1F
+        );
     }
 }

@@ -9,6 +9,7 @@
     "AttackAnimationMixin",
     "DynamicAnimationMixin",
     "DynamicAnimationAccessor",
+    "ShieldCapabilityMixin",
     "KatanaAttackAnimationMixin",
     "CorruptAnimationsMixin"
   ],

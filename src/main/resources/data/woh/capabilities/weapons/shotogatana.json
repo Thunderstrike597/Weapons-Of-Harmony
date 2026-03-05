@@ -1,11 +1,8 @@
 {
   "type": "woh:shotogatana",
   "attributes": {
-    "sheath": {
-      "speed_bonus": -0.75
-    },
-    "unsheathed": {
-      "speed_bonus": -0.75
+    "common": {
+      "speed_bonus": 0
     }
   }
 }

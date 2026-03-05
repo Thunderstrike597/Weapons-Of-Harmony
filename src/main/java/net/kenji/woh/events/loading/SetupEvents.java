@@ -20,7 +20,6 @@ public class SetupEvents {
             ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO2.get(), 0);
             ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO3.get(), 80);
             ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO4.get(), 45);
-
         });
     }
 

@@ -6,9 +6,9 @@
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {
-        "translation": [7.75, -9, 9],
+        "translation": [7.75, -8, 11],
         "rotation": [91.5, 0, 0],
-        "scale": [0.95, 0.95, 0.95]
+        "scale": [1, 1, 0.875]
       },
       "firstperson_righthand": {
         "translation": [13, -6, 0],

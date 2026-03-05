@@ -1,5 +1,7 @@
 package net.kenji.woh.api;
 
+import net.kenji.woh.api.animation_types.ShotogatanaAttackAnimation;
+import net.kenji.woh.api.animation_types.TessenThrowAttackAnimation;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.animation_types.*;
 import net.kenji.woh.network.SheathStatePacket;
@@ -7,16 +9,20 @@ import net.kenji.woh.network.WohPacketHandler;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.RegistryObject;
+import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.collider.Collider;
+import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.particle.HitParticleType;
+import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.item.ShieldCapability;
 import yesman.epicfight.world.damagesource.StunType;
 
 import java.util.ArrayList;
@@ -25,9 +31,7 @@ import java.util.UUID;
 import java.util.function.Supplier;
 
 public class WOHAnimationUtils {
-
     private static final List<Supplier<StaticAnimation>> DEFERRED_SETUP = new ArrayList<>();
-
 
     public enum AttackAnimationType{
         BASIC_ATTACK,
@@ -43,20 +47,22 @@ public class WOHAnimationUtils {
 
         public static final AnimationEvent.E0 UNSHEATH_E0 =
                 (entityPatch, animation, params) -> {
-                    if (entityPatch instanceof PlayerPatch<?> playerPatch) {
+                    if(entityPatch instanceof PlayerPatch<?> playerPatch) {
+
                         Player player = playerPatch.getOriginal();
-                        ShotogatanaManager.sheathWeapon.put(player.getUUID(), false);
+                        UUID playerId = player.getUUID();
+                        ShotogatanaManager.sheathWeapon.put(playerId, false);
                         if (player.level().isClientSide) {
                             WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), false));
                         }
                     }
-                };
+        };
 
         public static final AnimationEvent.E0 SHEATH_E0 =
                 (entityPatch, animation, params) -> {
                     if (entityPatch instanceof PlayerPatch<?> playerPatch) {
                         Player player = playerPatch.getOriginal();
-                        UUID id = player.getUUID();
+                        UUID playerId = player.getUUID();
 
                         if (player.level().isClientSide) {
                             player.playSound(
@@ -64,9 +70,10 @@ public class WOHAnimationUtils {
                                     1.0f,
                                     1.0f
                             );
-                        }
 
-                        ShotogatanaManager.sheathWeapon.put(id, true);
+                        }
+                        ShotogatanaManager.sheathWeapon.remove(playerId);
+                        ShotogatanaManager.sheathWeapon.put(playerId, true);
                         if (player.level().isClientSide) {
                             WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), true));
                         }
@@ -174,7 +181,132 @@ public class WOHAnimationUtils {
         return animation;
     }
 
+    public static AnimationManager.AnimationAccessor<AttackAnimation> createTessenThrowAttackAnimation(
+            AnimationManager.AnimationBuilder builder,
+            String path,
+            int phaseCount,
+            float convertTime,
+            float start,
+            float antic,
+            float contact,
+            float recovery,
+            float end,
+            float attackSpeed,
+            Supplier<SoundEvent> swingSound,
+            Supplier<SoundEvent> hitSound,
+            RegistryObject<HitParticleType> hitParticle,
+            Collider colliders,
+            TessenThrowAttackAnimation.ThrowType throwType,
+            StunType stunType,
+            float throwStart,
+            float ThrowEnd
+    ) {
+        AnimationManager.AnimationAccessor<AttackAnimation> animation = null;
 
+        animation = builder.nextAccessor(path, accessor -> new TessenThrowAttackAnimation(convertTime, path,
+               accessor, attackSpeed, throwStart, ThrowEnd, phaseCount,
+                start, antic, contact, recovery, end,
+                swingSound, hitSound, hitParticle, stunType, colliders, throwType, false
+        ));
+        return animation;
+    }
+
+    public static AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> createShotogatanaAttackAnimation(
+            AnimationManager.AnimationBuilder builder,
+            AttackAnimationType type,
+            String path,
+            int phaseCount,
+            float convertTime,
+            float[] start,
+            float[] antic,
+            float[] contact,
+            float[] recovery,
+            float[] end,
+            Supplier<SoundEvent>[] swingSound,
+            Supplier<SoundEvent>[] hitSound,
+            RegistryObject<HitParticleType>[] hitParticle,
+            Collider[] colliders,
+            Joint[] colliderJoints,
+            StunType stunType,
+            float unsheatheTime,
+            float sheathTime
+    ) {
+        AnimationManager.AnimationAccessor<BasicAttackAnimation> animation = null;
+        switch(type) {
+            case BASIC_ATTACK, BASIC_ATTACK_SHEATH, DASH_ATTACK:
+                animation = builder.nextAccessor(path, accessor -> new ShotogatanaAttackAnimation(convertTime,
+                        accessor, unsheatheTime, sheathTime, phaseCount,
+                        start, antic, contact, recovery, end,
+                        swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, false
+                ));
+                break;
+            case BASIC_ATTACK_JUMP:
+                animation = builder.nextAccessor(path, accessor -> new ShotogatanaAttackAnimation(convertTime,
+                        accessor, unsheatheTime, sheathTime, phaseCount,
+                        start, antic, contact, recovery, end,
+                        swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, true
+                ));
+                break;
+        }
+        AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> finalAnimation = animation;
+
+        Supplier<StaticAnimation> setupSupplier = () -> {
+            AttackAnimation anim = finalAnimation.get();
+
+            anim.addEvents(new AnimationEvent[]{
+                    AnimationEvent.InTimeEvent.create(unsheatheTime, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
+                    AnimationEvent.InTimeEvent.create(sheathTime, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
+            });
+
+            return anim;
+        };
+        DEFERRED_SETUP.add(setupSupplier);
+        return animation;
+    }
+    public static AnimationManager.AnimationAccessor<BasicAttackAnimation> createShotogatanaAirAttackAnimation(
+            AnimationManager.AnimationBuilder builder,
+            String path,
+            int phaseCount,
+            float convertTime,
+            float[] start,
+            float[] antic,
+            float[] contact,
+            float[] recovery,
+            float[] end,
+            Supplier<SoundEvent>[] swingSound,
+            Supplier<SoundEvent>[] hitSound,
+            RegistryObject<HitParticleType>[] hitParticle,
+            Collider[] colliders,
+            Joint[] colliderJoints,
+            StunType stunType,
+            float[] airTime,
+            boolean ignoreFallDamage,
+            float unsheatheTime,
+            float sheathTime
+    ) {
+        AnimationManager.AnimationAccessor<BasicAttackAnimation> animation = null;
+
+        animation = builder.nextAccessor(path, accessor -> new ShotogatanaAttackAnimation(convertTime,
+                accessor, unsheatheTime, sheathTime, phaseCount,
+                start, antic, contact, recovery, end,
+                swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, ignoreFallDamage, airTime
+        ));
+
+        AnimationManager.AnimationAccessor<? extends AttackAnimation> finalAnimation = animation;
+
+        Supplier<StaticAnimation> setupSupplier = () -> {
+            AttackAnimation anim = finalAnimation.get();
+
+            anim.addEvents(new AnimationEvent[]{
+                    AnimationEvent.InTimeEvent.create(unsheatheTime, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
+                    AnimationEvent.InTimeEvent.create(sheathTime, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
+            });
+
+            return anim;
+        };
+        DEFERRED_SETUP.add(setupSupplier);
+        return animation;
+    }
 
     public static AnimationManager.AnimationAccessor<BasicAttackAnimation> createAttackAnimation(
             AnimationManager.AnimationBuilder builder,
