@@ -26,6 +26,7 @@ import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.utils.math.MathUtils;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.renderer.patched.item.RenderItemBase;
+import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.model.armature.types.ToolHolderArmature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
@@ -59,30 +60,55 @@ public class TsumeRender extends RenderItemBase {
 
     @Override
     public void renderItemInHand(ItemStack stack, LivingEntityPatch<?> entitypatch, InteractionHand hand, OpenMatrix4f[] poses, MultiBufferSource buffer, PoseStack poseStack, int packedLight, float partialTicks) {
-
-        OpenMatrix4f modelMatrixMainHand = this.getCorrectionMatrixForHand(entitypatch, InteractionHand.MAIN_HAND, poses);
-        OpenMatrix4f modelMatrixOffHand = this.getCorrectionMatrixForHand(entitypatch, InteractionHand.OFF_HAND, poses);
-
         float finalOffset = HAND_INWARD_OFFSETS.getOrDefault(entitypatch.getOriginal().getType(), 0F);
-
-        ItemStack tsumeItem = tsumeStack;
-
+        Joint mainJoint = entitypatch.getParentJointOfHand(InteractionHand.MAIN_HAND);
+        Joint offJoint = entitypatch.getParentJointOfHand(InteractionHand.OFF_HAND);
+        // Only render katana in hand when NOT in_sheath
+        OpenMatrix4f modelMatrix = new OpenMatrix4f(
+                (OpenMatrix4f) this.offhandCorrectionTransforms.getOrDefault(
+                        offJoint.getName(),
+                        GLOBAL_OFFHAND_ITEM_TRANSFORMS.get(offJoint.getName())
+                )
+        );
+        modelMatrix.mulFront(poses[Armatures.BIPED.get().handL.getId()]);
         poseStack.pushPose();
+        MathUtils.mulStack(poseStack, modelMatrix);
         poseStack.translate(-finalOffset, 0.0F, 0.0F);
-        MathUtils.mulStack(poseStack, modelMatrixOffHand);
 
-        itemRenderer.renderStatic(tsumeItem, ItemDisplayContext.THIRD_PERSON_LEFT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
+        Minecraft.getInstance().getItemRenderer().renderStatic(
+                tsumeStack,
+                ItemDisplayContext.THIRD_PERSON_LEFT_HAND,
+                packedLight,
+                OverlayTexture.NO_OVERLAY,
+                poseStack,
+                buffer,
+                null,
+                0
+        );
         poseStack.popPose();
 
+        OpenMatrix4f modelRMatrix = new OpenMatrix4f(
+                (OpenMatrix4f) this.mainhandCorrectionTransforms.getOrDefault(
+                        mainJoint.getName(),
+                        GLOBAL_MAINHAND_ITEM_TRANSFORMS.get(mainJoint.getName())
+                )
+        );
+        modelRMatrix.mulFront(poses[Armatures.BIPED.get().handR.getId()]);
         poseStack.pushPose();
+        MathUtils.mulStack(poseStack, modelRMatrix);
         poseStack.translate(finalOffset, 0.0F, 0.0F);
-        MathUtils.mulStack(poseStack, modelMatrixMainHand);
-        if(entitypatch.getEntityState().attacking()){
-            poseStack.mulPose(new Quaternionf().rotationY((float) Math.toRadians(-90)));
-        }
-        itemRenderer.renderStatic(tsumeItem, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
-        poseStack.popPose();
 
+        Minecraft.getInstance().getItemRenderer().renderStatic(
+                tsumeStack,
+                ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
+                packedLight,
+                OverlayTexture.NO_OVERLAY,
+                poseStack,
+                buffer,
+                null,
+                0
+        );
+        poseStack.popPose();
     }
 
     public OpenMatrix4f getCorrectionMatrixForHand(LivingEntityPatch<?> entitypatch, InteractionHand hand, OpenMatrix4f[] poses) {

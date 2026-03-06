@@ -23,6 +23,7 @@ import java.util.function.Supplier;
 
 public class TsumeAnimations {
     public static AnimationManager.AnimationAccessor<StaticAnimation> TSUME_HOLD;
+    public static AnimationManager.AnimationAccessor<StaticAnimation> TSUME_WALK;
     public static AnimationManager.AnimationAccessor<StaticAnimation> TSUME_SKILL_HOLD;
     public static AnimationManager.AnimationAccessor<StaticAnimation> TSUME_RUN;
 
@@ -51,11 +52,13 @@ public class TsumeAnimations {
     public static void build(AnimationManager.AnimationBuilder builder){
         AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
 
-        TSUME_HOLD = WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tsume/tsume_hold", false, 0.1f, -1, -1,null);
-        TSUME_SKILL_HOLD = WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tsume/tsume_skill_hold", false, 0.1f, -1, -1,null);
+        TSUME_HOLD = WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tsume/tsume_hold", true, 0.1f, -1, -1,null);
+        TSUME_WALK = WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tsume/tsume_walk", true, 0.1f, -1, -1,null);
 
-        TSUME_RUN = WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tsume/tsume_run", false, 0.1f, -1, -1,null);
-        TSUME_GUARD = WOHAnimationUtils.createLivingAnimation(builder,"biped/skill/tsume/tsume_guard", false, 0.1f, -1, -1,null);
+        TSUME_SKILL_HOLD = WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tsume/tsume_skill_hold", true, 0.1f, -1, -1,null);
+
+        TSUME_RUN = WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tsume/tsume_run", true, 0.1f, -1, -1,null);
+        TSUME_GUARD = WOHAnimationUtils.createLivingAnimation(builder,"biped/skill/tsume/tsume_guard", true, 0.1f, -1, -1,null);
 
         TSUME_SKILL_ACTIVATE = WOHAnimationUtils.createLivingAnimation(builder,"biped/skill/tsume/tsume_skill_activate", false, 0.1f, -1, -1,null);
         TSUME_SKILL_DEACTIVATE = WOHAnimationUtils.createLivingAnimation(builder,"biped/skill/tsume/tsume_skill_deactivate", false, 0.1f, -1, -1,null);
@@ -280,7 +283,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.WHOOSH_SMALL},
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
-                new Collider[]{WohColliderPreset.TSUME_CLAWS},
+                new Collider[]{ColliderPreset.SWORD},
                 new Joint[]{biped.get().toolR},
                 StunType.SHORT,
                 -1,
@@ -303,7 +306,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.WHOOSH_SMALL},
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
-                new Collider[]{WohColliderPreset.TSUME_CLAWS},
+                new Collider[]{ColliderPreset.SWORD},
                 new Joint[]{biped.get().toolL},
                 StunType.SHORT,
                 -1,
@@ -326,7 +329,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL},
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
-                new Collider[]{WohColliderPreset.TSUME_CLAWS, WohColliderPreset.TSUME_CLAWS},
+                new Collider[]{ColliderPreset.SWORD, ColliderPreset.SWORD},
                 new Joint[]{biped.get().toolR, biped.get().toolL},
                 StunType.SHORT,
                 -1,

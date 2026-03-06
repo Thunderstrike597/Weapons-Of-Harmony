@@ -195,7 +195,7 @@ public class WohWeaponCapabilityPresets {
                         WOMAnimations.TORMENT_CHARGED_ATTACK_2,
                         WOMAnimations.TORMENT_BERSERK_DASH, TsumeAnimations.TSUME_AIRSLASH)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TsumeAnimations.TSUME_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TsumeAnimations.TSUME_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TsumeAnimations.TSUME_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TsumeAnimations.TSUME_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, TsumeAnimations.TSUME_GUARD)
                 .livingMotionModifier(WohStyles.ENRAGED_CLAWS, LivingMotions.IDLE, TsumeAnimations.TSUME_SKILL_HOLD)
@@ -263,9 +263,9 @@ public class WohWeaponCapabilityPresets {
                         CorruptAnimations.SWORD_ONEHAND_AUTO3,
                         CorruptAnimations.SWORD_ONEHAND_AUTO4,
                         ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_4, ArbitersBladeAnimations.ARBITERS_BLADE_AIRSLASH)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, Animations.BIPED_HOLD_LONGSWORD)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, Animations.BIPED_WALK_LONGSWORD)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, Animations.BIPED_RUN_LONGSWORD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, ArbitersBladeAnimations.ARBITERS_BLADE_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.LONGSWORD_GUARD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK_SHIELD, Animations.LONGSWORD_GUARD)
 
