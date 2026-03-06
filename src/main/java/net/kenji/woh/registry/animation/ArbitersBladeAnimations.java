@@ -15,6 +15,7 @@ import yesman.epicfight.world.damagesource.StunType;
 
 public class ArbitersBladeAnimations {
     public static StaticAnimation ARBITERS_BLADE_HOLD;
+    public static StaticAnimation ARBITERS_BLADE_RUN;
 
     public static StaticAnimation ARBITERS_BLADE_AUTO_1;
     public static StaticAnimation ARBITERS_BLADE_AUTO_2;
@@ -44,6 +45,7 @@ public class ArbitersBladeAnimations {
         HumanoidArmature biped = Armatures.BIPED;
 
         ARBITERS_BLADE_HOLD = (new StaticAnimation(0.35f, true, "biped/living/arbiters_blade/arbiters_blade_hold", biped));
+        ARBITERS_BLADE_RUN = (new StaticAnimation(0.35f, true, "biped/living/arbiters_blade/arbiters_blade_run", biped));
 
         ARBITERS_BLADE_SKILL_ACTIVATE_START = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_skill_activate_start", biped));
         ARBITERS_BLADE_SKILL_ACTIVATE_MID = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_skill_activate_mid", biped));

@@ -54,7 +54,7 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     public ArbitersSlashSkill(Builder builder) {
         super(builder);
         this.maxDuration = 420;
-        this.consumption = 10;
+        this.consumption = 20;
         this.maxStackSize = 1;
     }
 

@@ -16,6 +16,8 @@ import yesman.epicfight.world.damagesource.StunType;
 
 public class TsumeAnimations {
     public static StaticAnimation TSUME_HOLD;
+    public static StaticAnimation TSUME_WALK;
+
     public static StaticAnimation TSUME_SKILL_HOLD;
     public static StaticAnimation TSUME_RUN;
 
@@ -44,6 +46,8 @@ public class TsumeAnimations {
         HumanoidArmature biped = Armatures.BIPED;
 
         TSUME_HOLD = (new StaticAnimation(0.35f, true, "biped/living/tsume/tsume_hold", biped));
+        TSUME_WALK = (new StaticAnimation(0.35f, true, "biped/living/tsume/tsume_walk", biped));
+
         TSUME_SKILL_HOLD = (new StaticAnimation(0.35f, true, "biped/living/tsume/tsume_skill_hold", biped));
 
         TSUME_RUN = (new StaticAnimation(0.35f, true, "biped/living/tsume/tsume_run", biped));
@@ -271,7 +275,7 @@ public class TsumeAnimations {
                 new SoundEvent[]{EpicFightSounds.WHOOSH_SMALL.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
-                new Collider[]{WohColliderPreset.TSUME_CLAWS},
+                new Collider[]{ColliderPreset.SWORD},
                 new Joint[]{biped.toolR},
                 StunType.SHORT,
                 -1,
@@ -293,7 +297,7 @@ public class TsumeAnimations {
                 new SoundEvent[]{EpicFightSounds.WHOOSH_SMALL.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
-                new Collider[]{WohColliderPreset.TSUME_CLAWS},
+                new Collider[]{ColliderPreset.SWORD},
                 new Joint[]{biped.toolL},
                 StunType.SHORT,
                 -1,
@@ -315,7 +319,7 @@ public class TsumeAnimations {
                 new SoundEvent[]{EpicFightSounds.WHOOSH_SMALL.get(), EpicFightSounds.WHOOSH_SMALL.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
-                new Collider[]{WohColliderPreset.TSUME_CLAWS, WohColliderPreset.TSUME_CLAWS},
+                new Collider[]{ColliderPreset.SWORD, ColliderPreset.SWORD},
                 new Joint[]{biped.toolR, biped.toolL},
                 StunType.SHORT,
                 -1,
