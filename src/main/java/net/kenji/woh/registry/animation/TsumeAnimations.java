@@ -31,6 +31,7 @@ public class TsumeAnimations {
     public static StaticAnimation TSUME_NEW_AUTO_1;
     public static StaticAnimation TSUME_NEW_AUTO_2;
     public static StaticAnimation TSUME_NEW_AUTO_3;
+    public static StaticAnimation TSUME_NEW_AUTO_4;
 
     public static StaticAnimation TSUME_SKILL_ACTIVATE;
     public static StaticAnimation TSUME_SKILL_DEACTIVATE;
@@ -316,6 +317,28 @@ public class TsumeAnimations {
                 new float[]{0.40F, 0.73F},
                 new float[]{0.90F, 0.90F},
                 new float[]{1.70F, 1.70F},
+                new SoundEvent[]{EpicFightSounds.WHOOSH_SMALL.get(), EpicFightSounds.WHOOSH_SMALL.get()},
+                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.SWORD, ColliderPreset.SWORD},
+                new Joint[]{biped.toolR, biped.toolL},
+                StunType.SHORT,
+                -1,
+                -1
+        );
+        TSUME_NEW_AUTO_4 = WOHAnimationUtils.createAttackAnimation(
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/new/tsume/tsume_auto_4",
+                2,
+                0.1F,
+                0.1F,
+                2F,
+                0.08F,
+                new float[]{0.0F, 0.45F},
+                new float[]{0.58F, 0.58F},
+                new float[]{0.65F, 0.65F},
+                new float[]{1.20F, 1.20F},
+                new float[]{2.25F, 2.25F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH_SMALL.get(), EpicFightSounds.WHOOSH_SMALL.get()},
                 new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
