@@ -45,6 +45,7 @@ public class TsumeAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_NEW_AUTO_1;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_NEW_AUTO_2;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_NEW_AUTO_3;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_NEW_AUTO_4;
 
 
     public static AnimationManager.AnimationAccessor<StaticAnimation> TSUME_GUARD;
@@ -326,6 +327,29 @@ public class TsumeAnimations {
                 new float[]{0.40F, 0.73F},
                 new float[]{0.90F, 0.90F},
                 new float[]{1.70F, 1.70F},
+                new Supplier[]{EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL},
+                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.SWORD, ColliderPreset.SWORD},
+                new Joint[]{biped.get().toolR, biped.get().toolL},
+                StunType.SHORT,
+                -1,
+                -1
+        );
+        TSUME_NEW_AUTO_4 = WOHAnimationUtils.createAttackAnimation(
+                builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/new/tsume/tsume_auto_4",
+                2,
+                0.1F,
+                0.1F,
+                2F,
+                0.08F,
+                new float[]{0.0F, 0.45F},
+                new float[]{0.58F, 0.58F},
+                new float[]{0.65F, 0.65F},
+                new float[]{1.20F, 1.20F},
+                new float[]{2.25F, 2.25F},
                 new Supplier[]{EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL},
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},

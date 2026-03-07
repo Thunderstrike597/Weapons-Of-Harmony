@@ -1,22 +1,15 @@
 package net.kenji.woh.gameasset;
 
-import com.mojang.datafixers.util.Pair;
 import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.api.manager.AimManager;
-import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.*;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ShieldItem;
 import reascer.wom.gameasset.WOMAnimations;
 import reascer.wom.gameasset.animations.weapons.*;
-import reascer.wom.world.capabilities.item.WOMWeaponCapabilityPresets;
-import reascer.wom.world.item.SatsujinItem;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
@@ -54,6 +47,7 @@ public class WohWeaponCapabilityPresets {
                         ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_3,
                         ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_4,
                         ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_5,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_6,
                         ShotogatanaAnimations.SHOTOGATANA_NEW_DASH, ShotogatanaAnimations.SHOTOGATANA_NEW_AIRSLASH)
                 .newStyleCombo(WohStyles.UNSHEATHED,
                         ShotogatanaAnimations.SHOTOGATANA_NEW_UNSHEATHED_AUTO_1,
@@ -61,7 +55,7 @@ public class WohWeaponCapabilityPresets {
                         ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_3,
                         ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_4,
                         ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_5,
-                        AnimsSatsujin.SATSUJIN_AUTO_3,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_6,
                         CorruptAnimations.SWORD_SLASH, AnimsHerrscher.HERRSCHER_AUSROTTUNG)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
                         CorruptAnimations.LETHAL_SLICING_START,
@@ -184,6 +178,7 @@ public class WohWeaponCapabilityPresets {
                         TsumeAnimations.TSUME_NEW_AUTO_1,
                         TsumeAnimations.TSUME_NEW_AUTO_2,
                         TsumeAnimations.TSUME_NEW_AUTO_3,
+                        TsumeAnimations.TSUME_NEW_AUTO_4,
                         CorruptAnimations.BLADE_RUSH1, TsumeAnimations.TSUME_AIRSLASH)
                 .newStyleCombo(WohStyles.ENRAGED_CLAWS,
                         AnimsEnderblaster.ENDERBLASTER_ONEHAND_AUTO_3,
