@@ -49,7 +49,6 @@ public class ShotogatanaRender extends RenderItemBase {
     private final ItemStack sheathStack;
     private final ItemStack sheathedWeaponStack;
 
-    public static Map<UUID, Boolean> renderSheathMap = new HashMap<>();
 
     public ShotogatanaRender(JsonElement jsonElement) {
         super(jsonElement);
@@ -99,7 +98,7 @@ public class ShotogatanaRender extends RenderItemBase {
 
         // Only render the katana if it's NOT sheathed AND it's a player
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
-            renderSheathMap.put(playerPatch.getOriginal().getUUID(), isSheathed);
+            ShotogatanaManager.renderSheathMap.put(playerPatch.getOriginal().getUUID(), isSheathed);
             if (!isSheathed) {
                 poseStack.pushPose();
                 MathUtils.mulStack(poseStack, modelMatrix);

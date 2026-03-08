@@ -5,6 +5,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -32,12 +34,17 @@ public class ClientSheathStatePacket {
     public static void handle(ClientSheathStatePacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             if(ctx.get().getDirection().getReceptionSide().isClient()) {
-                Minecraft mc = Minecraft.getInstance();
-                Player player = mc.player;
-
-                ShotogatanaManager.queSheathCounter.put(player.getUUID(), packet.sheathCounter);
+                executeOnClient(packet);
             }
         });
         ctx.get().setPacketHandled(true);
+    }
+    @OnlyIn(Dist.CLIENT)
+    private static void executeOnClient(ClientSheathStatePacket packet){
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
+
+        ShotogatanaManager.queSheathCounter.put(player.getUUID(), packet.sheathCounter);
+
     }
 }

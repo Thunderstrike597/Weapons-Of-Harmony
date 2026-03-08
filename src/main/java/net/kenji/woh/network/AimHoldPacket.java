@@ -36,7 +36,6 @@ public class AimHoldPacket {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if (player == null) {
-                Log.warn("TessenInnatePacket: Sender is null!");
                 return;
             }
 

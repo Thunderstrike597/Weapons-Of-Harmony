@@ -2,6 +2,7 @@ package net.kenji.woh.gameasset;
 
 import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.api.manager.AimManager;
+import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.*;
 import net.kenji.woh.render.ShotogatanaRender;
@@ -28,7 +29,7 @@ public class WohWeaponCapabilityPresets {
         WeaponCapability.Builder builder = WeaponCapability.builder()
                 .category(WohWeaponCategories.SHOTOGATANA)
                 .styleProvider((playerPatch) -> {
-                            boolean isSheathed = ShotogatanaRender.renderSheathMap.getOrDefault(playerPatch.getOriginal().getUUID(), true);
+                            boolean isSheathed = ShotogatanaManager.renderSheathMap.getOrDefault(playerPatch.getOriginal().getUUID(), true);
                             if(playerPatch instanceof PlayerPatch<?> patch){
                                 if(patch.getSkill(WohSkills.SHEATH_STANCE) != null && patch.getSkill(WohSkills.SHEATH_STANCE).isActivated()){
                                     return CapabilityItem.Styles.TWO_HAND;

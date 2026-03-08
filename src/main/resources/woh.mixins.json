@@ -6,15 +6,12 @@
   "mixins": [
     "EpicFightFistMixin",
     "GuardSkillMixin",
-    "AttackAnimationMixin",
-    "DynamicAnimationMixin",
-    "DynamicAnimationAccessor",
     "ShieldCapabilityMixin",
     "KatanaAttackAnimationMixin",
     "CorruptAnimationsMixin"
   ],
   "client": [
-
+    "AttackAnimationMixin"
   ],
   "injectors": {
     "defaultRequire": 1

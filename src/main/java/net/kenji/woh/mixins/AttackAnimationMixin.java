@@ -97,12 +97,6 @@ public class AttackAnimationMixin {
                         }
                 );
             }
-            StaticAnimation staticAnimation = playerPatch.getAnimator().getLivingAnimation(playerPatch.getCurrentLivingMotion(), Animations.BIPED_IDLE).get();
-
-            DynamicAnimationAccessor dynamicAnimationMixin = (DynamicAnimationAccessor)(Object)staticAnimation;
-            if(dynamicAnimationMixin.woh$getConvertTime() < 0.4) {
-                dynamicAnimationMixin.woh$setConvertTime(0.28F);
-            }
         }
     }
 
