@@ -35,6 +35,7 @@ public class ArbitersBladeAnimations {
     public static StaticAnimation ARBITERS_BLADE_SKILL_ACTIVATE_START;
     public static StaticAnimation ARBITERS_BLADE_SKILL_ACTIVATE_MID;
     public static StaticAnimation ARBITERS_BLADE_SKILL_ACTIVATE_END;
+    public static StaticAnimation ARBITERS_BLADE_SKILL_DEACTIVATE;
 
     public static StaticAnimation ARBITERS_BLADE_AIM;
 
@@ -50,6 +51,7 @@ public class ArbitersBladeAnimations {
         ARBITERS_BLADE_SKILL_ACTIVATE_START = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_skill_activate_start", biped));
         ARBITERS_BLADE_SKILL_ACTIVATE_MID = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_skill_activate_mid", biped));
         ARBITERS_BLADE_SKILL_ACTIVATE_END = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_skill_activate_end", biped));
+        ARBITERS_BLADE_SKILL_DEACTIVATE = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_skill_deactivate", biped));
 
         ARBITERS_BLADE_AIM = (new StaticAnimation(0.35f, false, "biped/skill/arbiters_blade/arbiters_blade_aim", biped));
 

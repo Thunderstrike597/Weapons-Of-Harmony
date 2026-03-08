@@ -5,6 +5,8 @@ import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
 import net.kenji.woh.gameasset.WohWeaponCategories;
+import net.kenji.woh.network.ClientArbitersSlashPacket;
+import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
@@ -50,6 +52,10 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     public static Map<StaticAnimation, Integer> slashAngleMap = new HashMap<>();
     private static final Map<AttackAnimation, BeamSlashEntity> beamCastMap = new HashMap<>();
 
+    public final int MAX_HOLD_COUNTER = 60;
+    public int holdCounter = 0;
+
+    public boolean scheduleDeactivate;
 
     public ArbitersSlashSkill(Builder builder) {
         super(builder);
@@ -58,6 +64,19 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
         this.maxStackSize = 1;
     }
 
+    @Override
+    public boolean canExecute(PlayerPatch<?> playerPatch) {
+        SkillContainer container = playerPatch.getSkill(this);
+        if(!container.isActivated()) {
+            return super.canExecute(playerPatch) && holdCounter <= 0;
+        }
+        else{
+            container.getExecuter().playAnimationSynchronized(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_DEACTIVATE, 0.1F);
+            scheduleDeactivate = true;
+            holdCounter = MAX_HOLD_COUNTER;
+        }
+        return false;
+    }
 
     @Override
     public ResourceLocation getSkillTexture() {
@@ -67,6 +86,22 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     @Override
     public void updateContainer(SkillContainer container) {
 
+        if(holdCounter > 0){
+            holdCounter--;
+        }
+        if(scheduleDeactivate) {
+            if (container.getExecuter() instanceof ServerPlayerPatch serverPlayerPatch) {
+                AnimationPlayer animPlayer = serverPlayerPatch.getServerAnimator().animationPlayer;
+                DynamicAnimation anim = animPlayer.getAnimation();
+                if (anim == ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_DEACTIVATE.get()) {
+                    if (animPlayer.getElapsedTime() > 0.58F) {
+                        container.deactivate();
+                        WohPacketHandler.sendToPlayer(new ClientArbitersSlashPacket(), serverPlayerPatch.getOriginal());
+                        scheduleDeactivate = false;
+                    }
+                }
+            }
+        }
         if(!container.isActivated()) {
             if (getChargingAmount(container.getExecuter()) > 1 && getChargingAmount(container.getExecuter()) < getMaxChargingTicks()) {
                 AnimationPlayer animationPlayer = container.getExecuter().getAnimator().getPlayerFor(null);
@@ -139,7 +174,8 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     }
 
     private void onBeamSlash(PlayerPatch<?> playerPatch, AttackAnimation basisAttackAnimation, ServerLevel serverLevel){
-        if(serverLevel != null) {
+        int slashAngle = slashAngleMap.getOrDefault(basisAttackAnimation.get(), -1);
+        if(serverLevel != null && slashAngle != -1) {
             BlockPos blockPos = playerPatch.getOriginal().blockPosition();
             BeamSlashEntity spawnedEntity = WohEntities.BEAM_SLASH.get().spawn(serverLevel, blockPos, MobSpawnType.TRIGGERED);
             Vec3 lookDir = playerPatch.getOriginal().getLookAngle();
