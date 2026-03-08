@@ -1,10 +1,12 @@
 package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
+import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
 import net.kenji.woh.gameasset.WohWeaponCategories;
+import net.kenji.woh.network.ArbitersSlashSetupPacket;
 import net.kenji.woh.network.ClientArbitersSlashPacket;
 import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
@@ -25,6 +27,10 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.AttackAnimation;
@@ -49,7 +55,7 @@ import java.util.*;
 public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
 
     public static float travelSpeedMultiplier = 1.75f;
-    public static Map<StaticAnimation, Integer> slashAngleMap = new HashMap<>();
+    public static Map<String, Integer> slashAngleMap = new HashMap<>();
     private static final Map<AttackAnimation, BeamSlashEntity> beamCastMap = new HashMap<>();
 
     public final int MAX_HOLD_COUNTER = 60;
@@ -62,6 +68,14 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
         this.maxDuration = 420;
         this.consumption = 32;
         this.maxStackSize = 1;
+    }
+
+    @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+    public static class ClientSubscribeEvents {
+        @SubscribeEvent
+        public static void onClientLogin(ClientPlayerNetworkEvent.LoggingIn event) {
+            WohPacketHandler.sendToServer(new ArbitersSlashSetupPacket(ArbitersSlashSkill.slashAngleMap));
+        }
     }
 
     @Override
@@ -104,12 +118,19 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
         }
         if(!container.isActivated()) {
             if (getChargingAmount(container.getExecuter()) > 1 && getChargingAmount(container.getExecuter()) < getMaxChargingTicks()) {
-                AnimationPlayer animationPlayer = container.getExecuter().getAnimator().getPlayerFor(null);
-                if (animationPlayer != null) {
-                    DynamicAnimation dynamicAnim = animationPlayer.getAnimation();
-                    if (dynamicAnim instanceof StaticAnimation anim) {
-                        if (anim != ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_START) {
-                            container.getExecuter().playAnimationSynchronized(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_MID, 0.1F);
+                if(container.getExecuter() instanceof ServerPlayerPatch) {
+                    AnimationPlayer animationPlayer = container.getExecuter().getAnimator().getPlayerFor(null);
+                    if (animationPlayer != null) {
+                        DynamicAnimation dynamicAnim = animationPlayer.getAnimation();
+                        if(dynamicAnim instanceof StaticAnimation staticAnimation){
+                            if (staticAnimation == ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_START.get()) {
+
+                                if (animationPlayer.getElapsedTime() > 1.2F) {
+                                    container.getExecuter().playAnimationSynchronized(
+                                            ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_MID, 0.1F
+                                    );
+                                }
+                            }
                         }
                     }
                 }
@@ -174,7 +195,7 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     }
 
     private void onBeamSlash(PlayerPatch<?> playerPatch, AttackAnimation basisAttackAnimation, ServerLevel serverLevel){
-        int slashAngle = slashAngleMap.getOrDefault(basisAttackAnimation.get(), -1);
+        int slashAngle = slashAngleMap.getOrDefault(basisAttackAnimation.get().toString(), -1);
         if(serverLevel != null && slashAngle != -1) {
             BlockPos blockPos = playerPatch.getOriginal().blockPosition();
             BeamSlashEntity spawnedEntity = WohEntities.BEAM_SLASH.get().spawn(serverLevel, blockPos, MobSpawnType.TRIGGERED);

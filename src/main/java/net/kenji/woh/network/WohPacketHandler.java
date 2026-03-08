@@ -35,6 +35,11 @@ public class WohPacketHandler {
                 .encoder(AimHoldPacket::encode)
                 .consumerMainThread(AimHoldPacket::handle)
                 .add();
+        INSTANCE.messageBuilder(ArbitersSlashSetupPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(ArbitersSlashSetupPacket::decode)
+                .encoder(ArbitersSlashSetupPacket::encode)
+                .consumerMainThread(ArbitersSlashSetupPacket::handle)
+                .add();
         INSTANCE.messageBuilder(ClientArbitersSlashPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(ClientArbitersSlashPacket::decode)
                 .encoder(ClientArbitersSlashPacket::encode)

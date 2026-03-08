@@ -46,7 +46,6 @@ public class ShotogatanaRender extends RenderItemBase {
     private StaticAnimation sheathAnim = ShotogatanaAnimations.SHOTOGATANA_SHEATH;
     private StaticAnimation unsheathAnim = ShotogatanaAnimations.SHOTOGATANA_UNSHEATH;
 
-    public static Map<UUID, Boolean> renderSheathMap = new HashMap<>();
 
     public ShotogatanaRender() {
         this.katana = new ItemStack((ItemLike) WohItems.SHOTOGATANA.get());
@@ -110,7 +109,7 @@ public class ShotogatanaRender extends RenderItemBase {
         boolean sheathed = (sheathItem == sheathedWeaponStack);
 
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
-            renderSheathMap.put(playerPatch.getOriginal().getUUID(), sheathed);
+            ShotogatanaManager.renderSheathMap.put(playerPatch.getOriginal().getUUID(), sheathed);
 
             if (!sheathed) {
                 // Only render katana in hand when NOT in_sheath

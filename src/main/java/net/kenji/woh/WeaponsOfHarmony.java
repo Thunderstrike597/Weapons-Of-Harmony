@@ -73,20 +73,10 @@ public class WeaponsOfHarmony {
 
         modEventBus.addListener(WohAnimations::registerAnimations);
         modEventBus.addListener(WohSkills::buildSkillEvent);
-        modEventBus.addListener(this::initializeSlashAngles);
         MinecraftForge.EVENT_BUS.addListener(this::addReloadListnerEvent);
        if(ModList.get().isLoaded("epic_fight_combat_hotbar")){
            CombatHotbarRenderCompat.Init();
        }
-    }
-    private void initializeSlashAngles(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AIM_AUTO_1, -45);
-            slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO1, 45);
-            slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO2, 0);
-            slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO3, 90);
-            slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO4, 45);
-        });
     }
     private void commonSetup(final net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) {
         event.enqueueWork(WohPacketHandler::register);

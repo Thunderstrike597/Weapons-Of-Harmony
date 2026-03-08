@@ -6,13 +6,10 @@
   "mixins": [
     "EpicFightFistMixin",
     "GuardSkillMixin",
-    "AttackAnimationMixin",
-    "DynamicAnimationMixin",
-    "DynamicAnimationAccessor",
     "ShieldCapabilityMixin"
   ],
   "client": [
-
+    "AttackAnimationMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -48,6 +48,7 @@ public class WOHAnimationUtils {
                         ShotogatanaManager.sheathWeapon.put(playerId, false);
                         if (player.level().isClientSide) {
                             WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), false));
+                            ShotogatanaManager.renderSheathMap.put(playerId, false);
                         }
                     }
                 }
@@ -71,6 +72,7 @@ public class WOHAnimationUtils {
                         ShotogatanaManager.sheathWeapon.put(playerId, true);
                         if (player.level().isClientSide) {
                             WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), true));
+                            ShotogatanaManager.renderSheathMap.put(playerId, true);
                         }
                     }
                 }
