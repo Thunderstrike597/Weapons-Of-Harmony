@@ -38,6 +38,7 @@ public class ArbitersBladeAnimations {
     public static AnimationManager.AnimationAccessor<StaticAnimation> ARBITERS_BLADE_SKILL_ACTIVATE_START;
     public static AnimationManager.AnimationAccessor<StaticAnimation> ARBITERS_BLADE_SKILL_ACTIVATE_MID;
     public static AnimationManager.AnimationAccessor<StaticAnimation> ARBITERS_BLADE_SKILL_ACTIVATE_END;
+    public static AnimationManager.AnimationAccessor<StaticAnimation> ARBITERS_BLADE_SKILL_DEACTIVATE;
 
     public static AnimationManager.AnimationAccessor<StaticAnimation> ARBITERS_BLADE_AIM;
 
@@ -49,8 +50,9 @@ public class ArbitersBladeAnimations {
         ARBITERS_BLADE_RUN = builder.nextAccessor("biped/living/arbiters_blade/arbiters_blade_run", accessor -> new StaticAnimation(true,accessor, biped));
 
         ARBITERS_BLADE_SKILL_ACTIVATE_START = builder.nextAccessor("biped/skill/arbiters_blade/arbiters_blade_skill_activate_start", accessor -> new StaticAnimation(false, accessor, biped));
-        ARBITERS_BLADE_SKILL_ACTIVATE_MID = builder.nextAccessor("biped/skill/arbiters_blade/arbiters_blade_skill_activate_mid", accessor -> new StaticAnimation(true, accessor, biped));
+        ARBITERS_BLADE_SKILL_ACTIVATE_MID = builder.nextAccessor("biped/skill/arbiters_blade/arbiters_blade_skill_activate_mid", accessor -> new StaticAnimation(false, accessor, biped));
         ARBITERS_BLADE_SKILL_ACTIVATE_END = builder.nextAccessor("biped/skill/arbiters_blade/arbiters_blade_skill_activate_end", accessor -> new StaticAnimation(false, accessor, biped));
+        ARBITERS_BLADE_SKILL_DEACTIVATE = builder.nextAccessor("biped/skill/arbiters_blade/arbiters_blade_skill_deactivate", accessor -> new StaticAnimation(false, accessor, biped));
 
         ARBITERS_BLADE_AIM = builder.nextAccessor("biped/skill/arbiters_blade/arbiters_blade_aim", accessor -> new StaticAnimation(true,accessor, biped));
 

@@ -1,6 +1,7 @@
 package net.kenji.woh.client.client_events;
 
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.block.ModBlockEntities;
 import net.kenji.woh.client.ModModelLayers;
 import net.kenji.woh.client.enitity_models.BeamSlashModel;
 import net.kenji.woh.client.enitity_models.ExiledRoninModel;
@@ -14,6 +15,8 @@ import net.kenji.woh.render.ArbitersBladeRender;
 import net.kenji.woh.render.ArbitersShieldRender;
 import net.kenji.woh.render.ShotogatanaRender;
 import net.kenji.woh.render.TsumeRender;
+import net.kenji.woh.render.block.SwordPedistoolRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.PillagerRenderer;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
@@ -60,6 +63,10 @@ public class ClientEvents {
           EntityRenderers.register(WohEntities.WAR_FAN_PILLAGER.get(), PillagerRenderer::new);
           EntityRenderers.register(WohEntities.CLAWED_ZOMBIE_VILLAGER.get(), ZombieVillagerRenderer::new);
 
+          BlockEntityRenderers.register(
+                  ModBlockEntities.SWORD_PEDISTOOL_BE.get(),
+                  SwordPedistoolRenderer::new
+          );
           EntityRenderers.register(
                   WohEntities.BEAM_SLASH.get(),
                   BeamSlashRenderer::new

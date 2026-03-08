@@ -4,12 +4,14 @@ import com.google.common.collect.Lists;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
-import net.kenji.woh.gameasset.animation_types.BasisAttackAnimation;
+import net.kenji.woh.network.ClientArbitersSlashPacket;
+import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -23,7 +25,6 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
@@ -31,6 +32,7 @@ import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
+import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.client.input.EpicFightKeyMappings;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.EpicFightSkills;
@@ -40,6 +42,7 @@ import yesman.epicfight.skill.SkillBuilder;
 import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.skill.modules.ChargeableSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 
 import java.util.*;
@@ -54,6 +57,11 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     public static Map<StaticAnimation, Integer> slashAngleMap = new HashMap<>();
     private static final Map<AttackAnimation, BeamSlashEntity> beamCastMap = new HashMap<>();
 
+    public final int MAX_HOLD_COUNTER = 60;
+    public int holdCounter = 0;
+
+    public boolean scheduleDeactivate;
+
     public ArbitersSlashSkill(SkillBuilder builder) {
         super(builder);
         this.maxDuration = 350;
@@ -66,24 +74,54 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
         return EpicFightSkills.TECHNICIAN.getSkillTexture();
     }
 
+    @Override
+    public boolean canExecute(SkillContainer container) {
+        if(!container.isActivated()) {
+            return super.canExecute(container) && holdCounter <= 0;
+        }
+        else{
+            container.getExecutor().playAnimationSynchronized(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_DEACTIVATE, 0.1F);
+            scheduleDeactivate = true;
+            holdCounter = MAX_HOLD_COUNTER;
+        }
+        return false;
+    }
+
 
     @Override
     public void updateContainer(SkillContainer container) {
         // Handle charging phase (before activation)
         currentContainer = container;
+        if(holdCounter > 0){
+            holdCounter--;
+        }
+        if(scheduleDeactivate) {
+            if (container.getExecutor() instanceof ServerPlayerPatch serverPlayerPatch) {
+                AnimationPlayer animPlayer = serverPlayerPatch.getServerAnimator().animationPlayer;
+                AssetAccessor<? extends DynamicAnimation> anim = animPlayer.getAnimation();
+                if (anim.get() == ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_DEACTIVATE.get()) {
+                    if (animPlayer.getElapsedTime() > 0.58F) {
+                        container.deactivate();
+                        WohPacketHandler.sendToPlayer(new ClientArbitersSlashPacket(), serverPlayerPatch.getOriginal());
+                        scheduleDeactivate = false;
+                    }
+                }
+            }
+        }
         if (!container.isActivated()) {
             float chargingAmount = container.getExecutor().getChargingAmount();
             // Update animation based on charging progress
             if (chargingAmount > 1) {
-                AnimationPlayer animationPlayer = container.getExecutor().getAnimator().getPlayerFor(null);
-                if (animationPlayer != null) {
-                    AssetAccessor<? extends DynamicAnimation> dynamicAnim = animationPlayer.getAnimation();
-                    if (dynamicAnim instanceof StaticAnimation anim) {
-                        if (anim != ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_START &&
-                                anim != ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_MID) {
-                            container.getExecutor().playAnimationSynchronized(
-                                    ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_MID, 0.1F
-                            );
+                if(container.getExecutor() instanceof ServerPlayerPatch serverPlayerPatch) {
+                    AnimationPlayer animationPlayer = container.getExecutor().getServerAnimator().animationPlayer;
+                    if (animationPlayer != null) {
+                        AssetAccessor<? extends DynamicAnimation> dynamicAnim = animationPlayer.getAnimation();
+                        if (dynamicAnim.get() == ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_START.get()) {
+                            if (animationPlayer.getElapsedTime() > 1.50F) {
+                                container.getExecutor().playAnimationSynchronized(
+                                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_MID, 0.1F
+                                );
+                            }
                         }
                     }
                 }
@@ -174,7 +212,8 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     }
 
     private void onBeamSlash(PlayerPatch<?> playerPatch, AnimationManager.AnimationAccessor<AttackAnimation> basisAttackAnimation, ServerLevel serverLevel){
-        if(serverLevel != null) {
+        int slashAngle = slashAngleMap.getOrDefault(basisAttackAnimation.get(), -1);
+        if(serverLevel != null && slashAngle != -1) {
             BlockPos blockPos = playerPatch.getOriginal().blockPosition();
             BeamSlashEntity spawnedEntity = WohEntities.BEAM_SLASH.get().spawn(serverLevel, blockPos, MobSpawnType.TRIGGERED);
             Vec3 lookDir = playerPatch.getOriginal().getLookAngle();
@@ -183,7 +222,7 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
 
                 spawnedEntity.addDeltaMovement(lookDir.multiply(travelSpeedMultiplier, yVelocity, travelSpeedMultiplier));
                 spawnedEntity.setYRot(playerPatch.getOriginal().getYHeadRot());
-                spawnedEntity.setSlashAngle(slashAngleMap.getOrDefault(basisAttackAnimation.get(), -45));
+                spawnedEntity.setSlashAngle(slashAngle);
                 spawnedEntity.setCasterAndAnimation(playerPatch, basisAttackAnimation.get());
 
                 beamCastMap.put(basisAttackAnimation.get(), spawnedEntity);
@@ -214,6 +253,41 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
         }
     }
 
+
+    @Override
+    public void cancelOnServer(SkillContainer container, FriendlyByteBuf args) {
+        PlayerPatch<?> playerPatch = container.getExecutor();
+        container.deactivate();
+        super.cancelOnServer(container, args);
+        playerPatch.playAnimationSynchronized(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_DEACTIVATE, 0.1F);
+    }
+
+   /* @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+    public static class ClientKeyEvents{
+        public Map<UUID, Integer> weaponPressCounterMap = new HashMap<>();
+        @SubscribeEvent
+        public void onHoldKey(TickEvent.ClientTickEvent event){
+            Player player = Minecraft.getInstance().player;
+            if(player == null) return;
+            PlayerPatch<?> playerPatch = EpicFightCapabilities.getEntityPatch(player, PlayerPatch.class);
+            if(playerPatch == null) return;
+            SkillContainer container = playerPatch.getSkill(WohSkills.ARBITERS_SLASH);
+
+            if(container == null) return;
+            if(!container.isActivated()) return;
+
+            if(EpicFightKeyMappings.WEAPON_INNATE_SKILL.isDown()){
+                if (weaponPressCounterMap.getOrDefault(player.getUUID(), 0) > ClientConfig.longPressCounter) {
+                    weaponPressCounterMap.put(player.getUUID(), 0);
+                    container.deactivate();
+                    playerPatch.playAnimationSynchronized(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_DEACTIVATE, 0.1F);
+                } else {
+                    weaponPressCounterMap.put(player.getUUID(), weaponPressCounterMap.getOrDefault(player.getUUID(),0) + 1);
+                }
+            }
+        }
+    }
+*/
     @Override
     public List<Component> getTooltipOnItem(ItemStack itemStack, CapabilityItem cap, PlayerPatch<?> playerCap) {
         List<Component> list = Lists.newArrayList();
@@ -252,6 +326,7 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
         container.getExecutor().setChargingAmount(0);
     }
 
+
     private AssetAccessor<StaticAnimation> getAimAnimation(){
         return ArbitersBladeAnimations.ARBITERS_BLADE_AIM;
     }
@@ -263,8 +338,9 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     private void onAimRelease(SkillContainer container){
         container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.IDLE, container.getExecutor().getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(container.getExecutor(), InteractionHand.MAIN_HAND).get(LivingMotions.IDLE));
         container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.WALK, container.getExecutor().getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(container.getExecutor(), InteractionHand.MAIN_HAND).get(LivingMotions.WALK));
-
     }
+
+
 
 
     @Override
@@ -285,7 +361,6 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
             );
             return;
         }
-
     }
 
     @Override
@@ -298,7 +373,6 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
             }
         }
 
-        // Don't call super.holdTick() - we're handling our own logic
     }
 
     @Override

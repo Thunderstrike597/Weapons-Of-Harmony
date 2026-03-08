@@ -250,14 +250,14 @@ public class WohWeaponCapabilityPresets {
                         CorruptAnimations.SWORD_ONEHAND_AUTO2,
                         CorruptAnimations.SWORD_ONEHAND_AUTO3,
                         CorruptAnimations.SWORD_ONEHAND_AUTO4,
-                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_4, ArbitersBladeAnimations.ARBITERS_BLADE_AIRSLASH)
+                        AnimsHerrscher.HERRSCHER_VERDAMMNIS, AnimsHerrscher.HERRSCHER_AUSROTTUNG)
                 .newStyleCombo(WohStyles.AIMING,
                         ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AIM_AUTO_1,
                         CorruptAnimations.SWORD_ONEHAND_AUTO1,
                         CorruptAnimations.SWORD_ONEHAND_AUTO2,
                         CorruptAnimations.SWORD_ONEHAND_AUTO3,
                         CorruptAnimations.SWORD_ONEHAND_AUTO4,
-                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_4, ArbitersBladeAnimations.ARBITERS_BLADE_AIRSLASH)
+                        AnimsHerrscher.HERRSCHER_VERDAMMNIS, AnimsHerrscher.HERRSCHER_AUSROTTUNG)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, ArbitersBladeAnimations.ARBITERS_BLADE_RUN)
@@ -270,13 +270,13 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.LONGSWORD_GUARD)
                 .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.RUN, Animations.BIPED_RUN_LONGSWORD)
+                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.RUN, ArbitersBladeAnimations.ARBITERS_BLADE_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
                 .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.BLOCK_SHIELD, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
 
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
-                .livingMotionModifier(WohStyles.AIMING, LivingMotions.RUN, Animations.BIPED_RUN_LONGSWORD)
+                .livingMotionModifier(WohStyles.AIMING, LivingMotions.RUN, ArbitersBladeAnimations.ARBITERS_BLADE_RUN)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.BLOCK_SHIELD, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
                 .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH)
