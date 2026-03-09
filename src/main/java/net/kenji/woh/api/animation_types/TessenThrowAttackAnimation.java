@@ -57,10 +57,8 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
             Collider collider,
             ThrowType throwType
     ) {
+
         Phase[] phases = new Phase[phaseCount];
-        System.out.println("throwStart: " + throwStart);
-        System.out.println("throwEnd: " + throwEnd);
-        System.out.println("totalDuration: " + (throwEnd - throwStart));
         // --- Phase 0 (ABSOLUTE / UNSCALED) ---
         phases[0] = new Phase(
                 start,
@@ -79,18 +77,19 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
         if (phaseCount <= 1) {
             return phases;
         }
-
+        float minGap = 0.001F;
         // --- THROW WINDOW SETUP ---
         int remainingPhases = phaseCount - 1;
-        float totalDuration = throwEnd - throwStart;
+        float totalDuration = Math.max(throwEnd - throwStart, 0.05F);
         float sliceDuration = totalDuration / remainingPhases;
-
+        sliceDuration = Math.max(sliceDuration, 0.01F);
         // --- BASE RATIOS (FROM FIRST PHASE SHAPE) ---
         float baseDuration = end - start;
 
         float anticRatio    = (antic    - start) / baseDuration;
         float contactRatio  = (contact  - start) / baseDuration;
         float recoveryRatio = (recovery - start) / baseDuration;
+
 
         // --- BUILD SCALED THROW PHASES ---
         for (int i = 1; i < phaseCount; i++) {
@@ -101,20 +100,24 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
             float newContact  = newStart + contactRatio  * sliceDuration;
             float newRecovery = newStart + recoveryRatio * sliceDuration;
 
+            newAntic    = Math.max(newAntic,    newStart    + minGap);
+            newContact  = Math.max(newContact,  newAntic    + minGap);
+            newRecovery = Math.max(newRecovery, newContact  + minGap);
+            float newEndClamped = Math.max(newEnd, newRecovery + minGap);
             phases[i] = new Phase(
                     newStart,
                     newAntic,
                     newContact,
                     newRecovery,
-                    newEnd,
+                    newEndClamped,
                     InteractionHand.MAIN_HAND,
                     getThrownHand(path, throwType),
                     collider
             ).addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound)
                     .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound)
                     .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle);
-        }
 
+        }
         return phases;
     }
 
@@ -138,26 +141,7 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
     }
 
     @Override
-    public void begin(LivingEntityPatch<?> entitypatch) {
-        if(entitypatch instanceof PlayerPatch<?> playerPatch) {
-            AttackManager.isInAttack.put(playerPatch.getOriginal().getUUID(), true);
-        }
-        for(int i = 0; i < phases.length; i++){
-            Log.info("Phase " + i + "Start: " + phases[i].start);
-            Log.info("Phase " + i + "Antic: " + phases[i].antic);
-            Log.info("Phase " + i + "Contact: " + phases[i].contact);
-            Log.info("Phase " + i + "Recovery: " + phases[i].recovery);
-            Log.info("Phase " + i + "End: " + phases[i].end);
-        }
+    protected void move(LivingEntityPatch<?> entitypatch, DynamicAnimation animation) {
 
-        super.begin(entitypatch);
-    }
-
-    @Override
-    public void end(LivingEntityPatch<?> entitypatch, DynamicAnimation nextAnimation, boolean isEnd) {
-        if(entitypatch instanceof PlayerPatch<?> playerPatch) {
-            AttackManager.isInAttack.remove(playerPatch.getOriginal().getUUID());
-        }
-        super.end(entitypatch, nextAnimation, isEnd);
     }
 }

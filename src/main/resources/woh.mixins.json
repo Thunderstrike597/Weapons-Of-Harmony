@@ -6,7 +6,8 @@
   "mixins": [
     "EpicFightFistMixin",
     "GuardSkillMixin",
-    "ShieldCapabilityMixin"
+    "ShieldCapabilityMixin",
+    "ShieldMixin"
   ],
   "client": [
     "AttackAnimationMixin"

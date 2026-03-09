@@ -251,7 +251,6 @@ public class WohWeaponCapabilityPresets {
                         CorruptAnimations.SWORD_ONEHAND_AUTO4,
                         WOMAnimations.HERRSCHER_VERDAMMNIS, WOMAnimations.HERRSCHER_AUSROTTUNG)
                 .newStyleCombo(WohStyles.AIMING,
-                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AIM_AUTO_1,
                         CorruptAnimations.SWORD_ONEHAND_AUTO1,
                         CorruptAnimations.SWORD_ONEHAND_AUTO2,
                         CorruptAnimations.SWORD_ONEHAND_AUTO3,

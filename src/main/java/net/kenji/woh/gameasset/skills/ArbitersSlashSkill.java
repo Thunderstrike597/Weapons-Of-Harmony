@@ -12,6 +12,7 @@ import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -22,6 +23,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +33,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.AttackAnimation;
@@ -54,6 +57,8 @@ import java.util.*;
 
 public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
 
+    private static final Map<UUID, Boolean> wasHoldingMap = new HashMap<>();
+
     public static float travelSpeedMultiplier = 1.75f;
     public static Map<String, Integer> slashAngleMap = new HashMap<>();
     private static final Map<AttackAnimation, BeamSlashEntity> beamCastMap = new HashMap<>();
@@ -62,6 +67,7 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     public int holdCounter = 0;
 
     public boolean scheduleDeactivate;
+    private boolean isModifiedAnimation;
 
     public ArbitersSlashSkill(Builder builder) {
         super(builder);
@@ -117,6 +123,9 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
             }
         }
         if(!container.isActivated()) {
+            if(container.getExecuter().getAnimator().getLivingAnimation(LivingMotions.IDLE, getAimAnimation()) == getAimAnimation())
+                onAimRelease(container);
+
             if (getChargingAmount(container.getExecuter()) > 1 && getChargingAmount(container.getExecuter()) < getMaxChargingTicks()) {
                 if(container.getExecuter() instanceof ServerPlayerPatch) {
                     AnimationPlayer animationPlayer = container.getExecuter().getAnimator().getPlayerFor(null);
@@ -159,11 +168,26 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
 
 
         if (container.isActivated()) {
-            if( container.getExecuter().getAnimator().getLivingAnimation(LivingMotions.BLOCK, Animations.LONGSWORD_GUARD) != ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
-                container.getExecuter().getAnimator().addLivingAnimation(LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM);
+            Player player = container.getExecuter().getOriginal();
+            if (player.level().isClientSide) {
+                Minecraft mc = Minecraft.getInstance();
+                UUID id = player.getUUID();
 
+                boolean isHolding = EpicFightKeyMappings.GUARD.isDown();
+                boolean wasHolding = wasHoldingMap.getOrDefault(id, false);
+
+                if (isHolding && !wasHolding) {
+                    // === PRESS (start) ===
+                    onAimPress(container);
+                }
+
+                if (!isHolding && wasHolding) {
+                    // === RELEASE (stop) ===
+                    onAimRelease(container);
+                }
+                wasHoldingMap.put(id, isHolding);
+            }
             PlayerPatch<?> playerPatch = container.getExecuter();
-            Player player = playerPatch.getOriginal();
             if (playerPatch.getAnimator().getPlayerFor(null).getAnimation() instanceof AttackAnimation attackAnim) {
                 if(playerPatch.getOriginal().level() instanceof ServerLevel serverLevel) {
                     if (playerPatch.getAnimator().getPlayerFor(null).getElapsedTime() >= (attackAnim.phases[0].contact + attackAnim.phases[0].start) * 0.5) {
@@ -205,7 +229,7 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
 
                 spawnedEntity.addDeltaMovement(lookDir.multiply(travelSpeedMultiplier, yVelocity, travelSpeedMultiplier));
                 spawnedEntity.setYRot(playerPatch.getOriginal().getYHeadRot());
-                spawnedEntity.setSlashAngle(slashAngleMap.getOrDefault(basisAttackAnimation, -45));
+                spawnedEntity.setSlashAngle(slashAngleMap.getOrDefault(basisAttackAnimation.get().toString(), -45));
                 spawnedEntity.setCasterAndAnimation(playerPatch, basisAttackAnimation);
 
                 beamCastMap.put(basisAttackAnimation, spawnedEntity);
@@ -293,4 +317,20 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
     }
+
+    private StaticAnimation getAimAnimation(){
+        return ArbitersBladeAnimations.ARBITERS_BLADE_AIM;
+    }
+
+    private void onAimPress(SkillContainer container){
+        container.getExecuter().getAnimator().addLivingAnimation(LivingMotions.IDLE, getAimAnimation());
+        container.getExecuter().getAnimator().addLivingAnimation(LivingMotions.WALK, getAimAnimation());
+        isModifiedAnimation = true;
+    }
+    private void onAimRelease(SkillContainer container){
+        container.getExecuter().getAnimator().addLivingAnimation(LivingMotions.IDLE, container.getExecuter().getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(container.getExecuter(), InteractionHand.MAIN_HAND).get(LivingMotions.IDLE).get());
+        container.getExecuter().getAnimator().addLivingAnimation(LivingMotions.WALK, container.getExecuter().getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(container.getExecuter(), InteractionHand.MAIN_HAND).get(LivingMotions.WALK).get());
+        isModifiedAnimation = false;
+    }
+
 }
