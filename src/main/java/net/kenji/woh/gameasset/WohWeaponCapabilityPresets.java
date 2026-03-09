@@ -269,6 +269,7 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, Animations.BIPED_WALK_LONGSWORD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, CorruptAnimations.RUN_KATANA)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.LONGSWORD_GUARD)
+
                 .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.RUN, ArbitersBladeAnimations.ARBITERS_BLADE_RUN)
@@ -278,6 +279,7 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.RUN, ArbitersBladeAnimations.ARBITERS_BLADE_RUN)
+
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.BLOCK_SHIELD, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
                 .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH)

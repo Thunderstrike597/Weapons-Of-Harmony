@@ -47,6 +47,7 @@ public class ArbitersBladeAnimations {
         AssetAccessor<HumanoidArmature> biped = Armatures.BIPED;
 
         ARBITERS_BLADE_HOLD = builder.nextAccessor("biped/living/arbiters_blade/arbiters_blade_hold", accessor -> new StaticAnimation(true,accessor, biped));
+
         ARBITERS_BLADE_RUN = builder.nextAccessor("biped/living/arbiters_blade/arbiters_blade_run", accessor -> new StaticAnimation(true,accessor, biped));
 
         ARBITERS_BLADE_SKILL_ACTIVATE_START = builder.nextAccessor("biped/skill/arbiters_blade/arbiters_blade_skill_activate_start", accessor -> new StaticAnimation(false, accessor, biped));
