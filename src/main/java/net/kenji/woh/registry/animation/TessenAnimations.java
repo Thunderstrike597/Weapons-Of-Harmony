@@ -678,7 +678,7 @@ public class TessenAnimations {
         TESSEN_NEW_SKILL_AUTO_1 = WOHAnimationUtils.createTessenThrowAttackAnimation(
                 builder,
                 "biped/combat/new/tessen/tessen_skill_auto_1",
-                6,
+                8,
                 0.1F,
                 0.0F,
                 0.18F,
@@ -692,13 +692,13 @@ public class TessenAnimations {
                 ColliderPreset.DAGGER,
                 TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
                 StunType.SHORT,
-                0.25F,
+                0.34F,
                 1.15F
         );
         TESSEN_NEW_SKILL_AUTO_2 = WOHAnimationUtils.createTessenThrowAttackAnimation(
                 builder,
                 "biped/combat/new/tessen/tessen_skill_auto_2",
-                6,
+                8,
                 0.1F,
                 0.0F,
                 0.53F,
@@ -712,13 +712,13 @@ public class TessenAnimations {
                 ColliderPreset.DAGGER,
                 TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
                 StunType.SHORT,
-                0.70F,
+                0.75F,
                 1.70F
         );
         TESSEN_NEW_SKILL_AUTO_3 = WOHAnimationUtils.createTessenThrowAttackAnimation(
                 builder,
                 "biped/combat/new/tessen/tessen_skill_auto_3",
-                6,
+                8,
                 0.1F,
                 0.0F,
                 0.55F,
@@ -732,13 +732,13 @@ public class TessenAnimations {
                 ColliderPreset.DAGGER,
                 TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
                 StunType.SHORT,
-                0.70F,
+                0.80F,
                 2.20F
         );
         TESSEN_NEW_SKILL_AUTO_4 = WOHAnimationUtils.createTessenThrowAttackAnimation(
                 builder,
                 "biped/combat/new/tessen/tessen_skill_auto_4",
-                6,
+                8,
                 0.1F,
                 0.0F,
                 0.65F,
@@ -752,13 +752,13 @@ public class TessenAnimations {
                 ColliderPreset.DAGGER,
                 TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
                 StunType.SHORT,
-                0.70F,
+                0.80F,
                 2.08F
         );
         TESSEN_NEW_SKILL_DUAL_AUTO_2 = WOHAnimationUtils.createTessenThrowAttackAnimation(
                 builder,
                 "biped/combat/new/tessen/tessen_skill_dual_auto_2",
-                7,
+                8,
                 0.1F,
                 0.0F,
                 0.42F,
@@ -772,7 +772,7 @@ public class TessenAnimations {
                 ColliderPreset.DAGGER,
                 TessenThrowAttackAnimation.ThrowType.LEFT_HAND,
                 StunType.SHORT,
-                0.45F,
+                0.50F,
                 1.40F
         );
         TESSEN_NEW_SKILL_DUAL_AUTO_3 = WOHAnimationUtils.createTessenThrowAttackAnimation(
@@ -790,9 +790,9 @@ public class TessenAnimations {
                 EpicFightSounds.BLADE_HIT,
                 EpicFightParticles.HIT_BLADE,
                 ColliderPreset.DAGGER,
-                TessenThrowAttackAnimation.ThrowType.BOTH,
+                TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
                 StunType.SHORT,
-                0.55F,
+                0.64F,
                 1.70F
         );
         TESSEN_NEW_SKILL_DUAL_AUTO_4 = WOHAnimationUtils.createTessenThrowAttackAnimation(
@@ -802,17 +802,17 @@ public class TessenAnimations {
                 0.1F,
                 0.0F,
                 0.80F,
-                0.92F,
-                0.93F,
-                0.94F,
+                0.85F,
+                0.9F,
+                0.96F,
                 0.05F,
                 EpicFightSounds.WHOOSH_SMALL,
                 EpicFightSounds.BLADE_HIT,
                 EpicFightParticles.HIT_BLADE,
                 ColliderPreset.DAGGER,
-                TessenThrowAttackAnimation.ThrowType.BOTH,
+                TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
                 StunType.SHORT,
-                0.55F,
+                1F,
                 1.95F
         );
     }

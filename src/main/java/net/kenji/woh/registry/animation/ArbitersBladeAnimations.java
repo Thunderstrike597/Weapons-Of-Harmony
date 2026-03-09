@@ -298,7 +298,7 @@ public class ArbitersBladeAnimations {
                 "biped/combat/arbiters_blade/arbiters_blade_skill_aim_auto_1",
                 1,
                 0.35F,
-                0.1F,
+                -1.4F,
                 6F,
                 0.45F,
                 new float[]{0.0F},

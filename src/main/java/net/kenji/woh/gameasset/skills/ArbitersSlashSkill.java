@@ -69,6 +69,7 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     public int holdCounter = 0;
 
     public boolean scheduleDeactivate;
+    private boolean isModifiedAnimation;
 
     public ArbitersSlashSkill(SkillBuilder builder) {
         super(builder);
@@ -110,6 +111,8 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
         if(holdCounter > 0){
             holdCounter--;
         }
+
+
         if(scheduleDeactivate) {
             if (container.getExecutor() instanceof ServerPlayerPatch serverPlayerPatch) {
                 AnimationPlayer animPlayer = serverPlayerPatch.getServerAnimator().animationPlayer;
@@ -124,6 +127,11 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
             }
         }
         if (!container.isActivated()) {
+            if(container.getExecutor().getAnimator().getLivingAnimation(LivingMotions.IDLE, getAimAnimation()) == getAimAnimation()) {
+                onAimRelease(container);
+                container.getExecutor().getAnimator().resetLivingAnimations();
+            }
+
             float chargingAmount = container.getExecutor().getChargingAmount();
             // Update animation based on charging progress
             if (chargingAmount > 1) {
@@ -277,36 +285,45 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     public void cancelOnServer(SkillContainer container, FriendlyByteBuf args) {
         PlayerPatch<?> playerPatch = container.getExecutor();
         container.deactivate();
+        onAimRelease(container);
+        container.getExecutor().getAnimator().resetLivingAnimations();
         super.cancelOnServer(container, args);
         playerPatch.playAnimationSynchronized(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_DEACTIVATE, 0.1F);
     }
 
-   /* @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
-    public static class ClientKeyEvents{
-        public Map<UUID, Integer> weaponPressCounterMap = new HashMap<>();
-        @SubscribeEvent
-        public void onHoldKey(TickEvent.ClientTickEvent event){
-            Player player = Minecraft.getInstance().player;
-            if(player == null) return;
-            PlayerPatch<?> playerPatch = EpicFightCapabilities.getEntityPatch(player, PlayerPatch.class);
-            if(playerPatch == null) return;
-            SkillContainer container = playerPatch.getSkill(WohSkills.ARBITERS_SLASH);
+    @Override
+    public void cancelOnClient(SkillContainer container, FriendlyByteBuf args) {
+        container.deactivate();
+        onAimRelease(container);
+        super.cancelOnClient(container, args);
+    }
 
-            if(container == null) return;
-            if(!container.isActivated()) return;
+    /* @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+        public static class ClientKeyEvents{
+            public Map<UUID, Integer> weaponPressCounterMap = new HashMap<>();
+            @SubscribeEvent
+            public void onHoldKey(TickEvent.ClientTickEvent event){
+                Player player = Minecraft.getInstance().player;
+                if(player == null) return;
+                PlayerPatch<?> playerPatch = EpicFightCapabilities.getEntityPatch(player, PlayerPatch.class);
+                if(playerPatch == null) return;
+                SkillContainer container = playerPatch.getSkill(WohSkills.ARBITERS_SLASH);
 
-            if(EpicFightKeyMappings.WEAPON_INNATE_SKILL.isDown()){
-                if (weaponPressCounterMap.getOrDefault(player.getUUID(), 0) > ClientConfig.longPressCounter) {
-                    weaponPressCounterMap.put(player.getUUID(), 0);
-                    container.deactivate();
-                    playerPatch.playAnimationSynchronized(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_DEACTIVATE, 0.1F);
-                } else {
-                    weaponPressCounterMap.put(player.getUUID(), weaponPressCounterMap.getOrDefault(player.getUUID(),0) + 1);
+                if(container == null) return;
+                if(!container.isActivated()) return;
+
+                if(EpicFightKeyMappings.WEAPON_INNATE_SKILL.isDown()){
+                    if (weaponPressCounterMap.getOrDefault(player.getUUID(), 0) > ClientConfig.longPressCounter) {
+                        weaponPressCounterMap.put(player.getUUID(), 0);
+                        container.deactivate();
+                        playerPatch.playAnimationSynchronized(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_DEACTIVATE, 0.1F);
+                    } else {
+                        weaponPressCounterMap.put(player.getUUID(), weaponPressCounterMap.getOrDefault(player.getUUID(),0) + 1);
+                    }
                 }
             }
         }
-    }
-*/
+    */
     @Override
     public List<Component> getTooltipOnItem(ItemStack itemStack, CapabilityItem cap, PlayerPatch<?> playerCap) {
         List<Component> list = Lists.newArrayList();
@@ -353,10 +370,12 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
     private void onAimPress(SkillContainer container){
         container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.IDLE, getAimAnimation());
         container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.WALK, getAimAnimation());
+        isModifiedAnimation = true;
     }
     private void onAimRelease(SkillContainer container){
         container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.IDLE, container.getExecutor().getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(container.getExecutor(), InteractionHand.MAIN_HAND).get(LivingMotions.IDLE));
         container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.WALK, container.getExecutor().getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(container.getExecutor(), InteractionHand.MAIN_HAND).get(LivingMotions.WALK));
+        isModifiedAnimation = false;
     }
 
 

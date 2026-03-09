@@ -181,7 +181,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:packet-fixer-689467:7221527")
 
-    implementation fg.deobf("curse.maven:epic-fight-combat-hotbar-1461210:7631451")
+    implementation fg.deobf("curse.maven:epic-fight-combat-hotbar-1461210:7717714")
 
     implementation fg.deobf("curse.maven:jei-238222:5533463")
     implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220")
