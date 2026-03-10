@@ -11,6 +11,7 @@ import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.particle.HitParticleType;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -18,6 +19,7 @@ import yesman.epicfight.world.damagesource.StunType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class TessenThrowAttackAnimation extends AttackAnimation {
 
@@ -30,7 +32,7 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
     }
 
     public TessenThrowAttackAnimation(float convertTime, String path, float speed, float throwStart, float throwEnd, int phaseCount, float start , float antic, float contact, float recovery, float end, SoundEvent swingSound, SoundEvent hitSound, RegistryObject<HitParticleType> hitParticle, StunType stunType, Collider colliders, ThrowType throwType, boolean ignoreFallDamage) {
-        super(convertTime, path, Armatures.BIPED, buildPhases(path, phaseCount, throwStart, throwEnd, start ,antic, contact, recovery, end,swingSound, hitSound, hitParticle, colliders, throwType));
+        super(convertTime, path, Armatures.BIPED, buildPhases(path, phaseCount, throwStart, throwEnd, start ,antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, throwType));
         this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.175F)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, speed)
@@ -63,15 +65,18 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
         phases[0] = new Phase(
                 start,
                 antic,
+                antic,
                 contact,
                 recovery,
                 end,
                 InteractionHand.MAIN_HAND,
-                getThrownHand(path, throwType),
-                collider
+                getThrownHand(path, throwType, collider)
         ).addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound)
                 .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle);
+
+        Log.info("Logging Animation: " + path);
+        Log.info("ThrowHand For Phase[" + 0 +"]: " + phases[0].colliders[0].toString());
 
         // If there's only one phase, we're done
         if (phaseCount <= 1) {
@@ -107,37 +112,30 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
             phases[i] = new Phase(
                     newStart,
                     newAntic,
+                    newAntic,
                     newContact,
                     newRecovery,
                     newEndClamped,
                     InteractionHand.MAIN_HAND,
-                    getThrownHand(path, throwType),
-                    collider
+                    getThrownHand(path, throwType, collider)
             ).addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound)
                     .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound)
                     .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle);
+
+            Log.info("ThrowHand For Phase[" + i +"]: " + phases[i].colliders[0].toString());
 
         }
         return phases;
     }
 
-    private static Joint getThrownHand(String path, ThrowType throwType){
-        Joint jointType = null;
-        if(throwType == ThrowType.RIGHT_HAND) jointType = Armatures.BIPED.toolR;
-        else if(throwType == ThrowType.LEFT_HAND) jointType = Armatures.BIPED.toolL;
-        else if(throwType == ThrowType.BOTH){
-            ThrowType lastThrowType = lastAssignedType.getOrDefault(path, ThrowType.LEFT_HAND);
-
-            if(lastThrowType == ThrowType.LEFT_HAND)
-                jointType = Armatures.BIPED.toolR;
-            else if(lastThrowType == ThrowType.RIGHT_HAND)
-                jointType = Armatures.BIPED.toolL;
+    private static JointColliderPair[] getThrownHand(String path, ThrowType throwType, Collider collider){
+        JointColliderPair[] pair = null;
+        if(throwType == ThrowType.RIGHT_HAND) return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED).toolR, (Collider)collider)};
+        if(throwType == ThrowType.LEFT_HAND) return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED).toolL, (Collider)collider)};
+        if(throwType == ThrowType.BOTH){
+            return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED).toolR, (Collider)collider), JointColliderPair.of(((HumanoidArmature)Armatures.BIPED).toolL, (Collider)collider)};
         }
-        if(jointType == null)
-            jointType = Armatures.BIPED.toolR;
-
-        lastAssignedType.put(path, throwType);
-        return jointType;
+        return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED).toolR, (Collider)collider)};
     }
 
     @Override

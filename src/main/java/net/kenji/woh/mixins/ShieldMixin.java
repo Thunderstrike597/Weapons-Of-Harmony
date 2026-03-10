@@ -18,7 +18,7 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 @Mixin(ShieldItem.class)
 public class ShieldMixin {
 
-    @Inject(method = "use", at = @At("HEAD"), cancellable = true, remap = false)
+    @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     public void onUse(Level pLevel, Player pPlayer, InteractionHand pHand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
         PlayerPatch<?> playerPatch = EpicFightCapabilities.getEntityPatch(pPlayer, PlayerPatch.class);
         if (playerPatch == null) return;
