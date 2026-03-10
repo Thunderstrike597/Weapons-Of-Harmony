@@ -1,5 +1,5 @@
 {
-  "refmap": "mixins.woh.refmap.json",
+  "refmap": "woh.refmap.json",
   "required": true,
   "package": "net.kenji.woh.mixins",
   "compatibilityLevel": "JAVA_17",

@@ -14,6 +14,8 @@ import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.gameasset.ColliderPreset;
+import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.particle.HitParticleType;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -66,15 +68,18 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
         phases[0] = new Phase(
                 start,
                 antic,
+                antic,
                 contact,
                 recovery,
                 end,
                 InteractionHand.MAIN_HAND,
-                getThrownHand(path, throwType),
-                collider
+                getThrownHand(path, throwType, collider)
         ).addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound.get())
                 .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound.get())
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle);
+
+        Log.info("Logging Animation: " + path);
+        Log.info("ThrowHand For Phase[" + 0 +"]: " + phases[0].colliders[0].toString());
 
         // If there's only one phase, we're done
         if (phaseCount <= 1) {
@@ -110,37 +115,30 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
             phases[i] = new Phase(
                     newStart,
                     newAntic,
+                    newAntic,
                     newContact,
                     newRecovery,
                     newEndClamped,
                     InteractionHand.MAIN_HAND,
-                    getThrownHand(path, throwType),
-                    collider
+                    getThrownHand(path, throwType, collider)
             ).addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound.get())
                     .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound.get())
                     .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle);
+
+            Log.info("ThrowHand For Phase[" + i +"]: " + phases[i].colliders[0].toString());
 
         }
         return phases;
     }
 
-    private static Joint getThrownHand(String path, ThrowType throwType){
-        Joint jointType = null;
-        if(throwType == ThrowType.RIGHT_HAND) jointType = Armatures.BIPED.get().toolR;
-        else if(throwType == ThrowType.LEFT_HAND) jointType = Armatures.BIPED.get().toolL;
-        else if(throwType == ThrowType.BOTH){
-            ThrowType lastThrowType = lastAssignedType.getOrDefault(path, ThrowType.LEFT_HAND);
-
-            if(lastThrowType == ThrowType.LEFT_HAND)
-                jointType = Armatures.BIPED.get().toolR;
-            else if(lastThrowType == ThrowType.RIGHT_HAND)
-                jointType = Armatures.BIPED.get().toolL;
+    private static JointColliderPair[] getThrownHand(String path, ThrowType throwType, Collider collider){
+        JointColliderPair[] pair = null;
+        if(throwType == ThrowType.RIGHT_HAND) return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)collider)};
+        if(throwType == ThrowType.LEFT_HAND) return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolL, (Collider)collider)};
+        if(throwType == ThrowType.BOTH){
+            return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)collider), JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolL, (Collider)collider)};
         }
-        if(jointType == null)
-            jointType = Armatures.BIPED.get().toolR;
-
-        lastAssignedType.put(path, throwType);
-        return jointType;
+        return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)collider)};
     }
 
     @Override
