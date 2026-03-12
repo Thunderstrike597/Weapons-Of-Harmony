@@ -1,11 +1,10 @@
 package net.kenji.woh.mixins;
 
-import net.kenji.woh.api.animation_types.ShotogatanaAirAttackAnimation;
 import net.kenji.woh.api.animation_types.ShotogatanaAttackAnimation;
-import net.kenji.woh.api.animation_types.ShotogatanaDashAttackAnimation;
 import net.kenji.woh.api.manager.AttackManager;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.WohSkills;
+import net.kenji.woh.item.custom.weapon.Odachi;
 import net.kenji.woh.item.custom.weapon.Shotogatana;
 import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.registry.WohSounds;
@@ -52,8 +51,6 @@ public class AttackAnimationMixin {
                     if (!ShotogatanaManager.sheathWeapon.getOrDefault(playerPatch.getOriginal().getUUID(), false)) {
                         if (nextAnimation == null || isEnd & nextAnimation != ShotogatanaAnimations.SHOTOGATANA_SHEATH) {
                             if(!(attackAnimation instanceof ShotogatanaAttackAnimation))
-                                if(!(attackAnimation instanceof ShotogatanaDashAttackAnimation))
-                                    if(!(attackAnimation instanceof ShotogatanaAirAttackAnimation))
                                         playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.3f);
                         }
                     }
@@ -73,9 +70,10 @@ public class AttackAnimationMixin {
             if (playerPatch.getOriginal().getMainHandItem().getItem() instanceof Shotogatana) {
                 if (playerPatch.getSkill(WohSkills.SHEATH_STANCE) == null || !playerPatch.getSkill(WohSkills.SHEATH_STANCE).isActivated()) {
                     if (!(attackAnimation instanceof ShotogatanaAttackAnimation))
-                        if (!(attackAnimation instanceof ShotogatanaDashAttackAnimation))
-                            if (!(attackAnimation instanceof ShotogatanaAirAttackAnimation))
                                 cir.setReturnValue(WohSounds.SHOTOGATANA_SWING.get());
+                    if (playerPatch.getOriginal().getMainHandItem().getItem() instanceof Odachi) {
+                        cir.setReturnValue(WohSounds.ODACHI_SWING.get());
+                    }
                 }
             }
         }

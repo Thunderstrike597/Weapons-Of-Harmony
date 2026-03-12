@@ -4,6 +4,8 @@ import net.kenji.woh.registry.WohColliderPreset;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.Joint;
+import yesman.epicfight.api.animation.types.AirSlashAnimation;
+import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
@@ -12,6 +14,8 @@ import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.particle.EpicFightParticles;
 import yesman.epicfight.world.damagesource.StunType;
+
+import java.util.function.Supplier;
 
 
 public class TsumeAnimations {
@@ -40,6 +44,8 @@ public class TsumeAnimations {
     public static StaticAnimation TSUME_SKILL_AUTO_1;
     public static StaticAnimation TSUME_SKILL_AUTO_2;
     public static StaticAnimation TSUME_SKILL_AUTO_3;
+
+    public static StaticAnimation TSUME_NEW_AIRSLASH;
 
     public static StaticAnimation TSUME_GUARD;
 
@@ -291,8 +297,8 @@ public class TsumeAnimations {
                 2F,
                 0.08F,
                 new float[]{0.0F},
-                new float[]{0.30F},
-                new float[]{0.38F},
+                new float[]{0.35F},
+                new float[]{0.46F},
                 new float[]{0.55F},
                 new float[]{1.52F},
                 new SoundEvent[]{EpicFightSounds.WHOOSH_SMALL.get()},
@@ -345,6 +351,28 @@ public class TsumeAnimations {
                 new Collider[]{ColliderPreset.SWORD, ColliderPreset.SWORD},
                 new Joint[]{biped.toolR, biped.toolL},
                 StunType.SHORT,
+                -1,
+                -1
+        );
+        TSUME_NEW_AIRSLASH = WOHAnimationUtils.createAirAttackAnimation(
+                "biped/combat/new/tsume/tsume_airslash",
+                3,
+                0.1F,
+                0.1F,
+                6F,
+                0.2F,
+                new float[]{0.0F, 0.38F, 0.70F},
+                new float[]{0.16F, 0.42F, 0.80F},
+                new float[]{0.26F, 0.52F, 0.98F},
+                new float[]{1.18F, 1.18F, 1.18F},
+                new float[]{1.30F, 1.30F, 1.30F},
+                new SoundEvent[]{EpicFightSounds.WHOOSH_SMALL.get(), EpicFightSounds.WHOOSH_SMALL.get(), EpicFightSounds.WHOOSH_SMALL.get()},
+                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get(), EpicFightSounds.BLADE_HIT.get()},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                StunType.LONG,
+                new Collider[]{ColliderPreset.SWORD, ColliderPreset.SWORD, ColliderPreset.SWORD},
+                new Joint[]{biped.toolR, biped.toolL, biped.toolR},
+                new float[]{0.05F, 1.22F},
                 -1,
                 -1
         );

@@ -5,11 +5,14 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.registries.RegistryObject;
 import org.jline.utils.Log;
+import yesman.epicfight.api.animation.AnimationManager;
+import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.collider.Collider;
+import yesman.epicfight.api.utils.TimePairList;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.particle.HitParticleType;
@@ -31,7 +34,11 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
         BOTH
     }
 
-    public TessenThrowAttackAnimation(float convertTime, String path, float speed, float throwStart, float throwEnd, int phaseCount, float start , float antic, float contact, float recovery, float end, SoundEvent swingSound, SoundEvent hitSound, RegistryObject<HitParticleType> hitParticle, StunType stunType, Collider colliders, ThrowType throwType, boolean ignoreFallDamage) {
+    private final boolean useMovement;
+    private final boolean ignoreFallDamage;
+
+
+    public TessenThrowAttackAnimation(float convertTime, String path, float speed, float throwStart, float throwEnd, int phaseCount, float start , float antic, float contact, float recovery, float end, SoundEvent swingSound, SoundEvent hitSound, RegistryObject<HitParticleType> hitParticle, StunType stunType, Collider colliders, ThrowType throwType, boolean ignoreFallDamage, boolean useMovement) {
         super(convertTime, path, Armatures.BIPED, buildPhases(path, phaseCount, throwStart, throwEnd, start ,antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, throwType));
         this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.175F)
@@ -40,7 +47,21 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
                 .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
                 .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false);
+        this.useMovement = useMovement;
+        this.ignoreFallDamage = ignoreFallDamage;
+    }
+    public TessenThrowAttackAnimation(float convertTime, String path, float speed, float throwStart, float throwEnd, int phaseCount, float start , float antic, float contact, float recovery, float end, SoundEvent swingSound, SoundEvent hitSound, RegistryObject<HitParticleType> hitParticle, StunType stunType, Collider colliders, ThrowType throwType, boolean ignoreFallDamage, float[] airTime) {
+        super(convertTime, path, Armatures.BIPED, buildPhases(path, phaseCount, throwStart, throwEnd, start ,antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, throwType));
+        this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
+                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, speed)
+                .addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true)
+                .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
+                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
+                .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false)
+                .addProperty(AnimationProperty.ActionAnimationProperty.NO_GRAVITY_TIME, TimePairList.create(airTime));
 
+        this.useMovement = true;
+        this.ignoreFallDamage = ignoreFallDamage;
     }
 
     private static Phase[] buildPhases(
@@ -74,9 +95,6 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
         ).addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound)
                 .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle);
-
-        Log.info("Logging Animation: " + path);
-        Log.info("ThrowHand For Phase[" + 0 +"]: " + phases[0].colliders[0].toString());
 
         // If there's only one phase, we're done
         if (phaseCount <= 1) {
@@ -122,8 +140,6 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
                     .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound)
                     .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle);
 
-            Log.info("ThrowHand For Phase[" + i +"]: " + phases[i].colliders[0].toString());
-
         }
         return phases;
     }
@@ -137,9 +153,20 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
         }
         return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED).toolR, (Collider)collider)};
     }
+    @Override
+    protected void attackTick(LivingEntityPatch<?> entitypatch, DynamicAnimation animation) {
+        if (entitypatch instanceof PlayerPatch<?> playerPatch) {
+            AnimationPlayer animPlayer = playerPatch.getAnimator().getPlayerFor(this);
+            if (ignoreFallDamage)
+                playerPatch.getOriginal().resetFallDistance();
+
+            super.attackTick(entitypatch, animation);
+        }
+    }
 
     @Override
     protected void move(LivingEntityPatch<?> entitypatch, DynamicAnimation animation) {
-
+        if(useMovement)
+            super.move(entitypatch, animation);
     }
 }

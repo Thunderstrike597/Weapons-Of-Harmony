@@ -35,7 +35,7 @@ public class Tessen extends HolsterWeaponBase {
     );
 
     public Tessen(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, 0, 0.8f, builder, hasTooltip, tooltipColor);
+        super(tier, 0, -0.5F, builder, hasTooltip, tooltipColor);
     }
 
     @Override

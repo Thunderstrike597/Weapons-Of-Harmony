@@ -37,15 +37,18 @@ public class WohAttackAnimation extends BasisAttackAnimation {
 
     public WohAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, String path, @Nullable StaticAnimation endAnimation, int phaseCount, float convertTime, float attackSpeed, float damage, float impact, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, SoundEvent[] swingSound, SoundEvent[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean ignoreFallDamage) {
         super(attackType, convertTime, path, biped, endAnimation, ignoreFallDamage, buildPhases(phaseCount, start ,antic, contact, recovery, end, hitSound, swingSound, hitParticle, colliders, colliderJoints));
+
         this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.setter(damage))
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(impact))
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, attackSpeed)
-                .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, basisAttackSpeed)
-                .addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true)
-         .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
+                .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
-                .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false);
+                .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, true);
+        if(attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP)
+            this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true);
+        else this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, false);
+
     }
     public WohAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, String path, @Nullable StaticAnimation endAnimation, int phaseCount, float convertTime, float attackSpeed, float damage, float impact, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, SoundEvent[] swingSound, SoundEvent[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean ignoreFallDamage, float slashAngle, float movementEnd) {
         super(attackType, convertTime, path, biped, ignoreFallDamage, slashAngle, movementEnd,buildPhases(phaseCount, start ,antic, contact, recovery, end, hitSound, swingSound, hitParticle, colliders, colliderJoints));
@@ -54,10 +57,14 @@ public class WohAttackAnimation extends BasisAttackAnimation {
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(impact))
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, attackSpeed)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, basisAttackSpeed)
-                .addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true)
                 .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
                 .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false);
+        if(attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP)
+            this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true);
+        else this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, false);
+
+
     }
     private static AttackAnimation.Phase[] buildPhases(int phaseCount,  float[] start ,float[] antic, float[] contact, float[] recovery, float[] end, SoundEvent[] hitSound, SoundEvent[] swingSound, RegistryObject<HitParticleType>[] hitParticle, Collider[] colliders, Joint[] colliderJoints) {
         AttackAnimation.Phase[] phases = new AttackAnimation.Phase[phaseCount];

@@ -1,8 +1,6 @@
 package net.kenji.woh.api;
 
-import net.kenji.woh.api.animation_types.ShotogatanaAirAttackAnimation;
 import net.kenji.woh.api.animation_types.ShotogatanaAttackAnimation;
-import net.kenji.woh.api.animation_types.ShotogatanaDashAttackAnimation;
 import net.kenji.woh.api.animation_types.TessenThrowAttackAnimation;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.animation_types.*;
@@ -12,10 +10,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.RegistryObject;
 import org.jline.utils.Log;
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
@@ -26,6 +26,7 @@ import yesman.epicfight.world.damagesource.StunType;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 public class WOHAnimationUtils {
 
@@ -179,18 +180,48 @@ public class WOHAnimationUtils {
             TessenThrowAttackAnimation.ThrowType throwType,
             StunType stunType,
             float throwStart,
-            float ThrowEnd
+            float ThrowEnd,
+            boolean useMovement
     ) {
         AttackAnimation animation = null;
 
         animation = new TessenThrowAttackAnimation(convertTime,
                 path, attackSpeed, throwStart, ThrowEnd, phaseCount,
                 start, antic, contact, recovery, end,
-                swingSound, hitSound, hitParticle, stunType, colliders, throwType, false
+                swingSound, hitSound, hitParticle, stunType, colliders, throwType, false, useMovement
         );
         return animation;
     }
 
+    public static StaticAnimation createTessenThrowAirAttackAnimation(
+            String path,
+            int phaseCount,
+            float convertTime,
+            float start,
+            float antic,
+            float contact,
+            float recovery,
+            float end,
+            float attackSpeed,
+            SoundEvent swingSound,
+            SoundEvent hitSound,
+            RegistryObject<HitParticleType> hitParticle,
+            Collider colliders,
+            TessenThrowAttackAnimation.ThrowType throwType,
+            StunType stunType,
+            float throwStart,
+            float ThrowEnd,
+            float[] airTime
+    ) {
+        AttackAnimation animation = null;
+
+        animation = new TessenThrowAttackAnimation(convertTime, path,
+                attackSpeed, throwStart, ThrowEnd, phaseCount,
+                start, antic, contact, recovery, end,
+                swingSound, hitSound, hitParticle, stunType, colliders, throwType, true, airTime
+        );
+        return animation;
+    }
 
     public static StaticAnimation createAttackAnimation(
             AttackAnimationType type,
@@ -298,20 +329,20 @@ public class WOHAnimationUtils {
             float unsheatheTime,
             float sheathTime
     ) {
-        AttackAnimation animation = null;
+        BasicAttackAnimation animation = null;
         switch(type) {
-            case BASIC_ATTACK, BASIC_ATTACK_SHEATH:
+            case BASIC_ATTACK, BASIC_ATTACK_SHEATH, DASH_ATTACK:
                 animation = new ShotogatanaAttackAnimation(convertTime,
-                        path, unsheatheTime, sheathTime,phaseCount,
+                        path, unsheatheTime, sheathTime, phaseCount,
                         start, antic, contact, recovery, end,
                         swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, false
                 );
                 break;
-            case DASH_ATTACK:
-                animation = new ShotogatanaDashAttackAnimation(convertTime,
-                        path, unsheatheTime, sheathTime,phaseCount,
+            case BASIC_ATTACK_JUMP:
+                animation = new ShotogatanaAttackAnimation(convertTime,
+                        path, unsheatheTime, sheathTime, phaseCount,
                         start, antic, contact, recovery, end,
-                        swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, false
+                        swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, true
                 );
                 break;
         }
@@ -356,13 +387,12 @@ public class WOHAnimationUtils {
             float unsheatheTime,
             float sheathTime
     ) {
-        AttackAnimation animation = null;
+        BasicAttackAnimation animation = null;
 
-        animation = new ShotogatanaAirAttackAnimation(
-                convertTime,
-                path, unsheatheTime, sheathTime,phaseCount,
+        animation = new ShotogatanaAttackAnimation(convertTime,
+                path, unsheatheTime, sheathTime, phaseCount,
                 start, antic, contact, recovery, end,
-                swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, airTime, ignoreFallDamage
+                swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, ignoreFallDamage, airTime
         );
 
 
