@@ -4,6 +4,7 @@ import net.kenji.woh.api.animation_types.ShotogatanaAttackAnimation;
 import net.kenji.woh.api.manager.AttackManager;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.WohSkills;
+import net.kenji.woh.item.custom.weapon.Odachi;
 import net.kenji.woh.item.custom.weapon.Shotogatana;
 import net.kenji.woh.registry.WohSounds;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
@@ -63,6 +64,9 @@ public class AttackAnimationMixin {
                     if (!(attackAnimation instanceof ShotogatanaAttackAnimation))
                         cir.setReturnValue(WohSounds.SHOTOGATANA_SWING.get());
                 }
+            }
+            if (playerPatch.getOriginal().getMainHandItem().getItem() instanceof Odachi) {
+                cir.setReturnValue(WohSounds.ODACHI_SWING.get());
             }
         }
     }

@@ -46,6 +46,7 @@ public class TsumeAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_NEW_AUTO_2;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_NEW_AUTO_3;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TSUME_NEW_AUTO_4;
+    public static AnimationManager.AnimationAccessor<? extends AirSlashAnimation> TSUME_NEW_AIRSLASH;
 
 
     public static AnimationManager.AnimationAccessor<StaticAnimation> TSUME_GUARD;
@@ -300,8 +301,8 @@ public class TsumeAnimations {
                 2F,
                 0.08F,
                 new float[]{0.0F},
-                new float[]{0.30F},
-                new float[]{0.38F},
+                new float[]{0.35F},
+                new float[]{0.46F},
                 new float[]{0.55F},
                 new float[]{1.52F},
                 new Supplier[]{EpicFightSounds.WHOOSH_SMALL},
@@ -356,6 +357,28 @@ public class TsumeAnimations {
                 new Collider[]{ColliderPreset.SWORD, ColliderPreset.SWORD},
                 new Joint[]{biped.get().toolR, biped.get().toolL},
                 StunType.SHORT,
+                -1,
+                -1
+        );
+        TSUME_NEW_AIRSLASH = WOHAnimationUtils.createAirAttackAnimation(builder,
+                "biped/combat/new/tsume/tsume_airslash",
+                3,
+                0.1F,
+                0.1F,
+                6F,
+                0.2F,
+                new float[]{0.0F, 0.38F, 0.70F},
+                new float[]{0.16F, 0.42F, 0.80F},
+                new float[]{0.26F, 0.52F, 0.98F},
+                new float[]{1.18F, 1.18F, 1.18F},
+                new float[]{1.30F, 1.30F, 1.30F},
+                new Supplier[]{EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL},
+                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                StunType.LONG,
+                new Collider[]{ColliderPreset.SWORD, ColliderPreset.SWORD, ColliderPreset.SWORD},
+                new Joint[]{biped.get().toolR, biped.get().toolL, biped.get().toolR},
+                new float[]{0.05F, 1.22F},
                 -1,
                 -1
         );

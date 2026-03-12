@@ -70,10 +70,7 @@ public class WohDashAttackAnimation extends BasisDashAttackAnimation {
                 buildPhases(phaseCount, start, antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, colliderJoints)
         );
         this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
-                .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.setter(damage))
-                .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.setter(impact))
-                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, attackSpeed)
-                .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, basisAttackSpeed);
+                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.175F);
         if(attackType == WOHAnimationUtils.AttackAnimationType.DASH_ATTACK_JUMP)
             this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true);
         else this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, false);

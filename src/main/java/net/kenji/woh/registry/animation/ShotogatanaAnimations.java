@@ -432,7 +432,7 @@ public class ShotogatanaAnimations {
                 new Joint[]{biped.get().toolR, biped.get().toolR},
                 StunType.LONG,
                 0.28F,
-                2.60F
+                2.50F
         );
         SHOTOGATANA_NEW_AUTO_2 = WOHAnimationUtils.createShotogatanaAttackAnimation(
                 builder,

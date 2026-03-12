@@ -185,6 +185,7 @@ public class WOHAnimationUtils {
 
     public static AnimationManager.AnimationAccessor<AttackAnimation> createTessenThrowAttackAnimation(
             AnimationManager.AnimationBuilder builder,
+            AttackAnimationType attackType,
             String path,
             int phaseCount,
             float convertTime,
@@ -201,14 +202,46 @@ public class WOHAnimationUtils {
             TessenThrowAttackAnimation.ThrowType throwType,
             StunType stunType,
             float throwStart,
-            float ThrowEnd
+            float ThrowEnd,
+            boolean useMovement
     ) {
         AnimationManager.AnimationAccessor<AttackAnimation> animation = null;
 
         animation = builder.nextAccessor(path, accessor -> new TessenThrowAttackAnimation(convertTime, path,
                accessor, attackSpeed, throwStart, ThrowEnd, phaseCount,
                 start, antic, contact, recovery, end,
-                swingSound, hitSound, hitParticle, stunType, colliders, throwType, false
+                swingSound, hitSound, hitParticle, stunType, colliders, throwType, attackType == AttackAnimationType.BASIC_ATTACK_JUMP || attackType == AttackAnimationType.DASH_ATTACK_JUMP, useMovement
+        ));
+        return animation;
+    }
+
+    public static AnimationManager.AnimationAccessor<AttackAnimation> createTessenThrowAirAttackAnimation(
+            AnimationManager.AnimationBuilder builder,
+            String path,
+            int phaseCount,
+            float convertTime,
+            float start,
+            float antic,
+            float contact,
+            float recovery,
+            float end,
+            float attackSpeed,
+            Supplier<SoundEvent> swingSound,
+            Supplier<SoundEvent> hitSound,
+            RegistryObject<HitParticleType> hitParticle,
+            Collider colliders,
+            TessenThrowAttackAnimation.ThrowType throwType,
+            StunType stunType,
+            float throwStart,
+            float ThrowEnd,
+            float[] airTime
+    ) {
+        AnimationManager.AnimationAccessor<AttackAnimation> animation = null;
+
+        animation = builder.nextAccessor(path, accessor -> new TessenThrowAttackAnimation(convertTime, path,
+                accessor, attackSpeed, throwStart, ThrowEnd, phaseCount,
+                start, antic, contact, recovery, end,
+                swingSound, hitSound, hitParticle, stunType, colliders, throwType, true, airTime
         ));
         return animation;
     }

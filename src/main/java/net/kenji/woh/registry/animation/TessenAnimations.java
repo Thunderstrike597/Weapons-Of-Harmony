@@ -56,15 +56,20 @@ public class TessenAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_AUTO_1;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_AUTO_2;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_AUTO_3;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_AIRSLASH;
+
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_DUAL_AUTO_1;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_DUAL_AUTO_2;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_DUAL_AUTO_3;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_DUAL_AUTO_4;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_DUAL_AIRSLASH;
 
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_SKILL_AUTO_1;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_SKILL_AUTO_2;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_SKILL_AUTO_3;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_SKILL_AUTO_4;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_DUAL_DASH;
+
 
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_SKILL_DUAL_AUTO_2;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_SKILL_DUAL_AUTO_3;
@@ -98,7 +103,7 @@ public class TessenAnimations {
                 "biped/combat/tessen/tessen_auto_1",
                 1,
                 0.1F,
-                1F,
+                0.1F,
                 2F,
                 0.1F,
                 new float[]{0.0F},
@@ -120,7 +125,7 @@ public class TessenAnimations {
                 "biped/combat/tessen/tessen_auto_2",
                 1,
                 0.1F,
-                1F,
+                0.1F,
                 2F,
                 0.1F,
                 new float[]{0.0F},
@@ -142,7 +147,7 @@ public class TessenAnimations {
                 "biped/combat/tessen/tessen_auto_3",
                 1,
                 0.1F,
-                1F,
+                0.1F,
                 2F,
                 0.1F,
                 new float[]{0.0F},
@@ -164,7 +169,7 @@ public class TessenAnimations {
                 "biped/combat/tessen/tessen_auto_4",
                 1,
                 0.1F,
-                1F,
+                0.1F,
                 2F,
                 0.1F,
                 new float[]{0.0F},
@@ -186,7 +191,7 @@ public class TessenAnimations {
                 "biped/combat/tessen/tessen_dual_auto_1",
                 2,
                 0.1F,
-                1F,
+                0.1F,
                 2F,
                 0.1F,
                 new float[]{0.0F, 0.0F},
@@ -209,7 +214,7 @@ public class TessenAnimations {
                 "biped/combat/tessen/tessen_dual_auto_2",
                 2,
                 0.1F,
-                1F,
+                0.1F,
                 2F,
                 0.1F,
                 new float[]{0.0F, 0.0F},
@@ -231,7 +236,7 @@ public class TessenAnimations {
                 "biped/combat/tessen/tessen_dual_auto_3",
                 3,
                 0.1F,
-                1F,
+                0.1F,
                 2F,
                 0.1F,
                 new float[]{0.0F, 0.0F, 0.0F},
@@ -253,7 +258,7 @@ public class TessenAnimations {
                 "biped/combat/tessen/tessen_dual_auto_4",
                 2,
                 0.1F,
-                1F,
+                0.1F,
                 2F,
                 0.1F,
                 new float[]{0.0F, 0.0F},
@@ -275,7 +280,7 @@ public class TessenAnimations {
                 "biped/combat/tessen/tessen_dual_auto_5",
                 3,
                 0.1F,
-                1F,
+                0.1F,
                 2F,
                 0.1F,
                 new float[]{0.0F, 0.0F, 0.0F},
@@ -520,7 +525,7 @@ public class TessenAnimations {
                 "biped/combat/new/tessen/tessen_auto_1",
                 1,
                 0.1F,
-                1F,
+                0.1F,
                 2F,
                 0.1F,
                 new float[]{0.0F},
@@ -543,7 +548,7 @@ public class TessenAnimations {
                 "biped/combat/new/tessen/tessen_auto_2",
                 1,
                 0.1F,
-                1F,
+                0.1F,
                 2F,
                 0.1F,
                 new float[]{0.0F},
@@ -566,7 +571,7 @@ public class TessenAnimations {
                 "biped/combat/new/tessen/tessen_auto_3",
                 2,
                 0.1F,
-                1F,
+                0.1F,
                 2F,
                 0.1F,
                 new float[]{0.0F, 0.52F},
@@ -583,6 +588,29 @@ public class TessenAnimations {
                 -1,
                 -1
         );
+        TESSEN_NEW_AIRSLASH = WOHAnimationUtils.createAirAttackAnimation(
+                builder,
+                "biped/combat/new/tessen/tessen_airslash",
+                2,
+                0.1F,
+                0.1F,
+                2F,
+                0.1F,
+                new float[]{0.0F, 0.42F},
+                new float[]{0.25F, 0.46F},
+                new float[]{0.30F, 0.50F},
+                new float[]{0.8F, 0.8F},
+                new float[]{1.05F, 1.05F},
+                new Supplier[]{EpicFightSounds.WHOOSH_SMALL, EpicFightSounds.WHOOSH_SMALL},
+                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                StunType.SHORT,
+                new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER},
+                new Joint[]{biped.get().toolR, biped.get().toolR},
+                new float[]{0.05F, 1F},
+                -1,
+                -1
+        );
 
         TESSEN_NEW_DUAL_AUTO_1 = WOHAnimationUtils.createAttackAnimation(
                 builder,
@@ -590,7 +618,7 @@ public class TessenAnimations {
                 "biped/combat/new/tessen/tessen_dual_auto_1",
                 2,
                 0.1F,
-                1F,
+                0.2F,
                 2F,
                 0.1F,
                 new float[]{0.0F, 0.0F},
@@ -613,7 +641,7 @@ public class TessenAnimations {
                 "biped/combat/new/tessen/tessen_dual_auto_2",
                 2,
                 0.1F,
-                1F,
+                0.2F,
                 2F,
                 0.1F,
                 new float[]{0.0F, 0.0F},
@@ -636,7 +664,7 @@ public class TessenAnimations {
                 "biped/combat/new/tessen/tessen_dual_auto_3",
                 3,
                 0.1F,
-                1F,
+                0.18F,
                 2F,
                 0.1F,
                 new float[]{0.0F, 0.68F, 0.68F},
@@ -659,7 +687,7 @@ public class TessenAnimations {
                 "biped/combat/new/tessen/tessen_dual_auto_4",
                 2,
                 0.1F,
-                1F,
+                0.2F,
                 2F,
                 0.1F,
                 new float[]{0.0F, 0.0F},
@@ -676,8 +704,11 @@ public class TessenAnimations {
                 -1,
                 -1
         );
+
+
         TESSEN_NEW_SKILL_AUTO_1 = WOHAnimationUtils.createTessenThrowAttackAnimation(
                 builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
                 "biped/combat/new/tessen/tessen_skill_auto_1",
                 6,
                 0.1F,
@@ -694,10 +725,12 @@ public class TessenAnimations {
                 TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
                 StunType.SHORT,
                 0.36F,
-                1.15F
+                1.15F,
+                false
         );
         TESSEN_NEW_SKILL_AUTO_2 = WOHAnimationUtils.createTessenThrowAttackAnimation(
                 builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
                 "biped/combat/new/tessen/tessen_skill_auto_2",
                 10,
                 0.1F,
@@ -714,10 +747,12 @@ public class TessenAnimations {
                 TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
                 StunType.SHORT,
                 0.36F,
-                1.70F
+                1.70F,
+                false
         );
         TESSEN_NEW_SKILL_AUTO_3 = WOHAnimationUtils.createTessenThrowAttackAnimation(
                 builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
                 "biped/combat/new/tessen/tessen_skill_auto_3",
                 10,
                 0.1F,
@@ -734,10 +769,12 @@ public class TessenAnimations {
                 TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
                 StunType.SHORT,
                 0.36F,
-                2.20F
+                2.20F,
+                false
         );
         TESSEN_NEW_SKILL_AUTO_4 = WOHAnimationUtils.createTessenThrowAttackAnimation(
                 builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
                 "biped/combat/new/tessen/tessen_skill_auto_4",
                 10,
                 0.1F,
@@ -754,10 +791,12 @@ public class TessenAnimations {
                 TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
                 StunType.SHORT,
                 0.36F,
-                2.08F
+                2.08F,
+                false
         );
         TESSEN_NEW_SKILL_DUAL_AUTO_2 = WOHAnimationUtils.createTessenThrowAttackAnimation(
                 builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
                 "biped/combat/new/tessen/tessen_skill_dual_auto_2",
                 8,
                 0.1F,
@@ -774,10 +813,12 @@ public class TessenAnimations {
                 TessenThrowAttackAnimation.ThrowType.LEFT_HAND,
                 StunType.SHORT,
                 0.30F,
-                1.40F
+                1.40F,
+                false
         );
         TESSEN_NEW_SKILL_DUAL_AUTO_3 = WOHAnimationUtils.createTessenThrowAttackAnimation(
                 builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
                 "biped/combat/new/tessen/tessen_skill_dual_auto_3",
                 12,
                 0.1F,
@@ -794,10 +835,12 @@ public class TessenAnimations {
                 TessenThrowAttackAnimation.ThrowType.BOTH,
                 StunType.SHORT,
                 0.30F,
-                1.70F
+                1.70F,
+                false
         );
         TESSEN_NEW_SKILL_DUAL_AUTO_4 = WOHAnimationUtils.createTessenThrowAttackAnimation(
                 builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
                 "biped/combat/new/tessen/tessen_skill_dual_auto_4",
                 8,
                 0.1F,
@@ -814,7 +857,51 @@ public class TessenAnimations {
                 TessenThrowAttackAnimation.ThrowType.BOTH,
                 StunType.SHORT,
                 0.30F,
-                1.95F
+                1.95F,
+                false
+        );
+        TESSEN_NEW_DUAL_DASH = WOHAnimationUtils.createTessenThrowAttackAnimation(
+                builder,
+                WOHAnimationUtils.AttackAnimationType.DASH_ATTACK_JUMP,
+                "biped/combat/new/tessen/tessen_dual_dash",
+                8,
+                0.1F,
+                0.0F,
+                0.16F,
+                0.25F,
+                0.26F,
+                0.28F,
+                0.05F,
+                EpicFightSounds.WHOOSH_SMALL,
+                EpicFightSounds.BLADE_HIT,
+                EpicFightParticles.HIT_BLADE,
+                ColliderPreset.DUAL_SWORD,
+                TessenThrowAttackAnimation.ThrowType.BOTH,
+                StunType.SHORT,
+                0.30F,
+                1.50F,
+                true
+        );
+        TESSEN_NEW_DUAL_AIRSLASH = WOHAnimationUtils.createTessenThrowAirAttackAnimation(
+                builder,
+                "biped/combat/new/tessen/tessen_dual_airslash",
+                10,
+                0.1F,
+                0.0F,
+                0.20F,
+                0.25F,
+                0.26F,
+                0.28F,
+                0.05F,
+                EpicFightSounds.WHOOSH_SMALL,
+                EpicFightSounds.BLADE_HIT,
+                EpicFightParticles.HIT_BLADE,
+                ColliderPreset.DUAL_SWORD,
+                TessenThrowAttackAnimation.ThrowType.BOTH,
+                StunType.SHORT,
+                0.30F,
+                1.59F,
+                new float[]{0.0F, 1.58F}
         );
     }
 }
