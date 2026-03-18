@@ -45,7 +45,7 @@ public abstract class GuardSkillMixin {
         guardMotions.put(
                 WohWeaponCategories.SHOTOGATANA,
                 (item, player) -> {
-                    boolean isSheathed = ShotogatanaManager.sheathWeapon.getOrDefault(player.getOriginal().getUUID(), false);
+                    boolean isSheathed = ShotogatanaManager.renderSheathMap.getOrDefault(player.getOriginal().getUUID(), false);
                     if(player.getSkill(WohSkills.SHEATH_STANCE) == null || !player.getSkill(WohSkills.SHEATH_STANCE).isActivated()) {
                         if (isSheathed) {
                             return ShotogatanaAnimations.SHOTOGATANA_GUARD;

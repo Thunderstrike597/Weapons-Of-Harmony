@@ -1,14 +1,12 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
 import net.kenji.woh.api.animation_types.TessenThrowAttackAnimation;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
-import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.gameasset.EpicFightSounds;
@@ -21,9 +19,11 @@ import java.util.function.Supplier;
 
 public class TessenAnimations {
     public static AnimationManager.AnimationAccessor<StaticAnimation> TESSEN_HOLD;
-    public static AnimationManager.AnimationAccessor<StaticAnimation> TESSEN_RUN;
+    public static AnimationManager.AnimationAccessor<StaticAnimation> TESSEN_DUAL_RUN;
     public static AnimationManager.AnimationAccessor<StaticAnimation> TESSEN_NEW_HOLD;
     public static AnimationManager.AnimationAccessor<StaticAnimation> TESSEN_NEW_WALK;
+    public static AnimationManager.AnimationAccessor<StaticAnimation> TESSEN_RUN;
+
     public static AnimationManager.AnimationAccessor<StaticAnimation> TESSEN_SKILL_HOLD;
     public static AnimationManager.AnimationAccessor<StaticAnimation> TESSEN_SKILL_WALK;
     public static AnimationManager.AnimationAccessor<StaticAnimation> TESSEN_SKILL_ACTIVATE;
@@ -86,9 +86,10 @@ public class TessenAnimations {
         AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
 
         TESSEN_HOLD = WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tessen/tessen_dual_hold", true, 0.1f, -1, -1,null);
-        TESSEN_RUN =  WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tessen/tessen_dual_run", true, 0.1f, -1, -1,null);
+        TESSEN_DUAL_RUN =  WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tessen/tessen_dual_run", true, 0.1f, -1, -1,null);
         TESSEN_NEW_HOLD = WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tessen/tessen_hold", true, 0.1f, -1, -1,null);
         TESSEN_NEW_WALK =  WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tessen/tessen_walk", true, 0.1f, -1, -1,null);
+        TESSEN_RUN =  WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tessen/tessen_run", true, 0.1f, -1, -1,null);
 
         TESSEN_SKILL_HOLD =  WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tessen/tessen_skill_hold", true, 0.1f, -1, -1,null);
         TESSEN_SKILL_WALK =  WOHAnimationUtils.createLivingAnimation(builder,"biped/living/tessen/tessen_skill_walk", true, 0.1f, -1, -1,null);

@@ -80,13 +80,16 @@ public class Shotogatana extends HolsterWeaponBase {
 
     @Override
     public boolean shouldRenderInHand(PlayerPatch<?> playerPatch) {
-        return ShotogatanaManager.sheathWeapon.getOrDefault(playerPatch.getOriginal().getUUID(), false) && playerPatch.getOriginal().getMainHandItem().getItem() == this;
+        return ShotogatanaManager.renderSheathMap.getOrDefault(playerPatch.getOriginal().getUUID(), false) && playerPatch.getOriginal().getMainHandItem().getItem() == this;
     }
 
     @Override
     public boolean shouldRenderUnholstered(PlayerPatch<?> player) {
         if(player instanceof LocalPlayerPatch localPlayerPatch) {
-            return player.getSkill(WohSkills.SHEATH_STANCE) != null && player.getSkill(WohSkills.SHEATH_STANCE).isActivated() && !ShotogatanaManager.sheathWeapon.getOrDefault(player.getOriginal().getUUID(), false) && localPlayerPatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer.getAnimation() != ShotogatanaAnimations.SHOTOGATANA_UNSHEATH;
+            return player.getSkill(WohSkills.SHEATH_STANCE) != null
+                    && player.getSkill(WohSkills.SHEATH_STANCE).isActivated()
+                    && !ShotogatanaManager.renderSheathMap.getOrDefault(player.getOriginal().getUUID(), false)
+                    && localPlayerPatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer.getAnimation() != ShotogatanaAnimations.SHOTOGATANA_UNSHEATH;
         }
         return false;
     }

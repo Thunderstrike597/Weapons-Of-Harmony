@@ -82,7 +82,7 @@ public class ShotogatanaAnimations {
         SHOTOGATANA_SHEATH_ALT1 = WOHAnimationUtils.createSheathAnimation(builder,"biped/skill/shotogatana/shotogatana_sheathe_alt1",   0.1f, 2.5f, null);
         SHOTOGATANA_SHEATH_ALT2 = WOHAnimationUtils.createSheathAnimation(builder,"biped/skill/shotogatana/shotogatana_sheathe_alt2",  0.1f, 1.93f, null);
 
-        SHOTOGATANA_UNSHEATH = WOHAnimationUtils.createLivingAnimation(builder,"biped/skill/shotogatana/shotogatana_unsheathe", false, 0.1f, 0.23f, -1, null);
+        SHOTOGATANA_UNSHEATH = WOHAnimationUtils.createShotogatanaLivingAnimation(builder,"biped/skill/shotogatana/shotogatana_unsheathe", false, 0.1f, 0.5f, -1, null);
 
         SHOTOGATANA_IDLE = WOHAnimationUtils.createLivingAnimation(builder,"biped/living/shotogatana/shotogatana_idle", true, 0.1f, -1f, -1, null);
         SHOTOGATANA_WALK = WOHAnimationUtils.createLivingAnimation(builder,"biped/living/shotogatana/shotogatana_walk", true, 0.1f, -1f, -1, null);

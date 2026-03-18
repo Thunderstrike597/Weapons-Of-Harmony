@@ -12,7 +12,8 @@
     "ShieldMixin"
   ],
   "client": [
-    "AttackAnimationMixin"
+    "AttackAnimationMixin",
+    "EpicFightShaderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

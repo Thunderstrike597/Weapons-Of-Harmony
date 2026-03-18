@@ -10,6 +10,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.ZombieVillager;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -32,13 +33,14 @@ public class ClawedZombieVillagerEvents {
 
         if (zombieVillager.getRandom().nextFloat() < WohConfigCommon.CLAWED_ZOMBIE_VILLAGER_SPAWN_CHANCE.get()) {
             event.setCanceled(true);
-            WohEntities.RONIN_SKELETON.get().spawn(serverLevel, event.getEntity().blockPosition(), MobSpawnType.NATURAL);
+            WohEntities.CLAWED_ZOMBIE_VILLAGER.get().spawn(serverLevel, event.getEntity().blockPosition(), MobSpawnType.NATURAL);
         }
     }
     @SubscribeEvent
     public static void onLivingDrops(LivingDropsEvent event) {
         if (!(event.getEntity() instanceof ClawedZombieVillagerEntity zombieVillager)) return;
         if (zombieVillager.level().isClientSide()) return;
+        if (!zombieVillager.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) return;
 
         double dropChance = 0.4F;
 

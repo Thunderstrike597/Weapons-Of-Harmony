@@ -1,15 +1,10 @@
 package net.kenji.woh.gameasset;
 
-import com.mojang.datafixers.util.Pair;
 import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.api.manager.ShotogatanaManager;
-import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.animation.*;
-import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ShieldItem;
 import reascer.wom.gameasset.WOMAnimations;
@@ -18,13 +13,11 @@ import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.gameasset.EpicFightSounds;
-import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.skill.SkillSlots;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
-import yesman.epicfight.world.entity.ai.attribute.EpicFightAttributes;
 
 import java.util.function.Function;
 
@@ -36,7 +29,7 @@ public class WohWeaponCapabilityPresets {
                 .styleProvider((playerPatch) -> {
                             boolean isSheathed = ShotogatanaManager.renderSheathMap.getOrDefault(playerPatch.getOriginal().getUUID(), true);
                             if(playerPatch instanceof PlayerPatch<?> patch){
-                                if(patch.getSkill(WohSkills.SHEATH_STANCE) != null && patch.getSkill(WohSkills.SHEATH_STANCE).isActivated()){
+                                if(!isSheathed && patch.getSkill(WohSkills.SHEATH_STANCE) != null && patch.getSkill(WohSkills.SHEATH_STANCE).isActivated()){
                                     return CapabilityItem.Styles.TWO_HAND;
                                 }
                             }
@@ -75,7 +68,7 @@ public class WohWeaponCapabilityPresets {
                         AnimsRuine.RUINE_CHATIMENT,
                         CorruptAnimations.LONGSWORD_OLD_DASH, AnimsSatsujin.SATSUJIN_TSUKUYOMI)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.IDLE, ShotogatanaAnimations.SHOTOGATANA_IDLE)
-                .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.WALK, ShotogatanaAnimations.SHOTOGATANA_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.WALK, ShotogatanaAnimations.SHOTOGATANA_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.RUN, CorruptAnimations.YAMATO_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_GUARD)
                 .livingMotionModifier(WohStyles.UNSHEATHED, LivingMotions.IDLE, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_IDLE)
@@ -148,17 +141,16 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_NEW_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_NEW_WALK)
-                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_DUAL_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
                 .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_SKILL_HOLD)
                 .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_SKILL_WALK)
-                .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
+                .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_DUAL_RUN)
                 .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
                 .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_SKILL_HOLD)
                 .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_SKILL_WALK)
                 .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
                 .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
-
                 .passiveSkill(WohSkills.FAN_STANCE);
         return builder;
     };

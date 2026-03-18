@@ -164,9 +164,8 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
             AnimationPlayer animPlayer = playerPatch.getAnimator().getPlayerFor(this.accessor);
             if (ignoreFallDamage)
                 playerPatch.getOriginal().resetFallDistance();
-
-            super.attackTick(entitypatch, animation);
         }
+        super.attackTick(entitypatch, animation);
     }
     @Override
     protected void move(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> animation) {

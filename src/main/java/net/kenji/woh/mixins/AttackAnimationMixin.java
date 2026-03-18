@@ -40,10 +40,10 @@ public class AttackAnimationMixin {
             AttackManager.isInAttack.remove(playerPatch.getOriginal().getUUID());
             if (playerPatch.getOriginal().getMainHandItem().getItem() instanceof Shotogatana) {
                 if (playerPatch.getSkill(WohSkills.SHEATH_STANCE) == null || !playerPatch.getSkill(WohSkills.SHEATH_STANCE).isActivated()) {
-                    if (!ShotogatanaManager.sheathWeapon.getOrDefault(playerPatch.getOriginal().getUUID(), false)) {
+                    if (!ShotogatanaManager.renderSheathMap.getOrDefault(playerPatch.getOriginal().getUUID(), false)) {
                         if (nextAnimation == null || isEnd & nextAnimation != ShotogatanaAnimations.SHOTOGATANA_SHEATH) {
-                            if(!(attackAnimation instanceof ShotogatanaAttackAnimation))
-                                playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.3f);
+                            //if(!(attackAnimation instanceof ShotogatanaAttackAnimation))
+                            //    playerPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.3f);
                         }
                     }
                 }

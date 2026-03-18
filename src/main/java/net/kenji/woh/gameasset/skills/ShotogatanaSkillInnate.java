@@ -17,6 +17,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
+import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.gameasset.EpicFightSkills;
@@ -26,6 +27,7 @@ import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
+import yesman.epicfight.world.capabilities.item.WeaponCapability;
 
 import java.util.HashMap;
 import java.util.List;
@@ -146,7 +148,6 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
         }
         super.executeOnServer(container, args);
     }
-
 
     @Override
     public boolean checkExecuteCondition(SkillContainer container) {

@@ -10,6 +10,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Pillager;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -40,6 +41,7 @@ public class WarFanPillagerEvents {
     public static void onLivingDrops(LivingDropsEvent event) {
         if (!(event.getEntity() instanceof WarFanPillagerEntity pillager)) return;
         if (pillager.level().isClientSide()) return;
+        if (!pillager.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) return;
 
         double dropChance = !pillager.getPersistentData().getBoolean(WarFanPillagerEntity.WAR_FAN_OFFHAND_TAG) ? 0.38F : 0.48F;
 

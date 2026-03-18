@@ -64,26 +64,14 @@ public class ShotogatanaRender extends RenderItemBase {
 
     private ItemStack getStack(LivingEntityPatch<?> entitypatch) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
-            StaticAnimation idleSheathAnim = ShotogatanaAnimations.SHOTOGATANA_IDLE.get();
-            StaticAnimation walkSheathAnim = ShotogatanaAnimations.SHOTOGATANA_WALK.get();
             UUID playerID = playerPatch.getOriginal().getUUID();
-            boolean isSheathed = ShotogatanaManager.sheathWeapon.getOrDefault(playerID, false);
+            // Default to TRUE (sheathed) if not in the map yet
+            boolean isSheathed = ShotogatanaManager.renderSheathMap.getOrDefault(playerID, true);
 
-            AnimationPlayer animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.LOWEST).animationPlayer;
-            AnimationPlayer highAnimPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
-
-            if(animPlayer.getAnimation() != idleSheathAnim && animPlayer.getAnimation() != walkSheathAnim) {
-                animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.MIDDLE).animationPlayer;
-            }
-            if(animPlayer.getAnimation() != idleSheathAnim && animPlayer.getAnimation() != walkSheathAnim) {
-                animPlayer = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
-            }
-
-            if(isSheathed){
+            if (isSheathed) {
                 return sheathedWeaponStack;
             }
         }
-        // Skill inactive → katana in hand
         return sheathStack;
     }
 
@@ -111,6 +99,12 @@ public class ShotogatanaRender extends RenderItemBase {
                 }
                 poseStack.popPose();
             }
+        }
+        else{
+            poseStack.pushPose();
+            MathUtils.mulStack(poseStack, modelMatrix);
+            itemRenderer.renderStatic(katana, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
+            poseStack.popPose();
         }
 
         modelMatrix = this.getCorrectionMatrix(entitypatch, InteractionHand.OFF_HAND, poses);

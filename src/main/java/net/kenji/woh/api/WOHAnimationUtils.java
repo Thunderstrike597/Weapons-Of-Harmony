@@ -1,11 +1,14 @@
 package net.kenji.woh.api;
 
+import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.api.animation_types.ShotogatanaAttackAnimation;
+import net.kenji.woh.api.animation_types.ShotogatanaStaticAnimation;
 import net.kenji.woh.api.animation_types.TessenThrowAttackAnimation;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.animation_types.*;
 import net.kenji.woh.network.SheathStatePacket;
 import net.kenji.woh.network.WohPacketHandler;
+import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.RegistryObject;
@@ -17,13 +20,18 @@ import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
+import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.particle.HitParticleType;
+import yesman.epicfight.skill.BasicAttack;
+import yesman.epicfight.skill.SkillSlots;
 import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.ShieldCapability;
 import yesman.epicfight.world.damagesource.StunType;
+import yesman.epicfight.world.entity.eventlistener.ComboCounterHandleEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +59,12 @@ public class WOHAnimationUtils {
 
                         Player player = playerPatch.getOriginal();
                         UUID playerId = player.getUUID();
-                        ShotogatanaManager.sheathWeapon.put(playerId, false);
                         if (player.level().isClientSide) {
                             WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), false));
                             ShotogatanaManager.renderSheathMap.put(playerId, false);
+                        }
+                        else if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
+                         //   serverPlayerPatch.modifyLivingMotionByCurrentItem();
                         }
                     }
         };
@@ -71,18 +81,69 @@ public class WOHAnimationUtils {
                                     1.0f,
                                     1.0f
                             );
-
                         }
-                        ShotogatanaManager.sheathWeapon.remove(playerId);
-                        ShotogatanaManager.sheathWeapon.put(playerId, true);
+
                         if (player.level().isClientSide) {
                             WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), true));
                             ShotogatanaManager.renderSheathMap.put(playerId, true);
                         }
+                        else if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
+                            BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.TIME_EXPIRED, serverPlayerPatch, serverPlayerPatch.getSkill(SkillSlots.BASIC_ATTACK), Animations.EMPTY_ANIMATION.getAccessor(), 0);
+                        }
                     }
                 };
     }
+    public static AnimationManager.AnimationAccessor<StaticAnimation> createShotogatanaLivingAnimation(
+            AnimationManager.AnimationBuilder builder,
+            String path,
+            boolean isRepeat,
+            float convertTime,
+            float absStart,
+            float absEnd,
+            AnimationEvent<?,?>[] extraEvents
+    ) {
+        AnimationManager.AnimationAccessor<StaticAnimation> animation =
+                builder.nextAccessor(path, accessor -> new ShotogatanaStaticAnimation(isRepeat, accessor, Armatures.BIPED));
 
+        Supplier<StaticAnimation> setupSupplier = () -> {
+            StaticAnimation anim = animation.get();
+
+            boolean stopEndEvent = absEnd <= -1;
+            boolean stopStartEvent = absStart <= -1;
+
+            // Register timestamp
+            TimeStampManager.register(anim, absStart, absEnd);
+
+            // Add events at those exact timestamps
+            if (!stopEndEvent && !stopStartEvent) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(absStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
+                        AnimationEvent.InTimeEvent.create(absEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
+                });
+            } else if (!stopEndEvent) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(absEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
+                });
+            } else if (!stopStartEvent) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(absStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH)
+                });
+            }
+
+            // Add extra events if provided
+            if (extraEvents != null && extraEvents.length > 0) {
+                anim.addEvents(extraEvents);
+            }
+
+            return anim;
+        };
+
+        // Add to deferred list instead of calling immediately
+        DEFERRED_SETUP.add(setupSupplier);
+
+        // Return the animation reference (will be populated later)
+        return animation;
+    }
 
     public static AnimationManager.AnimationAccessor<StaticAnimation> createLivingAnimation(
             AnimationManager.AnimationBuilder builder,

@@ -2,8 +2,11 @@ package net.kenji.woh.entities.custom.alt_entities;
 
 import net.kenji.woh.WohConfigCommon;
 import net.kenji.woh.registry.WohItems;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Pillager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -12,8 +15,19 @@ public class WarFanPillagerEntity extends Pillager {
     public WarFanPillagerEntity(EntityType<? extends Pillager> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
+    public float addedAttackSpeed = 2.8F;
+
     public static final String WAR_FAN_OFFHAND_TAG = "woh_war_fan_pillager_offhand";
 
+
+    @Override
+    public double getAttributeValue(Holder<Attribute> pAttribute) {
+        if(pAttribute == Attributes.ATTACK_SPEED){
+            return super.getAttributeValue(pAttribute) * addedAttackSpeed;
+        }
+
+        return super.getAttributeValue(pAttribute);
+    }
 
     @Override
     public void onAddedToWorld() {

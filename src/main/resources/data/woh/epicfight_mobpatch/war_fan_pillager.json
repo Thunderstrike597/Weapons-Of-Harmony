@@ -13,9 +13,9 @@
         "tessen"
       ],
       "livingmotions": {
-        "idle": "woh:biped/living/tessen/tessen_dual_hold",
-        "chase": "woh:biped/living/tessen/tessen_dual_hold",
-        "walk": "woh:biped/living/tessen/tessen_dual_hold"
+        "idle": "woh:biped/living/tessen/tessen_skill_hold",
+        "chase": "woh:biped/living/tessen/tessen_skill_walk",
+        "walk": "woh:biped/living/tessen/tessen_skill_walk"
       },
       "style": "one_hand"
     },
@@ -70,7 +70,7 @@
                   "category": "tessen"
                 }
               ],
-              "animation": "woh:biped/combat/tessen/tessen_dual_auto_1"
+              "animation": "woh:biped/combat/new/tessen/tessen_dual_auto_1"
             },
             {
               "conditions": [
@@ -87,7 +87,7 @@
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/tessen/tessen_dual_auto_2"
+              "animation": "woh:biped/combat/new/tessen/tessen_dual_auto_2"
             }
           ],
           "cooldown": 40,
@@ -112,7 +112,7 @@
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/tessen/tessen_dual_auto_3"
+              "animation": "woh:biped/combat/new/tessen/tessen_dual_auto_3"
             }
           ],
           "cooldown": 35,
@@ -137,11 +137,11 @@
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/tessen/tessen_skill_auto_3"
+              "animation": "woh:biped/combat/new/tessen/tessen_skill_dual_auto_3"
             }
           ],
           "cooldown": 80,
-          "weight": 0.35
+          "weight": 0.4
         },
         {
           "looping": 0,
@@ -162,7 +162,7 @@
                   "category": "fist"
                 }
               ],
-              "animation": "woh:biped/combat/tessen/tessen_auto_1"
+              "animation": "woh:biped/combat/new/tessen/tessen_auto_1"
             },
             {
               "conditions": [
@@ -179,7 +179,7 @@
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/tessen/tessen_auto_2"
+              "animation": "woh:biped/combat/new/tessen/tessen_auto_2"
             }
           ],
           "cooldown": 45,
@@ -198,13 +198,13 @@
                 {
                   "predicate": "epicfight:within_distance",
                   "min": 0.2,
-                  "max": 2.8
+                  "max": 5.5
                 },
                 {
                   "predicate": "epicfight:within_eye_height"
                 }
               ],
-              "animation": "woh:biped/combat/tessen/tessen_auto_4"
+              "animation": "woh:biped/combat/new/tessen/tessen_skill_auto_3"
             }
           ],
           "cooldown": 60,

@@ -16,6 +16,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -61,8 +62,10 @@ public class SkeletonRoninEvents {
     public static void onLivingDrops(LivingDropsEvent event) {
         if (!(event.getEntity() instanceof RoninSkeletonEntity ronin)) return;
         if (ronin.level().isClientSide()) return;
+        if (!ronin.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) return;
 
-        // Only our custom skeletons
+
+            // Only our custom skeletons
 
         double dropChance = ronin.getPersistentData().getBoolean(SURRENDER_ATTEMPTED_TAG) ? 1 : 0.45F;
 

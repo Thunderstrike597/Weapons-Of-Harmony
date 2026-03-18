@@ -135,8 +135,8 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                 if (ignoreFallDamage)
                     playerPatch.getOriginal().resetFallDistance();
             }
-            super.attackTick(entitypatch, animation);
         }
+        super.attackTick(entitypatch, animation);
     }
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public class ClientEvents {
@@ -161,7 +161,7 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
                     CapabilityItem capItem = playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
                     UUID playerID = playerPatch.getOriginal().getUUID();
                     if (capItem instanceof WeaponCapability weaponCap) {
-                        boolean isSheathed = ShotogatanaManager.sheathWeapon.getOrDefault(playerID, false);
+                        boolean isSheathed = ShotogatanaManager.renderSheathMap.getOrDefault(playerID, false);
 
                         if (!isSheathed) {
 

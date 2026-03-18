@@ -33,7 +33,7 @@ public class SheathStatePacket {
     public static void handle(SheathStatePacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             // This runs on the server thread
-            ShotogatanaManager.sheathWeapon.put(packet.playerId, packet.isSheathed);
+            ShotogatanaManager.renderSheathMap.put(packet.playerId, packet.isSheathed);
         });
         ctx.get().setPacketHandled(true);
     }

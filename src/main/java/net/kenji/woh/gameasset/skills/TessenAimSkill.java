@@ -63,7 +63,6 @@ public class TessenAimSkill extends WeaponInnateSkill {
                 }
             });
         }
-
     }
 
 
@@ -76,6 +75,8 @@ public class TessenAimSkill extends WeaponInnateSkill {
             }
         });
     }
+
+
 
     public static boolean isAiming(PlayerPatch<?> patch) {
         UUID id = patch.getOriginal().getUUID();

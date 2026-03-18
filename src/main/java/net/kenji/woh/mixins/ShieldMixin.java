@@ -15,7 +15,7 @@ import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
-@Mixin(ShieldItem.class)
+@Mixin(value = ShieldItem.class, remap = true)
 public class ShieldMixin {
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)

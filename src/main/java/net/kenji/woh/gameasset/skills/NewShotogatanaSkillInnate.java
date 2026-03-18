@@ -2,6 +2,8 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.manager.ShotogatanaManager;
+import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
@@ -29,7 +31,8 @@ import java.util.UUID;
 public class NewShotogatanaSkillInnate extends WeaponInnateSkill {
 
     public static Map<UUID, Float> storedResource = new HashMap<>();
-
+    public final int MAX_HOLD_COUNTER = 60;
+    public int holdCounter = 0;
 
     public NewShotogatanaSkillInnate(SkillBuilder builder) {
         super(builder);
@@ -57,6 +60,14 @@ public class NewShotogatanaSkillInnate extends WeaponInnateSkill {
     @Override
     public void updateContainer(SkillContainer container) {
         super.updateContainer(container);
+    }
+
+    @Override
+    public boolean canExecute(SkillContainer container) {
+        if(!container.isActivated()) {
+            return super.canExecute(container) && holdCounter <= 0;
+        }
+        return true;
     }
 
 
@@ -104,7 +115,7 @@ public class NewShotogatanaSkillInnate extends WeaponInnateSkill {
         } else {
             super.executeOnServer(container, args);
             executer.getSkill(this).activate();
-            executer.modifyLivingMotionByCurrentItem(false);
+            executer.modifyLivingMotionByCurrentItem();
             executer.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_UNSHEATH, 0.15F);
         }
     }

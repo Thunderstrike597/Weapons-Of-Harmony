@@ -1,5 +1,7 @@
 package net.kenji.woh.gameasset.animation_types;
 
+import net.kenji.woh.api.animation_types.ShotogatanaStaticAnimation;
+import net.kenji.woh.api.manager.ShotogatanaManager;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
@@ -8,6 +10,7 @@ import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +31,8 @@ public class WohSheathAnimation extends StaticAnimation {
         if(entitypatch instanceof PlayerPatch<?> playerPatch) {
             UUID playerId = playerPatch.getOriginal().getUUID();
             shouldAnimReplay.put(playerId, false);
+            ShotogatanaManager.sheathPauseMap.put(playerId, true);
+
         }
         super.begin(entitypatch);
     }
@@ -50,8 +55,13 @@ public class WohSheathAnimation extends StaticAnimation {
     public void end(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> nextAnimation, boolean isEnd) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             shouldAnimReplay.remove(playerPatch.getOriginal().getUUID());
+            UUID playerId = playerPatch.getOriginal().getUUID();
 
             super.end(entitypatch, nextAnimation, isEnd);
+            ShotogatanaManager.sheathPauseMap.put(playerId, false);
+            if(entitypatch instanceof ServerPlayerPatch serverPlayerPatch){
+                serverPlayerPatch.modifyLivingMotionByCurrentItem();
+            }
         }
     }
 }

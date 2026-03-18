@@ -99,7 +99,6 @@ public class ShotogatanaAttackAnimation extends BasicAttackAnimation {
         if(entitypatch instanceof PlayerPatch<?> playerPatch) {
             AttackManager.isInAttack.put(playerPatch.getOriginal().getUUID(), true);
         }
-        Log.info("currentAnimName: " + this.getRegistryName());
         super.begin(entitypatch);
     }
     @Override

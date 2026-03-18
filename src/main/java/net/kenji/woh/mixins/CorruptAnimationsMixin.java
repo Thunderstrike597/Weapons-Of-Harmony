@@ -110,7 +110,6 @@ public class CorruptAnimationsMixin {
         if (entitypatch instanceof ServerPlayerPatch patch) {
             BasicAttack.setComboCounterWithEvent(Causal.TIME_EXPIRED, patch, patch.getSkill(SkillSlots.BASIC_ATTACK), Animations.EMPTY_ANIMATION.getAccessor(), 0);
         }
-
     };
     @Shadow
     private static AnimationEvent.E0 CUT;

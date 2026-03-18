@@ -7,6 +7,7 @@ import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillBuilder;
 import yesman.epicfight.skill.SkillContainer;
+import yesman.epicfight.skill.passive.BerserkerSkill;
 import yesman.epicfight.skill.passive.PassiveSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
@@ -33,18 +34,25 @@ public class KatajutsaPassive extends PassiveSkill {
     @Override
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
-        PlayerEventListener listener = container.getExecutor().getEventListener();
-        PlayerPatch<?> playerPatch = container.getExecutor();
-        if(playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.FIST) {
-            listener.addEventListener(PlayerEventListener.EventType.MODIFY_DAMAGE_EVENT, EVENT_UUID, (event) -> {
-                float attackDamage = event.getBaseDamage();
-                event.attachValueModifier(ValueModifier.multiplier(attackDamage + (damageBonus)));
-            });
-            listener.addEventListener(PlayerEventListener.EventType.MODIFY_ATTACK_SPEED_EVENT, EVENT_UUID, (event) -> {
-                float attackSpeed = event.getAttackSpeed();
-                event.setAttackSpeed(attackSpeed + (speedBonus));
-            });
 
-        }
+        PlayerEventListener listener = container.getExecutor().getEventListener();
+
+        listener.addEventListener(PlayerEventListener.EventType.MODIFY_DAMAGE_EVENT, EVENT_UUID, (event) -> {
+            PlayerPatch<?> playerPatch = container.getExecutor();
+
+            if(playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.FIST) {
+                float attackDamage = event.getBaseDamage();
+                event.attachValueModifier(ValueModifier.multiplier(attackDamage + damageBonus));
+            }
+        });
+
+        listener.addEventListener(PlayerEventListener.EventType.MODIFY_ATTACK_SPEED_EVENT, EVENT_UUID, (event) -> {
+            PlayerPatch<?> playerPatch = container.getExecutor();
+
+            if(playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.FIST) {
+                float attackSpeed = event.getAttackSpeed();
+                event.setAttackSpeed(attackSpeed + speedBonus);
+            }
+        });
     }
 }
