@@ -106,22 +106,40 @@ public abstract class HolsterWeaponBase extends WohWeaponItem {
         return (holdingItem.getItem() == this) && playerPatch.isEpicFightMode();
     }
 
-    public HolsterWeaponBase(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, Item unholsterItem, boolean holsterOffhand, JointPair holsterJoints) {
-        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor);
+    public HolsterWeaponBase(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, String itemName, HolsterTransform holsterTransform, Item holsterItem, Item unholsterItem, boolean holsterOffhand, JointPair holsterJoints) {
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, itemName);
         this.holsterTransform = holsterTransform;
         this.holsterItem = holsterItem;
         this.unholsteredItem = unholsterItem;
         this.canOffHandHolster = holsterOffhand;
         this.holsterJoints = holsterJoints;
     }
-    public HolsterWeaponBase(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, boolean holsterOffhand, JointPair holsterJoints) {
-        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor);
+    public HolsterWeaponBase(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, String itemName, HolsterTransform holsterTransform, Item holsterItem, boolean holsterOffhand, JointPair holsterJoints) {
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, itemName);
         this.holsterTransform = holsterTransform;
         this.holsterItem = holsterItem;
         this.canOffHandHolster = holsterOffhand;
         this.holsterJoints = holsterJoints;
     }
-    public HolsterWeaponBase(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor) {
-        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor);
+    public HolsterWeaponBase(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, String itemName) {
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, itemName);
+    }
+    public HolsterWeaponBase(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, String itemName, String itemTooltip, HolsterTransform holsterTransform, Item holsterItem, Item unholsterItem, boolean holsterOffhand, JointPair holsterJoints) {
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, itemName, itemTooltip);
+        this.holsterTransform = holsterTransform;
+        this.holsterItem = holsterItem;
+        this.unholsteredItem = unholsterItem;
+        this.canOffHandHolster = holsterOffhand;
+        this.holsterJoints = holsterJoints;
+    }
+    public HolsterWeaponBase(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, String itemName, String itemTooltip, HolsterTransform holsterTransform, Item holsterItem, boolean holsterOffhand, JointPair holsterJoints) {
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, itemName, itemTooltip);
+        this.holsterTransform = holsterTransform;
+        this.holsterItem = holsterItem;
+        this.canOffHandHolster = holsterOffhand;
+        this.holsterJoints = holsterJoints;
+    }
+    public HolsterWeaponBase(Tier tier, int damageIn, float speedIn, Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, String itemName, String itemTooltip) {
+        super(tier, damageIn, speedIn, builder, hasTooltip, tooltipColor, itemName, itemTooltip);
     }
 }

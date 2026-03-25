@@ -1,13 +1,8 @@
 package net.kenji.woh.registry.animation;
 
 import net.kenji.woh.WeaponsOfHarmony;
-import net.kenji.woh.api.WOHAnimationUtils;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingPhase;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 
@@ -25,6 +20,7 @@ public class WohAnimations {
         TessenAnimations.build(builder);
         TsumeAnimations.build(builder);
         ArbitersBladeAnimations.build((builder));
+        TenraiAnimations.build((builder));
         WakizashiAnimations.build(builder);
         OdachiAnimations.build(builder);
 

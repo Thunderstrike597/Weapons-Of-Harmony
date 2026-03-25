@@ -1,35 +1,31 @@
 package net.kenji.woh.api;
 
-import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.api.animation_types.ShotogatanaAttackAnimation;
 import net.kenji.woh.api.animation_types.ShotogatanaStaticAnimation;
 import net.kenji.woh.api.animation_types.TessenThrowAttackAnimation;
+import net.kenji.woh.api.animation_types.WohAttackAnimation;
 import net.kenji.woh.api.manager.ShotogatanaManager;
+import net.kenji.woh.gameasset.AttackHand;
 import net.kenji.woh.gameasset.animation_types.*;
 import net.kenji.woh.network.SheathStatePacket;
 import net.kenji.woh.network.WohPacketHandler;
-import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.RegistryObject;
-import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.collider.Collider;
-import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.particle.HitParticleType;
 import yesman.epicfight.skill.BasicAttack;
 import yesman.epicfight.skill.SkillSlots;
-import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
-import yesman.epicfight.world.capabilities.item.ShieldCapability;
 import yesman.epicfight.world.damagesource.StunType;
 import yesman.epicfight.world.entity.eventlistener.ComboCounterHandleEvent;
 
@@ -260,7 +256,7 @@ public class WOHAnimationUtils {
             Supplier<SoundEvent> hitSound,
             RegistryObject<HitParticleType> hitParticle,
             Collider colliders,
-            TessenThrowAttackAnimation.ThrowType throwType,
+            AttackHand throwType,
             StunType stunType,
             float throwStart,
             float ThrowEnd,
@@ -291,7 +287,7 @@ public class WOHAnimationUtils {
             Supplier<SoundEvent> hitSound,
             RegistryObject<HitParticleType> hitParticle,
             Collider colliders,
-            TessenThrowAttackAnimation.ThrowType throwType,
+            AttackHand throwType,
             StunType stunType,
             float throwStart,
             float ThrowEnd,
@@ -346,14 +342,29 @@ public class WOHAnimationUtils {
         }
         AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> finalAnimation = animation;
 
+        boolean skipUnsheatheEvent = unsheatheTime <= -1;
+        boolean skipSheatheEvent = sheathTime <= -1;
+
+
         Supplier<StaticAnimation> setupSupplier = () -> {
             AttackAnimation anim = finalAnimation.get();
 
-            anim.addEvents(new AnimationEvent[]{
-                    AnimationEvent.InTimeEvent.create(unsheatheTime, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
-                    AnimationEvent.InTimeEvent.create(sheathTime, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
-            });
-
+            if(!skipUnsheatheEvent && !skipSheatheEvent) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(unsheatheTime, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
+                        AnimationEvent.InTimeEvent.create(sheathTime, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
+                });
+            }
+            if(skipUnsheatheEvent && !skipSheatheEvent) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(sheathTime, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
+                });
+            }
+            if(!skipUnsheatheEvent && skipSheatheEvent) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(unsheatheTime, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
+                });
+            }
             return anim;
         };
         DEFERRED_SETUP.add(setupSupplier);
@@ -422,7 +433,7 @@ public class WOHAnimationUtils {
             Supplier<SoundEvent>[] hitSound,
             RegistryObject<HitParticleType>[] hitParticle,
             Collider[] colliders,
-            Joint[] colliderJoints,
+            AttackHand[] attackHand,
             StunType stunType,
             float normalizedStart,
             float normalizedEnd
@@ -437,8 +448,6 @@ public class WOHAnimationUtils {
                         null,               // endAnimation
                         phaseCount,
                         attackSpeed,
-                        attackDamage,
-                        impact,
                         start,
                         antic,
                         contact,
@@ -449,7 +458,7 @@ public class WOHAnimationUtils {
                         hitParticle,
                         stunType,
                         colliders,
-                        colliderJoints,
+                        attackHand,
                         false
                 ));
                 break;
@@ -461,8 +470,6 @@ public class WOHAnimationUtils {
                         null,               // endAnimation
                         phaseCount,
                         attackSpeed,
-                        attackDamage,
-                        impact,
                         start,
                         antic,
                         contact,
@@ -473,7 +480,7 @@ public class WOHAnimationUtils {
                         hitParticle,
                         stunType,
                         colliders,
-                        colliderJoints,
+                        attackHand,
                         true
                 ));
                 break;
@@ -534,7 +541,7 @@ public class WOHAnimationUtils {
             Supplier<SoundEvent>[] hitSound,
             RegistryObject<HitParticleType>[] hitParticle,
             Collider[] colliders,
-            Joint[] colliderJoints,
+            AttackHand[] throwHand,
             StunType stunType,
             float normalizedStart,
             float normalizedEnd,
@@ -550,8 +557,6 @@ public class WOHAnimationUtils {
                         null,               // endAnimation
                         phaseCount,
                         attackSpeed,
-                        attackDamage,
-                        impact,
                         start,
                         antic,
                         contact,
@@ -562,7 +567,7 @@ public class WOHAnimationUtils {
                         hitParticle,
                         stunType,
                         colliders,
-                        colliderJoints,
+                        throwHand,
                         false,
                         slashAngle,
                         movementEnd
@@ -576,8 +581,6 @@ public class WOHAnimationUtils {
                         null,               // endAnimation
                         phaseCount,
                         attackSpeed,
-                        attackDamage,
-                        impact,
                         start,
                         antic,
                         contact,
@@ -588,7 +591,7 @@ public class WOHAnimationUtils {
                         hitParticle,
                         stunType,
                         colliders,
-                        colliderJoints,
+                        throwHand,
                         true,
                         slashAngle,
                         movementEnd
@@ -651,7 +654,7 @@ public class WOHAnimationUtils {
             Supplier<SoundEvent>[] hitSound,
             RegistryObject<HitParticleType>[] hitParticle,
             Collider[] colliders,
-            Joint[] colliderJoints,
+            AttackHand[] attackHand,
             StunType stunType,
             AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,
             float normalizedStart,
@@ -668,8 +671,6 @@ public class WOHAnimationUtils {
                             endAnimation,               // endAnimation
                             phaseCount,
                             attackSpeed,
-                            attackDamage,
-                            impact,
                             start,
                             antic,
                             contact,
@@ -680,7 +681,7 @@ public class WOHAnimationUtils {
                             hitParticle,
                             stunType,
                             colliders,
-                            colliderJoints,
+                            attackHand,
                             false
                     ));
                     break;
@@ -692,8 +693,6 @@ public class WOHAnimationUtils {
                             endAnimation,               // endAnimation
                             phaseCount,
                             attackSpeed,
-                            attackDamage,
-                            impact,
                             start,
                             antic,
                             contact,
@@ -704,7 +703,7 @@ public class WOHAnimationUtils {
                             hitParticle,
                             stunType,
                             colliders,
-                            colliderJoints,
+                            attackHand,
                             true
                     ));
                     break;

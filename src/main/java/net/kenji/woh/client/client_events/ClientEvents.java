@@ -11,10 +11,7 @@ import net.kenji.woh.client.layers.HolsteredItemLayer;
 import net.kenji.woh.client.layers.OffHandHolsteredItemLayer;
 import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.registry.WohItems;
-import net.kenji.woh.render.ArbitersBladeRender;
-import net.kenji.woh.render.ArbitersShieldRender;
-import net.kenji.woh.render.ShotogatanaRender;
-import net.kenji.woh.render.TsumeRender;
+import net.kenji.woh.render.*;
 import net.kenji.woh.render.block.SwordPedistoolRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -42,6 +39,7 @@ public class ClientEvents {
         event.addItemRenderer(WeaponsOfHarmony.identifier("tsume"), TsumeRender::new);
         event.addItemRenderer(WeaponsOfHarmony.identifier("arbiters_blade"), ArbitersBladeRender::new);
         event.addItemRenderer(WeaponsOfHarmony.identifier("arbiters_shield"), ArbitersShieldRender::new);
+        event.addItemRenderer(WeaponsOfHarmony.identifier("tenrai"), TenraiRender::new);
 
     }
 

@@ -1,5 +1,6 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.gameasset.AttackHand;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
@@ -64,7 +65,7 @@ public class WakizashiAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -88,7 +89,7 @@ public class WakizashiAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -111,7 +112,7 @@ public class WakizashiAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -134,7 +135,7 @@ public class WakizashiAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -157,7 +158,7 @@ public class WakizashiAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -180,7 +181,7 @@ public class WakizashiAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI,ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -203,7 +204,7 @@ public class WakizashiAnimations {
                 new Supplier[]{EpicFightSounds.BLUNT_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLUNT_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.SWORD,ColliderPreset.TACHI,ColliderPreset.SWORD},
-                new Joint[]{biped.get().legR, biped.get().toolR, biped.get().legL},
+                new AttackHand[]{AttackHand.RIGHT_LEG, AttackHand.RIGHT_HAND,AttackHand.RIGHT_LEG},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -226,7 +227,7 @@ public class WakizashiAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI,ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolL, biped.get().toolR},
+                new AttackHand[]{AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -249,7 +250,7 @@ public class WakizashiAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI,ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolL, biped.get().toolR},
+                new AttackHand[]{AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F

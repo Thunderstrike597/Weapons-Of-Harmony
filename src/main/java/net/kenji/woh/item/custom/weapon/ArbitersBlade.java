@@ -38,10 +38,9 @@ public class ArbitersBlade extends HolsterWeaponBase {
             () -> null
     );
 
-    public ArbitersBlade(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, 0, -2.75F, builder, hasTooltip, tooltipColor, holsterTransform, WohItems.ARBITERS_BLADE_IN_SHEATH.get(), WohItems.ARBITERS_BLADE_SHEATH.get(), true, holsterJoints);
+    public ArbitersBlade(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor, String itemName, String itemTooltip) {
+        super(tier, 0, -2.75F, builder, hasTooltip, tooltipColor, itemName, itemTooltip, holsterTransform, WohItems.ARBITERS_BLADE_IN_SHEATH.get(), WohItems.ARBITERS_BLADE_SHEATH.get(), true, holsterJoints);
     }
-
     @Override
     public boolean isFoil(ItemStack stack) {
         return stack.hasTag() && stack.getTag().getBoolean("woh_force_glint");

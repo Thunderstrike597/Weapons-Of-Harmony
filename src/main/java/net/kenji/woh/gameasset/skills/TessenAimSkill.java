@@ -2,6 +2,7 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.interfaces.ITranslatableSkill;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.gameasset.WohWeaponCategories;
@@ -44,12 +45,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class TessenAimSkill extends WeaponInnateSkill {
+public class TessenAimSkill extends WeaponInnateSkill implements ITranslatableSkill {
 
     private static UUID EVENT_UUID = UUID.randomUUID();
 
     public TessenAimSkill(SkillBuilder<WeaponInnateSkill> builder) {
         super(builder);
+    }
+
+    @Override
+    public String getSkillTooltip() {
+        return """
+               Being a light and agile weapon, they are able to be thrown while holding down (Right Click).
+               Your moveset will be changed depending on whether or not you have another fan blade in the offhand.
+               """;
+    }
+    @Override
+    public String getSkillName() {
+        return "Throw Stance";
+    }
+    @Override
+    public String getSkillTooltipExtra() {
+        return "";
     }
 
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)

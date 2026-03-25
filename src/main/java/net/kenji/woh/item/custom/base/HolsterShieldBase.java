@@ -91,22 +91,23 @@ public class HolsterShieldBase extends WohShieldItem {
     public JointPair holsterJoints;
     public boolean canOffHandHolster;
 
-    public HolsterShieldBase(Item.Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, Item unholsterItem, boolean holsterOffhand, JointPair holsterJoints) {
-        super(builder, hasTooltip, tooltipColor);
+    public HolsterShieldBase(Item.Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, String itemName, String itemTooltip, HolsterTransform holsterTransform, Item holsterItem, Item unholsterItem, boolean holsterOffhand, JointPair holsterJoints) {
+        super(builder, hasTooltip, tooltipColor, itemName, itemTooltip);
         this.holsterTransform = holsterTransform;
         this.holsterItem = holsterItem;
         this.unholsteredItem = unholsterItem;
         this.canOffHandHolster = holsterOffhand;
         this.holsterJoints = holsterJoints;
     }
-    public HolsterShieldBase(Item.Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, HolsterTransform holsterTransform, Item holsterItem, boolean holsterOffhand, JointPair holsterJoints) {
-        super(builder, hasTooltip, tooltipColor);
+    public HolsterShieldBase(Item.Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, String itemName, String itemTooltip, HolsterTransform holsterTransform, Item holsterItem, boolean holsterOffhand, JointPair holsterJoints) {
+        super(builder, hasTooltip, tooltipColor, itemName, itemTooltip);
         this.holsterTransform = holsterTransform;
         this.holsterItem = holsterItem;
         this.canOffHandHolster = holsterOffhand;
         this.holsterJoints = holsterJoints;
     }
-    public HolsterShieldBase(Item.Properties builder, boolean hasTooltip, ChatFormatting tooltipColor) {
-        super(builder, hasTooltip, tooltipColor);
+    public HolsterShieldBase(Item.Properties builder, boolean hasTooltip, ChatFormatting tooltipColor, String itemName, String itemTooltip) {
+        super(builder, hasTooltip, tooltipColor, itemName, itemTooltip);
     }
+
 }

@@ -2,6 +2,7 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.interfaces.ITranslatableSkill;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
@@ -55,7 +56,7 @@ import yesman.epicfight.world.capabilities.item.CapabilityItem;
 
 import java.util.*;
 
-public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
+public class ArbitersSlashSkill extends Skill implements ChargeableSkill, ITranslatableSkill {
 
     public static float travelSpeedMultiplier = 1.75f;
 
@@ -77,6 +78,26 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill {
         this.consumption = 32;
         this.maxStackSize = 1;
     }
+
+    @Override
+    public String getSkillName() {
+        return "Arbiters Slash";
+    }
+
+    @Override
+    public String getSkillTooltip() {
+        return """
+               This blade is seemingly normal on the surface..
+               However when tilted towards the sky, it becomes filled with magical energy...
+               Once fully charged the sword becomes capable of slashing powerful spinning cutters as great speed with each strike!
+               """;
+    }
+
+    @Override
+    public String getSkillTooltipExtra() {
+        return "";
+    }
+
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
     public static class ClientSubscribeEvents {
         @SubscribeEvent

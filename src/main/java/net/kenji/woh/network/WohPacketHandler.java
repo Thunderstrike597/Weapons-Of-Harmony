@@ -50,6 +50,11 @@ public class WohPacketHandler {
                 .encoder(ClientArbitersSlashPacket::encode)
                 .consumerMainThread(ClientArbitersSlashPacket::handle)
                 .add();
+        INSTANCE.messageBuilder(ClientTenraiSkillActivatePacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(ClientTenraiSkillActivatePacket::decode)
+                .encoder(ClientTenraiSkillActivatePacket::encode)
+                .consumerMainThread(ClientTenraiSkillActivatePacket::handle)
+                .add();
     }
 
     // Helper method to send packet to server

@@ -2,6 +2,7 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.interfaces.ITranslatableSkill;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class NewShotogatanaSkillInnate extends WeaponInnateSkill {
+public class NewShotogatanaSkillInnate extends WeaponInnateSkill implements ITranslatableSkill {
 
     public static Map<UUID, Float> storedResource = new HashMap<>();
     public final int MAX_HOLD_COUNTER = 60;
@@ -50,6 +51,24 @@ public class NewShotogatanaSkillInnate extends WeaponInnateSkill {
     public ItemStack lastMainHandItem = ItemStack.EMPTY;
 
     boolean isActivated;
+
+    @Override
+    public String getSkillName() {
+        return "Shotogatana Skill";
+    }
+    @Override
+    public String getSkillTooltip() {
+        return """
+               Once the cooldown is charged, you can unsheathe your weapon and you
+               will have a completely new moveset, performing two-handed slashes
+               """;
+    }
+
+    @Override
+    public String getSkillTooltipExtra() {
+        return "";
+    }
+
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class EventHandler {
         private static final Map<UUID, Boolean> didFirstAttack = new HashMap<>();

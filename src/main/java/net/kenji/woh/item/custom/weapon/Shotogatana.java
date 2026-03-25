@@ -69,10 +69,9 @@ public class Shotogatana extends HolsterWeaponBase {
             () -> null
     );
 
-    public Shotogatana(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor) {
-        super(tier, 0, -2.35f, builder, hasTooltip, tooltipColor, holsterTransform, WohItems.SHOTOGATANA_IN_SHEATH.get(), WohItems.SHOTOGATANA_SHEATH.get(),false, holsterJoints);
+    public Shotogatana(Tier tier, Properties builder, boolean hasTooltip, net.minecraft.ChatFormatting tooltipColor, String itemName, String itemTooltip) {
+        super(tier, 0, -2.35f, builder, hasTooltip, tooltipColor, itemName, itemTooltip, holsterTransform, WohItems.SHOTOGATANA_IN_SHEATH.get(), WohItems.SHOTOGATANA_SHEATH.get(),false, holsterJoints);
     }
-
     @Override
     public boolean overrideStackedOnOther(ItemStack pStack, Slot pSlot, ClickAction pAction, Player pPlayer) {
         return false;

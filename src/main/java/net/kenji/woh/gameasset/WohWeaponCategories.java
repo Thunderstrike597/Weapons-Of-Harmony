@@ -11,6 +11,7 @@ public enum WohWeaponCategories implements WeaponCategory, Function<Item, Capabi
     TESSEN,
     TSUME,
     ARBITERS_BLADE,
+    TENRAI,
     WAKIZASHI,
     ODACHI;
     final int id;

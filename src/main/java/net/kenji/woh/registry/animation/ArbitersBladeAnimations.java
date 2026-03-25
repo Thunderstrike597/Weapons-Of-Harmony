@@ -1,5 +1,6 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.gameasset.AttackHand;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
@@ -75,7 +76,7 @@ public class ArbitersBladeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.LONGSWORD, ColliderPreset.LONGSWORD},
-                new Joint[]{biped.get().toolR, biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F,
@@ -99,7 +100,7 @@ public class ArbitersBladeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.LONGSWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F,
@@ -123,7 +124,7 @@ public class ArbitersBladeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.LONGSWORD, ColliderPreset.LONGSWORD},
-                new Joint[]{biped.get().toolR, biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F,
@@ -147,7 +148,7 @@ public class ArbitersBladeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.LONGSWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F,
@@ -193,7 +194,7 @@ public class ArbitersBladeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.LONGSWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F,
@@ -217,7 +218,7 @@ public class ArbitersBladeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.LONGSWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F,
@@ -241,7 +242,7 @@ public class ArbitersBladeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.LONGSWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F,
@@ -265,7 +266,7 @@ public class ArbitersBladeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.LONGSWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F,
@@ -288,7 +289,7 @@ public class ArbitersBladeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.LONGSWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -311,35 +312,11 @@ public class ArbitersBladeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.LONGSWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F,
                 -45
         );
-        /*ODACHI_AIRSLASH = WOHAnimationUtils.createAirAttackAnimation(
-                "biped/combat/odachi/odachi_airslash",
-                1,
-                0.1F,
-                1F,
-                5.75F,
-                2F,
-                new float[]{0.0F},
-                new float[]{0.35F},
-                new float[]{0.52F},
-                new float[]{0.95F},
-                new float[]{1.18F},
-                new SoundEvent[]{EpicFightSounds.WHOOSH_SHARP.get()},
-                new SoundEvent[]{EpicFightSounds.BLADE_HIT.get()},
-                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
-                StunType.LONG,
-                new Collider[]{ColliderPreset.GREATSWORD},
-                new Joint[]{biped.toolR},
-                new float[]{0.05F, 1.10F},
-                -1,
-                1
-        );
-       */
-
     }
 }

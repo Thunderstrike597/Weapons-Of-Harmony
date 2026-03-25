@@ -1,5 +1,6 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.gameasset.AttackHand;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
@@ -83,7 +84,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{WohColliderPreset.TSUME_CLAWS},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -106,7 +107,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{WohColliderPreset.TSUME_CLAWS},
-                new Joint[]{biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -129,7 +130,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{WohColliderPreset.TSUME_CLAWS, WohColliderPreset.TSUME_CLAWS},
-                new Joint[]{biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -152,7 +153,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{WohColliderPreset.TSUME_CLAWS, WohColliderPreset.TSUME_CLAWS},
-                new Joint[]{biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -219,7 +220,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{WohColliderPreset.TSUME_CLAWS, WohColliderPreset.TSUME_CLAWS},
-                new Joint[]{biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -241,7 +242,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{WohColliderPreset.TSUME_CLAWS, WohColliderPreset.TSUME_CLAWS},
-                new Joint[]{biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -263,7 +264,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{WohColliderPreset.TSUME_CLAWS, WohColliderPreset.TSUME_CLAWS},
-                new Joint[]{biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -286,7 +287,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -309,7 +310,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD},
-                new Joint[]{biped.get().toolL},
+                new AttackHand[]{AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -332,7 +333,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD, ColliderPreset.SWORD},
-                new Joint[]{biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -355,7 +356,7 @@ public class TsumeAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.SWORD, ColliderPreset.SWORD},
-                new Joint[]{biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1

@@ -2,6 +2,7 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.interfaces.ITranslatableSkill;
 import net.kenji.woh.registry.animation.TessenAnimations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class TsumeSkillInnate extends WeaponInnateSkill {
+public class TsumeSkillInnate extends WeaponInnateSkill implements ITranslatableSkill {
 
     public static Map<UUID, Float> storedResource = new HashMap<>();
 
@@ -44,6 +45,24 @@ public class TsumeSkillInnate extends WeaponInnateSkill {
     public ItemStack lastMainHandItem = ItemStack.EMPTY;
 
     boolean isActivated;
+
+    @Override
+    public String getSkillName() {
+        return "Enraged Claws";
+    }
+    @Override
+    public String getSkillTooltip() {
+        return """
+               These pair of claws are not only powerful, but are capable of extreme agility,
+               And so when your innate ability is active, you become enraged and are able to attack with extreme swiftness.
+               """;
+    }
+
+    @Override
+    public String getSkillTooltipExtra() {
+        return "";
+    }
+
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class EventHandler {
         private static final Map<UUID, Boolean> didFirstAttack = new HashMap<>();

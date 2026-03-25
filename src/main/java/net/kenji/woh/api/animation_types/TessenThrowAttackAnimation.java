@@ -1,26 +1,18 @@
 package net.kenji.woh.api.animation_types;
 
-import net.kenji.woh.api.TimeStampManager;
-import net.kenji.woh.api.manager.AttackManager;
-import net.minecraft.client.Minecraft;
+import net.kenji.woh.gameasset.AttackHand;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.registries.RegistryObject;
-import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
-import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
-import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.api.utils.TimePairList;
 import yesman.epicfight.gameasset.Armatures;
-import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.particle.HitParticleType;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
@@ -29,23 +21,18 @@ import yesman.epicfight.world.damagesource.StunType;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Supplier;
 
 public class TessenThrowAttackAnimation extends AttackAnimation {
 
-    private static Map<String, ThrowType> lastAssignedType = new HashMap<>();
+    private static Map<String, AttackHand> lastAssignedType = new HashMap<>();
 
-    public enum ThrowType{
-        RIGHT_HAND,
-        LEFT_HAND,
-        BOTH
-    }
+
     private final boolean useMovement;
     private final boolean ignoreFallDamage;
 
 
-    public TessenThrowAttackAnimation(float convertTime, String path,AnimationManager.AnimationAccessor<? extends AttackAnimation> accessor, float speed, float throwStart, float throwEnd, int phaseCount, float start , float antic, float contact, float recovery, float end, Supplier<SoundEvent> swingSound, Supplier<SoundEvent> hitSound, RegistryObject<HitParticleType> hitParticle, StunType stunType, Collider colliders, ThrowType throwType, boolean ignoreFallDamage, boolean useMovement) {
+    public TessenThrowAttackAnimation(float convertTime, String path, AnimationManager.AnimationAccessor<? extends AttackAnimation> accessor, float speed, float throwStart, float throwEnd, int phaseCount, float start , float antic, float contact, float recovery, float end, Supplier<SoundEvent> swingSound, Supplier<SoundEvent> hitSound, RegistryObject<HitParticleType> hitParticle, StunType stunType, Collider colliders, AttackHand throwType, boolean ignoreFallDamage, boolean useMovement) {
         super(convertTime, accessor, Armatures.BIPED, buildPhases(path, phaseCount, throwStart, throwEnd, start ,antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, throwType));
         this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, speed)
@@ -56,7 +43,7 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
         this.useMovement = useMovement;
         this.ignoreFallDamage = ignoreFallDamage;
     }
-    public TessenThrowAttackAnimation(float convertTime, String path,AnimationManager.AnimationAccessor<? extends AttackAnimation> accessor, float speed, float throwStart, float throwEnd, int phaseCount, float start , float antic, float contact, float recovery, float end, Supplier<SoundEvent> swingSound, Supplier<SoundEvent> hitSound, RegistryObject<HitParticleType> hitParticle, StunType stunType, Collider colliders, ThrowType throwType, boolean ignoreFallDamage, float[] airTime) {
+    public TessenThrowAttackAnimation(float convertTime, String path, AnimationManager.AnimationAccessor<? extends AttackAnimation> accessor, float speed, float throwStart, float throwEnd, int phaseCount, float start , float antic, float contact, float recovery, float end, Supplier<SoundEvent> swingSound, Supplier<SoundEvent> hitSound, RegistryObject<HitParticleType> hitParticle, StunType stunType, Collider colliders, AttackHand throwType, boolean ignoreFallDamage, float[] airTime) {
         super(convertTime, accessor, Armatures.BIPED, buildPhases(path, phaseCount, throwStart, throwEnd, start ,antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, throwType));
         this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, speed)
@@ -83,7 +70,7 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
             Supplier<SoundEvent> hitSound,
             RegistryObject<HitParticleType> hitParticle,
             Collider collider,
-            ThrowType throwType
+            AttackHand throwType
     ) {
 
         Phase[] phases = new Phase[phaseCount];
@@ -149,11 +136,11 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
         return phases;
     }
 
-    private static JointColliderPair[] getThrownHand(String path, ThrowType throwType, Collider collider){
+    private static JointColliderPair[] getThrownHand(String path, AttackHand throwType, Collider collider){
         JointColliderPair[] pair = null;
-        if(throwType == ThrowType.RIGHT_HAND) return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)collider)};
-        if(throwType == ThrowType.LEFT_HAND) return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolL, (Collider)collider)};
-        if(throwType == ThrowType.BOTH){
+        if(throwType == AttackHand.RIGHT_HAND) return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)collider)};
+        if(throwType == AttackHand.LEFT_HAND) return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolL, (Collider)collider)};
+        if(throwType == AttackHand.HANDS){
             return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)collider), JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolL, (Collider)collider)};
         }
         return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)collider)};

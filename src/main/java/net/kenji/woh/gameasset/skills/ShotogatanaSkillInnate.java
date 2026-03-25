@@ -3,6 +3,7 @@ package net.kenji.woh.gameasset.skills;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.interfaces.ITranslatableSkill;
 import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
 import net.minecraft.ChatFormatting;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class ShotogatanaSkillInnate extends WeaponInnateSkill {
+public class ShotogatanaSkillInnate extends WeaponInnateSkill implements ITranslatableSkill {
 
     private static final int REQUIRED_NO_DAMAGE_TICKS = 100; // 5 seconds (20 ticks = 1 second)
     private static float resourceTakeAmount = 5;
@@ -62,6 +63,20 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill {
     public boolean shouldDraw(SkillContainer container) {
         return super.shouldDraw(container);
     }
+    @Override
+    public String getSkillName() {
+        return "Shotogatana Skill Old";
+    }
+    @Override
+    public String getSkillTooltip() {
+        return "";
+    }
+
+    @Override
+    public String getSkillTooltipExtra() {
+        return "";
+    }
+
     @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
     public static class EventHandler{
 

@@ -49,7 +49,7 @@ public class WohWeaponCapabilityPresets {
                         ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_6,
                         ShotogatanaAnimations.SHOTOGATANA_NEW_DASH, ShotogatanaAnimations.SHOTOGATANA_NEW_AIRSLASH)
                 .newStyleCombo(WohStyles.UNSHEATHED,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_UNSHEATHED_AUTO_1,
+                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_3,
                         ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_2,
                         ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_3,
                         ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_4,
@@ -276,6 +276,48 @@ public class WohWeaponCapabilityPresets {
                 .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH)
                 .innateSkill(CapabilityItem.Styles.COMMON, (itemstack) -> WohSkills.ARBITERS_SLASH)
                 .innateSkill(WohStyles.AIMING, (itemstack) -> WohSkills.ARBITERS_SLASH);
+
+        return builder;
+    };
+    public static final Function<Item, CapabilityItem.Builder> TENRAI = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(WohWeaponCategories.ARBITERS_BLADE)
+                .styleProvider((playerPatch) -> {
+                    if(playerPatch instanceof PlayerPatch<?> patch) {
+                        if (patch.getSkill(SkillSlots.WEAPON_INNATE).isActivated())
+                            return CapabilityItem.Styles.OCHS;
+                    }
+                    return CapabilityItem.Styles.TWO_HAND;
+                })
+                .weaponCombinationPredicator(
+                        (entitypatch) ->
+                                EpicFightCapabilities.getItemStackCapability(entitypatch.getOriginal().getOffhandItem()).getWeaponCategory()
+                                        == WohWeaponCategories.TENRAI)
+                .hitSound(EpicFightSounds.BLADE_HIT.get())
+                .collider(ColliderPreset.LONGSWORD)
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        TenraiAnimations.TENRAI_AUTO_1,
+                        TenraiAnimations.TENRAI_AUTO_2,
+                        TenraiAnimations.TENRAI_AUTO_3,
+                        TenraiAnimations.TENRAI_AUTO_4,
+                        TenraiAnimations.TENRAI_AUTO_5,
+                        TenraiAnimations.TENRAI_AUTO_6,
+                        AnimsAgony.AGONY_AUTO_2,  TenraiAnimations.TENRAI_AIRSLASH)
+                .newStyleCombo(CapabilityItem.Styles.OCHS,
+                        TenraiAnimations.TENRAI_SKILL_AUTO_1,
+                        TenraiAnimations.TENRAI_SKILL_AUTO_2,
+                        TenraiAnimations.TENRAI_SKILL_AUTO_3,
+                        TenraiAnimations.TENRAI_SKILL_AUTO_4,
+                        AnimsAgony.AGONY_AUTO_2,  AnimsAgony.AGONY_AIR_ATTACK_1)
+
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TenraiAnimations.TENRAI_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, Animations.BIPED_WALK_SPEAR)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, Animations.BIPED_RUN_SPEAR)
+                .livingMotionModifier(CapabilityItem.Styles.OCHS, LivingMotions.IDLE, TenraiAnimations.TENRAI_SKILL_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.OCHS, LivingMotions.WALK, TenraiAnimations.TENRAI_SKILL_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.OCHS, LivingMotions.RUN, TenraiAnimations.TENRAI_SKILL_HOLD)
+                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.SPLIT_TENRAI)
+                .innateSkill(CapabilityItem.Styles.OCHS, (itemstack) -> WohSkills.SPLIT_TENRAI);
 
         return builder;
     };

@@ -1,6 +1,6 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
-import net.kenji.woh.api.animation_types.TessenThrowAttackAnimation;
+import net.kenji.woh.gameasset.AttackHand;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
@@ -116,7 +116,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -138,7 +138,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -160,7 +160,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -182,7 +182,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -204,7 +204,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -227,7 +227,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolL, biped.get().toolR},
+                new AttackHand[]{AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -249,7 +249,8 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR, biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
+
                 StunType.SHORT,
                 -1,
                 -1
@@ -271,7 +272,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -293,7 +294,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolL, biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -338,7 +339,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolL, biped.get().toolL, biped.get().toolL, biped.get().toolL, biped.get().toolL},
+                new AttackHand[]{AttackHand.LEFT_HAND, AttackHand.LEFT_HAND, AttackHand.LEFT_HAND, AttackHand.LEFT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -360,7 +361,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -382,7 +383,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR},
+                new AttackHand[]{AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -404,7 +405,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR, biped.get().toolL, biped.get().toolR},
+                new AttackHand[]{AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -471,7 +472,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -493,7 +494,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -515,7 +516,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR, biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -538,7 +539,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -561,7 +562,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -584,7 +585,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR, biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -631,7 +632,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -654,7 +655,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolL, biped.get().toolR},
+                new AttackHand[]{AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -677,7 +678,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR, biped.get().toolL, biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -700,7 +701,7 @@ public class TessenAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.DAGGER, ColliderPreset.DAGGER},
-                new Joint[]{biped.get().toolR, biped.get().toolL},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -723,7 +724,7 @@ public class TessenAnimations {
                 EpicFightSounds.BLADE_HIT,
                 EpicFightParticles.HIT_BLADE,
                 ColliderPreset.DAGGER,
-                TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
+                AttackHand.RIGHT_HAND,
                 StunType.SHORT,
                 0.36F,
                 1.15F,
@@ -745,7 +746,7 @@ public class TessenAnimations {
                 EpicFightSounds.BLADE_HIT,
                 EpicFightParticles.HIT_BLADE,
                 ColliderPreset.DAGGER,
-                TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
+                AttackHand.RIGHT_HAND,
                 StunType.SHORT,
                 0.36F,
                 1.70F,
@@ -767,7 +768,7 @@ public class TessenAnimations {
                 EpicFightSounds.BLADE_HIT,
                 EpicFightParticles.HIT_BLADE,
                 ColliderPreset.DAGGER,
-                TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
+                AttackHand.RIGHT_HAND,
                 StunType.SHORT,
                 0.36F,
                 2.20F,
@@ -789,7 +790,7 @@ public class TessenAnimations {
                 EpicFightSounds.BLADE_HIT,
                 EpicFightParticles.HIT_BLADE,
                 ColliderPreset.DAGGER,
-                TessenThrowAttackAnimation.ThrowType.RIGHT_HAND,
+                AttackHand.RIGHT_HAND,
                 StunType.SHORT,
                 0.36F,
                 2.08F,
@@ -811,7 +812,7 @@ public class TessenAnimations {
                 EpicFightSounds.BLADE_HIT,
                 EpicFightParticles.HIT_BLADE,
                 ColliderPreset.DAGGER,
-                TessenThrowAttackAnimation.ThrowType.LEFT_HAND,
+                AttackHand.LEFT_HAND,
                 StunType.SHORT,
                 0.30F,
                 1.40F,
@@ -833,7 +834,7 @@ public class TessenAnimations {
                 EpicFightSounds.BLADE_HIT,
                 EpicFightParticles.HIT_BLADE,
                 ColliderPreset.LONGSWORD,
-                TessenThrowAttackAnimation.ThrowType.BOTH,
+                AttackHand.HANDS,
                 StunType.SHORT,
                 0.30F,
                 1.70F,
@@ -855,7 +856,7 @@ public class TessenAnimations {
                 EpicFightSounds.BLADE_HIT,
                 EpicFightParticles.HIT_BLADE,
                 ColliderPreset.DUAL_SWORD,
-                TessenThrowAttackAnimation.ThrowType.BOTH,
+                AttackHand.HANDS,
                 StunType.SHORT,
                 0.30F,
                 1.95F,
@@ -877,7 +878,7 @@ public class TessenAnimations {
                 EpicFightSounds.BLADE_HIT,
                 EpicFightParticles.HIT_BLADE,
                 ColliderPreset.DUAL_SWORD,
-                TessenThrowAttackAnimation.ThrowType.BOTH,
+                AttackHand.HANDS,
                 StunType.SHORT,
                 0.30F,
                 1.50F,
@@ -898,7 +899,7 @@ public class TessenAnimations {
                 EpicFightSounds.BLADE_HIT,
                 EpicFightParticles.HIT_BLADE,
                 ColliderPreset.DUAL_SWORD,
-                TessenThrowAttackAnimation.ThrowType.BOTH,
+                AttackHand.HANDS,
                 StunType.SHORT,
                 0.30F,
                 1.59F,

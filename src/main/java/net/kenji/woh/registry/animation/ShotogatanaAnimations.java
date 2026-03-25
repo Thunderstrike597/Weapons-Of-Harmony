@@ -1,5 +1,6 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.gameasset.AttackHand;
 import net.kenji.woh.registry.WohColliderPreset;
 import net.kenji.woh.registry.WohSounds;
 import net.minecraft.sounds.SoundEvents;
@@ -107,7 +108,7 @@ public class ShotogatanaAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -131,7 +132,7 @@ public class ShotogatanaAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI, ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR, biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -155,7 +156,7 @@ public class ShotogatanaAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI, ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR, biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -177,7 +178,7 @@ public class ShotogatanaAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -200,7 +201,7 @@ public class ShotogatanaAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1F,
                 -1F
@@ -224,7 +225,7 @@ public class ShotogatanaAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.LONG,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT1,
                 0.28f,
@@ -247,7 +248,8 @@ public class ShotogatanaAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
+
                 StunType.SHORT,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT2,
                 -1,
@@ -270,7 +272,7 @@ public class ShotogatanaAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT1,
                 -1,
@@ -293,7 +295,7 @@ public class ShotogatanaAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT2,
                 -1,
@@ -316,7 +318,7 @@ public class ShotogatanaAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI, ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR, biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH_ALT2,
                 -1,
@@ -339,7 +341,7 @@ public class ShotogatanaAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 ShotogatanaAnimations.SHOTOGATANA_SHEATH,
                 -1,
@@ -408,7 +410,7 @@ public class ShotogatanaAnimations {
                 new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
                 new Collider[]{WohColliderPreset.SHEATHED_BLADE, WohColliderPreset.SHEATHED_BLADE},
-                new Joint[]{biped.get().torso, biped.get().torso},
+                new AttackHand[]{AttackHand.TORSO, AttackHand.TORSO},
                 StunType.LONG,
                 0.38f,
                 0.54f
@@ -418,21 +420,21 @@ public class ShotogatanaAnimations {
                 builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
                 "biped/combat/new/shotogatana/shotogatana_auto_1",
-                2,
+                1,
                 0.3F,
-                new float[]{0.0F, 0.9F},
-                new float[]{0.60F, 1.06F},
-                new float[]{0.72F, 1.14F},
-                new float[]{1.4F, 1.4F},
-                new float[]{2.70F, 2.70F},
-                new Supplier[]{WohSounds.SHOTOGATANA_SWING, WohSounds.SHOTOGATANA_SWING},
-                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
-                new Collider[]{ColliderPreset.TACHI, ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR, biped.get().toolR},
+                new float[]{0.0F},
+                new float[]{0.26F},
+                new float[]{0.32F},
+                new float[]{0.58F},
+                new float[]{1.38F},
+                new Supplier[]{EpicFightSounds.WHOOSH},
+                new Supplier[]{EpicFightSounds.BLUNT_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
+                new Collider[]{WohColliderPreset.REVERSE_BLADE},
+                new Joint[]{biped.get().toolL},
                 StunType.LONG,
-                0.28F,
-                2.50F
+                -1F,
+                -1F
         );
         SHOTOGATANA_NEW_AUTO_2 = WOHAnimationUtils.createShotogatanaAttackAnimation(
                 builder,
@@ -441,69 +443,49 @@ public class ShotogatanaAnimations {
                 1,
                 0.3F,
                 new float[]{0.0F},
+                new float[]{0.38F},
                 new float[]{0.48F},
-                new float[]{0.58F},
-                new float[]{0.80F},
-                new float[]{2.38F},
+                new float[]{0.70F},
+                new float[]{2.42F},
                 new Supplier[]{WohSounds.SHOTOGATANA_SWING},
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
                 new Joint[]{biped.get().toolR},
                 StunType.LONG,
-                0.0F,
+                0.08F,
                 2.32F
         );
         SHOTOGATANA_NEW_AUTO_3 = WOHAnimationUtils.createShotogatanaAttackAnimation(
                 builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
                 "biped/combat/new/shotogatana/shotogatana_auto_3",
-                2,
-                0.3F,
-                new float[]{0.0F, 0.88F},
-                new float[]{0.45F, 1.05F},
-                new float[]{0.53F, 1.20F},
-                new float[]{1.38F, 1.38F},
-                new float[]{3.50F, 3.50F},
-                new Supplier[]{WohSounds.SHOTOGATANA_SWING, WohSounds.SHOTOGATANA_SWING},
-                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
-                new Collider[]{ColliderPreset.TACHI, ColliderPreset.TACHI},
-                new Joint[]{biped.get().toolR, biped.get().toolR},
-                StunType.SHORT,
-                0.0F,
-                3.30F
-        );
-        SHOTOGATANA_NEW_AUTO_4 = WOHAnimationUtils.createShotogatanaAttackAnimation(
-                builder,
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP,
-                "biped/combat/new/shotogatana/shotogatana_auto_4",
                 1,
                 0.3F,
                 new float[]{0.0F},
-                new float[]{0.62F},
-                new float[]{0.78F},
-                new float[]{1.80F},
-                new float[]{3.59F},
+                new float[]{0.35F},
+                new float[]{0.40F},
+                new float[]{0.63F},
+                new float[]{2.72F},
                 new Supplier[]{WohSounds.SHOTOGATANA_SWING},
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLADE},
                 new Collider[]{ColliderPreset.TACHI},
                 new Joint[]{biped.get().toolR},
-                StunType.HOLD,
+                StunType.SHORT,
                 0.0F,
-                3.55F
+                2.65F
         );
-        SHOTOGATANA_NEW_AUTO_5 = WOHAnimationUtils.createShotogatanaAttackAnimation(
+        SHOTOGATANA_NEW_AUTO_4 = WOHAnimationUtils.createShotogatanaAttackAnimation(
                 builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/new/shotogatana/shotogatana_auto_5",
+                "biped/combat/new/shotogatana/shotogatana_auto_4",
                 1,
                 0.3F,
                 new float[]{0.0F},
-                new float[]{0.62F},
-                new float[]{0.70F},
-                new float[]{1.20F},
+                new float[]{0.72F},
+                new float[]{0.92F},
+                new float[]{1.10F},
                 new float[]{3.60F},
                 new Supplier[]{WohSounds.SHOTOGATANA_SWING},
                 new Supplier[]{EpicFightSounds.BLADE_HIT},
@@ -512,12 +494,12 @@ public class ShotogatanaAnimations {
                 new Joint[]{biped.get().toolR},
                 StunType.HOLD,
                 0.0F,
-                3.25F
+                3.45F
         );
-        SHOTOGATANA_NEW_AUTO_6 = WOHAnimationUtils.createShotogatanaAttackAnimation(
+        SHOTOGATANA_NEW_AUTO_5 = WOHAnimationUtils.createShotogatanaAttackAnimation(
                 builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/new/shotogatana/shotogatana_auto_6",
+                "biped/combat/new/shotogatana/shotogatana_auto_5",
                 1,
                 0.3F,
                 new float[]{0.0F},
@@ -533,6 +515,26 @@ public class ShotogatanaAnimations {
                 StunType.LONG,
                 0.0F,
                 2.56F
+        );
+        SHOTOGATANA_NEW_AUTO_6 = WOHAnimationUtils.createShotogatanaAttackAnimation(
+                builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/new/shotogatana/shotogatana_auto_6",
+                2,
+                0.3F,
+                new float[]{0.0F, 0.80F},
+                new float[]{0.32F, 0.88F},
+                new float[]{0.40F, 0.92F},
+                new float[]{1.30F, 1.30F},
+                new float[]{0.60F, 2.58F},
+                new Supplier[]{WohSounds.SHOTOGATANA_SWING, WohSounds.SHOTOGATANA_SWING},
+                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.TACHI, ColliderPreset.TACHI},
+                new Joint[]{biped.get().toolR, biped.get().toolR},
+                StunType.LONG,
+                0.0F,
+                2.52F
         );
         SHOTOGATANA_NEW_DASH = WOHAnimationUtils.createShotogatanaAttackAnimation(
                 builder,

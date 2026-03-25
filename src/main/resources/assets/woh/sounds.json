@@ -31,5 +31,16 @@
         "stream":true
       }
     ]
+  },
+  "entity.weapon.tenrai_swing":
+  {
+    "category":"master",
+    "subtitle":"entity.weapon.tenrai_swing",
+    "sounds":[
+      {
+        "name":"woh:entity/weapon/tenrai_swing",
+        "stream":true
+      }
+    ]
   }
 }

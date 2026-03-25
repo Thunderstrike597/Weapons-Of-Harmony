@@ -1,5 +1,6 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.gameasset.AttackHand;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
@@ -60,7 +61,7 @@ public class GenericAnimations {
                 new Supplier[]{EpicFightSounds.BLUNT_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.FIST},
-                new Joint[]{biped.get().toolR},
+                new AttackHand[]{AttackHand.RIGHT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -83,7 +84,7 @@ public class GenericAnimations {
                 new Supplier[]{EpicFightSounds.BLUNT_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.FIST},
-                new Joint[]{biped.get().toolL},
+                new AttackHand[]{AttackHand.LEFT_HAND},
                 StunType.SHORT,
                 -1,
                 -1
@@ -105,7 +106,7 @@ public class GenericAnimations {
                 new Supplier[]{EpicFightSounds.BLUNT_HIT},
                 new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
                 new Collider[]{ColliderPreset.FIST},
-                new Joint[]{biped.get().legR},
+                new AttackHand[]{AttackHand.RIGHT_LEG},
                 StunType.SHORT,
                 -1,
                 -1
