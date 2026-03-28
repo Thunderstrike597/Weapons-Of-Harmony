@@ -302,13 +302,13 @@ public class WohWeaponCapabilityPresets {
                         TenraiAnimations.TENRAI_AUTO_4,
                         TenraiAnimations.TENRAI_AUTO_5,
                         TenraiAnimations.TENRAI_AUTO_6,
-                        AnimsAgony.AGONY_AUTO_2,  TenraiAnimations.TENRAI_AIRSLASH)
+                        TenraiAnimations.TENRAI_DASH,  TenraiAnimations.TENRAI_AIRSLASH)
                 .newStyleCombo(CapabilityItem.Styles.OCHS,
                         TenraiAnimations.TENRAI_SKILL_AUTO_1,
                         TenraiAnimations.TENRAI_SKILL_AUTO_2,
                         TenraiAnimations.TENRAI_SKILL_AUTO_3,
                         TenraiAnimations.TENRAI_SKILL_AUTO_4,
-                        AnimsAgony.AGONY_AUTO_2,  AnimsAgony.AGONY_AIR_ATTACK_1)
+                        TenraiAnimations.TENRAI_SKILL_DASH,  AnimsAgony.AGONY_AIR_ATTACK_1)
 
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TenraiAnimations.TENRAI_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, Animations.BIPED_WALK_SPEAR)

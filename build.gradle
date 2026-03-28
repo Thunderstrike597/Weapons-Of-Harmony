@@ -118,7 +118,9 @@ minecraft {
         data {
             // example of overriding the workingDirectory set in configureEach above
             workingDirectory project.file('run-data')
-
+            tasks.withType(ProcessResources).configureEach {
+                duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            }
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
         }

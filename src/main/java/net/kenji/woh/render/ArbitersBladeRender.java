@@ -100,7 +100,7 @@ public class ArbitersBladeRender extends RenderItemBase {
                 glintStack,
                 ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
                 15,
-                OverlayTexture.WHITE_OVERLAY_V,
+                OverlayTexture.NO_OVERLAY,
                 poseStack,
                 buffer,
                 null,

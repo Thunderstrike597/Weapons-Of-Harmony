@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -34,5 +35,37 @@ public class WohVillagerTrades {
                 );
             });
         }
+        if (event.getType() == VillagerProfession.WEAPONSMITH) {
+
+            // Level 4 = Expert
+            event.getTrades().get(4).add((trader, rand) -> {
+
+                // 35% chance PER villager
+                if (rand.nextFloat() > 0.45f) {
+                    return null; // trade not added
+                }
+
+                return new MerchantOffer(
+                        new ItemStack(Items.EMERALD, 48),
+                        new ItemStack(WohItems.BROKEN_SPLIT_BLADE.get()),
+                        1,     // max uses
+                        20,    // villager XP
+                        0.05F  // price multiplier
+                );
+            });
+        }
+    }
+
+    @SubscribeEvent
+    public static void addCustomTrades(WandererTradesEvent event) {
+        event.getRareTrades().add((entity, random) -> {
+            return new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 48),
+                    WohItems.BROKEN_SPLIT_BLADE.get().getDefaultInstance(),
+                    1,
+                    1,
+                    0.05F);
+
+        });
     }
 }

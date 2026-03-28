@@ -5,9 +5,11 @@ import net.kenji.woh.api.animation_types.ShotogatanaStaticAnimation;
 import net.kenji.woh.api.animation_types.TessenThrowAttackAnimation;
 import net.kenji.woh.api.animation_types.WohAttackAnimation;
 import net.kenji.woh.api.manager.ShotogatanaManager;
+import net.kenji.woh.api.manager.TenraiManager;
 import net.kenji.woh.gameasset.AttackHand;
 import net.kenji.woh.gameasset.animation_types.*;
 import net.kenji.woh.network.SheathStatePacket;
+import net.kenji.woh.network.SplitStatePacket;
 import net.kenji.woh.network.WohPacketHandler;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
@@ -88,7 +90,39 @@ public class WOHAnimationUtils {
                         }
                     }
                 };
+        public static final AnimationEvent.E0 SPLIT_E0 =
+                (entityPatch, animation, params) -> {
+                    if(entityPatch instanceof PlayerPatch<?> playerPatch) {
+
+                        Player player = playerPatch.getOriginal();
+                        UUID playerId = player.getUUID();
+                        if (player.level().isClientSide) {
+                            WohPacketHandler.sendToServer(new SplitStatePacket(player.getUUID(), true));
+                            TenraiManager.renderSplitMap.put(playerId, true);
+                        }
+                        else if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
+                            //   serverPlayerPatch.modifyLivingMotionByCurrentItem();
+                        }
+                    }
+                };
+
+        public static final AnimationEvent.E0 UNSPLIT_E0 =
+                (entityPatch, animation, params) -> {
+                    if (entityPatch instanceof PlayerPatch<?> playerPatch) {
+                        Player player = playerPatch.getOriginal();
+                        UUID playerId = player.getUUID();
+
+                        if (player.level().isClientSide) {
+                            WohPacketHandler.sendToServer(new SplitStatePacket(player.getUUID(), false));
+                            TenraiManager.renderSplitMap.put(playerId, false);
+                        }
+                        else if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
+                            BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.TIME_EXPIRED, serverPlayerPatch, serverPlayerPatch.getSkill(SkillSlots.BASIC_ATTACK), Animations.EMPTY_ANIMATION.getAccessor(), 0);
+                        }
+                    }
+                };
     }
+
     public static AnimationManager.AnimationAccessor<StaticAnimation> createShotogatanaLivingAnimation(
             AnimationManager.AnimationBuilder builder,
             String path,
@@ -239,7 +273,51 @@ public class WOHAnimationUtils {
         // Return the accessor reference
         return animation;
     }
+    public static AnimationManager.AnimationAccessor<StaticAnimation> createSplitAnimation(
+            AnimationManager.AnimationBuilder builder,
+            String path,
+            float convertTime,
+            float absStart,
+            float absEnd,
+            AnimationEvent<?,?>[] extraEvents
+    ) {
+        AnimationManager.AnimationAccessor<StaticAnimation> animation = builder.nextAccessor(path, accessor -> new WohSheathAnimation(convertTime, accessor, Armatures.BIPED, absEnd));
 
+        AnimationManager.AnimationAccessor<? extends StaticAnimation> finalAnimation = animation;
+
+        Supplier<StaticAnimation> setupSupplier = () -> {
+            StaticAnimation anim = finalAnimation.get();
+
+            if(absStart != -1) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(
+                                absStart,
+                                ReusableEvents.SPLIT_E0,
+                                AnimationEvent.Side.BOTH
+                        )
+                });
+            }if(absEnd != -1){
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(
+                                absEnd,
+                                ReusableEvents.UNSPLIT_E0,
+                                AnimationEvent.Side.BOTH
+                        )
+                });
+            }
+
+            if(extraEvents != null){
+                anim.addEvents(extraEvents);
+            }
+            return anim;
+        };
+
+        // ADD TO DEFERRED LIST - DON'T CALL IT!
+        DEFERRED_SETUP.add(setupSupplier);
+
+        // Return the accessor reference
+        return animation;
+    }
     public static AnimationManager.AnimationAccessor<AttackAnimation> createTessenThrowAttackAnimation(
             AnimationManager.AnimationBuilder builder,
             AttackAnimationType attackType,
@@ -513,6 +591,108 @@ public class WOHAnimationUtils {
             } else if (!stopStartEvent) {
                 anim.addEvents(new AnimationEvent[]{
                         AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH)
+                });
+            }
+
+            return anim;
+        };
+
+        DEFERRED_SETUP.add(setupSupplier);
+        return animation;
+    }
+    public static AnimationManager.AnimationAccessor<BasicAttackAnimation> createTenraiSplitAttackAnimation(
+            AnimationManager.AnimationBuilder builder,
+            AttackAnimationType type,
+            String path,
+            int phaseCount,
+            float convertTime,
+            float attackSpeed,
+            float attackDamage,
+            float impact,
+            float[] start,
+            float[] antic,
+            float[] contact,
+            float[] recovery,
+            float[] end,
+            Supplier<SoundEvent>[] swingSound,
+            Supplier<SoundEvent>[] hitSound,
+            RegistryObject<HitParticleType>[] hitParticle,
+            Collider[] colliders,
+            AttackHand[] attackHand,
+            StunType stunType,
+            float absStart,
+            float absEnd
+    ) {
+        AnimationManager.AnimationAccessor<BasicAttackAnimation> animation;
+        switch(type) {
+            case BASIC_ATTACK, BASIC_ATTACK_SHEATH:
+                animation = builder.nextAccessor(path, accessor -> new WohAttackAnimation(
+                        convertTime,        // convertTime first
+                        accessor,           // PASS THE ACCESSOR!
+                        type,
+                        null,               // endAnimation
+                        phaseCount,
+                        attackSpeed,
+                        start,
+                        antic,
+                        contact,
+                        recovery,
+                        end,
+                        swingSound,
+                        hitSound,
+                        hitParticle,
+                        stunType,
+                        colliders,
+                        attackHand,
+                        false
+                ));
+                break;
+            case BASIC_ATTACK_JUMP:
+                animation = builder.nextAccessor(path, accessor -> new WohAttackAnimation(
+                        convertTime,        // convertTime first
+                        accessor,           // PASS THE ACCESSOR!
+                        type,
+                        null,               // endAnimation
+                        phaseCount,
+                        attackSpeed,
+                        start,
+                        antic,
+                        contact,
+                        recovery,
+                        end,
+                        swingSound,
+                        hitSound,
+                        hitParticle,
+                        stunType,
+                        colliders,
+                        attackHand,
+                        true
+                ));
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown animation type: " + type);
+        }
+
+        AnimationManager.AnimationAccessor<? extends AttackAnimation> finalAnimation = animation;
+
+        Supplier<StaticAnimation> setupSupplier = () -> {
+            AttackAnimation anim = finalAnimation.get();
+
+            boolean stopEndEvent = absEnd <= -1;
+            boolean stopStartEvent = absStart <= -1;
+
+            if (!stopEndEvent && !stopStartEvent) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(absStart, ReusableEvents.SPLIT_E0, AnimationEvent.Side.BOTH),
+                        AnimationEvent.InTimeEvent.create(absEnd, ReusableEvents.UNSPLIT_E0, AnimationEvent.Side.BOTH)
+                });
+            } else if (!stopEndEvent) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(absEnd, ReusableEvents.UNSPLIT_E0, AnimationEvent.Side.BOTH)
+                });
+            } else if (!stopStartEvent) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(absStart, ReusableEvents.SPLIT_E0, AnimationEvent.Side.BOTH)
                 });
             }
 

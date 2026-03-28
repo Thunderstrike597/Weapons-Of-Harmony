@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "woh:weapon_repair_module"
+  },
+  "base": {
+    "item": "woh:broken_split_blade"
+  },
+  "addition": {
+    "item": "woh:ancient_gold",
+    "count": 2
+  },
+  "result": {
+    "item": "woh:tenrai",
+    "count": 1
+  }
+}

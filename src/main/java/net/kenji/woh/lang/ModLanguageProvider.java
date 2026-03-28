@@ -3,6 +3,7 @@ package net.kenji.woh.lang;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.interfaces.ITranslatableItem;
 import net.kenji.woh.api.interfaces.ITranslatableSkill;
+import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.data.PackOutput;
@@ -19,18 +20,27 @@ public class ModLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+       add("creativetab.woh", "Weapons Of Harmony");
+
         WohItems.ITEMS.getEntries().forEach(item -> {
             ResourceLocation loc = item.getId();
             if(loc != null) {
                 String name = loc.getPath();
                 add(item.get(), toEnglishName(item.get(), name));
-
+                add("item.woh." + item.get() + ".tooltip", toEnglishTooltip(item.get()));
             }
         });
-        WohItems.ITEMS.getEntries().forEach(item -> {
-            ResourceLocation loc = item.getId();
-            if(loc != null) {
-                add(item.get().getDescriptionId(), toEnglishTooltip(item.get()));
+        WohEntities.ENTITYTYPES.getEntries().forEach(entity -> {
+            ResourceLocation loc = entity.getId();
+            if (loc != null) {
+                String[] parts = loc.getPath().split("_");
+                StringBuilder builder = new StringBuilder();
+                for (String part : parts) {
+                    builder.append(Character.toUpperCase(part.charAt(0)))
+                            .append(part.substring(1))
+                            .append(" ");
+                }
+                add("entity." + WeaponsOfHarmony.MODID + "." + loc.getPath(), builder.toString().trim());
             }
         });
         WohSkills.skills.forEach(skill -> {

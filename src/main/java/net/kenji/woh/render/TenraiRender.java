@@ -3,6 +3,8 @@ package net.kenji.woh.render;
 import com.google.gson.JsonElement;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.manager.ShotogatanaManager;
+import net.kenji.woh.api.manager.TenraiManager;
 import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.kenji.woh.registry.WohItems;
@@ -66,65 +68,12 @@ public class TenraiRender extends RenderItemBase {
     }
 
 
-    private boolean shouldRenderDual(EntityPatch<?> entitypatch) {
-        if (!(entitypatch instanceof PlayerPatch<?> playerPatch)) return false;
-
-        AnimationPlayer animPlayer = playerPatch.getClientAnimator()
-                .getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer;
-
-        var currentAnim = animPlayer.getAnimation().get();
-        float time = animPlayer.getElapsedTime();
-
-        SkillContainer container = playerPatch.getSkill(WohSkills.SPLIT_TENRAI);
-        if (container == null) return false;
-
-        UUID uuid = playerPatch.getOriginal().getUUID();
-
-        BladeSplit bladeSplit = dualRenderMap.computeIfAbsent(uuid, k -> new BladeSplit());
-
-        boolean abilityState = container.isActivated();
-
-        // 🟡 Detect change → set target, but DO NOT switch yet
-        if (bladeSplit.targetState == null && bladeSplit.visualState != abilityState) {
-            bladeSplit.targetState = abilityState;
+    private boolean shouldRenderDual(LivingEntityPatch<?> entitypatch) {
+        if (entitypatch instanceof PlayerPatch<?> playerPatch) {
+            UUID playerID = playerPatch.getOriginal().getUUID();
+            return TenraiManager.renderSplitMap.getOrDefault(playerID, false);
         }
-
-        // 🟢 ACTIVATING animation
-        if (currentAnim == TenraiAnimations.TENRAI_SKILL_ACTIVATE.get()) {
-            if (time >= 1.0F && bladeSplit.targetState != null) {
-                bladeSplit.visualState = true;
-                bladeSplit.targetState = null;
-            }
-            return bladeSplit.visualState;
-        }
-
-        // 🔴 DEACTIVATING animation
-        if (currentAnim == TenraiAnimations.TENRAI_SKILL_DEACTIVATE.get()) {
-            if (time >= 1.0F && bladeSplit.targetState != null) {
-                bladeSplit.visualState = false;
-                bladeSplit.targetState = null;
-            }
-            return bladeSplit.visualState;
-        }
-
-        // 🚫 If transition is pending but animation hasn't started yet → HOLD
-        if (bladeSplit.targetState != null) {
-            return bladeSplit.visualState;
-        }
-
-        // 🟡 No transition → sync normally
-        bladeSplit.visualState = abilityState;
-        return bladeSplit.visualState;
-    }
-    private ItemStack getBladetStack(EntityPatch<?> entitypatch) {
-        ItemStack stack = bladeStack.copy();
-        if(shouldRenderDual(entitypatch)) {
-            stack = bladeStack;
-        }
-        else{
-           stack = spiltPrimary;
-        }
-        return stack;
+        return false;
     }
 
     @Override
@@ -145,34 +94,25 @@ public class TenraiRender extends RenderItemBase {
             return;
         }
 
-        Log.info("Logging Tenrai Ability Active!");
-        OpenMatrix4f modelMatrix = this.getCorrectionMatrix(entitypatch, InteractionHand.MAIN_HAND, poses);
-        poseStack.pushPose();
-        MathUtils.mulStack(poseStack, modelMatrix);
-        Minecraft.getInstance().getItemRenderer().renderStatic(
+        super.renderItemInHand(
                 spiltPrimary,
-                ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
-                packedLight,
-                OverlayTexture.WHITE_OVERLAY_V,
-                poseStack,
+                entitypatch,
+                hand,
+                poses,
                 buffer,
-                null,
-                0
+                poseStack,
+                packedLight,
+                partialTicks
         );
-        poseStack.popPose();
-        modelMatrix = this.getCorrectionMatrix(entitypatch, InteractionHand.OFF_HAND, poses);
-        poseStack.pushPose();
-        MathUtils.mulStack(poseStack, modelMatrix);
-        Minecraft.getInstance().getItemRenderer().renderStatic(
+        super.renderItemInHand(
                 spiltSecondary,
-                ItemDisplayContext.THIRD_PERSON_LEFT_HAND,
-                packedLight,
-                OverlayTexture.WHITE_OVERLAY_V,
-                poseStack,
+                entitypatch,
+                InteractionHand.OFF_HAND,
+                poses,
                 buffer,
-                null,
-                0
+                poseStack,
+                packedLight,
+                partialTicks
         );
-        poseStack.popPose();
     }
 }

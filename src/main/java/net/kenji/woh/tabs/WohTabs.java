@@ -31,6 +31,7 @@ public class WohTabs {
                 output.accept(WohItems.TESSEN.get());
                 output.accept(WohItems.TSUME.get());
                 output.accept(WohItems.ARBITERS_BLADE.get());
+                output.accept(WohItems.TENRAI.get());
                 output.accept(WohItems.ARBITERS_SHIELD.get());
                 output.accept(WohItems.WAKIZASHI.get());
                 output.accept(WohItems.ODACHI.get());
@@ -39,6 +40,7 @@ public class WohTabs {
                 output.accept(WohItems.FOLDED_IRON.get());
                 output.accept(WohItems.FOLDED_STEEL.get());
                 output.accept(WohItems.HARDENED_STEEL_INGOT.get());
+                output.accept(WohItems.ANCIENT_GOLD.get());
                 output.accept(WohItems.BLADE_CURVE_MODULE.get());
                 output.accept(WohItems.WEAPON_REPAIR_MODULE.get());
                 output.accept(WohItems.MYSTERIOUS_CLOTH.get());
@@ -46,6 +48,7 @@ public class WohTabs {
                 output.accept(WohItems.BROKEN_BLADE_AND_SHEATH.get());
                 output.accept(WohItems.BROKEN_FAN_BLADE.get());
                 output.accept(WohItems.BROKEN_CLAWS.get());
+                output.accept(WohItems.BROKEN_SPLIT_BLADE.get());
             })
             .build());
 

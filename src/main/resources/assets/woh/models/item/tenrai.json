@@ -8,6 +8,11 @@
       "thirdperson_righthand": {
         "translation": [4.75, -7.5, 0],
         "rotation": [91.5, 0, 0],
+        "scale": [0.6, 0.75, 0.6]
+      },
+      "thirdperson_lefthand": {
+        "translation": [4.75, -7.5, 0],
+        "rotation": [90, 0, 0],
         "scale": [0.6, 0.6, 0.6]
       },
       "firstperson_righthand": {
@@ -21,20 +26,20 @@
     "ground": {
       "parent": "item/generated",
       "textures": {
-        "layer0": "woh:item/weapon/odachi"
+        "layer0": "woh:item/weapon/tenrai"
       }
     },
     "gui": {
       "parent": "item/generated",
       "textures": {
-        "layer0": "woh:item/weapon/odachi"
+        "layer0": "woh:item/weapon/tenrai"
       },
       "gui_light": "front"
     },
     "fixed": {
       "parent": "item/generated",
       "textures": {
-        "layer0": "woh:item/weapon/odachi"
+        "layer0": "woh:item/weapon/tenrai"
       }
     }
   }

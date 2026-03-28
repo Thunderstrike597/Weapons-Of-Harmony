@@ -87,6 +87,11 @@ public class WohItems {
                       that can be used to craft weapons of great variety
                       """));
 
+    public static final RegistryObject<Item> ANCIENT_GOLD = ITEMS.register("ancient_gold", () -> new ResourceItem(new Item.Properties().stacksTo(64), true, ChatFormatting.GRAY, "Ancient Gold",
+            """
+                      An ancient piece of gold that seems to be incredibly strong.. This is unusual for gold?
+                      """));
+
     public static final RegistryObject<Item> BLADE_CURVE_MODULE = ITEMS.register("blade_curve_module", () -> new ResourceItem(new Item.Properties().stacksTo(16), false, ChatFormatting.GRAY, "Blade Curve Module"));
     public static final RegistryObject<Item> WEAPON_REPAIR_MODULE = ITEMS.register("weapon_repair_module", () -> new ResourceItem(new Item.Properties().stacksTo(16), false, ChatFormatting.GRAY, "Weapon Repair Module"));
     public static final RegistryObject<Item> MYSTERIOUS_CLOTH = ITEMS.register("mysterious_cloth", () -> new ResourceItem(new Item.Properties().stacksTo(16), false, ChatFormatting.GRAY, "Mysterious Cloth"));
@@ -95,6 +100,7 @@ public class WohItems {
     public static final RegistryObject<Item> BROKEN_BLADE_AND_SHEATH = ITEMS.register("broken_blade", () -> new ResourceItem(new Item.Properties().stacksTo(1), false, ChatFormatting.GRAY, "Broken Blade & Sheath"));
     public static final RegistryObject<Item> BROKEN_FAN_BLADE = ITEMS.register("broken_fan_blade", () -> new ResourceItem(new Item.Properties().stacksTo(1), false, ChatFormatting.GRAY, "Broken Fan Blade"));
     public static final RegistryObject<Item> BROKEN_CLAWS = ITEMS.register("broken_claws", () -> new ResourceItem(new Item.Properties().stacksTo(1), false, ChatFormatting.GRAY, "Broken Claws"));
+    public static final RegistryObject<Item> BROKEN_SPLIT_BLADE = ITEMS.register("broken_split_blade", () -> new ResourceItem(new Item.Properties().stacksTo(1), false, ChatFormatting.GRAY, "Broken Split Blade"));
 
 
     public static final RegistryObject<Item> METAL_RONIN_HEADWEAR = ITEMS.register("ronin_headwear", () -> new RoninAttire(new Item.Properties(), ArmorItem.Type.HELMET, "Ronin Headwear"));

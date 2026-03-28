@@ -30,6 +30,11 @@ public class WohPacketHandler {
                 .encoder(SheathStatePacket::encode)
                 .consumerMainThread(SheathStatePacket::handle)
                 .add();
+        INSTANCE.messageBuilder(SplitStatePacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(SplitStatePacket::decode)
+                .encoder(SplitStatePacket::encode)
+                .consumerMainThread(SplitStatePacket::handle)
+                .add();
         INSTANCE.messageBuilder(AimHoldPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(AimHoldPacket::decode)
                 .encoder(AimHoldPacket::encode)

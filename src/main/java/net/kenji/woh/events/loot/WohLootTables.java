@@ -2,6 +2,7 @@ package net.kenji.woh.events.loot;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.registry.WohItems;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -25,6 +26,9 @@ public class WohLootTables {
     private static final float ARBITER_ARMOR_CHANCE = 0.025F;
     private static final float ARBITER_SHIELD_CHANCE = 0.015F;
 
+    private static final float ANCIENT_GOLD_CHANCE = 0.015F;
+
+
     @SubscribeEvent
     public static void modifyVanillaLootPools(LootTableLoadEvent event) {
 
@@ -38,6 +42,15 @@ public class WohLootTables {
         addCloth(event, BuiltInLootTables.SHIPWRECK_TREASURE);
         addCloth(event, BuiltInLootTables.JUNGLE_TEMPLE);
         addCloth(event, BuiltInLootTables.WOODLAND_MANSION);
+
+        addItem(event, BuiltInLootTables.SHIPWRECK_TREASURE, WohItems.ANCIENT_GOLD.get().getDefaultInstance(), 0.1125F);
+        addItem(event, BuiltInLootTables.ANCIENT_CITY, WohItems.ANCIENT_GOLD.get().getDefaultInstance(), 0.135F);
+        addItem(event, BuiltInLootTables.BASTION_TREASURE, WohItems.ANCIENT_GOLD.get().getDefaultInstance(), 0.1185F);
+        addItem(event, BuiltInLootTables.JUNGLE_TEMPLE, WohItems.ANCIENT_GOLD.get().getDefaultInstance(), 0.13F);
+        addItem(event, BuiltInLootTables.NETHER_BRIDGE, WohItems.ANCIENT_GOLD.get().getDefaultInstance(), 0.128F);
+        addItem(event, BuiltInLootTables.DESERT_PYRAMID_ARCHAEOLOGY, WohItems.ANCIENT_GOLD.get().getDefaultInstance(), 0.1175F);
+        addItem(event, BuiltInLootTables.STRONGHOLD_CROSSING, WohItems.ANCIENT_GOLD.get().getDefaultInstance(), 0.12F);
+
 
         // === ARBITER ARMOR ===
         addArmor(event, BuiltInLootTables.STRONGHOLD_LIBRARY,
@@ -85,7 +98,7 @@ public class WohLootTables {
                         .when(LootItemRandomChanceCondition.randomChance(CLOTH_STACK_CHANCE))
                         .add(LootItem.lootTableItem(WohItems.MYSTERIOUS_CLOTH.get())
                                 .apply(SetItemCountFunction.setCount(
-                                        UniformGenerator.between(2.0F, 3.0F))))
+                                        UniformGenerator.between(1.0F, 1.0F))))
                         .build()
         );
 
@@ -94,6 +107,18 @@ public class WohLootTables {
                 LootPool.lootPool()
                         .when(LootItemRandomChanceCondition.randomChance(CLOTH_SINGLE_CHANCE))
                         .add(LootItem.lootTableItem(WohItems.MYSTERIOUS_CLOTH.get()))
+                        .build()
+        );
+    }
+    private static void addItem(LootTableLoadEvent event, net.minecraft.resources.ResourceLocation table, ItemStack itemStack, float chance) {
+        if (!event.getName().equals(table)) return;
+
+        event.getTable().addPool(
+                LootPool.lootPool()
+                        .when(LootItemRandomChanceCondition.randomChance(chance))
+                        .add(LootItem.lootTableItem(itemStack.getItem())
+                                .apply(SetItemCountFunction.setCount(
+                                        UniformGenerator.between(2.0F, 3.0F))))
                         .build()
         );
     }
