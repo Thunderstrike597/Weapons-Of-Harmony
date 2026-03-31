@@ -18,7 +18,7 @@ public class WohColliderPreset implements PreparableReloadListener {
     private static final BiMap<ResourceLocation, Collider> PRESETS = HashBiMap.create();
     public static final Collider TSUME_CLAWS = registerCollider(new ResourceLocation(WeaponsOfHarmony.MODID, "tsume_claws"), new MultiOBBCollider(5, 0.4, 0.75, 0.4, (double)0.0F, (double)0.0F, -0.1));
     public static final Collider SHEATHED_BLADE = registerCollider(new ResourceLocation(WeaponsOfHarmony.MODID, "sheathed_blade"), new MultiOBBCollider(5, 1, 1, 2F, (double)0.0F, (double)0.0F, (double)-2.0F));
-    public static final Collider REVERSE_BLADE = registerCollider(new ResourceLocation(WeaponsOfHarmony.MODID, "reverse_blade"), new MultiOBBCollider(5, 1, 1, -2F, (double)0.0F, (double)0.0F, (double)0));
+    public static final Collider SHEATH = registerCollider(new ResourceLocation(WeaponsOfHarmony.MODID, "reverse_blade"), new MultiOBBCollider(5, 1, 1, -2F, (double)0.0F, (double)0.0F, (double)0));
 
     public static Collider registerCollider(ResourceLocation rl, Collider collider) {
         if (PRESETS.containsKey(rl)) {

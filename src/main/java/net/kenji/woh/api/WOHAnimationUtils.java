@@ -85,9 +85,6 @@ public class WOHAnimationUtils {
                             WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), true));
                             ShotogatanaManager.renderSheathMap.put(playerId, true);
                         }
-                        else if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
-                            BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.TIME_EXPIRED, serverPlayerPatch, serverPlayerPatch.getSkill(SkillSlots.BASIC_ATTACK), Animations.EMPTY_ANIMATION.getAccessor(), 0);
-                        }
                     }
                 };
         public static final AnimationEvent.E0 SPLIT_E0 =
@@ -386,6 +383,7 @@ public class WOHAnimationUtils {
             AttackAnimationType type,
             String path,
             int phaseCount,
+            float speed,
             float convertTime,
             float[] start,
             float[] antic,
@@ -404,14 +402,14 @@ public class WOHAnimationUtils {
         AnimationManager.AnimationAccessor<BasicAttackAnimation> animation = null;
         switch(type) {
             case BASIC_ATTACK, BASIC_ATTACK_SHEATH, DASH_ATTACK:
-                animation = builder.nextAccessor(path, accessor -> new ShotogatanaAttackAnimation(convertTime,
+                animation = builder.nextAccessor(path, accessor -> new ShotogatanaAttackAnimation(convertTime, speed,
                         accessor, unsheatheTime, sheathTime, phaseCount,
                         start, antic, contact, recovery, end,
                         swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, false
                 ));
                 break;
             case BASIC_ATTACK_JUMP:
-                animation = builder.nextAccessor(path, accessor -> new ShotogatanaAttackAnimation(convertTime,
+                animation = builder.nextAccessor(path, accessor -> new ShotogatanaAttackAnimation(convertTime, speed,
                         accessor, unsheatheTime, sheathTime, phaseCount,
                         start, antic, contact, recovery, end,
                         swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, true
@@ -452,6 +450,7 @@ public class WOHAnimationUtils {
             AnimationManager.AnimationBuilder builder,
             String path,
             int phaseCount,
+            float speed,
             float convertTime,
             float[] start,
             float[] antic,
@@ -471,7 +470,7 @@ public class WOHAnimationUtils {
     ) {
         AnimationManager.AnimationAccessor<BasicAttackAnimation> animation = null;
 
-        animation = builder.nextAccessor(path, accessor -> new ShotogatanaAttackAnimation(convertTime,
+        animation = builder.nextAccessor(path, accessor -> new ShotogatanaAttackAnimation(convertTime, speed,
                 accessor, unsheatheTime, sheathTime, phaseCount,
                 start, antic, contact, recovery, end,
                 swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, ignoreFallDamage, airTime

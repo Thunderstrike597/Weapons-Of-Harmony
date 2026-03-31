@@ -7,6 +7,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
+import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
@@ -119,6 +120,15 @@ public class WohAttackAnimation extends BasisAttackAnimation {
         AttackAnimation.Phase[] phases = new AttackAnimation.Phase[phaseCount];
 
         for(int i = 0; i < phaseCount; i++) {
+            AttackHand hand = attackHand[0];
+            if(i < attackHand.length)
+                hand = attackHand[i];
+            else hand = attackHand[attackHand.length - 1];
+            Collider collider = colliders[0];
+            if(i < colliders.length)
+                collider = colliders[i];
+            else collider = colliders[attackHand.length - 1];
+
             phases[i] = new AttackAnimation.Phase(
                     start[i],
                     antic[i],
@@ -127,10 +137,20 @@ public class WohAttackAnimation extends BasisAttackAnimation {
                     recovery[i],
                     end[i],
                     InteractionHand.MAIN_HAND,
-                    getThrownHand(attackHand[i], colliders[i])
-            ).addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound[i].get())
-                    .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound[i].get())
-                    .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle[i]);
+                    getThrownHand(hand, collider)
+            );
+            if(i < hitSound.length)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound[i].get());
+            else if(hitSound.length > 0)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound[hitSound.length - 1].get());
+            if(i < swingSound.length)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound[i].get());
+            else if(hitSound.length > 0)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound[swingSound.length - 1].get());
+            if(i < hitParticle.length)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle[i]);
+            else if(hitParticle.length > 0)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle[hitParticle.length - 1]);
         }
 
         return phases;

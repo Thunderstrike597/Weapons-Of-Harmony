@@ -14,14 +14,17 @@ import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.api.utils.TimePairList;
+import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.particle.HitParticleType;
 import yesman.epicfight.skill.BasicAttack;
 import yesman.epicfight.skill.SkillDataKey;
 import yesman.epicfight.skill.SkillDataKeys;
+import yesman.epicfight.skill.SkillSlots;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
 import yesman.epicfight.world.damagesource.StunType;
@@ -42,12 +45,12 @@ public class ShotogatanaAttackAnimation extends BasicAttackAnimation {
 
     private static Map<UUID, Boolean> queFallReset = new HashMap<>();
 
-    public ShotogatanaAttackAnimation(float convertTime, AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> accessor, float unsheatheTime, float sheathTime, int phaseCount, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean moveVertical) {
+    public ShotogatanaAttackAnimation(float convertTime, float speed, AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> accessor, float unsheatheTime, float sheathTime, int phaseCount, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean moveVertical) {
         super(convertTime, accessor, Armatures.BIPED, buildPhases(phaseCount, start ,antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, colliderJoints));
         this.unsheatheTime = unsheatheTime;
         this.sheathTime = sheathTime;
         this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
-                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.175F)
+                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, speed)
                 .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
                 .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false);
@@ -57,12 +60,12 @@ public class ShotogatanaAttackAnimation extends BasicAttackAnimation {
         this.isAirAttack = false;
     }
 
-    public ShotogatanaAttackAnimation(float convertTime, AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> accessor, float unsheatheTime, float sheathTime, int phaseCount, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean ignoreFallDamage, float[] inAirTime) {
-        super(convertTime, accessor, Armatures.BIPED, buildPhases(phaseCount, start ,antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, colliderJoints));
+    public ShotogatanaAttackAnimation(float convertTime, float speed, AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> accessor, float unsheatheTime, float sheathTime, int phaseCount, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean ignoreFallDamage, float[] inAirTime) {
+        super(convertTime, accessor, Armatures.BIPED, buildPhases(phaseCount,start ,antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, colliderJoints));
         this.unsheatheTime = unsheatheTime;
         this.sheathTime = sheathTime;
         this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
-                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.175F)
+                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, speed)
                 .addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true)
                 .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
@@ -76,6 +79,14 @@ public class ShotogatanaAttackAnimation extends BasicAttackAnimation {
         Phase[] phases = new Phase[phaseCount];
 
         for(int i = 0; i < phaseCount; i++) {
+            Joint joint = colliderJoints[0];
+            if(i < colliderJoints.length)
+                joint = colliderJoints[i];
+            else joint = colliderJoints[colliderJoints.length - 1];
+            Collider collider = colliders[0];
+            if(i < colliders.length)
+                collider = colliders[i];
+            else collider = colliders[colliderJoints.length - 1];
             phases[i] = new Phase(
                     start[i],
                     antic[i],
@@ -83,12 +94,21 @@ public class ShotogatanaAttackAnimation extends BasicAttackAnimation {
                     recovery[i],
                     end[i],
                     InteractionHand.MAIN_HAND,
-                    colliderJoints[i],
-                    colliders[i]
-            ).addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound[i].get())
-                    .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound[i].get())
-                    .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle[i]);
-
+                    joint,
+                    collider
+            );
+            if(i < hitSound.length)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound[i].get());
+            else if(hitSound.length > 0)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound[hitSound.length - 1].get());
+            if(i < swingSound.length)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound[i].get());
+            else if(hitSound.length > 0)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound[swingSound.length - 1].get());
+            if(i < hitParticle.length)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle[i]);
+            else if(hitParticle.length > 0)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle[hitParticle.length - 1]);
         }
 
         return phases;
@@ -105,6 +125,11 @@ public class ShotogatanaAttackAnimation extends BasicAttackAnimation {
     public void end(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> nextAnimation, boolean isEnd) {
         if(entitypatch instanceof PlayerPatch<?> playerPatch) {
             AttackManager.isInAttack.remove(playerPatch.getOriginal().getUUID());
+        }
+        if(isEnd) {
+            if (entitypatch instanceof ServerPlayerPatch serverPlayerPatch) {
+                BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.TIME_EXPIRED, serverPlayerPatch, serverPlayerPatch.getSkill(SkillSlots.BASIC_ATTACK), Animations.EMPTY_ANIMATION.getAccessor(), 0);
+            }
         }
         super.end(entitypatch, nextAnimation, isEnd);
     }

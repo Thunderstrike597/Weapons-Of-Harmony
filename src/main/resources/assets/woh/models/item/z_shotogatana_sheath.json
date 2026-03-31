@@ -1,6 +1,6 @@
 {
 	"loader": "forge:obj",
-    "model": "woh:models/item/obj/holster/sheath/enhanced_katana_sheath.obj",
+    "model": "woh:models/item/obj/holster/sheath/shotogatana_sheath.obj",
     "flip_v": true,
 	"display":
 	{
@@ -8,7 +8,7 @@
     	{
      		"translation": [6.25, -3.75, 8],
      		"rotation": [97.5, 0, 0],
-     		"scale": [0.9, 1, 0.85]
+     		"scale": [0.9, 0.9, 0.85]
     	},
     	"firstperson_righthand":
     	{
