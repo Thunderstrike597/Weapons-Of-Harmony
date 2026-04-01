@@ -46,7 +46,8 @@ public class ClientArbitersSlashPacket {
         if(playerPatch == null) return;
 
         SkillContainer container = playerPatch.getSkill(WohSkills.ARBITERS_SLASH);
-
+        if(container == null)
+            return;
         container.deactivate();
     }
 }

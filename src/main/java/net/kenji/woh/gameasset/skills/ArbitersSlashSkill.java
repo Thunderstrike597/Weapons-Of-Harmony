@@ -87,7 +87,8 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill, ITrans
     @Override
     public String getSkillTooltip() {
         return """
-               This blade is seemingly normal on the surface..
+               §bThis blade is seemingly normal on the surface..§r
+               
                However when tilted towards the sky, it becomes filled with magical energy...
                Once fully charged the sword becomes capable of slashing powerful spinning cutters as great speed with each strike!
                """;
@@ -350,10 +351,11 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill, ITrans
         List<Component> list = Lists.newArrayList();
         String traslatableText = this.getTranslationKey();
         list.add(Component.translatable(traslatableText).withStyle(ChatFormatting.WHITE)
-                .append(Component.literal(String.format("[%.0f]", this.consumption)).withStyle(ChatFormatting.AQUA)));
+                .append(Component.literal(String.format("[%.0f]", this.consumption))));
         list.add(Component.translatable(traslatableText + ".tooltip")
                 .withStyle(ChatFormatting.AQUA));
-        list.add(Component.translatable(traslatableText + ".tooltip.extra")
+        if(!getSkillTooltipExtra().isEmpty())
+            list.add(Component.translatable(traslatableText + ".tooltip.extra")
                 .withStyle(ChatFormatting.RED).append(String.valueOf(this.maxDuration / 20)));
         return list;
     }

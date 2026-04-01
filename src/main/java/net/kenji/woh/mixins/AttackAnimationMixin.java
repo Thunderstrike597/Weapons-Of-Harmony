@@ -20,10 +20,7 @@ import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.EntityState;
-import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
-import yesman.epicfight.gameasset.Animations;
-import yesman.epicfight.skill.SkillDataKeys;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
@@ -39,7 +36,7 @@ public class AttackAnimationMixin {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             AttackManager.isInAttack.remove(playerPatch.getOriginal().getUUID());
             if (playerPatch.getOriginal().getMainHandItem().getItem() instanceof Shotogatana) {
-                if (playerPatch.getSkill(WohSkills.SHEATH_STANCE) == null || !playerPatch.getSkill(WohSkills.SHEATH_STANCE).isActivated()) {
+                if (playerPatch.getSkill(WohSkills.SHOTOGATANA_SKILL) == null || !playerPatch.getSkill(WohSkills.SHOTOGATANA_SKILL).isActivated()) {
                     if (!ShotogatanaManager.renderSheathMap.getOrDefault(playerPatch.getOriginal().getUUID(), false)) {
                         if (nextAnimation == null || isEnd & nextAnimation != ShotogatanaAnimations.SHOTOGATANA_SHEATH) {
                             //if(!(attackAnimation instanceof ShotogatanaAttackAnimation))
@@ -60,7 +57,7 @@ public class AttackAnimationMixin {
 
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             if (playerPatch.getOriginal().getMainHandItem().getItem() instanceof Shotogatana) {
-                if (playerPatch.getSkill(WohSkills.SHEATH_STANCE) == null || !playerPatch.getSkill(WohSkills.SHEATH_STANCE).isActivated()) {
+                if (playerPatch.getSkill(WohSkills.SHOTOGATANA_SKILL) == null || !playerPatch.getSkill(WohSkills.SHOTOGATANA_SKILL).isActivated()) {
                     if (!(attackAnimation instanceof ShotogatanaAttackAnimation))
                         cir.setReturnValue(WohSounds.SHOTOGATANA_SWING.get());
                 }

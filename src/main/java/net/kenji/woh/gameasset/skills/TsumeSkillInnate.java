@@ -119,10 +119,11 @@ public class TsumeSkillInnate extends WeaponInnateSkill implements ITranslatable
         List<Component> list = Lists.newArrayList();
         String traslatableText = this.getTranslationKey();
         list.add(Component.translatable(traslatableText).withStyle(ChatFormatting.WHITE)
-                .append(Component.literal(String.format("[%.0f]", this.consumption)).withStyle(ChatFormatting.AQUA)));
+                .append(Component.literal(String.format("[%.0f]", this.consumption))));
         list.add(Component.translatable(traslatableText + ".tooltip")
                 .withStyle(ChatFormatting.AQUA));
-        list.add(Component.translatable(traslatableText + ".tooltip.extra", this.maxDuration)
+        if(!getSkillTooltipExtra().isEmpty())
+            list.add(Component.translatable(traslatableText + ".tooltip.extra", this.maxDuration)
                 .withStyle(ChatFormatting.RED).append(String.valueOf(this.maxDuration / 20)));
         return list;
     }

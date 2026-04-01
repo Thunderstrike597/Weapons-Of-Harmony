@@ -12,6 +12,7 @@ import net.kenji.woh.network.SheathStatePacket;
 import net.kenji.woh.network.SplitStatePacket;
 import net.kenji.woh.network.WohPacketHandler;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
@@ -62,7 +63,7 @@ public class WOHAnimationUtils {
                             ShotogatanaManager.renderSheathMap.put(playerId, false);
                         }
                         else if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
-                         //   serverPlayerPatch.modifyLivingMotionByCurrentItem();
+
                         }
                     }
         };
@@ -100,6 +101,7 @@ public class WOHAnimationUtils {
                         else if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
                             //   serverPlayerPatch.modifyLivingMotionByCurrentItem();
                         }
+                        playerPatch.playSound(SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F);
                     }
                 };
 
@@ -116,6 +118,7 @@ public class WOHAnimationUtils {
                         else if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
                             BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.TIME_EXPIRED, serverPlayerPatch, serverPlayerPatch.getSkill(SkillSlots.BASIC_ATTACK), Animations.EMPTY_ANIMATION.getAccessor(), 0);
                         }
+                        playerPatch.playSound(SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F);
                     }
                 };
     }

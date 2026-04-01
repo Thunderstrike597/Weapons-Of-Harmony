@@ -29,7 +29,7 @@ public class WohWeaponCapabilityPresets {
                 .styleProvider((playerPatch) -> {
                             boolean isSheathed = ShotogatanaManager.renderSheathMap.getOrDefault(playerPatch.getOriginal().getUUID(), true);
                             if(playerPatch instanceof PlayerPatch<?> patch){
-                                if(!isSheathed && patch.getSkill(WohSkills.SHEATH_STANCE) != null && patch.getSkill(WohSkills.SHEATH_STANCE).isActivated()){
+                                if(!isSheathed && patch.getSkill(WohSkills.SHOTOGATANA_SKILL) != null && patch.getSkill(WohSkills.SHOTOGATANA_SKILL).isActivated()){
                                     return CapabilityItem.Styles.TWO_HAND;
                                 }
                             }
@@ -81,8 +81,8 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, Animations.BIPED_HOLD_TACHI)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.LONGSWORD_GUARD)
 
-                .innateSkill(CapabilityItem.Styles.SHEATH, (itemstack) -> WohSkills.SHEATH_STANCE)
-                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.SHEATH_STANCE);
+                .innateSkill(CapabilityItem.Styles.SHEATH, (itemstack) -> WohSkills.SHOTOGATANA_SKILL)
+                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.SHOTOGATANA_SKILL);
 
         return builder;
     };
@@ -161,7 +161,7 @@ public class WohWeaponCapabilityPresets {
                 .styleProvider((playerPatch) -> {
                     if(playerPatch instanceof PlayerPatch<?> patch) {
                         if (patch.getSkill(SkillSlots.WEAPON_INNATE).isActivated())
-                            return WohStyles.ENRAGED_CLAWS;
+                            return WohStyles.ABILITY_ACTIVE;
 
                     }
                     return CapabilityItem.Styles.TWO_HAND;
@@ -178,7 +178,7 @@ public class WohWeaponCapabilityPresets {
                         TsumeAnimations.TSUME_NEW_AUTO_3,
                         TsumeAnimations.TSUME_NEW_AUTO_4,
                         CorruptAnimations.BLADE_RUSH1, TsumeAnimations.TSUME_NEW_AIRSLASH)
-                .newStyleCombo(WohStyles.ENRAGED_CLAWS,
+                .newStyleCombo(WohStyles.ABILITY_ACTIVE,
                         TsumeAnimations.TSUME_NEW_AUTO_1,
                         TsumeAnimations.TSUME_NEW_AUTO_2,
                         TsumeAnimations.TSUME_NEW_AUTO_3,
@@ -188,12 +188,12 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TsumeAnimations.TSUME_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TsumeAnimations.TSUME_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, TsumeAnimations.TSUME_GUARD)
-                .livingMotionModifier(WohStyles.ENRAGED_CLAWS, LivingMotions.IDLE, TsumeAnimations.TSUME_SKILL_HOLD)
-                .livingMotionModifier(WohStyles.ENRAGED_CLAWS, LivingMotions.WALK, TsumeAnimations.TSUME_SKILL_HOLD)
-                .livingMotionModifier(WohStyles.ENRAGED_CLAWS, LivingMotions.RUN, TsumeAnimations.TSUME_RUN)
-                .livingMotionModifier(WohStyles.ENRAGED_CLAWS, LivingMotions.BLOCK, TsumeAnimations.TSUME_GUARD)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE, LivingMotions.IDLE, TsumeAnimations.TSUME_SKILL_HOLD)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE, LivingMotions.WALK, TsumeAnimations.TSUME_SKILL_HOLD)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE, LivingMotions.RUN, TsumeAnimations.TSUME_RUN)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE, LivingMotions.BLOCK, TsumeAnimations.TSUME_GUARD)
                 .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.ENRAGED_CLAWS)
-                .innateSkill(WohStyles.ENRAGED_CLAWS, (itemstack) -> WohSkills.ENRAGED_CLAWS)
+                .innateSkill(WohStyles.ABILITY_ACTIVE, (itemstack) -> WohSkills.ENRAGED_CLAWS)
                 .swingSound(EpicFightSounds.WHOOSH_SMALL.get());
         return builder;
     };
@@ -281,11 +281,11 @@ public class WohWeaponCapabilityPresets {
     };
     public static final Function<Item, CapabilityItem.Builder> TENRAI = (item) -> {
         WeaponCapability.Builder builder = WeaponCapability.builder()
-                .category(WohWeaponCategories.ARBITERS_BLADE)
+                .category(WohWeaponCategories.TENRAI)
                 .styleProvider((playerPatch) -> {
                     if(playerPatch instanceof PlayerPatch<?> patch) {
                         if (patch.getSkill(SkillSlots.WEAPON_INNATE).isActivated())
-                            return CapabilityItem.Styles.OCHS;
+                            return WohStyles.ABILITY_ACTIVE;
                     }
                     return CapabilityItem.Styles.TWO_HAND;
                 })
@@ -303,7 +303,7 @@ public class WohWeaponCapabilityPresets {
                         TenraiAnimations.TENRAI_AUTO_5,
                         TenraiAnimations.TENRAI_AUTO_6,
                         TenraiAnimations.TENRAI_DASH,  TenraiAnimations.TENRAI_AIRSLASH)
-                .newStyleCombo(CapabilityItem.Styles.OCHS,
+                .newStyleCombo(WohStyles.ABILITY_ACTIVE,
                         TenraiAnimations.TENRAI_SKILL_AUTO_1,
                         TenraiAnimations.TENRAI_SKILL_AUTO_2,
                         TenraiAnimations.TENRAI_SKILL_AUTO_3,
@@ -313,11 +313,11 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TenraiAnimations.TENRAI_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, Animations.BIPED_WALK_SPEAR)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, Animations.BIPED_RUN_SPEAR)
-                .livingMotionModifier(CapabilityItem.Styles.OCHS, LivingMotions.IDLE, TenraiAnimations.TENRAI_SKILL_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.OCHS, LivingMotions.WALK, TenraiAnimations.TENRAI_SKILL_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.OCHS, LivingMotions.RUN, TenraiAnimations.TENRAI_SKILL_HOLD)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE, LivingMotions.IDLE, TenraiAnimations.TENRAI_SKILL_HOLD)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE, LivingMotions.WALK, TenraiAnimations.TENRAI_SKILL_WALK)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE, LivingMotions.RUN, TenraiAnimations.TENRAI_SKILL_RUN)
                 .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.SPLIT_TENRAI)
-                .innateSkill(CapabilityItem.Styles.OCHS, (itemstack) -> WohSkills.SPLIT_TENRAI);
+                .innateSkill(WohStyles.ABILITY_ACTIVE, (itemstack) -> WohSkills.SPLIT_TENRAI);
 
         return builder;
     };

@@ -5,7 +5,6 @@ import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.gameasset.WohWeaponCategories;
 import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.registry.animation.*;
-import net.kenji.woh.render.ShotogatanaRender;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ShieldItem;
@@ -25,7 +24,6 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
 
-import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.function.BiFunction;
 
@@ -46,7 +44,7 @@ public abstract class GuardSkillMixin {
                 WohWeaponCategories.SHOTOGATANA,
                 (item, player) -> {
                     boolean isSheathed = ShotogatanaManager.renderSheathMap.getOrDefault(player.getOriginal().getUUID(), false);
-                    if(player.getSkill(WohSkills.SHEATH_STANCE) == null || !player.getSkill(WohSkills.SHEATH_STANCE).isActivated()) {
+                    if(player.getSkill(WohSkills.SHOTOGATANA_SKILL) == null || !player.getSkill(WohSkills.SHOTOGATANA_SKILL).isActivated()) {
                         if (isSheathed) {
                             return ShotogatanaAnimations.SHOTOGATANA_GUARD;
                         } else return ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_GUARD;

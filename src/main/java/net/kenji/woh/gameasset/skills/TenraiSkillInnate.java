@@ -46,17 +46,31 @@ public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatabl
 
     private int previousStack;
 
+
+
     public TenraiSkillInnate(SkillBuilder<? extends WeaponInnateSkill> builder) {
         super(builder);
         this.maxDuration = 420;
-        this.consumption = 20;
-        this.maxStackSize = 1;
+        this.consumption = 5;
+        this.maxStackSize = 3;
     }
 
     @Override
     public boolean canExecute(SkillContainer container) {
         if (!container.isActivated()) {
-            return super.checkExecuteCondition(container);
+            PlayerPatch<?> executor = container.getExecutor();
+            AnimationPlayer animPlayer = executor.getAnimator().getPlayerFor(null);
+
+            if (animPlayer == null) {
+                return super.checkExecuteCondition(container);
+            }
+            DynamicAnimation animation = animPlayer.getAnimation().get();
+            if (animation.isBasicAttackAnimation() || animation instanceof AttackAnimation) {
+                return container.getStack() > 0;
+            }
+            else{
+                return container.getStack() >= container.getSkill().getMaxStack();
+            }
         }
         return true;
     }
@@ -74,19 +88,25 @@ public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatabl
     }
     @Override
     public String getSkillTooltip() {
-        return "";
+        return """
+               §aThere are two states for the Tenrai Innate Skill:§r
+               
+               1: Activating the Innate Skill while attacking allows you to temporarily unsplit
+               your weapon for a single unique attack, the attack performed
+               will be different depending on the auto attack that
+               was active when the innate skill was activated.
+               
+               2: You have a cooldown meter you your innate skill.
+               
+               §bIf the cooldown is charged and you activate the innate while idle (Not Attacking), you can unsplit the tenrai for a period of time.
+               This allows you to have a completely new dual-wield moveset until the cooldown is exhausted.§r
+               """;
     }
 
     @Override
     public String getSkillTooltipExtra() {
-        return "";
-    }
+        return "This Innate Skill(State 2) Lasts for: ";
 
-    @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-    public static class EventHandler {
-        private static final Map<UUID, Boolean> didFirstAttack = new HashMap<>();
-
-        private static final Map<UUID, BasicAttackAnimation> storedOriginalAttacks = new HashMap<>();
     }
 
     @Override
@@ -117,7 +137,7 @@ public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatabl
         if (!container.isActivated()) {
             PlayerPatch<?> executor = container.getExecutor();
             AnimationPlayer animPlayer = executor.getAnimator().getPlayerFor(null);
-            if(container.getStack() != maxStackSize) {
+            /*if(container.getStack() != maxStackSize) {
 
                 if (animPlayer == null) {
                     return;
@@ -134,7 +154,7 @@ public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatabl
                 } else {
                     container.setStack(this.previousStack);
                 }
-            }
+            }*/
         }
     }
 
@@ -153,9 +173,8 @@ public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatabl
             if (next != null) {
                 executor.playAnimationSynchronized(next, 0.0F);
             }
-            executor.playSound(SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F);
         }
-        else {
+        else if(container.getStack() >= container.getSkill().getMaxStack()){
             if (executor.getSkill(this).isActivated()) {
                 this.cancelOnServer(container, args);
             } else {
@@ -176,10 +195,11 @@ public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatabl
         List<Component> list = Lists.newArrayList();
         String traslatableText = this.getTranslationKey();
         list.add(Component.translatable(traslatableText).withStyle(ChatFormatting.WHITE)
-                .append(Component.literal(String.format("[%.0f]", this.consumption)).withStyle(ChatFormatting.AQUA)));
+                .append(Component.literal(String.format("[%.0f]", this.consumption))));
         list.add(Component.translatable(traslatableText + ".tooltip")
                 .withStyle(ChatFormatting.AQUA));
-        list.add(Component.translatable(traslatableText + ".tooltip.extra", this.maxDuration)
+        if(!getSkillTooltipExtra().isEmpty())
+            list.add(Component.translatable(traslatableText + ".tooltip.extra", this.maxDuration)
                 .withStyle(ChatFormatting.RED).append(String.valueOf(this.maxDuration / 20)));
         return list;
     }
@@ -228,7 +248,9 @@ public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatabl
         this.comboAnimation.put(TenraiAnimations.TENRAI_AUTO_1, TenraiAnimations.TENRAI_SKILL_COMBO_1);
         this.comboAnimation.put(TenraiAnimations.TENRAI_AUTO_2, TenraiAnimations.TENRAI_SKILL_COMBO_2);
         this.comboAnimation.put(TenraiAnimations.TENRAI_AUTO_3, TenraiAnimations.TENRAI_SKILL_COMBO_3);
-
+        this.comboAnimation.put(TenraiAnimations.TENRAI_AUTO_4, TenraiAnimations.TENRAI_SKILL_COMBO_4);
+        this.comboAnimation.put(TenraiAnimations.TENRAI_AUTO_5, TenraiAnimations.TENRAI_SKILL_COMBO_3);
+        this.comboAnimation.put(TenraiAnimations.TENRAI_AUTO_6, TenraiAnimations.TENRAI_SKILL_COMBO_2);
         return this;
     }
 }

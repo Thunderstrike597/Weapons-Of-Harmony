@@ -48,6 +48,8 @@ public class ClientTenraiSkillActivatePacket {
         if(playerPatch == null) return;
 
         SkillContainer container = playerPatch.getSkill(WohSkills.SPLIT_TENRAI);
+        if(container == null)
+            return;
         if(packet.isActivated)
             container.activate();
         else container.deactivate();

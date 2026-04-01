@@ -23,6 +23,8 @@ import java.util.function.Supplier;
 public class TenraiAnimations {
     public static AnimationManager.AnimationAccessor<StaticAnimation> TENRAI_HOLD;
     public static AnimationManager.AnimationAccessor<StaticAnimation> TENRAI_SKILL_HOLD;
+    public static AnimationManager.AnimationAccessor<StaticAnimation> TENRAI_SKILL_WALK;
+    public static AnimationManager.AnimationAccessor<StaticAnimation> TENRAI_SKILL_RUN;
 
     public static AnimationManager.AnimationAccessor<StaticAnimation> TENRAI_SKILL_ACTIVATE;
     public static AnimationManager.AnimationAccessor<StaticAnimation> TENRAI_SKILL_DEACTIVATE;
@@ -47,6 +49,7 @@ public class TenraiAnimations {
     public static AnimationManager.AnimationAccessor<AttackAnimation> TENRAI_SKILL_COMBO_1;
     public static AnimationManager.AnimationAccessor<AttackAnimation> TENRAI_SKILL_COMBO_2;
     public static AnimationManager.AnimationAccessor<AttackAnimation> TENRAI_SKILL_COMBO_3;
+    public static AnimationManager.AnimationAccessor<AttackAnimation> TENRAI_SKILL_COMBO_4;
 
 
     public static void build(AnimationManager.AnimationBuilder builder){
@@ -54,6 +57,8 @@ public class TenraiAnimations {
 
         TENRAI_HOLD = builder.nextAccessor("biped/living/tenrai/tenrai_hold", accessor -> new StaticAnimation(true, accessor, biped));
         TENRAI_SKILL_HOLD = builder.nextAccessor("biped/living/tenrai/tenrai_skill_hold", accessor -> new StaticAnimation(true, accessor, biped));
+        TENRAI_SKILL_WALK = builder.nextAccessor("biped/living/tenrai/tenrai_skill_walk", accessor -> new StaticAnimation(true, accessor, biped));
+        TENRAI_SKILL_RUN = builder.nextAccessor("biped/living/tenrai/tenrai_skill_run", accessor -> new StaticAnimation(true, accessor, biped));
 
         TENRAI_SKILL_ACTIVATE = WOHAnimationUtils.createSplitAnimation(builder,"biped/skill/tenrai/tenrai_skill_activate", 0.1f, 1.0F, -1,null);
         TENRAI_SKILL_DEACTIVATE = WOHAnimationUtils.createSplitAnimation(builder,"biped/skill/tenrai/tenrai_skill_deactivate", 0.1f, -1, 1.0F,null);
@@ -413,6 +418,28 @@ public class TenraiAnimations {
                 StunType.SHORT,
                 0.12F,
                 1.9F
+        );
+        TENRAI_SKILL_COMBO_4 = WOHAnimationUtils.createTenraiSplitAttackAnimation(builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/tenrai/tenrai_skill_combo_4",
+                4,
+                0.1F,
+                0.1F,
+                3F,
+                0.45F,
+                new float[]{0.0F, 0.50F, 0.75F, 0.85F},
+                new float[]{0.22F, 0.60F, 0.76F, 0.88F},
+                new float[]{0.47F, 0.72F, 0.83F, 0.98F},
+                new float[]{1.30F, 1.30F, 1.30F, 1.30F},
+                new float[]{0.48F, 0.74F, 0.84F, 2.68F},
+                new Supplier[]{EpicFightSounds.WHOOSH},
+                new Supplier[]{EpicFightSounds.BLADE_HIT},
+                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
+                new Collider[]{ColliderPreset.SWORD, ColliderPreset.SWORD, ColliderPreset.LONGSWORD, ColliderPreset.LONGSWORD},
+                new AttackHand[]{AttackHand.LEFT_HAND, AttackHand.LEFT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
+                StunType.SHORT,
+                0.25F,
+                2.25F
         );
     }
 }
