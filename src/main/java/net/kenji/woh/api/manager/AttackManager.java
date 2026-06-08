@@ -1,24 +1,30 @@
 package net.kenji.woh.api.manager;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import com.p1nero.invincible.client.InputManager;
+import com.p1nero.invincible.client.InvincibleKeyMappings;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.interfaces.ICooldown;
+import net.kenji.woh.item.custom.weapon.Shotogatana;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import yesman.epicfight.api.animation.AnimationPlayer;
+import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Mod.EventBusSubscriber(
         modid = WeaponsOfHarmony.MODID,
@@ -28,17 +34,26 @@ import java.util.UUID;
     public static final Map<UUID, Boolean> isInAttack = new HashMap<>();
     public static final Map<UUID, Boolean> isInAttackForCombo = new HashMap<>();
 
+
     @SubscribeEvent
     public static void onPLayerTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
         boolean attacking = isInAttack.getOrDefault(player.getUUID(), false);
+        PlayerPatch<?> playerPatch = EpicFightCapabilities.getPlayerPatch(player);
+
         if(player.level().isClientSide){
             Minecraft mc = Minecraft.getInstance();
             if(attacking){
-                mc.options.keyUp.setDown(false);
-                mc.options.keyDown.setDown(false);
-                mc.options.keyLeft.setDown(false);
-                mc.options.keyRight.setDown(false);
+               if(player instanceof LocalPlayer localPlayer) {
+
+                   mc.options.keyUp.setDown(false);
+                   mc.options.keyDown.setDown(false);
+                   mc.options.keyLeft.setDown(false);
+                   mc.options.keyRight.setDown(false);
+               }
+            }
+            else if(!canStopMovementKeys(playerPatch)){
+                resyncMovementKeys(mc);
             }
         }
     }
@@ -50,6 +65,16 @@ import java.util.UUID;
         resync(mc.options.keyLeft, window);
         resync(mc.options.keyRight, window);
     }
+    private static boolean canStopMovementKeys(PlayerPatch<?> playerPatch){
+        if(playerPatch != null) {
+            if (playerPatch.getOriginal().getMainHandItem().getItem() instanceof Shotogatana) {
+                if (playerPatch.getOriginal().getMainHandItem().getOrCreateTag().getBoolean("stopMovement"))
+                    return !InvincibleKeyMappings.KEY1.consumeClick();
+            }
+        }
+        return true;
+    }
+
     private static void resync(KeyMapping key, long window) {
         InputConstants.Key input = key.getKey();
         boolean physicallyDown = InputConstants.isKeyDown(window, input.getValue());

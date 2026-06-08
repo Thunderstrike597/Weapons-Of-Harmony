@@ -71,7 +71,7 @@ public class TenraiRender extends RenderItemBase {
     private boolean shouldRenderDual(LivingEntityPatch<?> entitypatch) {
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
             UUID playerID = playerPatch.getOriginal().getUUID();
-            return TenraiManager.renderSplitMap.getOrDefault(playerID, false);
+            return TenraiManager.getWeaponSplit(playerPatch.getOriginal());
         }
         return false;
     }

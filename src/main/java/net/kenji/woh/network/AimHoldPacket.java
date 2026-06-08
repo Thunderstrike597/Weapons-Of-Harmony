@@ -52,7 +52,7 @@ public class AimHoldPacket {
             player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
                 if (cap instanceof ServerPlayerPatch serverPatch) {
                     // This forces Epic Fight to re-evaluate the style
-                    serverPatch.updateMotion(true);
+                   // serverPatch.updateMotion(true);
                     serverPatch.updateEntityState();
                 }
             });

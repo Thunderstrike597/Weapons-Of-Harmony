@@ -15,6 +15,7 @@ import yesman.epicfight.api.animation.LivingMotion;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.event.EpicFightHooks;
 import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -46,17 +47,16 @@ public class EpicFightFistMixin {
 
         }
     }
+
     @Inject(method = "getLivingMotionModifier", at = @At("RETURN"), cancellable = true, remap = false)
     private void getCustomLivingMotion(LivingEntityPatch<?> patch, InteractionHand hand, CallbackInfoReturnable<Map<LivingMotion, AnimationManager.AnimationAccessor<? extends StaticAnimation>>> cir) {
         if(patch instanceof PlayerPatch<?> playerPatch) {
             SkillContainer container = playerPatch.getSkill(WohSkills.KATAJUTSU);
-
             if (container != null && container.getSkill() != null) {
                 Map<LivingMotion, AnimationManager.AnimationAccessor<? extends StaticAnimation>> customMotions = cir.getReturnValue();
                 CapabilityItem capItem = container.getExecutor().getHoldingItemCapability(InteractionHand.MAIN_HAND);
                 if(capItem != null) {
                     if (capItem.getWeaponCategory() == CapabilityItem.WeaponCategories.FIST) {
-                        // Now customMotions should have the original return value
                         if (customMotions != null) {
                             customMotions.put(LivingMotions.IDLE, GenericAnimations.KATAJUTSU_IDLE);
                             cir.setReturnValue(customMotions);

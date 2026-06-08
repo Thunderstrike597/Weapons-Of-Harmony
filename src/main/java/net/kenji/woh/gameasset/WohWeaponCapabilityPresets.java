@@ -3,9 +3,13 @@ package net.kenji.woh.gameasset;
 import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.api.manager.ShotogatanaManager;
+import net.kenji.woh.gameasset.skills.combos.ShotogatanaCombos;
+import net.kenji.woh.gameasset.skills.combos.TenraiCombos;
+import net.kenji.woh.item.custom.weapon.Shotogatana;
 import net.kenji.woh.registry.animation.*;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import reascer.wom.gameasset.WOMAnimations;
 import reascer.wom.gameasset.animations.weapons.*;
@@ -27,36 +31,25 @@ public class WohWeaponCapabilityPresets {
         WeaponCapability.Builder builder = WeaponCapability.builder()
                 .category(WohWeaponCategories.SHOTOGATANA)
                 .styleProvider((playerPatch) -> {
-                            boolean isSheathed = ShotogatanaManager.renderSheathMap.getOrDefault(playerPatch.getOriginal().getUUID(), true);
+                    ItemStack stack = playerPatch.getOriginal().getMainHandItem();
+                            boolean isSheathed = stack.getItem() instanceof Shotogatana && ShotogatanaManager.getWeaponSheathed(playerPatch.getOriginal());
                             if(playerPatch instanceof PlayerPatch<?> patch){
                                 if(!isSheathed && patch.getSkill(WohSkills.SHOTOGATANA_SKILL) != null && patch.getSkill(WohSkills.SHOTOGATANA_SKILL).isActivated()){
                                     return CapabilityItem.Styles.TWO_HAND;
                                 }
                             }
-                            if(isSheathed)
-                                return CapabilityItem.Styles.SHEATH;
-                            return WohStyles.UNSHEATHED;
+                            return CapabilityItem.Styles.SHEATH;
+
                         }
                 )
                 .hitSound(EpicFightSounds.BLADE_HIT.get())
                 .collider(ColliderPreset.TACHI)
                 .newStyleCombo(CapabilityItem.Styles.SHEATH,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_1,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_2,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_3,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_4,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_5,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_6,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_DASH, ShotogatanaAnimations.SHOTOGATANA_NEW_AIRSLASH)
-                .newStyleCombo(WohStyles.UNSHEATHED,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_3,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_2,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_3,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_4,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_5,
-                        ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_6,
-                        CorruptAnimations.SWORD_SLASH, AnimsHerrscher.HERRSCHER_AUSROTTUNG)
-                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        Animations.SWORD_AUTO1,
+                        Animations.SWORD_AUTO2,
+                        Animations.SWORD_AUTO3,
+                        CorruptAnimations.YAMATO_DASH, CorruptAnimations.YAMATO_AIRSLASH)
+             .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
                         CorruptAnimations.LETHAL_SLICING_START,
                         CorruptAnimations.LETHAL_SLICING_ONCE,
                         CorruptAnimations.LETHAL_SLICING_TWICE,
@@ -71,18 +64,14 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.WALK, ShotogatanaAnimations.SHOTOGATANA_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.RUN, CorruptAnimations.YAMATO_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH, LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_GUARD)
-                .livingMotionModifier(WohStyles.UNSHEATHED, LivingMotions.IDLE, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_IDLE)
-                .livingMotionModifier(WohStyles.UNSHEATHED, LivingMotions.WALK, ShotogatanaAnimations.SHOTOGATANA_UNSHEATHED_WALK)
-                .livingMotionModifier(WohStyles.UNSHEATHED, LivingMotions.RUN, Animations.BIPED_HOLD_TACHI)
-                .livingMotionModifier(WohStyles.UNSHEATHED, LivingMotions.BLOCK, ShotogatanaAnimations.SHOTOGATANA_GUARD)
-
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, Animations.BIPED_HOLD_TACHI)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, Animations.BIPED_HOLD_TACHI)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, Animations.BIPED_HOLD_TACHI)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.LONGSWORD_GUARD)
 
-                .innateSkill(CapabilityItem.Styles.SHEATH, (itemstack) -> WohSkills.SHOTOGATANA_SKILL)
-                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.SHOTOGATANA_SKILL);
+                .innateSkill(CapabilityItem.Styles.SHEATH, (itemstack) -> WohSkills.SHOTOGATANA_COMBO)
+
+                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.SHOTOGATANA_COMBO);
 
         return builder;
     };
@@ -316,8 +305,8 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(WohStyles.ABILITY_ACTIVE, LivingMotions.IDLE, TenraiAnimations.TENRAI_SKILL_HOLD)
                 .livingMotionModifier(WohStyles.ABILITY_ACTIVE, LivingMotions.WALK, TenraiAnimations.TENRAI_SKILL_WALK)
                 .livingMotionModifier(WohStyles.ABILITY_ACTIVE, LivingMotions.RUN, TenraiAnimations.TENRAI_SKILL_RUN)
-                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.SPLIT_TENRAI)
-                .innateSkill(WohStyles.ABILITY_ACTIVE, (itemstack) -> WohSkills.SPLIT_TENRAI);
+                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.TENRAI_COMBO)
+                .innateSkill(WohStyles.ABILITY_ACTIVE, (itemstack) -> WohSkills.SPLIT_TENRAI_COMBO);
 
         return builder;
     };

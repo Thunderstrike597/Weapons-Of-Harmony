@@ -2,6 +2,9 @@ package net.kenji.woh.gameasset;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.gameasset.skills.*;
+import net.kenji.woh.gameasset.skills.TenraiSkillInnate;
+import net.kenji.woh.gameasset.skills.combos.ShotogatanaCombos;
+import net.kenji.woh.gameasset.skills.combos.TenraiCombos;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.forgeevent.SkillBuildEvent;
@@ -22,6 +25,10 @@ public class WohSkills {
     public static Skill KATAJUTSU;
     public static Skill ARBITERS_SLASH;
     public static Skill SPLIT_TENRAI;
+
+    public static Skill SHOTOGATANA_COMBO;
+    public static Skill TENRAI_COMBO;
+    public static Skill SPLIT_TENRAI_COMBO;
 
     @SubscribeEvent
     public static void buildSkillEvent(SkillBuildEvent build){
@@ -63,6 +70,12 @@ public class WohSkills {
                         .setCategory(SkillCategories.WEAPON_INNATE)
                         .setResource(Skill.Resource.COOLDOWN)
         ));
+        skills.add(SHOTOGATANA_COMBO = ShotogatanaCombos.buildSkills(modRegistry));
+        skills.add(TENRAI_COMBO = TenraiCombos.buildTenraiSkills(modRegistry));
+        skills.add(SPLIT_TENRAI_COMBO = TenraiCombos.buildSplitTenraiSkills(modRegistry));
+
+
+
     }
 
 

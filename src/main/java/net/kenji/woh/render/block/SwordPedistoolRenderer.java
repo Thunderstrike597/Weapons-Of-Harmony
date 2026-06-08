@@ -37,7 +37,7 @@ public class SwordPedistoolRenderer implements BlockEntityRenderer<SwordPedistoo
         // Center + above block
         poseStack.translate(0.66D, 1.1D, 0.49D);
 
-        // Rotate to point downward (sword in stone pose)
+        // Rotate to point downward (yamato in stone pose)
         poseStack.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(180));  // Flip upside down
         poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(90));   // Optional: slight angle for visual interest
 

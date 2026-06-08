@@ -29,7 +29,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import yesman.epicfight.api.client.forgeevent.PatchedRenderersEvent;
 import yesman.epicfight.client.renderer.patched.entity.PPlayerRenderer;
+import yesman.epicfight.client.renderer.patched.entity.PWitherSkeletonMinionRenderer;
 import yesman.epicfight.client.renderer.patched.entity.PatchedEntityRenderer;
+import yesman.epicfight.world.capabilities.entitypatch.mob.SkeletonPatch;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {

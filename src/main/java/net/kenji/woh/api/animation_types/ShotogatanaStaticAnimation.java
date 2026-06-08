@@ -31,7 +31,7 @@ public class ShotogatanaStaticAnimation extends StaticAnimation {
         UUID playerId = entitypatch.getOriginal().getUUID();
         ShotogatanaManager.sheathPauseMap.put(playerId, false);
         if(entitypatch instanceof ServerPlayerPatch serverPlayerPatch){
-            serverPlayerPatch.modifyLivingMotionByCurrentItem();
+            //serverPlayerPatch.modifyLivingMotionByCurrentItem();
         }
     }
 }

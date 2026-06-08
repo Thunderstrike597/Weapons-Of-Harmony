@@ -1,8 +1,7 @@
 package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.WOHAnimationUtils;
 import net.kenji.woh.gameasset.AttackHand;
-import net.kenji.woh.registry.WohColliderPreset;
-import net.minecraft.sounds.SoundEvent;
+import net.kenji.woh.gameasset.WohColliderPreset;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;

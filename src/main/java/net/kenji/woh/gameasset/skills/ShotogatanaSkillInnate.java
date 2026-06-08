@@ -3,7 +3,7 @@ package net.kenji.woh.gameasset.skills;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.kenji.woh.api.interfaces.ITranslatableSkill;
-import net.kenji.woh.network.ClientSheathStatePacket;
+import net.kenji.woh.network.ClientShotogatanaSkillPacket;
 import net.kenji.woh.network.ClientTenraiSkillActivatePacket;
 import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
@@ -61,10 +61,6 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill implements ITransl
         return EpicFightSkills.RELENTLESS_COMBO.getSkillTexture();
     }
 
-
-    public ItemStack lastMainHandItem = ItemStack.EMPTY;
-
-    boolean isActivated;
 
     @Override
     public String getSkillName() {
@@ -162,7 +158,7 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill implements ITransl
             } else {
                 //TenraiManager.pauseRenderSplitMap.put(executor.getOriginal().getUUID(), 40);
                 if(container.getExecutor() instanceof ServerPlayerPatch serverPlayerPatch)
-                    WohPacketHandler.sendToPlayer(new ClientSheathStatePacket(true), executor.getOriginal());
+                    WohPacketHandler.sendToPlayer(new ClientShotogatanaSkillPacket(true), executor.getOriginal());
 
                 super.executeOnServer(container, args);
                 executor.getSkill(this).activate();
@@ -194,7 +190,7 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill implements ITransl
         // First check the base animation conditions
         ServerPlayerPatch executor = container.getServerExecutor();
 
-        WohPacketHandler.sendToPlayer(new ClientSheathStatePacket(false), executor.getOriginal());
+        WohPacketHandler.sendToPlayer(new ClientShotogatanaSkillPacket(false), executor.getOriginal());
         //TenraiManager.pauseRenderSplitMap.put(executor.getOriginal().getUUID(), 40);
 
 
@@ -228,8 +224,8 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill implements ITransl
     @Override
     public WeaponInnateSkill registerPropertiesToAnimation() {
         this.comboAnimation.clear();
-        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_2, ShotogatanaAnimations.SHOTOGATANA_SKILL_COMBO_2);
-        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_NEW_AUTO_3, ShotogatanaAnimations.SHOTOGATANA_SKILL_COMBO_3);
+        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_2, ShotogatanaAnimations.SHOTOGATANA_SKILL_COMBO_2);
+        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_3, ShotogatanaAnimations.SHOTOGATANA_SKILL_COMBO_3);
 
         return this;
     }

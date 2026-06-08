@@ -1,5 +1,6 @@
 package net.kenji.woh.api;
 
+import net.corruptdog.cdm.gameasset.CorruptSound;
 import net.kenji.woh.api.animation_types.ShotogatanaAttackAnimation;
 import net.kenji.woh.api.animation_types.ShotogatanaStaticAnimation;
 import net.kenji.woh.api.animation_types.TessenThrowAttackAnimation;
@@ -8,17 +9,25 @@ import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.api.manager.TenraiManager;
 import net.kenji.woh.gameasset.AttackHand;
 import net.kenji.woh.gameasset.animation_types.*;
+import net.kenji.woh.network.ClientShotogatanaSkillPacket;
 import net.kenji.woh.network.SheathStatePacket;
 import net.kenji.woh.network.SplitStatePacket;
 import net.kenji.woh.network.WohPacketHandler;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.RegistryObject;
+import org.jline.utils.Log;
+import org.spongepowered.asm.mixin.Shadow;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.LivingMotions;
+import yesman.epicfight.api.animation.TransformSheet;
 import yesman.epicfight.api.animation.property.AnimationEvent;
+import yesman.epicfight.api.animation.property.MoveCoordFunctions;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Animations;
@@ -27,6 +36,7 @@ import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.particle.HitParticleType;
 import yesman.epicfight.skill.BasicAttack;
 import yesman.epicfight.skill.SkillSlots;
+import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.damagesource.StunType;
@@ -48,7 +58,30 @@ public class WOHAnimationUtils {
         DASH_ATTACK_JUMP,
         AIR_ATTACK
     }
-
+    public static void stopMovementEvent(LivingEntityPatch<?> entityPatch){
+        ((LivingEntity) entityPatch.getOriginal()).getMainHandItem().getOrCreateTag().putBoolean("stopMovement", true);
+    }
+    public static void regainMovementEvent(LivingEntityPatch<?> entityPatch){
+        ((LivingEntity) entityPatch.getOriginal()).getMainHandItem().getOrCreateTag().putBoolean("stopMovement", false);
+    }
+    public static void katanaInEvent(LivingEntityPatch<?> entityPatch) {
+        ShotogatanaManager.setWeaponSheathed(entityPatch.getOriginal(), true);
+        if (entityPatch instanceof ServerPlayerPatch serverPlayer) {
+            WohPacketHandler.sendToPlayer(new ClientShotogatanaSkillPacket(true), serverPlayer.getOriginal());
+            BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.TIME_EXPIRED, serverPlayer, serverPlayer.getSkill(SkillSlots.BASIC_ATTACK), Animations.EMPTY_ANIMATION.getAccessor(), 0);
+        }
+    }
+    public static void katanaOutEvent(LivingEntityPatch<?> entityPatch){
+        ShotogatanaManager.setWeaponSheathed(entityPatch.getOriginal(), false);
+        if(entityPatch.getOriginal() instanceof ServerPlayer serverPlayer)
+            WohPacketHandler.sendToPlayer(new ClientShotogatanaSkillPacket(false), serverPlayer);
+    }
+    public static AnimationEvent.E0 KATANA_IN = ((entitypatch, animation, params) -> {
+        katanaInEvent(entitypatch);
+    });
+    public static AnimationEvent.E0 KATANA_OUT = ((entitypatch, animation, params) -> {
+        katanaOutEvent(entitypatch);
+    });
 
     public class ReusableEvents {
 
@@ -60,11 +93,8 @@ public class WOHAnimationUtils {
                         UUID playerId = player.getUUID();
                         if (player.level().isClientSide) {
                             WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), false));
-                            ShotogatanaManager.renderSheathMap.put(playerId, false);
                         }
-                        else if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
-
-                        }
+                        katanaOutEvent(entityPatch);
                     }
         };
 
@@ -76,16 +106,13 @@ public class WOHAnimationUtils {
 
                         if (player.level().isClientSide) {
                             player.playSound(
-                                    EpicFightSounds.SWORD_IN.get(),
+                                    CorruptSound.YAMATO_IN.get(),
                                     1.0f,
                                     1.0f
                             );
-                        }
-
-                        if (player.level().isClientSide) {
                             WohPacketHandler.sendToServer(new SheathStatePacket(player.getUUID(), true));
-                            ShotogatanaManager.renderSheathMap.put(playerId, true);
                         }
+                        katanaInEvent(entityPatch);
                     }
                 };
         public static final AnimationEvent.E0 SPLIT_E0 =
@@ -94,13 +121,10 @@ public class WOHAnimationUtils {
 
                         Player player = playerPatch.getOriginal();
                         UUID playerId = player.getUUID();
-                        if (player.level().isClientSide) {
-                            WohPacketHandler.sendToServer(new SplitStatePacket(player.getUUID(), true));
-                            TenraiManager.renderSplitMap.put(playerId, true);
-                        }
-                        else if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
-                            //   serverPlayerPatch.modifyLivingMotionByCurrentItem();
-                        }
+                        CompoundTag tag = playerPatch.getOriginal().getMainHandItem().getOrCreateTag();
+
+                        TenraiManager.setWeaponSplit(player, true);
+
                         playerPatch.playSound(SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F);
                     }
                 };
@@ -111,17 +135,28 @@ public class WOHAnimationUtils {
                         Player player = playerPatch.getOriginal();
                         UUID playerId = player.getUUID();
 
-                        if (player.level().isClientSide) {
-                            WohPacketHandler.sendToServer(new SplitStatePacket(player.getUUID(), false));
-                            TenraiManager.renderSplitMap.put(playerId, false);
-                        }
-                        else if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
+                        CompoundTag tag = playerPatch.getOriginal().getMainHandItem().getOrCreateTag();
+                        TenraiManager.setWeaponSplit(player, false);                        if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
                             BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.TIME_EXPIRED, serverPlayerPatch, serverPlayerPatch.getSkill(SkillSlots.BASIC_ATTACK), Animations.EMPTY_ANIMATION.getAccessor(), 0);
                         }
                         playerPatch.playSound(SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F);
                     }
                 };
     }
+    public static MoveCoordFunctions.MoveCoordSetter scaledRawCoord(float multiplier) {
+        return (self, entitypatch, transformSheet) -> {
+            // Copy the raw animation coord first (same as RAW_COORD)
+            TransformSheet scaled = self.getCoord().copyAll();
+
+            // Scale every keyframe's Z translation (forward movement in Epic Fight's coord system)
+            // extendsZCoord scales frames 0→endFrame, then offsets the rest to avoid a gap
+            int endFrame = self.getCoord().getKeyframes().length - 1;
+            scaled = scaled.extendsZCoord(multiplier, 0, endFrame);
+
+            transformSheet.readFrom(scaled);
+        };
+    }
+
 
     public static AnimationManager.AnimationAccessor<StaticAnimation> createShotogatanaLivingAnimation(
             AnimationManager.AnimationBuilder builder,

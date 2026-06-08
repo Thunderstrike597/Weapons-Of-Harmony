@@ -60,7 +60,7 @@ public class WohSheathAnimation extends StaticAnimation {
             super.end(entitypatch, nextAnimation, isEnd);
             ShotogatanaManager.sheathPauseMap.put(playerId, false);
             if(entitypatch instanceof ServerPlayerPatch serverPlayerPatch){
-                serverPlayerPatch.modifyLivingMotionByCurrentItem();
+                //serverPlayerPatch.modifyLivingMotionByCurrentItem();
             }
         }
     }

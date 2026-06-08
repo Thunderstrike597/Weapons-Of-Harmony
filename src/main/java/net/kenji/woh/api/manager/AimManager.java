@@ -82,7 +82,7 @@ public class AimManager {
             CapabilityItem capItem = playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
             if (playerPatch instanceof ServerPlayerPatch serverPlayerPatch) {
                 if (aimStyleMap.getOrDefault(player.getUUID(), capItem.getStyle(playerPatch)) != capItem.getStyle(playerPatch)) {
-                    serverPlayerPatch.modifyLivingMotionByCurrentItem();
+                   serverPlayerPatch.modifyLivingMotionByCurrentItem();
                 }
                 aimStyleMap.put(player.getUUID(), capItem.getStyle(playerPatch));
             }

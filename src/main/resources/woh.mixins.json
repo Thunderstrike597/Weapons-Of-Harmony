@@ -9,11 +9,13 @@
     "ShieldCapabilityMixin",
     "KatanaAttackAnimationMixin",
     "CorruptAnimationsMixin",
-    "ShieldMixin"
+    "ShieldMixin",
+    "PhaseMixin"
   ],
   "client": [
     "AttackAnimationMixin",
-    "EpicFightShaderMixin"
+    "EpicFightShaderMixin",
+    "InputMixin"
   ],
   "injectors": {
     "defaultRequire": 1

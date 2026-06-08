@@ -180,6 +180,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:epicfight-resurrection-1151542:6931390")
     implementation fg.deobf("curse.maven:weapons-of-miracles-epicfight-918614:7517612")
+    implementation fg.deobf("curse.maven:epic-fight-invincible-1184379:7679941")
     //implementation fg.deobf("curse.maven:corpse-316582:7018272")
 
     implementation fg.deobf("curse.maven:packet-fixer-689467:7221527")
@@ -198,6 +199,7 @@ dependencies {
 
 // -------------------- Resources --------------------
 tasks.named('processResources', ProcessResources).configure {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     var replaceProperties = [
             minecraft_version   : minecraft_version,
             minecraft_version_range: minecraft_version_range,
@@ -230,7 +232,7 @@ java {
 // -------------------- Dev Jar (DEOBF) --------------------
 tasks.named('jar', Jar).configure {
     archiveBaseName = "WeaponsOfHarmony-Forge-EFM-${epic_fight_version}"
-
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes([
                 "Specification-Title"     : mod_id,
@@ -270,13 +272,21 @@ publishing {
             artifactId = 'weapons_of_harmony-efm-20-14-4'
             version = '1.4.0'
 
+
             // Publishes ONLY the deobf dev jar + sources
             from components.java
+            pom.withXml {
+                def node = asNode()
+                node.remove(node.dependencies) // 💀 remove all deps
+            }
         }
     }
     repositories {
         mavenLocal()
     }
+}
+tasks.withType(GenerateModuleMetadata).configureEach {
+    enabled = false
 }
 
 // -------------------- Compiler --------------------

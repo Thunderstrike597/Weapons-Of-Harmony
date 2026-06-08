@@ -1,6 +1,7 @@
 package net.kenji.woh;
 
 import com.mojang.logging.LogUtils;
+import com.p1nero.invincible.gameassets.InvincibleConditions;
 import net.kenji.woh.block.ModBlockEntities;
 import net.kenji.woh.block.ModBlocks;
 import net.kenji.woh.compat.combat_hotbar.CombatHotbarRenderCompat;
@@ -8,7 +9,7 @@ import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.gameasset.*;
 import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.WohSounds;
-import net.kenji.woh.registry.WohColliderPreset;
+import net.kenji.woh.gameasset.WohColliderPreset;
 import net.kenji.woh.registry.animation.WohAnimations;
 import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.tabs.WohTabs;
@@ -60,6 +61,7 @@ public class WeaponsOfHarmony {
         WeaponCategory.ENUM_MANAGER.registerEnumCls(MODID, WohWeaponCategories.class);
         Style.ENUM_MANAGER.registerEnumCls(MODID, WohStyles.class);
         SkillCategory.ENUM_MANAGER.registerEnumCls(MODID, WohSkillCategories.class);
+        WohConditions.CONDITIONS.register(modEventBus);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(WeaponsOfHarmony::regIcon));
 

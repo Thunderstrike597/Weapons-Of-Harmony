@@ -12,25 +12,24 @@ import net.corruptdog.cdm.api.animation.types.KnockbackAnimation;
 import net.corruptdog.cdm.api.animation.types.ParryBreakAnimation;
 import net.corruptdog.cdm.api.animation.types.PowerAnimation;
 import net.corruptdog.cdm.api.animation.types.SeeThroughAnimation;
-import net.corruptdog.cdm.api.animation.types.ThrowSkillAnimation;
 import net.corruptdog.cdm.api.animation.types.YamatoDodge;
 import net.corruptdog.cdm.api.animation.types.YamatoParryAnimation;
 import net.corruptdog.cdm.api.animation.types.YamatoSkillAnimation;
 import net.corruptdog.cdm.api.animation.types.YamtoAttackAnimation;
 import net.corruptdog.cdm.api.animation.types.YamtoCounterAttackAnimation;
 import net.corruptdog.cdm.api.animation.types.property.Properties;
-import net.corruptdog.cdm.gameasset.CDSkills;
 import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.corruptdog.cdm.gameasset.CorruptCollider;
 import net.corruptdog.cdm.gameasset.CorruptSound;
-import net.corruptdog.cdm.skill.CDSkillDataKeys;
 import net.corruptdog.cdm.world.damagesources.EFRExtraDamageInstance;
-import net.minecraft.client.Minecraft;
+import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.network.ClientShotogatanaSkillPacket;
+import net.kenji.woh.network.WohPacketHandler;
+import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -42,10 +41,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -87,9 +84,7 @@ import yesman.epicfight.gameasset.Animations.ReusableSources;
 import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.particle.EpicFightParticles;
 import yesman.epicfight.skill.BasicAttack;
-import yesman.epicfight.skill.SkillDataKey;
 import yesman.epicfight.skill.SkillSlots;
-import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.damagesource.EpicFightDamageTypeTags;
 import yesman.epicfight.world.damagesource.ExtraDamageInstance;
@@ -100,9 +95,9 @@ import yesman.epicfight.world.entity.eventlistener.ComboCounterHandleEvent.Causa
 public class CorruptAnimationsMixin {
 
     @Shadow
-    private static AnimationEvent.E0 YAMATO_IN;
+    private static AnimationEvent.E0 YAMATO_IN = WOHAnimationUtils.KATANA_IN;
     @Shadow
-    private static AnimationEvent.E0 YAMATO_OUT;
+    private static AnimationEvent.E0 YAMATO_OUT = WOHAnimationUtils.KATANA_OUT;
     @Shadow
     private static AnimationEvent.E0 CHASE;
     @Shadow
@@ -725,12 +720,12 @@ public class CorruptAnimationsMixin {
         CorruptAnimations.GUARD = builder.nextAccessor("biped/new/longsword/skill/guard", (accessor) -> (AttackAnimation)(new AttackAnimation(0.15F, accessor, Armatures.BIPED, new AttackAnimation.Phase[]{(new AttackAnimation.Phase(0.0F, 0.04F, 0.09F, 0.25F, 0.25F, ((HumanoidArmature)Armatures.BIPED.get()).rootJoint, CorruptCollider.YAMATO_DASH)).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.HOLD).addProperty(AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.adder(-10.0F)).addProperty(AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.1F)), (new AttackAnimation.Phase(0.25F, 0.31F, 0.36F, 0.65F, 0.65F, ((HumanoidArmature)Armatures.BIPED.get()).rootJoint, CorruptCollider.YAMATO_DASH)).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.HOLD).addProperty(AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.adder(2.0F)).addProperty(AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.1F))})).addProperty(StaticAnimationProperty.PLAY_SPEED_MODIFIER, ReusableSources.CONSTANT_ONE));
         CorruptAnimations.RECOVER = builder.nextAccessor("biped/new/longsword/skill/recover", (accessor) -> (InvincibleAttackAnimation)(new InvincibleAttackAnimation(0.02F, 0.01F, 0.15F, 0.26F, 1.15F, CorruptCollider.YAMATO_P0, ((HumanoidArmature)Armatures.BIPED.get()).rootJoint, accessor, Armatures.BIPED)).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.HOLD).addProperty(AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.adder(5.0F)).addProperty(StaticAnimationProperty.PLAY_SPEED_MODIFIER, ReusableSources.CONSTANT_ONE));
         CorruptAnimations.SHILED_SLASH = builder.nextAccessor("biped/new/longsword/skill/shiled_slash", (accessor) -> (AttackAnimation)(new AttackAnimation(0.05F, 0.0F, 0.0F, 0.0F, 1.15F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolL, accessor, Armatures.BIPED)).addProperty(AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(1.2F)).addProperty(AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.multiplier(0.5F)).addProperty(AttackPhaseProperty.MAX_STRIKES_MODIFIER, ValueModifier.multiplier(2.0F)).addProperty(AttackPhaseProperty.SWING_SOUND, (SoundEvent)EpicFightSounds.WHOOSH_BIG.get()).addProperty(AttackPhaseProperty.HIT_SOUND, (SoundEvent)EpicFightSounds.BLADE_HIT.get()).addProperty(AttackPhaseProperty.PARTICLE, EpicFightParticles.HIT_BLADE).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.NONE).addProperty(AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6F));
-        CorruptAnimations.SWORD_ONEHAND_AUTO1 = builder.nextAccessor("biped/new/sword/sword_onehand_auto_1", (accessor) -> (BasicAttackAnimation)(new BasicAttackAnimation(0.15F, 0.15F, 0.4F, 0.4F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolR, accessor, Armatures.BIPED)).addProperty(AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.0F));
-        CorruptAnimations.SWORD_ONEHAND_AUTO2 = builder.nextAccessor("biped/new/sword/sword_onehand_auto_2", (accessor) -> (BasicAttackAnimation)(new BasicAttackAnimation(0.15F, 0.15F, 0.25F, 0.4F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolR, accessor, Armatures.BIPED)).addProperty(AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.0F));
-        CorruptAnimations.SWORD_ONEHAND_AUTO3 = builder.nextAccessor("biped/new/sword/sword_onehand_auto_3", (accessor) -> (BasicAttackAnimation)(new BasicAttackAnimation(0.12F, 0.1F, 0.35F, 0.4F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolR, accessor, Armatures.BIPED)).addProperty(AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.0F));
-        CorruptAnimations.SWORD_ONEHAND_AUTO4 = builder.nextAccessor("biped/new/sword/sword_onehand_auto_4", (accessor) -> (BasicAttackAnimation)(new BasicAttackAnimation(0.1F, 0.15F, 0.35F, 0.6F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolR, accessor, Armatures.BIPED)).addProperty(AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.adder(1.25F)).addProperty(AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.25F));
-        CorruptAnimations.SWORD_ONEHAND_DASH = builder.nextAccessor("biped/new/sword/sword_onehand_dash", (accessor) -> (DashAttackAnimation)(new DashAttackAnimation(0.12F, 0.1F, 0.25F, 0.4F, 0.65F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolR, accessor, Armatures.BIPED)).addProperty(AttackAnimationProperty.FIXED_MOVE_DISTANCE, true).addProperty(AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6F));
-        CorruptAnimations.D_BLADE_SLASH = builder.nextAccessor("biped/new/sword/d_blade_slash", (accessor) -> (AttackAnimation)(new AttackAnimation(0.1F, accessor, Armatures.BIPED, new AttackAnimation.Phase[]{(new AttackAnimation.Phase(0.0F, 0.2F, 0.31F, 0.4F, 0.4F, ((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)null)).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.HOLD), (new AttackAnimation.Phase(0.4F, 0.5F, 0.61F, 0.65F, 0.65F, InteractionHand.OFF_HAND, ((HumanoidArmature)Armatures.BIPED.get()).toolL, (Collider)null)).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.HOLD), (new AttackAnimation.Phase(0.65F, 0.75F, 0.85F, 1.15F, Float.MAX_VALUE, ((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)null)).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.LONG)})).addProperty(AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(1.5F)).addProperty(AttackPhaseProperty.PARTICLE, EpicFightParticles.EVISCERATE).addProperty(StaticAnimationProperty.PLAY_SPEED_MODIFIER, ReusableSources.CONSTANT_ONE));
+        CorruptAnimations.SWORD_ONEHAND_AUTO1 = builder.nextAccessor("biped/new/yamato/sword_onehand_auto_1", (accessor) -> (BasicAttackAnimation)(new BasicAttackAnimation(0.15F, 0.15F, 0.4F, 0.4F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolR, accessor, Armatures.BIPED)).addProperty(AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.0F));
+        CorruptAnimations.SWORD_ONEHAND_AUTO2 = builder.nextAccessor("biped/new/yamato/sword_onehand_auto_2", (accessor) -> (BasicAttackAnimation)(new BasicAttackAnimation(0.15F, 0.15F, 0.25F, 0.4F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolR, accessor, Armatures.BIPED)).addProperty(AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.0F));
+        CorruptAnimations.SWORD_ONEHAND_AUTO3 = builder.nextAccessor("biped/new/yamato/sword_onehand_auto_3", (accessor) -> (BasicAttackAnimation)(new BasicAttackAnimation(0.12F, 0.1F, 0.35F, 0.4F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolR, accessor, Armatures.BIPED)).addProperty(AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.0F));
+        CorruptAnimations.SWORD_ONEHAND_AUTO4 = builder.nextAccessor("biped/new/yamato/sword_onehand_auto_4", (accessor) -> (BasicAttackAnimation)(new BasicAttackAnimation(0.1F, 0.15F, 0.35F, 0.6F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolR, accessor, Armatures.BIPED)).addProperty(AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.adder(1.25F)).addProperty(AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.25F));
+        CorruptAnimations.SWORD_ONEHAND_DASH = builder.nextAccessor("biped/new/yamato/sword_onehand_dash", (accessor) -> (DashAttackAnimation)(new DashAttackAnimation(0.12F, 0.1F, 0.25F, 0.4F, 0.65F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolR, accessor, Armatures.BIPED)).addProperty(AttackAnimationProperty.FIXED_MOVE_DISTANCE, true).addProperty(AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6F));
+        CorruptAnimations.D_BLADE_SLASH = builder.nextAccessor("biped/new/yamato/d_blade_slash", (accessor) -> (AttackAnimation)(new AttackAnimation(0.1F, accessor, Armatures.BIPED, new AttackAnimation.Phase[]{(new AttackAnimation.Phase(0.0F, 0.2F, 0.31F, 0.4F, 0.4F, ((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)null)).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.HOLD), (new AttackAnimation.Phase(0.4F, 0.5F, 0.61F, 0.65F, 0.65F, InteractionHand.OFF_HAND, ((HumanoidArmature)Armatures.BIPED.get()).toolL, (Collider)null)).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.HOLD), (new AttackAnimation.Phase(0.65F, 0.75F, 0.85F, 1.15F, Float.MAX_VALUE, ((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)null)).addProperty(AttackPhaseProperty.STUN_TYPE, StunType.LONG)})).addProperty(AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(1.5F)).addProperty(AttackPhaseProperty.PARTICLE, EpicFightParticles.EVISCERATE).addProperty(StaticAnimationProperty.PLAY_SPEED_MODIFIER, ReusableSources.CONSTANT_ONE));
         CorruptAnimations.DAGGER_DUAL_AUTO1 = builder.nextAccessor("biped/new/dagger/dagger_dual_auto1", (accessor) -> new BasicAttackAnimation(0.08F, 0.05F, 0.16F, 0.25F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolR, accessor, Armatures.BIPED));
         CorruptAnimations.DAGGER_DUAL_AUTO2 = builder.nextAccessor("biped/new/dagger/dagger_dual_auto2", (accessor) -> new BasicAttackAnimation(0.08F, 0.0F, 0.11F, 0.16F, InteractionHand.OFF_HAND, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolL, accessor, Armatures.BIPED));
         CorruptAnimations.DAGGER_DUAL_AUTO3 = builder.nextAccessor("biped/new/dagger/dagger_dual_auto3", (accessor) -> new BasicAttackAnimation(0.08F, 0.0F, 0.11F, 0.2F, (Collider)null, ((HumanoidArmature)Armatures.BIPED.get()).toolR, accessor, Armatures.BIPED));

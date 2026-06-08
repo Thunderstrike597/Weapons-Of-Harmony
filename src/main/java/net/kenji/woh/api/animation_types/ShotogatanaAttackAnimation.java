@@ -1,5 +1,6 @@
 package net.kenji.woh.api.animation_types;
 
+import net.kenji.woh.api.WOHAnimationUtils;
 import net.kenji.woh.api.manager.AttackManager;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
@@ -55,7 +56,8 @@ public class ShotogatanaAttackAnimation extends BasicAttackAnimation {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
                 .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false);
         this.addProperty(AnimationProperty.AttackAnimationProperty.MOVE_VERTICAL, moveVertical);
-
+        this.addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_BEGIN, WOHAnimationUtils.scaledRawCoord(2F));
+        this.addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_TICK,  WOHAnimationUtils.scaledRawCoord(2F));
         this.ignoreFallDamage = false;
         this.isAirAttack = false;
     }

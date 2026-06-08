@@ -45,6 +45,11 @@ public class WohPacketHandler {
                 .encoder(ArbitersSlashSetupPacket::encode)
                 .consumerMainThread(ArbitersSlashSetupPacket::handle)
                 .add();
+        INSTANCE.messageBuilder(ClientShotogatanaSkillPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(ClientShotogatanaSkillPacket::decode)
+                .encoder(ClientShotogatanaSkillPacket::encode)
+                .consumerMainThread(ClientShotogatanaSkillPacket::handle)
+                .add();
         INSTANCE.messageBuilder(ClientSheathStatePacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(ClientSheathStatePacket::decode)
                 .encoder(ClientSheathStatePacket::encode)

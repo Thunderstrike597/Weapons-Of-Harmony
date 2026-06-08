@@ -2,6 +2,7 @@ package net.kenji.woh.render;
 
 import com.google.gson.JsonElement;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.corruptdog.cdm.world.Render.YamatoRender;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.animation_types.BasisAirAttackAnimation;
@@ -15,6 +16,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -63,14 +65,9 @@ public class ShotogatanaRender extends RenderItemBase {
 
 
     private ItemStack getStack(LivingEntityPatch<?> entitypatch) {
-        if (entitypatch instanceof PlayerPatch<?> playerPatch) {
-            UUID playerID = playerPatch.getOriginal().getUUID();
-            // Default to TRUE (sheathed) if not in the map yet
-            boolean isSheathed = ShotogatanaManager.renderSheathMap.getOrDefault(playerID, true);
-
-            if (isSheathed) {
-                return sheathedWeaponStack;
-            }
+        boolean renderSheathed = ShotogatanaManager.getWeaponSheathed(entitypatch.getOriginal());
+        if (renderSheathed) {
+            return sheathedWeaponStack;
         }
         return sheathStack;
     }
@@ -79,31 +76,25 @@ public class ShotogatanaRender extends RenderItemBase {
     public void renderItemInHand(ItemStack stack, LivingEntityPatch<?> entitypatch, InteractionHand hand, OpenMatrix4f[] poses, MultiBufferSource buffer, PoseStack poseStack, int packedLight, float partialTicks) {
         OpenMatrix4f modelMatrix = this.getCorrectionMatrix(entitypatch, InteractionHand.MAIN_HAND, poses);
         ItemStack sheathItem = getStack(entitypatch);
+        ItemStack blade = ((LivingEntity) entitypatch.getOriginal()).getMainHandItem();
 
-        // Compare the actual items, not ItemStack references
-        boolean isSheathed = ItemStack.isSameItem(sheathItem, sheathedWeaponStack);
+        // Read directly from NBT — single source of truth
+        boolean renderUnsheathed = !ShotogatanaManager.getWeaponSheathed(entitypatch.getOriginal());
 
 
-        // Only render the katana if it's NOT sheathed AND it's a player
-        if (entitypatch instanceof PlayerPatch<?> playerPatch) {
-            ShotogatanaManager.renderSheathMap.put(playerPatch.getOriginal().getUUID(), isSheathed);
-            if (!isSheathed) {
-                poseStack.pushPose();
-                MathUtils.mulStack(poseStack, modelMatrix);
-                itemRenderer.renderStatic(katana, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
-                if (katana.getItem() instanceof Shotogatana shotogatana) {
+        if (renderUnsheathed) {
+            poseStack.pushPose();
+            MathUtils.mulStack(poseStack, modelMatrix);
+            itemRenderer.renderStatic(katana, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
+                    packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
+            if (katana.getItem() instanceof Shotogatana shotogatana) {
+                if (entitypatch instanceof PlayerPatch<?> playerPatch) {
                     if (shotogatana.shouldRenderUnholstered(playerPatch)) {
                         poseStack.popPose();
                         return;
                     }
                 }
-                poseStack.popPose();
             }
-        }
-        else{
-            poseStack.pushPose();
-            MathUtils.mulStack(poseStack, modelMatrix);
-            itemRenderer.renderStatic(katana, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level) null, 0);
             poseStack.popPose();
         }
 
