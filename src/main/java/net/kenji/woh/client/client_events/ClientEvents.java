@@ -97,10 +97,10 @@ public class ClientEvents {
     public static void onModifyPatchedRenderers(PatchedRenderersEvent.Modify event) {
         PatchedEntityRenderer renderer = event.get(EntityType.PLAYER);
         if (renderer instanceof PPlayerRenderer playerRenderer) {
+            playerRenderer.addCustomLayer(new OffHandHolsteredItemLayer(null));
+
             for(int i = 0; i < 8; i++) {
                 playerRenderer.addCustomLayer(new HolsteredItemLayer(null, i));
-                playerRenderer.addCustomLayer(new OffHandHolsteredItemLayer(null));
-
             }
         }
     }

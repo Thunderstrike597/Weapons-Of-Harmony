@@ -47,7 +47,9 @@ public abstract class GuardSkillMixin {
             guardMotions.put(
                     category,
                     (item, player) -> {
-                        return item.getLivingMotionModifier(player, InteractionHand.MAIN_HAND).get(LivingMotions.BLOCK);
+                        if(item.getLivingMotionModifier(player, InteractionHand.MAIN_HAND).get(LivingMotions.BLOCK) != null)
+                            return item.getLivingMotionModifier(player, InteractionHand.MAIN_HAND).get(LivingMotions.BLOCK);
+                        return null;
                     }
             );
         }

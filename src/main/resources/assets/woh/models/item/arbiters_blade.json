@@ -2,13 +2,13 @@
   "loader": "forge:separate_transforms",
   "base": {
     "loader": "forge:obj",
-    "model": "woh:models/item/obj/arbiters_blade.obj",
+    "model": "woh:models/item/obj/arbiters_blade_ms.obj",
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {
         "translation": [7.75, -8, 11],
         "rotation": [91.5, 0, 0],
-        "scale": [1, 1, 0.875]
+        "scale": [1, 0.95, 0.8]
       },
       "firstperson_righthand": {
         "translation": [13, -6, 0],

@@ -1,6 +1,7 @@
 package net.kenji.woh.client.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.kenji.woh.api.HolsterStackCache;
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.kenji.woh.item.custom.base.HolsterShieldBase;
 import net.kenji.woh.registry.WohItems;
@@ -75,7 +76,7 @@ public class OffHandHolsteredItemLayer extends ModelRenderLayer<
                 player.level(),
                 player.blockPosition()
         );
-        ItemStack stack = findOffHandHolsteredItem(player);
+        ItemStack stack = findOffHandHolsteredItem(patch);
         boolean showItem = showHolsterFor(stack.getItem());
 
         if (stack.isEmpty() || !showItem) return;
@@ -184,32 +185,40 @@ public class OffHandHolsteredItemLayer extends ModelRenderLayer<
         return jomlMatrix;
     }
 
-    private ItemStack findOffHandHolsteredItem(Player player) {
-        AtomicReference<ItemStack> stack = new AtomicReference<>(ItemStack.EMPTY);
-        ItemStack offHandItem = player.getOffhandItem();
+    private ItemStack findOffHandHolsteredItem(PlayerPatch<?> patch) {
+        ItemStack offHandItem = patch.getOriginal().getOffhandItem();
+        // Early exit before capability lookup
+        if (offHandItem.isEmpty()) return ItemStack.EMPTY;
+        if (!(offHandItem.getItem() instanceof HolsterWeaponBase)
+                && !(offHandItem.getItem() instanceof HolsterShieldBase)) return ItemStack.EMPTY;
 
-        player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
-            if (cap instanceof PlayerPatch<?> patch) {
-                boolean isValid = patch.isOffhandItemValid();
-                if (offHandItem.getItem() instanceof HolsterWeaponBase holsterBaseItem) {
-                    if (isValid) {
-                        ItemStack offHandStack = patch.getValidItemInHand(InteractionHand.OFF_HAND);
-                        if (holsterBaseItem.unholsteredItem != null) {
-                            stack.set(holsterBaseItem.unholsteredItem.getDefaultInstance());
-                        }
-                    } else {
-                        if (holsterBaseItem.holsterItem != null) {
-                            stack.set(holsterBaseItem.holsterItem.getDefaultInstance());
-                        }
-                    }
+
+        ItemStack stack = ItemStack.EMPTY;
+
+
+        boolean isValid = patch.isOffhandItemValid();
+        if (offHandItem.getItem() instanceof HolsterWeaponBase holsterBaseItem) {
+            if (isValid) {
+                if (holsterBaseItem.unholsteredItem != null) {
+                    stack = HolsterStackCache.get(holsterBaseItem.unholsteredItem); // ← fixed
                 }
-                if (offHandItem.getItem() instanceof HolsterShieldBase holsterBaseItem) {
-                    if (!holsterBaseItem.shouldRenderInHand(patch, WohItems.ARBITERS_BLADE.get())) {
-                        stack.set(holsterBaseItem.getDefaultInstance());
-                    }
+            } else {
+                if (holsterBaseItem.holsterItem != null) {
+                    stack = HolsterStackCache.get(holsterBaseItem.holsterItem); // ← fixed
                 }
             }
-        });
-        return stack.get();
+        }
+        if (offHandItem.getItem() instanceof HolsterShieldBase holsterBaseItem) {
+            if (!holsterBaseItem.shouldRenderInHand(patch, WohItems.ARBITERS_BLADE.get())) {
+                if (holsterBaseItem.holsterItem != null) {
+                    stack = HolsterStackCache.get(holsterBaseItem.holsterItem); // render the prop, not the shield
+                } else {
+                    return ItemStack.EMPTY; // nothing safe to render
+                }
+            }
+        }
+
+
+        return stack;
     }
 }

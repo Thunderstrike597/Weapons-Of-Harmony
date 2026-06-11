@@ -3,6 +3,7 @@ package net.kenji.woh.gameasset;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.gameasset.skills.*;
 import net.kenji.woh.gameasset.skills.TenraiSkillInnate;
+import net.kenji.woh.gameasset.skills.combos.ArbitersBladeCombos;
 import net.kenji.woh.gameasset.skills.combos.ShotogatanaCombos;
 import net.kenji.woh.gameasset.skills.combos.TenraiCombos;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,6 +30,7 @@ public class WohSkills {
     public static Skill SHOTOGATANA_COMBO;
     public static Skill TENRAI_COMBO;
     public static Skill SPLIT_TENRAI_COMBO;
+    public static Skill ARBITERS_SLASH_COMBO;
 
     @SubscribeEvent
     public static void buildSkillEvent(SkillBuildEvent build){
@@ -61,7 +63,7 @@ public class WohSkills {
         skills.add(ARBITERS_SLASH = modRegistry.build("arbiters_slash", ArbitersSlashSkill::new,
                 ArbitersSlashSkill.createBuilder()
                         .setActivateType(Skill.ActivateType.HELD)
-                        .setCategory(SkillCategories.WEAPON_INNATE)
+                        .setCategory(SkillCategories.WEAPON_PASSIVE)
                         .setResource(Skill.Resource.COOLDOWN)
         ));
         skills.add(SPLIT_TENRAI = modRegistry.build("split_tenrai", TenraiSkillInnate::new,
@@ -70,9 +72,11 @@ public class WohSkills {
                         .setCategory(SkillCategories.WEAPON_INNATE)
                         .setResource(Skill.Resource.COOLDOWN)
         ));
+
         skills.add(SHOTOGATANA_COMBO = ShotogatanaCombos.buildSkills(modRegistry));
         skills.add(TENRAI_COMBO = TenraiCombos.buildTenraiSkills(modRegistry));
         skills.add(SPLIT_TENRAI_COMBO = TenraiCombos.buildSplitTenraiSkills(modRegistry));
+        skills.add(ARBITERS_SLASH_COMBO = ArbitersBladeCombos.buildSkills(modRegistry));
 
 
 

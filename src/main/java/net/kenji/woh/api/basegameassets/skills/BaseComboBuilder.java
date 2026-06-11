@@ -12,7 +12,6 @@ import java.util.function.Supplier;
 
 public abstract class BaseComboBuilder {
     protected static final List<Supplier<?>> DEFERRED_SETUP = new ArrayList<>();
-
     public static void initializeComboSkills(){
         DEFERRED_SETUP.forEach(Supplier::get);
         DEFERRED_SETUP.clear();

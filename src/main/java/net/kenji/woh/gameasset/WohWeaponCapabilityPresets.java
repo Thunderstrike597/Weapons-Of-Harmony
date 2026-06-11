@@ -1,6 +1,8 @@
 package net.kenji.woh.gameasset;
 
 import net.corruptdog.cdm.gameasset.CorruptAnimations;
+import net.corruptdog.cdm.world.CDWeaponCapabilityPresets;
+import net.kenji.woh.api.DualSkillWeaponCapability;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.skills.combos.ShotogatanaCombos;
@@ -22,6 +24,7 @@ import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
+import yesman.epicfight.world.entity.eventlistener.ComboCounterHandleEvent;
 
 import java.util.function.Function;
 
@@ -187,32 +190,38 @@ public class WohWeaponCapabilityPresets {
         return builder;
     };
     public static final Function<Item, CapabilityItem.Builder> ARBITERS_BLADE = (item) -> {
-        WeaponCapability.Builder builder = WeaponCapability.builder()
+        DualSkillWeaponCapability.Builder builder = (DualSkillWeaponCapability.Builder)DualSkillWeaponCapability.builder()
                 .category(WohWeaponCategories.ARBITERS_BLADE)
                 .styleProvider((playerPatch) -> {
                     if(playerPatch instanceof PlayerPatch<?> patch) {
-                        if(patch.getSkill(WohSkills.ARBITERS_SLASH) != null && patch.getSkill(WohSkills.ARBITERS_SLASH).isActivated()) {
+                        boolean isAbilityActive = patch.getSkill(WohSkills.ARBITERS_SLASH) != null && patch.getSkill(WohSkills.ARBITERS_SLASH).isActivated();
+                        boolean isOffhandValid = patch.getOriginal().getOffhandItem().getItem() instanceof ShieldItem;
+                        if(isAbilityActive) {
                             if (AimManager.isAiming(patch)) {
                                 return WohStyles.AIMING;
                             }
-                            return CapabilityItem.Styles.COMMON;
+                            if(isOffhandValid)
+                                return WohStyles.ABILITY_ACTIVE_ONE_HAND;
+                            return WohStyles.ABILITY_ACTIVE_TWO_HAND;
                         }
-                        if(patch.getOriginal().getOffhandItem().getItem() instanceof ShieldItem)
+                        if(isOffhandValid)
                             return CapabilityItem.Styles.ONE_HAND;
                     }
+
                     return CapabilityItem.Styles.TWO_HAND;
                 })
                 .weaponCombinationPredicator(
                         (entitypatch) ->
                                 EpicFightCapabilities.getItemStackCapability(entitypatch.getOriginal().getOffhandItem()).getWeaponCategory()
                                         == WohWeaponCategories.ARBITERS_BLADE)
+                .comboCancel(style -> false)
                 .hitSound(EpicFightSounds.BLADE_HIT.get())
                 .collider(ColliderPreset.LONGSWORD)
                 .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
-                        CorruptAnimations.SWORD_ONEHAND_AUTO1,
-                        CorruptAnimations.SWORD_ONEHAND_AUTO2,
-                        CorruptAnimations.LONGSWORD_OLD_AUTO2,
-                        AnimsHerrscher.GESETZ_AUTO_1,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_1,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_2,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_3,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_4,
                         AnimsSolar.SOLAR_OBSCURIDAD_AUTO_2,
                         CorruptAnimations.SWORD_ONEHAND_AUTO4,
                         CorruptAnimations.BACKWARD_SLASH,
@@ -226,45 +235,57 @@ public class WohWeaponCapabilityPresets {
                         AnimsSolar.SOLAR_AUTO_1,
                         AnimsSolar.SOLAR_OBSCURIDAD_AUTO_2,
                         AnimsHerrscher.HERRSCHER_VERDAMMNIS, AnimsHerrscher.HERRSCHER_AUSROTTUNG)
-                .newStyleCombo(CapabilityItem.Styles.COMMON,
-                        CorruptAnimations.SWORD_ONEHAND_AUTO1,
-                        CorruptAnimations.SWORD_ONEHAND_AUTO2,
-                        CorruptAnimations.SWORD_ONEHAND_AUTO3,
-                        CorruptAnimations.SWORD_ONEHAND_AUTO4,
+                .newStyleCombo(WohStyles.ABILITY_ACTIVE_TWO_HAND,
+                        CorruptAnimations.LONGSWORD_OLD_AUTO1,
+                        CorruptAnimations.LONGSWORD_OLD_AUTO2,
+                        CorruptAnimations.LONGSWORD_OLD_AUTO3,
+                        CorruptAnimations.LONGSWORD_OLD_AUTO4,
+                        AnimsHerrscher.HERRSCHER_VERDAMMNIS, AnimsHerrscher.HERRSCHER_AUSROTTUNG)
+                .newStyleCombo(WohStyles.ABILITY_ACTIVE_ONE_HAND,
+                        Animations.LONGSWORD_AUTO1,
+                        Animations.LONGSWORD_AUTO2,
+                        Animations.LONGSWORD_AUTO3,
                         AnimsHerrscher.HERRSCHER_VERDAMMNIS, AnimsHerrscher.HERRSCHER_AUSROTTUNG)
                 .newStyleCombo(WohStyles.AIMING,
-                        CorruptAnimations.SWORD_ONEHAND_AUTO1,
-                        CorruptAnimations.SWORD_ONEHAND_AUTO2,
-                        CorruptAnimations.SWORD_ONEHAND_AUTO3,
-                        CorruptAnimations.SWORD_ONEHAND_AUTO4,
+                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AIM_ATTACK,
+                        Animations.LONGSWORD_AUTO2,
+                        Animations.LONGSWORD_AUTO3,
                         AnimsHerrscher.HERRSCHER_VERDAMMNIS, AnimsHerrscher.HERRSCHER_AUSROTTUNG)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, ArbitersBladeAnimations.ARBITERS_BLADE_RUN)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.LONGSWORD_GUARD)
-                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK_SHIELD, Animations.LONGSWORD_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, GenericAnimations.ARBITERS_SHIELD_BLOCK)
 
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, CorruptAnimations.BIPED_HOLD_KATANA)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, Animations.BIPED_WALK_LONGSWORD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, CorruptAnimations.RUN_KATANA)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.LONGSWORD_GUARD)
 
-                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
-                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.RUN, ArbitersBladeAnimations.ARBITERS_BLADE_RUN)
-                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
-                .livingMotionModifier(CapabilityItem.Styles.COMMON, LivingMotions.BLOCK_SHIELD, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE_TWO_HAND, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE_TWO_HAND, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE_TWO_HAND, LivingMotions.RUN, ArbitersBladeAnimations.ARBITERS_BLADE_RUN)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE_TWO_HAND, LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE_TWO_HAND, LivingMotions.BLOCK_SHIELD, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
+
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE_ONE_HAND, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE_ONE_HAND, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE_ONE_HAND, LivingMotions.RUN, ArbitersBladeAnimations.ARBITERS_BLADE_RUN)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE_ONE_HAND, LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
+                .livingMotionModifier(WohStyles.ABILITY_ACTIVE_ONE_HAND, LivingMotions.BLOCK_SHIELD, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
 
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.IDLE, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.WALK, ArbitersBladeAnimations.ARBITERS_BLADE_HOLD)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.RUN, ArbitersBladeAnimations.ARBITERS_BLADE_RUN)
-
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
                 .livingMotionModifier(WohStyles.AIMING, LivingMotions.BLOCK_SHIELD, ArbitersBladeAnimations.ARBITERS_BLADE_AIM)
-                .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH)
-                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH)
-                .innateSkill(CapabilityItem.Styles.COMMON, (itemstack) -> WohSkills.ARBITERS_SLASH)
-                .innateSkill(WohStyles.AIMING, (itemstack) -> WohSkills.ARBITERS_SLASH);
+
+                .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH_COMBO)
+                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH_COMBO)
+                .innateSkill(WohStyles.ABILITY_ACTIVE_TWO_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH_COMBO)
+                .innateSkill(WohStyles.ABILITY_ACTIVE_ONE_HAND, (itemstack) -> WohSkills.ARBITERS_SLASH_COMBO)
+                .innateSkill(WohStyles.AIMING, (itemstack) -> WohSkills.ARBITERS_SLASH_COMBO);
+                builder.secondarySkill((itemstack) -> WohSkills.ARBITERS_SLASH);
+
 
         return builder;
     };

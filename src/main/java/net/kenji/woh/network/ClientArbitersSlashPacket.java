@@ -1,5 +1,6 @@
 package net.kenji.woh.network;
 
+import net.kenji.woh.api.interfaces.IHybridSkill;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.WohSkills;
 import net.minecraft.client.Minecraft;
@@ -49,5 +50,8 @@ public class ClientArbitersSlashPacket {
         if(container == null)
             return;
         container.deactivate();
+        if(container.getSkill() instanceof IHybridSkill){
+            IHybridSkill.didActivate.put(player.getUUID(), false);
+        }
     }
 }

@@ -2,6 +2,7 @@ package net.kenji.woh.compat.combat_hotbar.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.kenji.epic_fight_combat_hotbar.capability.ModCapabilities;
+import net.kenji.woh.api.HolsterStackCache;
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
@@ -161,12 +162,8 @@ public class HolsteredItemCompatLayer extends ModelRenderLayer<
 
         if(holsterItem.holsterTransform == null) return;
 
-        ItemStack holsterStack = holsterItem.holsterItem != null
-                ? holsterItem.holsterItem.getDefaultInstance()
-                : ItemStack.EMPTY;
-        ItemStack unholsterStack = holsterItem.unholsteredItem != null
-                ? holsterItem.unholsteredItem.getDefaultInstance()
-                : ItemStack.EMPTY;
+        ItemStack holsterStack = HolsterStackCache.get(holsterItem.holsterItem);
+        ItemStack unholsterStack = HolsterStackCache.get(holsterItem.unholsteredItem);
         ResourceLocation key = ForgeRegistries.ITEMS.getKey(holsterItem);
         if(key == null) return;
         String itemKey = key.toString();
@@ -256,21 +253,7 @@ public class HolsteredItemCompatLayer extends ModelRenderLayer<
         return ItemStack.EMPTY;
     }
 
-    private ItemStack findOffHandHolsteredItem(Player player){
-        Slot offHandSlot = player.inventoryMenu.slots.get(45);
-        AtomicReference<ItemStack> stack = new AtomicReference<>(ItemStack.EMPTY);
-        player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent(cap -> {
-            if (cap instanceof PlayerPatch<?> patch) {
-                boolean isValid = patch.isOffhandItemValid();
-                ItemStack offHandStack = patch.getValidItemInHand(InteractionHand.OFF_HAND);
-                if(isValid && offHandStack.getItem() instanceof HolsterWeaponBase){
-                    stack.set(offHandStack);
-                }
-            }
-        });
 
-        return stack.get();
-    }
     @OnlyIn(Dist.CLIENT)
     public static class SubEventHandler {
         public static int selectedIndex = 0;

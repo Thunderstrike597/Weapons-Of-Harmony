@@ -11,6 +11,7 @@ import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.WOHAnimationUtils;
 
 import net.kenji.woh.api.animation_types.ShotogatanaAttackAnimation;
+import net.kenji.woh.api.basegameassets.ExtendedComboBasicAttack;
 import net.kenji.woh.api.basegameassets.condition.CooldownCounterCondition;
 import net.kenji.woh.api.basegameassets.condition.InAirCondition;
 import net.kenji.woh.api.basegameassets.skills.BaseComboBuilder;
@@ -40,8 +41,6 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 
 public class ShotogatanaCombos extends BaseComboBuilder {
-
-
 
 
     public static Skill buildSkills(SkillBuildEvent.ModRegistryWorker registryWorker) {
@@ -125,25 +124,7 @@ public class ShotogatanaCombos extends BaseComboBuilder {
         createMovementCombo(jumpAttack1, jumpAttack2, new ComboNodeWrapper(null, null, null, null, null, dashCombo));
         createMovementCombo(jumpAttack2, jumpAttack3, new ComboNodeWrapper(null, null, null, null, null, dashCombo));
 
-
-        basic5.key1(rootDecision);
-        basicLeft4.key1(rootDecision);
-        basicRight4.key1(rootDecision);
-
-        leftCombo1.key1(rootDecision);
-        rightCombo1.key1(rootDecision);
-        downCombo1.key1(rootDecision);
-        upCombo1.key1(rootDecision);
-        upCombo2.key1(rootDecision);
-
-        jumpAttack1.key1(rootDecision);
-        jumpAttack2.key1(rootDecision);
-        jumpAttack3.key1(rootDecision);
-
-        downCombo1.key1(rootDecision);
-        dashCombo.key1(rootDecision);
-
-        return registryWorker.build("shotogatana_combo_skill", ComboBasicAttack::new, ComboBasicAttack
+        return registryWorker.build("shotogatana_combo_skill", (builder) -> new ExtendedComboBasicAttack(builder, root), ExtendedComboBasicAttack
                 .createComboBasicAttack()
                 .setCombo(root)
                 .setMaxProtectTime(22)

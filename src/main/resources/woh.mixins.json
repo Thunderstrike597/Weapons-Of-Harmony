@@ -5,6 +5,9 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "EpicFightFistMixin",
+    "WeaponCapabilityAccessor",
+    "SkillContainerMixin",
+    "SkillContainerAccessor",
     "GuardSkillMixin",
     "ShieldCapabilityMixin",
     "KatanaAttackAnimationMixin",
@@ -13,9 +16,12 @@
     "PhaseMixin"
   ],
   "client": [
+    "ControlEngineMixin",
+    "ControlEngineAccessor",
     "AttackAnimationMixin",
     "EpicFightShaderMixin",
-    "InputMixin"
+    "InputMixin",
+    "InputManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

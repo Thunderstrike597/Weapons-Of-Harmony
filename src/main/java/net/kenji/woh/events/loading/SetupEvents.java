@@ -10,6 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import org.jline.utils.Log;
+import yesman.epicfight.gameasset.Animations;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class SetupEvents {
@@ -19,12 +20,15 @@ public class SetupEvents {
     public static void onClientLoadComplete(FMLLoadCompleteEvent event) {
         event.enqueueWork(() -> {
             // Populate the map after everything is loaded
-            ArbitersSlashSkill.slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AIM_AUTO_1.get().toString(), -45);
-            ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO1.get().toString(), -45);
+            ArbitersSlashSkill.slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AIM_ATTACK.get().toString(), -45);
 
-            ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO2.get().toString(), 0);
-            ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO3.get().toString(), 80);
-            ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.SWORD_ONEHAND_AUTO4.get().toString(), 45);
+            ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.LONGSWORD_OLD_AUTO1.get().toString(), -45);
+            ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.LONGSWORD_OLD_AUTO2.get().toString(), -45);
+            ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.LONGSWORD_OLD_AUTO3.get().toString(), 20);
+            ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.LONGSWORD_OLD_AUTO4.get().toString(), 45);
+            ArbitersSlashSkill.slashAngleMap.put(Animations.LONGSWORD_AUTO1.get().toString(), -70);
+            ArbitersSlashSkill.slashAngleMap.put(Animations.LONGSWORD_AUTO2.get().toString(), -45);
+            ArbitersSlashSkill.slashAngleMap.put(Animations.LONGSWORD_AUTO3.get().toString(), 70);
         });
     }
 

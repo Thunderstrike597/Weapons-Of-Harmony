@@ -1,9 +1,11 @@
 package net.kenji.woh.api;
 
+import net.kenji.woh.gameasset.AttackHand;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.collider.Collider;
+import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.particle.HitParticleType;
 import yesman.epicfight.world.damagesource.StunType;
 
@@ -23,8 +25,12 @@ public class AnimationConfig {
     public final Collider[] colliders;
     public final Joint[] colliderJoints;
     public final StunType stunType;
+    public final AttackHand[] attackingHands;
     public final float unsheatheTime;
     public final float sheathTime;
+    public final boolean ignoreFallDamage;
+    public final float slashAngle;
+
 
     private AnimationConfig(Builder b) {
         this.path = b.path;
@@ -42,8 +48,11 @@ public class AnimationConfig {
         this.colliders = b.colliders;
         this.colliderJoints = b.colliderJoints;
         this.stunType = b.stunType;
+        this.attackingHands = b.attackingHands;
         this.unsheatheTime = b.unsheatheTime;
         this.sheathTime = b.sheathTime;
+        this.ignoreFallDamage = b.ignoreFallDamage;
+        this.slashAngle = b.slashAngle;
     }
 
     public static Builder of(String path) {
@@ -66,7 +75,7 @@ public class AnimationConfig {
         private final List<RegistryObject<HitParticleType>> hitParticleList = new ArrayList<>();
         private final List<Collider> colliderList = new ArrayList<>();
         private final List<Joint> colliderJointList = new ArrayList<>();
-
+        private List<AttackHand> attackingHandsList = new ArrayList<>();
         // Finalized arrays (set at build time)
         private Supplier<SoundEvent>[] swingSound;
         private Supplier<SoundEvent>[] hitSound;
@@ -75,9 +84,12 @@ public class AnimationConfig {
         private Joint[] colliderJoints;
 
         private StunType stunType = StunType.SHORT;
+        private AttackHand[] attackingHands;
+
         private float unsheatheTime = -1F;
         private float sheathTime = -1F;
-
+        private boolean ignoreFallDamage = false;
+        private float slashAngle = -1F;
         private Builder(String path) { this.path = path; }
 
         // ── Phase timing ──────────────────────────────────────────────────────
@@ -155,7 +167,11 @@ public class AnimationConfig {
             colliderJointList.set(phaseIndex, j);
             return this;
         }
-
+        public Builder attackHand(AttackHand hand, int phaseIndex) {
+            ensureSize(attackingHandsList, phaseIndex + 1);
+            attackingHandsList.set(phaseIndex, hand);
+            return this;
+        }
         // ── Other options ─────────────────────────────────────────────────────
 
         public Builder speed(float speed) { this.speed = speed; return this; }
@@ -163,6 +179,16 @@ public class AnimationConfig {
         public Builder phaseCount(int n) { this.phaseCount = n; return this; }
         public Builder stun(StunType stun) { this.stunType = stun; return this; }
         public Builder sheathe(float unsheathe, float sheathe) { this.unsheatheTime = unsheathe; this.sheathTime = sheathe; return this; }
+        public Builder ignoreFallDamage(boolean ignoreFallDamage)
+        {
+            this.ignoreFallDamage= ignoreFallDamage;
+            return this;
+        }
+        public Builder slashAngle(float slashAngle)
+        {
+            this.slashAngle = slashAngle;
+            return this;
+        }
 
         // ── Build ─────────────────────────────────────────────────────────────
 
@@ -194,6 +220,16 @@ public class AnimationConfig {
                 colliders = colliderList.toArray(new Collider[0]);
                 colliderJoints = colliderJointList.toArray(new Joint[0]);
             }
+            if (!attackingHandsList.isEmpty()) {
+                attackingHands = attackingHandsList.toArray(new AttackHand[0]);
+            } else if (colliderJoints != null) {
+                attackingHands = new AttackHand[colliderJoints.length];
+                for (int i = 0; i < colliderJoints.length; i++) {
+                    attackingHands[i] = deriveHand(colliderJoints[i]);
+                }
+            } else {
+                attackingHands = new AttackHand[0];
+            }
 
             return new AnimationConfig(this);
         }
@@ -202,6 +238,13 @@ public class AnimationConfig {
 
         private static <T> void ensureSize(List<T> list, int size) {
             while (list.size() < size) list.add(null);
+        }
+        private static AttackHand deriveHand(Joint joint) {
+            if (joint == null) return AttackHand.RIGHT_HAND;
+            if (joint == Armatures.BIPED.get().toolL || joint == Armatures.BIPED.get().handL) return AttackHand.LEFT_HAND;
+            if (joint == Armatures.BIPED.get().legL || joint == Armatures.BIPED.get().thighL) return AttackHand.LEFT_LEG;
+            if (joint == Armatures.BIPED.get().legR || joint == Armatures.BIPED.get().thighR) return AttackHand.RIGHT_LEG;
+            return AttackHand.RIGHT_HAND; // toolR, handR, etc. all default right
         }
     }
 }

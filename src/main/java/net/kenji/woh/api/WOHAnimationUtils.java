@@ -58,6 +58,8 @@ public class WOHAnimationUtils {
         DASH_ATTACK_JUMP,
         AIR_ATTACK
     }
+
+
     public static void stopMovementEvent(LivingEntityPatch<?> entityPatch){
         ((LivingEntity) entityPatch.getOriginal()).getMainHandItem().getOrCreateTag().putBoolean("stopMovement", true);
     }
@@ -607,29 +609,6 @@ public class WOHAnimationUtils {
 
         Supplier<StaticAnimation> setupSupplier = () -> {
             AttackAnimation anim = finalAnimation.get();
-
-            boolean stopEndEvent = normalizedEnd <= -1;
-            boolean stopStartEvent = normalizedStart <= -1;
-
-            TimeStampManager.register(anim, normalizedStart, normalizedEnd);
-
-            float absoluteStart = anim.getTotalTime() * normalizedStart;
-            float absoluteEnd = anim.getTotalTime() * normalizedEnd;
-
-            if (!stopEndEvent && !stopStartEvent) {
-                anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
-                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
-                });
-            } else if (!stopEndEvent) {
-                anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absoluteEnd, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
-                });
-            } else if (!stopStartEvent) {
-                anim.addEvents(new AnimationEvent[]{
-                        AnimationEvent.InTimeEvent.create(absoluteStart, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH)
-                });
-            }
 
             return anim;
         };

@@ -7,7 +7,9 @@ public enum WohStyles implements Style {
     THROWN_TWO_HAND(true),
     AIMING(true),
     UNSHEATHED(false),
-    ABILITY_ACTIVE(false);
+    ABILITY_ACTIVE(false),
+    ABILITY_ACTIVE_ONE_HAND(true),
+    ABILITY_ACTIVE_TWO_HAND(false);
 
     final boolean canUseOffhand;
     final int id;

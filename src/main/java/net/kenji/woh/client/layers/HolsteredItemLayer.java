@@ -1,6 +1,7 @@
 package net.kenji.woh.client.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.kenji.woh.api.HolsterStackCache;
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
@@ -158,12 +159,8 @@ public class HolsteredItemLayer extends ModelRenderLayer<
 
         if(holsterItem.holsterTransform == null) return;
 
-        ItemStack holsterStack = holsterItem.holsterItem != null
-                ? holsterItem.holsterItem.getDefaultInstance()
-                : ItemStack.EMPTY;
-        ItemStack unholsterStack = holsterItem.unholsteredItem != null
-                ? holsterItem.unholsteredItem.getDefaultInstance()
-                : ItemStack.EMPTY;
+        ItemStack holsterStack = HolsterStackCache.get(holsterItem.holsterItem);
+        ItemStack unholsterStack = HolsterStackCache.get(holsterItem.unholsteredItem);
         ResourceLocation key = ForgeRegistries.ITEMS.getKey(holsterItem);
         if(key == null) return;
         String itemKey = key.toString();

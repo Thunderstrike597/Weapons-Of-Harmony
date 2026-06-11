@@ -2,10 +2,13 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.api.basegameassets.HybridHoldableSkill;
+import net.kenji.woh.api.interfaces.IHybridSkill;
 import net.kenji.woh.api.interfaces.ITranslatableSkill;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
+import net.kenji.woh.mixins.SkillContainerAccessor;
 import net.kenji.woh.network.ArbitersSlashSetupPacket;
 import net.kenji.woh.network.ClientArbitersSlashPacket;
 import net.kenji.woh.network.WohPacketHandler;
@@ -30,7 +33,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jline.utils.Log;
@@ -39,9 +42,9 @@ import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
+import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
-import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.client.input.EpicFightKeyMappings;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.EpicFightSkills;
@@ -49,6 +52,7 @@ import yesman.epicfight.network.server.SPSkillExecutionFeedback;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillBuilder;
 import yesman.epicfight.skill.SkillContainer;
+import yesman.epicfight.skill.SkillSlots;
 import yesman.epicfight.skill.modules.ChargeableSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
@@ -56,21 +60,22 @@ import yesman.epicfight.world.capabilities.item.CapabilityItem;
 
 import java.util.*;
 
-public class ArbitersSlashSkill extends Skill implements ChargeableSkill, ITranslatableSkill {
+public class ArbitersSlashSkill extends HybridHoldableSkill {
 
     public static float travelSpeedMultiplier = 1.75f;
-
     private SkillContainer currentContainer;
 
-    private static final Map<UUID, Boolean> wasHoldingMap = new HashMap<>();
     public static Map<String, Integer> slashAngleMap = new HashMap<>();
     private static final Map<AttackAnimation, BeamSlashEntity> beamCastMap = new HashMap<>();
+    private static final Map<UUID, Boolean> wasHoldingMap = new HashMap<>();
 
     public final int MAX_HOLD_COUNTER = 60;
     public int holdCounter = 0;
 
     public boolean scheduleDeactivate;
     private boolean isModifiedAnimation;
+
+
 
     public ArbitersSlashSkill(SkillBuilder builder) {
         super(builder);
@@ -105,6 +110,9 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill, ITrans
         public static void onClientLogin(ClientPlayerNetworkEvent.LoggingIn event) {
             WohPacketHandler.sendToServer(new ArbitersSlashSetupPacket(ArbitersSlashSkill.slashAngleMap));
         }
+        @SubscribeEvent
+        public static void onClientTick(TickEvent.ClientTickEvent event) {
+        }
     }
 
     @Override
@@ -133,8 +141,6 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill, ITrans
         if(holdCounter > 0){
             holdCounter--;
         }
-
-
         if(scheduleDeactivate) {
             if (container.getExecutor() instanceof ServerPlayerPatch serverPlayerPatch) {
                 AnimationPlayer animPlayer = serverPlayerPatch.getServerAnimator().animationPlayer;
@@ -142,6 +148,7 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill, ITrans
                 if (anim.get() == ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_DEACTIVATE.get()) {
                     if (animPlayer.getElapsedTime() > 0.58F) {
                         container.deactivate();
+                        didActivate.put(serverPlayerPatch.getOriginal().getUUID(), false);
                         WohPacketHandler.sendToPlayer(new ClientArbitersSlashPacket(), serverPlayerPatch.getOriginal());
                         scheduleDeactivate = false;
                     }
@@ -149,65 +156,57 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill, ITrans
             }
         }
         if (!container.isActivated()) {
-            if(container.getExecutor().getAnimator().getLivingAnimation(LivingMotions.IDLE, getAimAnimation()) == getAimAnimation()) {
-                onAimRelease(container);
-                container.getExecutor().getAnimator().resetLivingAnimations();
-            }
-
             float chargingAmount = container.getExecutor().getChargingAmount();
-            // Update animation based on charging progress
-            if (chargingAmount > 1) {
-                if(container.getExecutor() instanceof ServerPlayerPatch) {
-                    AnimationPlayer animationPlayer = container.getExecutor().getAnimator().getPlayerFor(null);
-                    if (animationPlayer != null) {
-                        AssetAccessor<? extends DynamicAnimation> dynamicAnim = animationPlayer.getAnimation();
-                        if(dynamicAnim.get() instanceof StaticAnimation staticAnimation){
-                        if (staticAnimation == ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_START.get()) {
+            Log.info("ChargingAmount: " + chargingAmount);
+            // Animation progression
+            if (chargingAmount > 10) {
+                AnimationPlayer animationPlayer = container.getExecutor().getAnimator().getPlayerFor(null);
+                if (animationPlayer != null) {
+                    AssetAccessor<? extends DynamicAnimation> currentAnim = animationPlayer.getAnimation();
+                    if (currentAnim.get() == ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_START.get() &&
+                            animationPlayer.getElapsedTime() > 1.2F) {
 
-                            if (animationPlayer.getElapsedTime() > 1.2F) {
-                                container.getExecutor().playAnimationSynchronized(
-                                        ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_MID, 0.1F
-                                );
-                            }
-                        }
-                        }
+                        container.getExecutor().playAnimationSynchronized(
+                                ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_MID, 0.1F
+                        );
                     }
                 }
             }
 
-            // Ensure guard animation is set
-            if (container.getExecutor().getAnimator().getLivingAnimation(
-                    LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM) != Animations.LONGSWORD_GUARD) {
-                container.getExecutor().getAnimator().addLivingAnimation(
-                        LivingMotions.BLOCK, Animations.LONGSWORD_GUARD
-                );
-            }
-
-            // Check if fully charged and activate
-            if (container.getExecutor().getSkillChargingTicks(1.0F) >= getAllowedMaxChargingTicks()) {
+            // Full charge detection
+            if (chargingAmount >= getAllowedMaxChargingTicks()) {
                 container.getExecutor().playAnimationSynchronized(
                         ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_END, 0.1F
                 );
 
                 if (container.getExecutor().getOriginal().level() instanceof ServerLevel serverLevel) {
-                    BlockPos blockPos = container.getExecutor().getOriginal().blockPosition();
-                    serverLevel.playSound(
-                            null,
-                            blockPos,
-                            SoundEvents.ENCHANTMENT_TABLE_USE,
-                            SoundSource.PLAYERS,
-                            1.0F,
-                            1.0F
-                    );
+                    BlockPos pos = container.getExecutor().getOriginal().blockPosition();
+                    serverLevel.playSound(null, pos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
                 }
+                if(chargingAmount >= getMinChargingTicks())
+                    didActivate.put(container.getExecutor().getOriginal().getUUID(), true);
 
                 container.activate();
+                container.getExecutor().resetHolding();
+                return; // Important: exit early
             }
+
+            // Keep aim/guard animation
+            container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.BLOCK, ArbitersBladeAnimations.ARBITERS_BLADE_AIM);
+            super.updateContainer(container);
         }
+
 
         // Handle active phase (after activation)
         if (container.isActivated()) {
+            //Log.info("REMAINING TICKS: "+ container.getRemainDuration());
+
             Player player = container.getExecutor().getOriginal();
+            if(!didActivate.getOrDefault(player.getUUID(), false)){
+                container.deactivate();
+                return;
+            }
+
             if (player.level().isClientSide) {
                 Minecraft mc = Minecraft.getInstance();
                 UUID id = player.getUUID();
@@ -239,8 +238,10 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill, ITrans
             if (playerPatch.getAnimator().getPlayerFor(null).getAnimation().get() instanceof AttackAnimation attackAnim) {
                 if(playerPatch.getOriginal().level() instanceof ServerLevel serverLevel) {
                     if (playerPatch.getAnimator().getPlayerFor(null).getElapsedTime() >= (attackAnim.phases[0].contact + attackAnim.phases[0].start) * 0.5) {
-                        if(beamCastMap.get(attackAnim) == null || serverLevel.getEntity(beamCastMap.get(attackAnim).getUUID()) == null){
+                       if(beamCastMap.get(attackAnim) == null || serverLevel.getEntity(beamCastMap.get(attackAnim).getUUID()) == null){
                             onBeamSlash(playerPatch, attackAnim.getAccessor(), serverLevel);
+                            Log.info("Logging Activated Beamcast!");
+                            Log.info("IsClientSide: " + playerPatch.getOriginal().level().isClientSide());
                         }
                     }
                 }
@@ -252,11 +253,10 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill, ITrans
             }
             else{
                 container.deactivate();
+                didActivate.put(player.getUUID(), false);
                 resetHolding(container);
             }
         }
-
-        super.updateContainer(container);
     }
 
     private void onBeamSlash(PlayerPatch<?> playerPatch, AnimationManager.AnimationAccessor<AttackAnimation> basisAttackAnimation, ServerLevel serverLevel){
@@ -380,11 +380,6 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill, ITrans
         return EpicFightKeyMappings.WEAPON_INNATE_SKILL;
     }
 
-    @Override
-    public void resetHolding(SkillContainer container) {
-        container.getExecutor().setChargingAmount(0);
-    }
-
 
     private AssetAccessor<StaticAnimation> getAimAnimation(){
         return ArbitersBladeAnimations.ARBITERS_BLADE_AIM;
@@ -403,37 +398,50 @@ public class ArbitersSlashSkill extends Skill implements ChargeableSkill, ITrans
 
 
 
-
-    @Override
-    public void onStopHolding(SkillContainer container, SPSkillExecutionFeedback feedback) {
-        // Don't deactivate immediately - let the skill finish naturally
-        // Only reset if not fully charged
-        if (!container.isActivated()) {
-            resetHolding(container);
-        }
-    }
-
     @Override
     public void startHolding(SkillContainer container) {
-        if(!container.isActivated()) {
-            container.getExecutor().setChargingAmount(0);
-            container.getExecutor().playAnimationSynchronized(
-                    ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_START, 0.1F
-            );
-            return;
-        }
+        if (container.isActivated()) return;
+
+        // Only reset once at the very beginning of charging
+        if (container.getExecutor().getChargingAmount() > 5) return; // already charging
+
+        //container.getExecutor().setChargingAmount(0);
+        container.getExecutor().playAnimationSynchronized(
+                ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_START, 0.1F
+        );
+        if(getKeyMapping().isDown())
+            container.getExecutor().getEntityState().setState(EntityState.CAN_BASIC_ATTACK, false);
     }
 
     @Override
     public void holdTick(SkillContainer container) {
-        // Only increment charging if not yet activated
-        if (!container.isActivated()) {
-            int currentCharge = container.getExecutor().getChargingAmount();
-            if (currentCharge < getMaxChargingTicks()) {
-                container.getExecutor().setChargingAmount(currentCharge + 1);
-            }
+        if (container.isActivated()) return;
+
+        int current = container.getExecutor().getChargingAmount();
+        if (current < getMaxChargingTicks()) {
+            container.getExecutor().setChargingAmount(current + 1);
         }
 
+        container.getExecutor().getEntityState().setState(EntityState.CAN_BASIC_ATTACK, false);
+    }
+
+    @Override
+    public void onStopHolding(SkillContainer container, SPSkillExecutionFeedback feedback) {
+        if (container.isActivated()) return;
+
+        // Only reset if player actually released the key
+        if (!getKeyMapping().isDown()) {
+            resetHolding(container);
+        }
+        //container.getExecutor().getEntityState().setState(EntityState.CAN_BASIC_ATTACK, true);
+
+    }
+
+    @Override
+    public void resetHolding(SkillContainer container) {
+        if (!container.isActivated() && !getKeyMapping().isDown()) {
+            container.getExecutor().setChargingAmount(0);
+        }
     }
 
     @Override

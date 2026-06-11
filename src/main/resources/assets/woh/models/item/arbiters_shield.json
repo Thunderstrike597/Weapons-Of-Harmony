@@ -2,7 +2,7 @@
   "loader": "forge:separate_transforms",
   "base": {
     "loader": "forge:obj",
-    "model": "woh:models/item/obj/arbiters_shield.obj",
+    "model": "woh:models/item/obj/arbiters_shield_hs.obj",
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {
@@ -13,7 +13,7 @@
       "thirdperson_lefthand": {
         "translation": [-3.6, 3, 6],
         "rotation": [0, 0, 0],
-        "scale": [0.58, 0.58, 0.58]
+        "scale": [0.55, 0.55, 0.55]
       },
       "firstperson_righthand": {
         "translation": [13, -6, 0],

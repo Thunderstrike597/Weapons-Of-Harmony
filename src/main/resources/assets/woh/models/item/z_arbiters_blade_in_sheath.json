@@ -2,7 +2,7 @@
   "loader": "forge:separate_transforms",
   "base": {
     "loader": "forge:obj",
-    "model": "woh:models/item/obj/holster/in_sheath/arbiters_blade_in_sheath.obj",
+    "model": "woh:models/item/obj/holster/in_sheath/arbiters_blade_in_sheath_ms.obj",
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {
