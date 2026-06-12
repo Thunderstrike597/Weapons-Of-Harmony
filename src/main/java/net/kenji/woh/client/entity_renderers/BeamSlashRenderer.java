@@ -6,11 +6,13 @@ import com.mojang.math.Axis;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.client.enitity_models.BeamSlashModel;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 
 public class BeamSlashRenderer extends EntityRenderer<BeamSlashEntity> {
@@ -19,6 +21,8 @@ public class BeamSlashRenderer extends EntityRenderer<BeamSlashEntity> {
             new ResourceLocation(WeaponsOfHarmony.MODID, "textures/entity/beam_disc.png");
 
     private final BeamSlashModel<BeamSlashEntity> model;
+    private static final ResourceLocation MODEL_LOC =
+            new ResourceLocation(WeaponsOfHarmony.MODID, "models/entity/beam_slash");
 
     public BeamSlashRenderer(EntityRendererProvider.Context ctx) {
         super(ctx);
@@ -71,14 +75,28 @@ public class BeamSlashRenderer extends EntityRenderer<BeamSlashEntity> {
         VertexConsumer vc = buffer.getBuffer(
                 RenderType.entityTranslucentEmissive(getTextureLocation(entity))
         );
+        BakedModel model = Minecraft.getInstance()
+                .getModelManager()
+                .getModel(MODEL_LOC);
+        Minecraft.getInstance().getBlockRenderer()
+                .getModelRenderer()
+                .renderModel(
+                        poseStack.last(),
+                        buffer.getBuffer(RenderType.entityCutout(getTextureLocation(entity))),
+                        null,
+                        model,
+                        1f, 1f, 1f,
+                        packedLight,
+                        OverlayTexture.NO_OVERLAY
+                );
 
-        this.model.renderToBuffer(
+       /* this.model.renderToBuffer(
                 poseStack,
                 vc,
                 packedLight,
                 OverlayTexture.NO_OVERLAY,
                 1F, 1F, 1F, 1F
-        );
+        );*/
 
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);

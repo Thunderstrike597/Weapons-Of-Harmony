@@ -4,12 +4,11 @@
   "package": "net.kenji.woh.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "EpicFightFistMixin",
+    "CapabilityItemMixin",
     "WeaponCapabilityAccessor",
     "SkillContainerMixin",
     "SkillContainerAccessor",
     "GuardSkillMixin",
-    "ShieldCapabilityMixin",
     "KatanaAttackAnimationMixin",
     "CorruptAnimationsMixin",
     "ShieldMixin",

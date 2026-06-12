@@ -3,7 +3,6 @@ package net.kenji.woh.gameasset.skills;
 import com.google.common.collect.Lists;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.basegameassets.HybridHoldableSkill;
-import net.kenji.woh.api.interfaces.IHybridSkill;
 import net.kenji.woh.api.interfaces.ITranslatableSkill;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.entities.WohEntities;
@@ -21,6 +20,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -141,6 +141,9 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
         if(holdCounter > 0){
             holdCounter--;
         }
+        if(!container.isActivated() && !didActivate.getOrDefault(container.getExecutor().getOriginal().getUUID(), false)){
+            container.getExecutor().getOriginal().getMainHandItem().getOrCreateTag().remove("weapon_variant");
+        }
         if(scheduleDeactivate) {
             if (container.getExecutor() instanceof ServerPlayerPatch serverPlayerPatch) {
                 AnimationPlayer animPlayer = serverPlayerPatch.getServerAnimator().animationPlayer;
@@ -149,7 +152,7 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
                     if (animPlayer.getElapsedTime() > 0.58F) {
                         container.deactivate();
                         didActivate.put(serverPlayerPatch.getOriginal().getUUID(), false);
-                        WohPacketHandler.sendToPlayer(new ClientArbitersSlashPacket(), serverPlayerPatch.getOriginal());
+                        WohPacketHandler.sendToPlayer(new ClientArbitersSlashPacket(true, ""), serverPlayerPatch.getOriginal());
                         scheduleDeactivate = false;
                     }
                 }
@@ -157,7 +160,7 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
         }
         if (!container.isActivated()) {
             float chargingAmount = container.getExecutor().getChargingAmount();
-            Log.info("ChargingAmount: " + chargingAmount);
+            //Log.info("ChargingAmount: " + chargingAmount);
             // Animation progression
             if (chargingAmount > 10) {
                 AnimationPlayer animationPlayer = container.getExecutor().getAnimator().getPlayerFor(null);
@@ -188,6 +191,9 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
 
                 container.activate();
                 container.getExecutor().resetHolding();
+                container.getExecutor().getOriginal().getMainHandItem().getOrCreateTag().putString("weapon_variant", "arbiters_blade_glow_ms");
+                if(container.getExecutor().getOriginal() instanceof ServerPlayer serverPlayer)
+                    WohPacketHandler.sendToPlayer(new ClientArbitersSlashPacket(false, "arbiters_blade_glow_ms"), serverPlayer);
                 return; // Important: exit early
             }
 
@@ -237,12 +243,14 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
 
             if (playerPatch.getAnimator().getPlayerFor(null).getAnimation().get() instanceof AttackAnimation attackAnim) {
                 if(playerPatch.getOriginal().level() instanceof ServerLevel serverLevel) {
-                    if (playerPatch.getAnimator().getPlayerFor(null).getElapsedTime() >= (attackAnim.phases[0].contact + attackAnim.phases[0].start) * 0.5) {
-                       if(beamCastMap.get(attackAnim) == null || serverLevel.getEntity(beamCastMap.get(attackAnim).getUUID()) == null){
+                    float time = playerPatch.getAnimator().getPlayerFor(null).getElapsedTime();
+                    if (time >= (attackAnim.phases[0].contact + attackAnim.phases[0].start) * 0.5 && time < attackAnim.phases[0].recovery) {
+                       if(beamCastMap.get(attackAnim) == null){
                             onBeamSlash(playerPatch, attackAnim.getAccessor(), serverLevel);
-                            Log.info("Logging Activated Beamcast!");
-                            Log.info("IsClientSide: " + playerPatch.getOriginal().level().isClientSide());
                         }
+                    }
+                    else if(time >= attackAnim.phases[0].recovery){
+                        beamCastMap.remove(attackAnim);
                     }
                 }
             }
@@ -253,6 +261,9 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
             }
             else{
                 container.deactivate();
+                if(container.getExecutor().getOriginal() instanceof ServerPlayer serverPlayer)
+                    WohPacketHandler.sendToPlayer(new ClientArbitersSlashPacket(true, ""), serverPlayer);
+
                 didActivate.put(player.getUUID(), false);
                 resetHolding(container);
             }
@@ -261,7 +272,6 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
 
     private void onBeamSlash(PlayerPatch<?> playerPatch, AnimationManager.AnimationAccessor<AttackAnimation> basisAttackAnimation, ServerLevel serverLevel){
         int slashAngle = slashAngleMap.getOrDefault(basisAttackAnimation.get().toString(), -1);
-
         if(serverLevel != null && slashAngle != -1) {
             BlockPos blockPos = playerPatch.getOriginal().blockPosition();
             BeamSlashEntity spawnedEntity = WohEntities.BEAM_SLASH.get().spawn(serverLevel, blockPos, MobSpawnType.TRIGGERED);

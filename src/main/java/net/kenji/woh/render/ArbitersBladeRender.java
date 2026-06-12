@@ -7,8 +7,11 @@ import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
@@ -18,6 +21,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jline.utils.Log;
 import yesman.epicfight.api.utils.math.MathUtils;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.renderer.patched.item.RenderItemBase;
@@ -35,8 +39,8 @@ public class ArbitersBladeRender extends RenderItemBase {
 
     public ArbitersBladeRender(JsonElement jsonElement) {
         super(jsonElement);
-        if (jsonElement.getAsJsonObject().has("blade")) {
-            this.bladeStack = new ItemStack((ItemLike) Objects.requireNonNull((Item) ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(jsonElement.getAsJsonObject().get("blade").getAsString()))));
+        if (jsonElement.getAsJsonObject().has("arbiters_blade")) {
+            this.bladeStack = new ItemStack((ItemLike) Objects.requireNonNull((Item) ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(jsonElement.getAsJsonObject().get("arbiters_blade").getAsString()))));
         }else {
             this.bladeStack = new ItemStack((ItemLike) WohItems.ARBITERS_BLADE.get());
         }
@@ -56,57 +60,40 @@ public class ArbitersBladeRender extends RenderItemBase {
         return false;
     }
 
-    private ItemStack getGlintStack(EntityPatch<?> entitypatch) {
-        ItemStack stack = bladeStack.copy();
-        if(shouldRenderEmissive(entitypatch)) {
-            stack.getOrCreateTag().putBoolean("woh_force_glint", true);
-        }
-        else{
-            stack.getOrCreateTag().putBoolean("woh_force_glint", false);
-        }
-        return stack;
-    }
+
 
     @Override
     public void renderItemInHand(ItemStack stack, LivingEntityPatch<?> entitypatch, InteractionHand hand, OpenMatrix4f[] poses, MultiBufferSource buffer, PoseStack poseStack, int packedLight, float partialTicks) {
+        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+        BakedModel model = itemRenderer.getModel(stack, entitypatch.getOriginal().level(), entitypatch.getOriginal(), 0);
 
-        // 2️⃣ Conditional emissive pass
-        if(bladeStack.getItem() instanceof HolsterWeaponBase holsterWeaponBase) {
-            if(!shouldRenderEmissive(entitypatch)) {
-                if (entitypatch instanceof PlayerPatch<?> playerPatch && holsterWeaponBase.shouldRenderInHand(playerPatch) || !(entitypatch instanceof PlayerPatch<?>)){
-                    // 1️⃣ Normal render
-                    super.renderItemInHand(
-                            stack,
-                            entitypatch,
-                            hand,
-                            poses,
-                            buffer,
-                            poseStack,
-                            packedLight,
-                            partialTicks
-                    );
-                }
-                return;
-            }
-        }
-
-        ItemStack glintStack = getGlintStack(entitypatch);
-
-        OpenMatrix4f modelMatrix = this.getCorrectionMatrix(entitypatch, InteractionHand.MAIN_HAND, poses);
-        poseStack.pushPose();
-
-        MathUtils.mulStack(poseStack, modelMatrix);
-        Minecraft.getInstance().getItemRenderer().renderStatic(
-                glintStack,
-                ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
-                15,
-                OverlayTexture.NO_OVERLAY,
-                poseStack,
-                buffer,
-                null,
+        // getModel() calls resolve() internally — but let's also call it explicitly
+        // in case Epic Fight's pipeline skips it
+        BakedModel resolvedModel = model.getOverrides().resolve(
+                model,
+                stack,
+                (ClientLevel) entitypatch.getOriginal().level(),
+                entitypatch.getOriginal(),
                 0
         );
 
+        OpenMatrix4f modelMatrix = this.getCorrectionMatrix(entitypatch, InteractionHand.MAIN_HAND, poses);
+        poseStack.pushPose();
+        MathUtils.mulStack(poseStack, modelMatrix);
+        if(resolvedModel == null){
+            poseStack.popPose();
+            return;
+        }
+        Minecraft.getInstance().getItemRenderer().render(
+                bladeStack,  // pass the real stack — resolve() will run against this
+                ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
+                false,
+                poseStack,
+                buffer,
+                packedLight,
+                OverlayTexture.NO_OVERLAY,
+                resolvedModel
+        );
         poseStack.popPose();
     }
 }

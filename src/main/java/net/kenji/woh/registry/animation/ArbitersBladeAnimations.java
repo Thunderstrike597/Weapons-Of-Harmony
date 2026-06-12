@@ -22,6 +22,9 @@ public class ArbitersBladeAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ARBITERS_BLADE_AUTO_3;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ARBITERS_BLADE_AUTO_4;
 
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ARBITERS_BLADE_SKILL_AUTO_1;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ARBITERS_BLADE_SKILL_AUTO_2;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ARBITERS_BLADE_SKILL_AUTO_3;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> ARBITERS_BLADE_SKILL_AIM_ATTACK;
 
     public static AnimationManager.AnimationAccessor<StaticAnimation> ARBITERS_BLADE_SKILL_ACTIVATE_START;
@@ -62,7 +65,7 @@ public class ArbitersBladeAnimations {
         ARBITERS_BLADE_AUTO_1 = WohAnimationBuilder.generic(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/auto_1")
                         .phases(0.0F, 0.44F, 0.53F, 0.62F, 2.15F)
-                        .speed(0.2F)
+                        .speed(0.17F)
                         .swing(EpicFightSounds.WHOOSH)
                         .hit(EpicFightSounds.BLADE_HIT)
                         .particle(EpicFightParticles.HIT_BLADE)
@@ -119,6 +122,37 @@ public class ArbitersBladeAnimations {
                         .phases(0.0F, 0.29F, 0.36F, 1.10F, 0.58F)
                         .phases(0.65F, 0.70F, 0.74F, 1.10F, 2.30F)
                         .speed(0.125F)
+                        .swing(EpicFightSounds.WHOOSH)
+                        .hit(EpicFightSounds.BLADE_HIT)
+                        .particle(EpicFightParticles.HIT_BLADE)
+                        .collider(ColliderPreset.LONGSWORD, biped.get().toolR)
+                        .build()
+        );
+
+        ARBITERS_BLADE_SKILL_AUTO_1 = WohAnimationBuilder.generic(builder,
+                AnimationConfig.of("biped/combat/arbiters_blade/beam_slash_auto_1")
+                        .phases(0.0F, 0.44F, 0.53F, 0.62F, 2.15F)
+                        .speed(0.1F)
+                        .swing(EpicFightSounds.WHOOSH)
+                        .hit(EpicFightSounds.BLADE_HIT)
+                        .particle(EpicFightParticles.HIT_BLADE)
+                        .collider(ColliderPreset.LONGSWORD, biped.get().toolR)
+                        .build()
+        );
+        ARBITERS_BLADE_SKILL_AUTO_2 = WohAnimationBuilder.generic(builder,
+                AnimationConfig.of("biped/combat/arbiters_blade/beam_slash_auto_2")
+                        .phases(0.0F, 0.34F, 0.42F, 0.62F, 1.85F)
+                        .speed(0.1F)
+                        .swing(EpicFightSounds.WHOOSH)
+                        .hit(EpicFightSounds.BLADE_HIT)
+                        .particle(EpicFightParticles.HIT_BLADE)
+                        .collider(ColliderPreset.LONGSWORD, biped.get().toolR)
+                        .build()
+        );
+        ARBITERS_BLADE_SKILL_AUTO_3 = WohAnimationBuilder.generic(builder,
+                AnimationConfig.of("biped/combat/arbiters_blade/beam_slash_auto_3")
+                        .phases(0.0F, 0.46F, 0.55F, 0.78F, 1.85F)
+                        .speed(0.1F)
                         .swing(EpicFightSounds.WHOOSH)
                         .hit(EpicFightSounds.BLADE_HIT)
                         .particle(EpicFightParticles.HIT_BLADE)

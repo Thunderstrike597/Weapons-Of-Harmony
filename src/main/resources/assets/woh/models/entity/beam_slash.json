@@ -1,0 +1,5 @@
+{
+  "loader": "forge:obj",
+  "model": "woh:models/entity/obj/beam_slash.obj",
+  "flip_v": true
+}

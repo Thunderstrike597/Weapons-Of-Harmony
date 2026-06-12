@@ -29,6 +29,9 @@ public class SetupEvents {
             ArbitersSlashSkill.slashAngleMap.put(Animations.LONGSWORD_AUTO1.get().toString(), -70);
             ArbitersSlashSkill.slashAngleMap.put(Animations.LONGSWORD_AUTO2.get().toString(), -45);
             ArbitersSlashSkill.slashAngleMap.put(Animations.LONGSWORD_AUTO3.get().toString(), 70);
+            ArbitersSlashSkill.slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_1.get().toString(), -60);
+            ArbitersSlashSkill.slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_2.get().toString(), -15);
+            ArbitersSlashSkill.slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_3.get().toString(), -52);
         });
     }
 

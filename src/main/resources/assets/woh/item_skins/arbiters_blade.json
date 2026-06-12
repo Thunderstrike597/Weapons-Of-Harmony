@@ -1,6 +1,6 @@
 {
   "renderer": "woh:arbiters_blade",
-  "blade": "woh:arbiters_blade",
+  "arbiters_blade": "woh:arbiters_blade",
     "trail": {
       "color": [135, 205, 255],
 		"begin_pos": [0.0, 0.0, -0.1],

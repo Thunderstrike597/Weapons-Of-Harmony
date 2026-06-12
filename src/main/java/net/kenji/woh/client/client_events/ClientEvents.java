@@ -7,6 +7,7 @@ import net.kenji.woh.client.enitity_models.BeamSlashModel;
 import net.kenji.woh.client.enitity_models.ExiledRoninModel;
 import net.kenji.woh.client.entity_renderers.BeamSlashRenderer;
 import net.kenji.woh.client.entity_renderers.ExiledRoninRenderer;
+import net.kenji.woh.client.entity_renderers.ObjBeamSlashRenderer;
 import net.kenji.woh.client.layers.HolsteredItemLayer;
 import net.kenji.woh.client.layers.OffHandHolsteredItemLayer;
 import net.kenji.woh.entities.WohEntities;
@@ -24,14 +25,14 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.jline.utils.Log;
 import yesman.epicfight.api.client.forgeevent.PatchedRenderersEvent;
 import yesman.epicfight.client.renderer.patched.entity.PPlayerRenderer;
-import yesman.epicfight.client.renderer.patched.entity.PWitherSkeletonMinionRenderer;
 import yesman.epicfight.client.renderer.patched.entity.PatchedEntityRenderer;
-import yesman.epicfight.world.capabilities.entitypatch.mob.SkeletonPatch;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
@@ -54,6 +55,29 @@ public class ClientEvents {
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModModelLayers.EXILED_RONIN_LAYER, ExiledRoninModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.BEAM_SLASH_ENTITY_LAYER, BeamSlashModel::createBodyLayer);
+
+    }
+    @SubscribeEvent
+    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        ResourceLocation modelLoc = ResourceLocation.fromNamespaceAndPath(
+                WeaponsOfHarmony.MODID,
+                "entity/beam_slash"
+        );
+
+        // Use the event context to bind the renderer to your custom entity type safely
+        event.registerEntityRenderer(WohEntities.BEAM_SLASH.get(),
+                context -> new ObjBeamSlashRenderer<>(context, modelLoc));
+    }
+    @SubscribeEvent
+    public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
+        // Explicitly register the model so Minecraft knows to look for and bake the .obj file
+        ResourceLocation loc = ResourceLocation.fromNamespaceAndPath(
+                WeaponsOfHarmony.MODID,
+                "entity/beam_slash"
+        );
+
+
+        event.register(loc);
     }
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
@@ -62,14 +86,9 @@ public class ClientEvents {
           EntityRenderers.register(WohEntities.RONIN_SKELETON.get(), SkeletonRenderer::new);
           EntityRenderers.register(WohEntities.WAR_FAN_PILLAGER.get(), PillagerRenderer::new);
           EntityRenderers.register(WohEntities.CLAWED_ZOMBIE_VILLAGER.get(), ZombieVillagerRenderer::new);
-
           BlockEntityRenderers.register(
                   ModBlockEntities.SWORD_PEDISTOOL_BE.get(),
                   SwordPedistoolRenderer::new
-          );
-          EntityRenderers.register(
-                  WohEntities.BEAM_SLASH.get(),
-                  BeamSlashRenderer::new
           );
           ItemProperties.register(
                   WohItems.SHOTOGATANA.get(),

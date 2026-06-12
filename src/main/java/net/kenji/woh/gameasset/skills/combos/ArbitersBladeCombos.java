@@ -67,27 +67,27 @@ public class ArbitersBladeCombos extends BaseComboBuilder {
         ComboNode basicRightOneHand3 = createArbitersBladeComboNode(ArbitersBladeAnimations.ARBITERS_BLADE_AUTO_4, false).addCondition(new RightCondition()).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, true));;
         ComboNode basicRightOneHand4 = createArbitersBladeComboNode(AnimsSolar.SOLAR_OBSCURIDAD_AUTO_2, false).addCondition(new RightCondition()).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, true));;
 
-        ComboNode skillBasicAttack = ComboNode.createNode(Animations.LONGSWORD_AUTO1)
+        ComboNode skillBasicAttack = ComboNode.createNode(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_1)
                 .setStunTypeModifier(StunType.HOLD)
                 .setDamageMultiplier(ValueModifier.multiplier(0.5F))
                 .setCanBeInterrupt(false)
                 .addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
 
 
-        ComboNode basicOneHandSkill1 = createArbitersBladeComboNode(Animations.LONGSWORD_AUTO2, false).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
-        ComboNode basicOneHandSkill2 = createArbitersBladeComboNode(Animations.LONGSWORD_AUTO3, false).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
+        ComboNode basicOneHandSkill1 = createArbitersBladeComboNode(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_2, false).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
+        ComboNode basicOneHandSkill2 = createArbitersBladeComboNode(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_3, false).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
 
-        ComboNode basicLeftOneHandSkill = createArbitersBladeComboNode(Animations.LONGSWORD_AUTO2, false).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
-        ComboNode basicLeftOneHandSkill2 = createArbitersBladeComboNode(Animations.LONGSWORD_AUTO3, false).addCondition(new LeftCondition()).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
+        ComboNode basicLeftOneHandSkill = createArbitersBladeComboNode(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_2, false).addCondition(new LeftCondition()).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
+        ComboNode basicLeftOneHandSkill2 = createArbitersBladeComboNode(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_3, false).addCondition(new LeftCondition()).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
 
-        ComboNode basicRightOneHandSkill = createArbitersBladeComboNode(Animations.LONGSWORD_AUTO2, false).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
-        ComboNode basicRightOneHandSkill2 = createArbitersBladeComboNode(Animations.LONGSWORD_AUTO3, false).addCondition(new RightCondition()).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
+        ComboNode basicRightOneHandSkill = createArbitersBladeComboNode(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_2, false).addCondition(new RightCondition()).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
+        ComboNode basicRightOneHandSkill2 = createArbitersBladeComboNode(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_3, false).addCondition(new RightCondition()).addCondition(new SkillActivatedCondition(WohSkills.ARBITERS_SLASH, false));
 
 
 
         ComboNode jumpAttack1 = createShotogatanaAirComboNode(AnimsHerrscher.HERRSCHER_AUSROTTUNG, true).addCondition(new InAirCondition());
 
-        ComboNode dashCombo = createArbitersBladeComboNode(AnimsMoonless.MOONLESS_AUTO_3_VERSO, true).addTimeEvent(new TimeStampedEvent(0.05F,((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch))));
+        ComboNode dashCombo = createArbitersBladeComboNode(AnimsHerrscher.HERRSCHER_VERDAMMNIS, true).addCondition(new SprintingCondition());
 
         ComboNode basicLeftDodge = createArbitersBladeDodgeComboNode(CorruptAnimations.WOLFDODGE_LEFT, basicLeftOneHand,1.8F, 0.45F).addCondition(new LeftCondition());
 
@@ -95,38 +95,38 @@ public class ArbitersBladeCombos extends BaseComboBuilder {
 
 
         /// root
-        createMovementCombo(root, basicAttack, new ComboNodeWrapper(skillBasicAttack, basicLeftDodge, basicRightDodge, null, null, jumpAttack1));
+        createMovementCombo(root, basicAttack, new ComboNodeWrapper(skillBasicAttack, basicLeftDodge, basicRightDodge, null, null, jumpAttack1, dashCombo));
 
         /// root decision
-        ComboNode rootDecision = createMovementCombo(basicAttack, basicOneHand1, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1));
+        ComboNode rootDecision = createMovementCombo(basicAttack, basicOneHand1, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1, dashCombo));
 
         /// basic > basic+
-        createMovementCombo(basicOneHand1, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1));
-        createMovementCombo(basicOneHand2, basicOneHand3, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1));
-        createMovementCombo(basicOneHand3, basicOneHand4, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1));
+        createMovementCombo(basicOneHand1, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1, dashCombo));
+        createMovementCombo(basicOneHand2, basicOneHand3, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1, dashCombo));
+        createMovementCombo(basicOneHand3, basicOneHand4, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1, dashCombo));
 
         /// left > left+
 
-        createMovementCombo(basicLeftOneHand, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftOneHand2, basicRightDodge, jumpAttack1));
-        createMovementCombo(basicLeftOneHand2, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftOneHand3, basicRightDodge, jumpAttack1));
-        createMovementCombo(basicLeftOneHand3, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftOneHand4, basicRightDodge, jumpAttack1));
+        createMovementCombo(basicLeftOneHand, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftOneHand2, basicRightDodge, jumpAttack1, dashCombo));
+        createMovementCombo(basicLeftOneHand2, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftOneHand3, basicRightDodge, jumpAttack1, dashCombo));
+        createMovementCombo(basicLeftOneHand3, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftOneHand4, basicRightDodge, jumpAttack1, dashCombo));
         /// right > right+
 
-        createMovementCombo(basicRightOneHand, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightOneHand2, jumpAttack1));
-        createMovementCombo(basicRightOneHand2, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightOneHand3, jumpAttack1));
-        createMovementCombo(basicRightOneHand3, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightOneHand4, jumpAttack1));
+        createMovementCombo(basicRightOneHand, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightOneHand2, jumpAttack1, dashCombo));
+        createMovementCombo(basicRightOneHand2, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightOneHand3, jumpAttack1, dashCombo));
+        createMovementCombo(basicRightOneHand3, basicOneHand2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightOneHand4, jumpAttack1, dashCombo));
         /// jump > jump+
 
         /// root decision
-        ComboNode rootDecisionSkill = createMovementCombo(skillBasicAttack, basicOneHandSkill1, new ComboNodeWrapper(basicLeftOneHandSkill, basicRightOneHandSkill, null, null, jumpAttack1));
+        ComboNode rootDecisionSkill = createMovementCombo(skillBasicAttack, basicOneHandSkill1, new ComboNodeWrapper(basicLeftOneHandSkill, basicRightOneHandSkill, null, null, jumpAttack1, dashCombo));
 
         /// basic > basic+
-        createMovementCombo(basicOneHandSkill1, basicOneHandSkill2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1));
+        createMovementCombo(basicOneHandSkill1, basicOneHandSkill2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1, dashCombo));
 
         /// left > left+
-        createMovementCombo(basicLeftOneHandSkill, basicLeftOneHandSkill2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1));
+        createMovementCombo(basicLeftOneHandSkill, basicLeftOneHandSkill2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1, dashCombo));
         /// right > right+
-        createMovementCombo(basicRightOneHandSkill, basicRightOneHandSkill2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1));
+        createMovementCombo(basicRightOneHandSkill, basicRightOneHandSkill2, new ComboNodeWrapper(null, null, basicLeftDodge, basicRightDodge, jumpAttack1, dashCombo));
 
 
         return registryWorker.build("arbiters_combo_skill", (builder) -> new ExtendedComboBasicAttack(builder, root), ExtendedComboBasicAttack
@@ -158,18 +158,6 @@ public class ArbitersBladeCombos extends BaseComboBuilder {
                     node.addTimeEvent(new TimeStampedEvent(recovery,
                             ((entityPatch, target, invinciblePlayer) -> entityPatch.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_NEW_SHEATH, 0.1F))));
 
-                }
-                if (anim instanceof ShotogatanaAttackAnimation shotogatanaAttackAnimation) {
-                    if(shotogatanaAttackAnimation.unsheatheTime != -1) {
-
-                        node.addTimeEvent(new TimeStampedEvent(shotogatanaAttackAnimation.unsheatheTime,
-                                ((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch))));
-                    }
-                    if(shotogatanaAttackAnimation.sheathTime != -1) {
-
-                        node.addTimeEvent(new TimeStampedEvent(shotogatanaAttackAnimation.sheathTime,
-                                ((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaInEvent(entityPatch))));
-                    }
                 }
             }
             return null;
@@ -228,11 +216,6 @@ public class ArbitersBladeCombos extends BaseComboBuilder {
                     AnimationProperty.AttackAnimationProperty.NO_GRAVITY_TIME,
                     TimePairList.create(new float[]{0.1F, recovery})
             );
-            if(isSharp){
-                ((AttackAnimation)anim).addProperty(
-                        AnimationProperty.AttackPhaseProperty.SWING_SOUND,
-                        EpicFightSounds.WHOOSH_SHARP.get());
-            }
             return null;
         });
 
