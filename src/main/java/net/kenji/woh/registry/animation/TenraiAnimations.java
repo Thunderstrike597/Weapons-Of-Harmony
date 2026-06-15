@@ -128,7 +128,7 @@ public class TenraiAnimations {
         TENRAI_SKILL_AUTO_1 = WohAnimationBuilder.tenraiSplit(builder,
                 AnimationConfig.of("biped/combat/tenrai/skill_auto_1")
                         .convert(0.32F)
-                        .phases(0.0F, 0.28F, 0.48F, 0.74F, 2.10F)
+                        .phases(0.0F, 0.28F, 0.48F, 0.65F, 2.10F)
                         .hit(EpicFightSounds.BLADE_HIT)
                         .swing(EpicFightSounds.WHOOSH)
                         .particle(EpicFightParticles.HIT_BLADE)
@@ -138,8 +138,8 @@ public class TenraiAnimations {
         TENRAI_SKILL_AUTO_2 = WohAnimationBuilder.tenraiSplit(builder,
                 AnimationConfig.of("biped/combat/tenrai/skill_auto_2")
                         .convert(0.1F)
-                        .phases(0.0F, 0.36F, 0.42F, 0.85F, 0.45F)
-                        .phases(0.46F, 0.48F, 0.56F, 0.85F, 2.10F)
+                        .phases(0.0F, 0.36F, 0.42F, 0.62F, 0.45F)
+                        .phases(0.46F, 0.48F, 0.56F, 0.62F, 2.10F)
                         .movementMultiplier(2.2F)
                         .hit(EpicFightSounds.BLADE_HIT)
                         .swing(EpicFightSounds.WHOOSH)
@@ -150,8 +150,8 @@ public class TenraiAnimations {
         TENRAI_SKILL_AUTO_3 = WohAnimationBuilder.tenraiSplit(builder,
                 AnimationConfig.of("biped/combat/tenrai/skill_auto_3")
                         .convert(0.1F)
-                        .phases(0.0F, 0.44F, 0.50F, 0.85F, 0.52F)
-                        .phases(0.54F, 0.58F, 0.65F, 0.85F, 1.88F)
+                        .phases(0.0F, 0.44F, 0.63F, 0.85F, 0.64F)
+                        .phases(0.65F, 0.68F, 0.78F, 0.85F, 2.30F)
                         .movementMultiplier(2.2F)
                         .hit(EpicFightSounds.BLADE_HIT)
                         .swing(EpicFightSounds.WHOOSH)
@@ -163,9 +163,9 @@ public class TenraiAnimations {
                 AnimationConfig.of("biped/combat/tenrai/skill_auto_4")
                         .convert(0.1F)
                         .speed(0.025F)
-                        .phases(0.0F, 0.50F, 0.64F, 0.85F, 0.65F)
-                        .phases(0.66F, 0.68F, 0.83F, 0.85F, 0.84F)
-                        .phases(0.86F, 0.88F, 0.96F, 0.85F, 2.60F)
+                        .phases(0.0F, 0.50F, 0.64F, 1.26F, 0.65F)
+                        .phases(0.66F, 0.68F, 0.83F, 1.26F, 0.84F)
+                        .phases(0.86F, 0.88F, 0.96F, 1.26F, 2.60F)
 
 
                         .hit(EpicFightSounds.BLADE_HIT)

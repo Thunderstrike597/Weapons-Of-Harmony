@@ -3,8 +3,8 @@
     {
       "begin_pos": [0.0, 0.0, 0.1],
       "end_pos": [0.0, 0.0, -2],
-      "start_time": 0.2,
-      "end_time": 1.0,
+      "start_time": 0.48,
+      "end_time": 0.94,
       "joint": "Tool_R",
       "item_skin_hand": "main_hand",
       "texture_path": "woh:textures/particle/swing_trail.png"
@@ -12,8 +12,8 @@
     {
       "begin_pos": [0.0, 0.0, 0.1],
       "end_pos": [0.0, 0.0, -1.5],
-      "start_time": 0.60,
-      "end_time": 1.0,
+      "start_time": 0.48,
+      "end_time": 0.95,
       "joint": "Tool_L",
       "item_skin_hand": "off_hand",
       "texture_path": "woh:textures/particle/swing_trail.png"

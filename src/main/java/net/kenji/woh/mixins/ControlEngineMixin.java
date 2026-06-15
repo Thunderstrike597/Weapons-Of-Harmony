@@ -67,7 +67,6 @@ public abstract class ControlEngineMixin {
         SkillContainer passiveContainer = playerPatch.getSkill(weaponCapability.getSecondarySkillSlot());
         if (passiveContainer == null || passiveContainer.isEmpty()) return;
         if (!(passiveContainer.getSkill() instanceof IHybridSkill hybridSkill)) return;
-        if (passiveContainer.isActivated()) return;
 
         if (!InputManager.isBoundToSamePhysicalInput(
                 EpicFightInputAction.WEAPON_INNATE_SKILL, EpicFightInputAction.ATTACK)) return;
