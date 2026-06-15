@@ -29,7 +29,6 @@ public class WohSkills {
 
     public static Skill SHOTOGATANA_COMBO;
     public static Skill TENRAI_COMBO;
-    public static Skill SPLIT_TENRAI_COMBO;
     public static Skill ARBITERS_SLASH_COMBO;
 
     @SubscribeEvent
@@ -60,22 +59,21 @@ public class WohSkills {
                         .setCategory(SkillCategories.PASSIVE)
                         .setResource(Skill.Resource.NONE)
         ));
-        skills.add(ARBITERS_SLASH = modRegistry.build("arbiters_slash", ArbitersSlashSkill::new,
+        skills.add(ARBITERS_SLASH = modRegistry.build("arbiters_slash", (builder) -> new ArbitersSlashSkill(builder, 1.0F),
                 ArbitersSlashSkill.createBuilder()
                         .setActivateType(Skill.ActivateType.HELD)
-                        .setCategory(SkillCategories.WEAPON_PASSIVE)
+                        .setCategory(WohSkillCategories.WEAPON_SECONDARY)
                         .setResource(Skill.Resource.COOLDOWN)
         ));
-        skills.add(SPLIT_TENRAI = modRegistry.build("split_tenrai", TenraiSkillInnate::new,
+        skills.add(SPLIT_TENRAI = modRegistry.build("split_tenrai", (builder) -> new TenraiSkillInnate(builder, 8.0F),
                 WeaponInnateSkill.createWeaponInnateBuilder()
                         .setActivateType(Skill.ActivateType.DURATION)
-                        .setCategory(SkillCategories.WEAPON_INNATE)
+                        .setCategory(WohSkillCategories.WEAPON_SECONDARY)
                         .setResource(Skill.Resource.COOLDOWN)
         ));
 
         skills.add(SHOTOGATANA_COMBO = ShotogatanaCombos.buildSkills(modRegistry));
         skills.add(TENRAI_COMBO = TenraiCombos.buildTenraiSkills(modRegistry));
-        skills.add(SPLIT_TENRAI_COMBO = TenraiCombos.buildSplitTenraiSkills(modRegistry));
         skills.add(ARBITERS_SLASH_COMBO = ArbitersBladeCombos.buildSkills(modRegistry));
 
 

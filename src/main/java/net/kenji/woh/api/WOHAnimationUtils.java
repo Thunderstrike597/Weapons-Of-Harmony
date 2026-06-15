@@ -138,7 +138,8 @@ public class WOHAnimationUtils {
                         UUID playerId = player.getUUID();
 
                         CompoundTag tag = playerPatch.getOriginal().getMainHandItem().getOrCreateTag();
-                        TenraiManager.setWeaponSplit(player, false);                        if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
+                        TenraiManager.setWeaponSplit(player, false);
+                        if(playerPatch instanceof ServerPlayerPatch serverPlayerPatch){
                             BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.TIME_EXPIRED, serverPlayerPatch, serverPlayerPatch.getSkill(SkillSlots.BASIC_ATTACK), Animations.EMPTY_ANIMATION.getAccessor(), 0);
                         }
                         playerPatch.playSound(SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F);

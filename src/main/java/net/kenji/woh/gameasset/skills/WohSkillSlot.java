@@ -1,16 +1,19 @@
 package net.kenji.woh.gameasset.skills;
 
-import yesman.epicfight.skill.SkillCategories;
+import net.kenji.woh.gameasset.WohSkillCategories;
 import yesman.epicfight.skill.SkillCategory;
 import yesman.epicfight.skill.SkillSlot;
 
-public enum WohWeaponSkillSlot implements SkillSlot {
-    SECONDARY_SKILL(SkillCategories.WEAPON_INNATE);
+public enum WohSkillSlot implements SkillSlot {
+    WEAPON_SECONDARY_SKILL(WohSkillCategories.WEAPON_SECONDARY);
 
     final SkillCategory category;
 
-    WohWeaponSkillSlot(SkillCategory category){
+    final int id;
+
+    WohSkillSlot(SkillCategory category){
         this.category = category;
+        this.id = SkillSlot.ENUM_MANAGER.assign(this);
     }
 
     @Override
@@ -20,6 +23,6 @@ public enum WohWeaponSkillSlot implements SkillSlot {
 
     @Override
     public int universalOrdinal() {
-        return 0;
+        return id;
     }
 }

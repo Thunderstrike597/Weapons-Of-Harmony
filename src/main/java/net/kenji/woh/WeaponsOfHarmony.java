@@ -7,6 +7,7 @@ import net.kenji.woh.block.ModBlocks;
 import net.kenji.woh.compat.combat_hotbar.CombatHotbarRenderCompat;
 import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.gameasset.*;
+import net.kenji.woh.gameasset.skills.WohSkillSlot;
 import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.WohSounds;
 import net.kenji.woh.gameasset.WohColliderPreset;
@@ -33,6 +34,8 @@ import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.WeaponCategoryIconRegisterEvent;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
 import yesman.epicfight.skill.SkillCategory;
+import yesman.epicfight.skill.SkillSlot;
+import yesman.epicfight.skill.SkillSlots;
 import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
 
@@ -61,6 +64,7 @@ public class WeaponsOfHarmony {
         WeaponCategory.ENUM_MANAGER.registerEnumCls(MODID, WohWeaponCategories.class);
         Style.ENUM_MANAGER.registerEnumCls(MODID, WohStyles.class);
         SkillCategory.ENUM_MANAGER.registerEnumCls(MODID, WohSkillCategories.class);
+        SkillSlot.ENUM_MANAGER.registerEnumCls(MODID, WohSkillSlot.class);
         WohConditions.CONDITIONS.register(modEventBus);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(WeaponsOfHarmony::regIcon));

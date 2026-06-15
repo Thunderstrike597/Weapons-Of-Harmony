@@ -1,20 +1,27 @@
 package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.basegameassets.HybridHoldableSkill;
-import net.kenji.woh.api.interfaces.ITranslatableSkill;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
-import net.kenji.woh.mixins.SkillContainerAccessor;
 import net.kenji.woh.network.ArbitersSlashSetupPacket;
 import net.kenji.woh.network.ClientArbitersSlashPacket;
 import net.kenji.woh.network.WohPacketHandler;
+import net.kenji.woh.registry.WohSounds;
 import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -36,7 +43,7 @@ import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.jline.utils.Log;
+import org.lwjgl.opengl.GL11;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
@@ -45,15 +52,15 @@ import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
+import yesman.epicfight.api.utils.math.Vec2f;
+import yesman.epicfight.client.gui.BattleModeGui;
 import yesman.epicfight.client.input.EpicFightKeyMappings;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.network.server.SPSkillExecutionFeedback;
-import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillBuilder;
 import yesman.epicfight.skill.SkillContainer;
-import yesman.epicfight.skill.SkillSlots;
-import yesman.epicfight.skill.modules.ChargeableSkill;
+import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
@@ -76,12 +83,22 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
     private boolean isModifiedAnimation;
 
 
-
     public ArbitersSlashSkill(SkillBuilder builder) {
-        super(builder);
+        super(builder, 1.0F);
         this.maxDuration = 350;
         this.consumption = 32;
         this.maxStackSize = 1;
+    }
+    public ArbitersSlashSkill(SkillBuilder builder, float stackChargeTime) {
+        super(builder, stackChargeTime);
+        this.maxDuration = 350;
+        this.consumption = 32;
+        this.maxStackSize = 1;
+    }
+
+    @Override
+    public boolean shouldDraw(SkillContainer container) {
+        return true;
     }
 
     @Override
@@ -292,13 +309,14 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
                 int castIndex = (int) Mth.randomBetween(RandomSource.create(), 0, 2);
                 SoundEvent castSound = castIndex == 0 ? cast1 : castIndex == 1 ? cast2 : cast3;
 
+
                 serverLevel.playSound(
                         null,
                         blockPos,
-                        castSound,
+                        WohSounds.ARBITERS_SLASH.get(),
                         SoundSource.PLAYERS,
-                        1.0F,
-                        1.0F
+                        0.4F,
+                        Mth.randomBetween(playerPatch.getOriginal().getRandom(), 1.1F, 0.9F)
                 );
                 serverLevel.playSound(
                         null,

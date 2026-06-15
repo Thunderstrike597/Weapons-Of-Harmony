@@ -5,11 +5,15 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.collider.Collider;
+import yesman.epicfight.client.particle.HitParticle;
 import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.gameasset.EpicFightSounds;
+import yesman.epicfight.particle.EpicFightParticles;
 import yesman.epicfight.particle.HitParticleType;
 import yesman.epicfight.world.damagesource.StunType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -26,8 +30,8 @@ public class AnimationConfig {
     public final Joint[] colliderJoints;
     public final StunType stunType;
     public final AttackHand[] attackingHands;
-    public final float unsheatheTime;
-    public final float sheathTime;
+    public final float eventFirstTime;
+    public final float eventSecondTime;
     public final boolean ignoreFallDamage;
     public final float slashAngle;
 
@@ -49,8 +53,8 @@ public class AnimationConfig {
         this.colliderJoints = b.colliderJoints;
         this.stunType = b.stunType;
         this.attackingHands = b.attackingHands;
-        this.unsheatheTime = b.unsheatheTime;
-        this.sheathTime = b.sheathTime;
+        this.eventFirstTime = b.unsheatheTime;
+        this.eventSecondTime = b.sheathTime;
         this.ignoreFallDamage = b.ignoreFallDamage;
         this.slashAngle = b.slashAngle;
     }
@@ -115,10 +119,12 @@ public class AnimationConfig {
         }
 
         @SuppressWarnings("unchecked")
-        public Builder swing(Supplier<SoundEvent>[] s) {
-            this.swingSound = s;
+        public Builder swing(Supplier<SoundEvent> s, int phaseIndex) {
+            ensureSize(swingSoundList, phaseIndex + 1);
+            swingSoundList.set(phaseIndex, s);
             return this;
         }
+
 
         // ── Hit sound — indexed per phase ─────────────────────────────────────
 
@@ -211,18 +217,51 @@ public class AnimationConfig {
                 phaseCount = start.length;
             }
 
-            // Finalize per-phase lists → arrays (only if indexed methods were used)
-            if (!hitSoundList.isEmpty())
+
+
+            if (!swingSoundList.isEmpty()) {
+                mergeIntoList(swingSoundList, swingSound != null ? swingSound[0] : null);
+                fillNulls(swingSoundList, EpicFightSounds.WHOOSH);
+                swingSound = swingSoundList.toArray(new Supplier[0]);
+            } else if (swingSound == null) {
+                swingSound = new Supplier[]{EpicFightSounds.WHOOSH};
+            }
+
+// hitSound
+            if (!hitSoundList.isEmpty()) {
+                mergeIntoList(hitSoundList, hitSound != null ? hitSound[0] : null);
+                fillNulls(hitSoundList, EpicFightSounds.BLUNT_HIT);
                 hitSound = hitSoundList.toArray(new Supplier[0]);
-            if (!hitParticleList.isEmpty())
+            } else if (hitSound == null) {
+                hitSound = new Supplier[]{EpicFightSounds.BLUNT_HIT};
+            }
+
+// hitParticle
+            if (!hitParticleList.isEmpty()) {
+                mergeIntoList(hitParticleList, hitParticle != null ? hitParticle[0] : null);
+                fillNulls(hitParticleList, EpicFightParticles.HIT_BLUNT);
                 hitParticle = hitParticleList.toArray(new RegistryObject[0]);
+            } else if (hitParticle == null) {
+                hitParticle = new RegistryObject[]{EpicFightParticles.HIT_BLUNT};
+            }
+
             if (!colliderList.isEmpty()) {
+                // Indexed calls were made — merge shorthand into slot 0 if empty, then finalize
+                mergeIntoList(colliderList, colliders != null ? colliders[0] : null);
+                mergeIntoList(colliderJointList, colliderJoints != null ? colliderJoints[0] : null);
+                fillNulls(colliderList, null);
+                fillNulls(colliderJointList, null);
                 colliders = colliderList.toArray(new Collider[0]);
                 colliderJoints = colliderJointList.toArray(new Joint[0]);
+            } else if (colliders == null) {
+                // Neither shorthand nor indexed — empty arrays
+                colliders = new Collider[]{};
+                colliderJoints = new Joint[]{};
             }
+
             if (!attackingHandsList.isEmpty()) {
                 attackingHands = attackingHandsList.toArray(new AttackHand[0]);
-            } else if (colliderJoints != null) {
+            } else if (colliderJoints.length > 0) {
                 attackingHands = new AttackHand[colliderJoints.length];
                 for (int i = 0; i < colliderJoints.length; i++) {
                     attackingHands[i] = deriveHand(colliderJoints[i]);
@@ -235,7 +274,29 @@ public class AnimationConfig {
         }
 
         // ── Util ──────────────────────────────────────────────────────────────
+        private static <T> void mergeIntoList(List<T> list, T shorthandValue) {
+            if (shorthandValue == null) return; // nothing to inject
+            if (list.isEmpty()) {
+                // No indexed calls were made — don't add anything, let the null-check handle default
+                return;
+            }
+            // Indexed calls exist — inject shorthand at slot 0 if it's unset
+            if (list.get(0) == null) {
+                list.set(0, shorthandValue);
+            }
+        }
 
+        private static <T> void fillNulls(List<T> list, T fallback) {
+            // Forward pass: fill nulls with the last seen non-null
+            T last = fallback;
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i) != null) {
+                    last = list.get(i);
+                } else {
+                    list.set(i, last);
+                }
+            }
+        }
         private static <T> void ensureSize(List<T> list, int size) {
             while (list.size() < size) list.add(null);
         }

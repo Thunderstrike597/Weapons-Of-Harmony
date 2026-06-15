@@ -290,7 +290,7 @@ public class WohWeaponCapabilityPresets {
         return builder;
     };
     public static final Function<Item, CapabilityItem.Builder> TENRAI = (item) -> {
-        WeaponCapability.Builder builder = WeaponCapability.builder()
+        DualSkillWeaponCapability.Builder builder = (DualSkillWeaponCapability.Builder)DualSkillWeaponCapability.builder()
                 .category(WohWeaponCategories.TENRAI)
                 .styleProvider((playerPatch) -> {
                     if(playerPatch instanceof PlayerPatch<?> patch) {
@@ -311,7 +311,6 @@ public class WohWeaponCapabilityPresets {
                         TenraiAnimations.TENRAI_AUTO_3,
                         TenraiAnimations.TENRAI_AUTO_4,
                         TenraiAnimations.TENRAI_AUTO_5,
-                        TenraiAnimations.TENRAI_AUTO_6,
                         TenraiAnimations.TENRAI_DASH,  TenraiAnimations.TENRAI_AIRSLASH)
                 .newStyleCombo(WohStyles.ABILITY_ACTIVE,
                         TenraiAnimations.TENRAI_SKILL_AUTO_1,
@@ -327,8 +326,8 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(WohStyles.ABILITY_ACTIVE, LivingMotions.WALK, TenraiAnimations.TENRAI_SKILL_WALK)
                 .livingMotionModifier(WohStyles.ABILITY_ACTIVE, LivingMotions.RUN, TenraiAnimations.TENRAI_SKILL_RUN)
                 .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.TENRAI_COMBO)
-                .innateSkill(WohStyles.ABILITY_ACTIVE, (itemstack) -> WohSkills.SPLIT_TENRAI_COMBO);
-
+                .innateSkill(WohStyles.ABILITY_ACTIVE, (itemstack) -> WohSkills.TENRAI_COMBO);
+                builder.secondarySkill((itemStack) -> WohSkills.SPLIT_TENRAI);
         return builder;
     };
     public static final Function<Item, CapabilityItem.Builder> WAKIZASHI = (item) -> {

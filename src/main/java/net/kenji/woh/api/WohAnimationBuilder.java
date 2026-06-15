@@ -2,8 +2,6 @@ package net.kenji.woh.api;
 
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.AttackAnimation;
-import yesman.epicfight.api.animation.types.BasicAttackAnimation;
-import yesman.epicfight.gameasset.Armatures;
 
 public class WohAnimationBuilder {
 
@@ -13,12 +11,7 @@ public class WohAnimationBuilder {
     ) {
         return shotogatana(builder, WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK, cfg);
     }
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> generic(
-            AnimationManager.AnimationBuilder builder,
-            AnimationConfig cfg
-    ) {
-        return shotogatana(builder, WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK, cfg);
-    }
+
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> shotogatana(
             AnimationManager.AnimationBuilder builder,
             WOHAnimationUtils.AttackAnimationType type,
@@ -29,9 +22,33 @@ public class WohAnimationBuilder {
                 cfg.start, cfg.antic, cfg.contact, cfg.recovery, cfg.end,
                 cfg.swingSound, cfg.hitSound, cfg.hitParticle,
                 cfg.colliders, cfg.colliderJoints, cfg.stunType,
-                cfg.unsheatheTime, cfg.sheathTime
+                cfg.eventFirstTime, cfg.eventSecondTime
         );
     }
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> tenraiSplit(
+            AnimationManager.AnimationBuilder builder,
+            AnimationConfig cfg
+    ) {
+        return tenraiSplit(builder, WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK, cfg);
+    }
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> tenraiSplit(
+            AnimationManager.AnimationBuilder builder,
+            WOHAnimationUtils.AttackAnimationType type,
+            AnimationConfig cfg
+    ) {
+        return WOHAnimationUtils.createTenraiSplitAttackAnimation(
+                builder, type, cfg.path, cfg.phaseCount, cfg.convertTime, cfg.speed, 0, 0,
+                cfg.start, cfg.antic, cfg.contact, cfg.recovery, cfg.end,
+                cfg.swingSound, cfg.hitSound, cfg.hitParticle, cfg.colliders, cfg.attackingHands, cfg.stunType, cfg.eventFirstTime, cfg.eventSecondTime
+        );
+    }
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> generic(
+            AnimationManager.AnimationBuilder builder,
+            AnimationConfig cfg
+    ) {
+        return generic(builder, WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK, cfg);
+    }
+
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> generic(
             AnimationManager.AnimationBuilder builder,
             WOHAnimationUtils.AttackAnimationType type,
@@ -43,4 +60,5 @@ public class WohAnimationBuilder {
                 cfg.swingSound, cfg.hitSound, cfg.hitParticle, cfg.colliders, cfg.attackingHands, cfg.stunType, -1, -1
         );
     }
+
 }

@@ -14,6 +14,7 @@ public class WohSounds {
     public static final RegistryObject<SoundEvent> SHOTOGATANA_SWING;
     public static final RegistryObject<SoundEvent> ODACHI_SWING;
     public static final RegistryObject<SoundEvent> TENRAI_SWING;
+    public static final RegistryObject<SoundEvent> ARBITERS_SLASH;
 
     private static RegistryObject<SoundEvent> registerSound(String name) {
         ResourceLocation res = new ResourceLocation(WeaponsOfHarmony.MODID, name);
@@ -26,6 +27,7 @@ public class WohSounds {
         SHOTOGATANA_SWING = registerSound("entity.weapon.shotogatana_swing");
         ODACHI_SWING = registerSound("entity.weapon.odachi_swing");
         TENRAI_SWING = registerSound("entity.weapon.tenrai_swing");
+        ARBITERS_SLASH = registerSound("entity.weapon.arbiters_slash");
 
     }
 }

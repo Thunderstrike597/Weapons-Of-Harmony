@@ -42,5 +42,16 @@
         "stream":true
       }
     ]
+  },
+  "entity.weapon.arbiters_slash":
+  {
+    "category":"master",
+    "subtitle":"entity.weapon.arbiters_slash",
+    "sounds":[
+      {
+        "name":"woh:entity/weapon/arbiters_slash",
+        "stream":true
+      }
+    ]
   }
 }

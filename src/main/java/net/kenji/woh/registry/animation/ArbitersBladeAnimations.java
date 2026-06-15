@@ -131,6 +131,7 @@ public class ArbitersBladeAnimations {
 
         ARBITERS_BLADE_SKILL_AUTO_1 = WohAnimationBuilder.generic(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/beam_slash_auto_1")
+                        .convert(0.32F)
                         .phases(0.0F, 0.44F, 0.53F, 0.62F, 2.15F)
                         .speed(0.1F)
                         .swing(EpicFightSounds.WHOOSH)

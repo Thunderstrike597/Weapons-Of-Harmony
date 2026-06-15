@@ -2,7 +2,7 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.kenji.woh.api.interfaces.ITranslatableSkill;
+import net.kenji.woh.api.basegameassets.HybridInnateSkill;
 import net.kenji.woh.api.manager.TenraiManager;
 import net.kenji.woh.network.ClientTenraiSkillActivatePacket;
 import net.kenji.woh.network.WohPacketHandler;
@@ -11,7 +11,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.types.AttackAnimation;
@@ -19,6 +22,7 @@ import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.gameasset.EpicFightSkills;
+import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillBuilder;
 import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
@@ -28,22 +32,24 @@ import yesman.epicfight.world.capabilities.item.CapabilityItem;
 
 import java.util.*;
 
-public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatableSkill {
+public class TenraiSkillInnate extends HybridInnateSkill {
 
     public static Map<UUID, Float> storedResource = new HashMap<>();
     public final Map<AnimationManager.AnimationAccessor<? extends StaticAnimation>, AnimationManager.AnimationAccessor<? extends AttackAnimation>> comboAnimation = Maps.newHashMap();
 
-    private int previousStack;
-
-
 
     public TenraiSkillInnate(SkillBuilder<? extends WeaponInnateSkill> builder) {
-        super(builder);
+        super(builder, 1.0F);
         this.maxDuration = 420;
-        this.consumption = 5;
+        this.consumption = 2;
         this.maxStackSize = 3;
     }
-
+    public TenraiSkillInnate(SkillBuilder<? extends WeaponInnateSkill> builder, float stackChargeTime) {
+        super(builder, stackChargeTime);
+        this.maxDuration = 420;
+        this.consumption = 2;
+        this.maxStackSize = 3;
+    }
     @Override
     public boolean canExecute(SkillContainer container) {
         if (!container.isActivated()) {
@@ -51,6 +57,8 @@ public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatabl
             AnimationPlayer animPlayer = executor.getAnimator().getPlayerFor(null);
 
             if (animPlayer == null) {
+                Log.info("Logging Skill CanExecute!!");
+
                 return super.checkExecuteCondition(container);
             }
             DynamicAnimation animation = animPlayer.getAnimation().get();
@@ -63,6 +71,14 @@ public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatabl
         }
         return true;
     }
+
+
+
+    @Override
+    public void sendSkillActivateToClient(boolean value, ServerPlayer serverPlayer) {
+        WohPacketHandler.sendToPlayer(new ClientTenraiSkillActivatePacket(value), serverPlayer);
+    }
+
     @Override
     public ResourceLocation getSkillTexture() {
         return EpicFightSkills.RELENTLESS_COMBO.getSkillTexture();
@@ -136,7 +152,7 @@ public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatabl
                 executor.playAnimationSynchronized(next, 0.0F);
             }
         }
-        else if(container.getStack() >= container.getSkill().getMaxStack()){
+        else if(container.getStack() >= container.getSkill().getMaxStack() - 1) {
             if (executor.getSkill(this).isActivated()) {
                 this.cancelOnServer(container, args);
             } else {
@@ -191,6 +207,7 @@ public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatabl
         ServerPlayerPatch executor = container.getServerExecutor();
         TenraiManager.resetWeaponCounter(executor.getOriginal());
         super.executeOnClient(container, args);
+        Log.info("Logging EXECUTE On CLIENT");
         executor.getSkill(this).activate();
     }
     @Override
@@ -199,17 +216,17 @@ public class TenraiSkillInnate extends WeaponInnateSkill implements ITranslatabl
         ServerPlayerPatch executor = container.getServerExecutor();
         TenraiManager.resetWeaponCounter(executor.getOriginal());
         super.cancelOnClient(container, args);
+        Log.info("Logging Cancel On CLIENT");
         executor.getSkill(this).deactivate();
     }
     @Override
-    public WeaponInnateSkill registerPropertiesToAnimation() {
+    public Skill registerPropertiesToAnimation() {
         this.comboAnimation.clear();
         this.comboAnimation.put(TenraiAnimations.TENRAI_AUTO_1, TenraiAnimations.TENRAI_SKILL_COMBO_1);
         this.comboAnimation.put(TenraiAnimations.TENRAI_AUTO_2, TenraiAnimations.TENRAI_SKILL_COMBO_2);
         this.comboAnimation.put(TenraiAnimations.TENRAI_AUTO_3, TenraiAnimations.TENRAI_SKILL_COMBO_3);
         this.comboAnimation.put(TenraiAnimations.TENRAI_AUTO_4, TenraiAnimations.TENRAI_SKILL_COMBO_4);
         this.comboAnimation.put(TenraiAnimations.TENRAI_AUTO_5, TenraiAnimations.TENRAI_SKILL_COMBO_3);
-        this.comboAnimation.put(TenraiAnimations.TENRAI_AUTO_6, TenraiAnimations.TENRAI_SKILL_COMBO_2);
-        return this;
+        return super.registerPropertiesToAnimation();
     }
 }

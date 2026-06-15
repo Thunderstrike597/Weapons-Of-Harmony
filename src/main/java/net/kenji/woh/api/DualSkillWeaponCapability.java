@@ -1,5 +1,7 @@
 package net.kenji.woh.api;
 
+import net.kenji.woh.api.interfaces.IHybridSkill;
+import net.kenji.woh.gameasset.skills.WohSkillSlot;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -8,8 +10,10 @@ import yesman.epicfight.network.server.SPChangeSkill;
 import yesman.epicfight.network.server.SPSetRemotePlayerSkill;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillContainer;
+import yesman.epicfight.skill.SkillSlot;
 import yesman.epicfight.skill.SkillSlots;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
@@ -32,35 +36,52 @@ public class DualSkillWeaponCapability extends WeaponCapability {
         return secondarySkillProvider != null ? secondarySkillProvider.apply(itemStack) : null;
     }
 
+    public SkillSlot getSecondarySkillSlot(){
+        return WohSkillSlot.WEAPON_SECONDARY_SKILL;
+    }
     @Override
     public void changeWeaponInnateSkill(PlayerPatch<?> playerpatch, ItemStack itemstack) {
-        SkillContainer passiveContainer = playerpatch.getSkill(SkillSlots.WEAPON_PASSIVE);
+        SkillContainer passiveContainer = playerpatch.getSkill(this.getSecondarySkillSlot());
         Skill secondary = getSecondarySkill(itemstack);
         boolean wasActivated = passiveContainer != null
                 && passiveContainer.getSkill() == secondary
                 && passiveContainer.isActivated();
         int savedDuration = wasActivated ? passiveContainer.getRemainDuration() : 0;
+        float savedResource = passiveContainer != null ?passiveContainer.getResource() : 0;
+        int savedStack = passiveContainer != null ? passiveContainer.getStack() : 0;
 
         super.changeWeaponInnateSkill(playerpatch, itemstack); // ← only once
 
         EpicFightNetworkManager.PayloadBundleBuilder toLocal = EpicFightNetworkManager.PayloadBundleBuilder.create();
         EpicFightNetworkManager.PayloadBundleBuilder toRemote = EpicFightNetworkManager.PayloadBundleBuilder.create();
 
-        SkillContainer passiveSkillContainer = playerpatch.getSkill(SkillSlots.WEAPON_PASSIVE);
+        SkillContainer passiveSkillContainer = playerpatch.getSkill(this.getSecondarySkillSlot());
         if (secondary != null && passiveSkillContainer != null) {
             if (passiveSkillContainer.getSkill() != secondary) {
                 passiveSkillContainer.setSkill(secondary);
-                toLocal.and(new SPChangeSkill(SkillSlots.WEAPON_PASSIVE, ((Player)playerpatch.getOriginal()).getId(), secondary));
-                toRemote.and(new SPSetRemotePlayerSkill(((Player)playerpatch.getOriginal()).getId(), SkillSlots.WEAPON_PASSIVE, secondary));
+                toLocal.and(new SPChangeSkill(this.getSecondarySkillSlot(), ((Player)playerpatch.getOriginal()).getId(), secondary));
+                toRemote.and(new SPSetRemotePlayerSkill(((Player)playerpatch.getOriginal()).getId(), this.getSecondarySkillSlot(), secondary));
             }
-            if (wasActivated && savedDuration > 0) {
+            if (savedDuration > 0) {
                 passiveSkillContainer.setDuration(savedDuration);
+            }
+            if(savedResource > 0){
+                passiveSkillContainer.setResource(savedResource);
+            }
+            if(savedStack > 0){
+                passiveSkillContainer.setStack(savedStack);
+            }
+            if(wasActivated){
                 passiveSkillContainer.activate();
+                if(passiveSkillContainer.getSkill() instanceof IHybridSkill iHybridSkill){
+                   if(playerpatch instanceof ServerPlayerPatch serverPlayerPatch)
+                       iHybridSkill.sendSkillActivateToClient(true, serverPlayerPatch.getOriginal());
+                }
             }
         } else if (passiveSkillContainer != null) {
             passiveSkillContainer.setSkill(null);
-            toLocal.and(new SPChangeSkill(SkillSlots.WEAPON_PASSIVE, ((Player)playerpatch.getOriginal()).getId(), (Skill)null));
-            toRemote.and(new SPSetRemotePlayerSkill(((Player)playerpatch.getOriginal()).getId(), SkillSlots.WEAPON_PASSIVE, (Skill)null));
+            toLocal.and(new SPChangeSkill(this.getSecondarySkillSlot(), ((Player)playerpatch.getOriginal()).getId(), (Skill)null));
+            toRemote.and(new SPSetRemotePlayerSkill(((Player)playerpatch.getOriginal()).getId(), this.getSecondarySkillSlot(), (Skill)null));
         }
 
         toLocal.send((first, others) -> EpicFightNetworkManager.sendToPlayer(first, (ServerPlayer)playerpatch.getOriginal(), others));

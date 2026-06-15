@@ -1,5 +1,7 @@
 package net.kenji.woh.registry.animation;
+import net.kenji.woh.api.AnimationConfig;
 import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.api.WohAnimationBuilder;
 import net.kenji.woh.gameasset.AttackHand;
 import net.kenji.woh.registry.WohSounds;
 import net.minecraftforge.registries.RegistryObject;
@@ -29,12 +31,11 @@ public class TenraiAnimations {
     public static AnimationManager.AnimationAccessor<StaticAnimation> TENRAI_SKILL_ACTIVATE;
     public static AnimationManager.AnimationAccessor<StaticAnimation> TENRAI_SKILL_DEACTIVATE;
 
-    public static AnimationManager.AnimationAccessor<AttackAnimation> TENRAI_AUTO_1;
-    public static AnimationManager.AnimationAccessor<AttackAnimation> TENRAI_AUTO_2;
-    public static AnimationManager.AnimationAccessor<AttackAnimation> TENRAI_AUTO_3;
-    public static AnimationManager.AnimationAccessor<AttackAnimation> TENRAI_AUTO_4;
-    public static AnimationManager.AnimationAccessor<AttackAnimation> TENRAI_AUTO_5;
-    public static AnimationManager.AnimationAccessor<AttackAnimation> TENRAI_AUTO_6;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TENRAI_AUTO_1;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TENRAI_AUTO_2;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TENRAI_AUTO_3;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TENRAI_AUTO_4;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TENRAI_AUTO_5;
     public static AnimationManager.AnimationAccessor<AttackAnimation> TENRAI_DASH;
 
     public static AnimationManager.AnimationAccessor<AttackAnimation> TENRAI_AIRSLASH;
@@ -63,145 +64,70 @@ public class TenraiAnimations {
         TENRAI_SKILL_ACTIVATE = WOHAnimationUtils.createSplitAnimation(builder,"biped/skill/tenrai/tenrai_skill_activate", 0.1f, 1.0F, -1,null);
         TENRAI_SKILL_DEACTIVATE = WOHAnimationUtils.createSplitAnimation(builder,"biped/skill/tenrai/tenrai_skill_deactivate", 0.1f, -1, 1.0F,null);
 
-        TENRAI_AUTO_1 = WOHAnimationUtils.createAttackAnimation(builder,
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_auto_1",
-                2,
-                0.1F,
-                0.1F,
-                3F,
-                0.45F,
-                new float[]{0.0F, 0.68F},
-                new float[]{0.45F, 0.72F},
-                new float[]{0.59F, 0.79F},
-                new float[]{1.0F, 1.0F},
-                new float[]{0.60f, 1.32F},
-                new Supplier[]{EpicFightSounds.WHOOSH_ROD, EpicFightSounds.WHOOSH_ROD},
-                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
-                new Collider[]{WOMWeaponColliders.STAFF, WOMWeaponColliders.STAFF},
-                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
-                StunType.SHORT,
-                -1F,
-                -1F
-        );
-
-        TENRAI_AUTO_2 = WOHAnimationUtils.createAttackAnimation(builder,
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_auto_2",
-                3,
-                0.1F,
-                0.05F,
-                3F,
-                0.45F,
-                new float[]{0.0F, 0.28F, 0.50F},
-                new float[]{0.10F, 0.30F, 0.55F},
-                new float[]{0.25F, 0.36F, 0.62F},
-                new float[]{1.0F, 1.0F, 1.0F},
-                new float[]{0.26f, 0.50F, 0.76F},
-                new Supplier[]{EpicFightSounds.WHOOSH_ROD, EpicFightSounds.WHOOSH_ROD, EpicFightSounds.WHOOSH_ROD},
-                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE,},
-                new Collider[]{WOMWeaponColliders.STAFF, WOMWeaponColliders.STAFF, WOMWeaponColliders.STAFF},
-                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
-                StunType.SHORT,
-                -1F,
-                -1F
-
-        );
-        TENRAI_AUTO_3 = WOHAnimationUtils.createAttackAnimation(builder,
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_auto_3",
-                4,
-                0.1F,
-                0.1F,
-                3F,
-                0.45F,
-                new float[]{0.0F, 0.48F, 0.68F, 0.82F},
-                new float[]{0.16F, 0.50F, 0.72F, 0.84F},
-                new float[]{0.43F, 0.52F, 0.73F, 0.88F},
-                new float[]{1.0F, 1.0F, 1.0F, 1.25F},
-                new float[]{0.45f, 0.65F, 0.80F, 1.60F},
-                new Supplier[]{EpicFightSounds.WHOOSH_ROD, EpicFightSounds.WHOOSH_ROD, EpicFightSounds.WHOOSH_ROD, EpicFightSounds.WHOOSH_ROD},
-                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
-                new Collider[]{WOMWeaponColliders.STAFF, WOMWeaponColliders.STAFF, WOMWeaponColliders.STAFF, WOMWeaponColliders.STAFF},
-                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
-                StunType.SHORT,
-                -1F,
-                -1F
-
-        );
-        TENRAI_AUTO_4 = WOHAnimationUtils.createAttackAnimation(builder,
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_auto_4",
-                3,
-                0.1F,
-                0.1F,
-                3F,
-                0.45F,
-                new float[]{0.0F, 0.55F, 0.62F},
-                new float[]{0.15F, 0.58F, 0.64F},
-                new float[]{0.25F, 0.60F, 0.65F},
-                new float[]{1.10F, 1.10F, 1.10F},
-                new float[]{0.50f, 0.61F, 0.8F},
-                new Supplier[]{EpicFightSounds.WHOOSH_ROD, EpicFightSounds.WHOOSH_ROD, EpicFightSounds.WHOOSH_ROD},
-                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
-                new Collider[]{WOMWeaponColliders.STAFF, WOMWeaponColliders.STAFF, WOMWeaponColliders.STAFF},
-                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
-                StunType.SHORT,
-                -1F,
-                -1F
-
-        );
-        TENRAI_AUTO_5 = WOHAnimationUtils.createAttackAnimation(builder,
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_auto_5",
-                1,
-                0.1F,
-                0.1F,
-                3F,
-                0.45F,
-                new float[]{0.0F},
-                new float[]{0.65F},
-                new float[]{0.77F},
-                new float[]{1.40F},
-                new float[]{2.38f},
-                new Supplier[]{EpicFightSounds.WHOOSH_ROD},
-                new Supplier[]{EpicFightSounds.BLADE_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLADE},
-                new Collider[]{WOMWeaponColliders.STAFF},
-                new AttackHand[]{AttackHand.RIGHT_HAND},
-                StunType.SHORT,
-                -1F,
-                -1F
-        );
-        TENRAI_AUTO_6 = WOHAnimationUtils.createAttackAnimation(builder,
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_auto_6",
-                2,
-                0.1F,
-                0.1F,
-                3F,
-                0.45F,
-                new float[]{0.0F, 0.84F},
-                new float[]{0.70F, 0.88F},
-                new float[]{0.80F, 0.95F},
-                new float[]{1.55F, 1.55F},
-                new float[]{0.82F, 2.80F},
-                new Supplier[]{EpicFightSounds.WHOOSH_ROD, EpicFightSounds.WHOOSH_ROD},
-                new Supplier[]{EpicFightSounds.BLADE_HIT, EpicFightSounds.BLADE_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLADE, EpicFightParticles.HIT_BLADE},
-                new Collider[]{WOMWeaponColliders.STAFF, WOMWeaponColliders.STAFF},
-                new AttackHand[]{AttackHand.RIGHT_HAND, AttackHand.RIGHT_HAND},
-                StunType.SHORT,
-                -1F,
-                -1F
-        );
+        TENRAI_AUTO_1 = WohAnimationBuilder.tenraiSplit(builder,
+                AnimationConfig.of("biped/combat/tenrai/auto_1")
+                        .phases(0.0F, 0.20F, 0.40F, 1.0F, 0.42F)
+                        .phases(0.44F, 0.52F, 0.62F, 1.0F, 0.63F)
+                        .phases(0.68F, 0.72F, 0.76F, 1.0F, 2.26F)
+                        .hit(EpicFightSounds.BLADE_HIT)
+                        .swing(EpicFightSounds.WHOOSH_ROD)
+                        .particle(EpicFightParticles.HIT_BLADE)
+                        .collider(WOMWeaponColliders.STAFF, biped.get().toolR)
+                        .build());
+        TENRAI_AUTO_2 = WohAnimationBuilder.tenraiSplit(builder,
+                AnimationConfig.of("biped/combat/tenrai/auto_2")
+                        .phases(0.0F, 0.28F, 0.31F, 1.60F, 0.32F)
+                        .phases(0.33F, 0.34F, 0.35F, 1.60F, 0.40F)
+                        .phases(0.45F, 0.55F, 0.82F, 1.60F, 0.85F)
+                        .phases(1.0F, 1.20F, 1.30F, 1.60F, 2.80F)
+                        .hit(EpicFightSounds.BLADE_HIT)
+                        .hit(EpicFightSounds.BLUNT_HIT, 3)
+                        .swing(EpicFightSounds.WHOOSH_ROD)
+                        .swing(EpicFightSounds.WHOOSH, 3)
+                        .particle(EpicFightParticles.HIT_BLADE)
+                        .particle(EpicFightParticles.HIT_BLUNT, 3)
+                        .collider(WOMWeaponColliders.STAFF, biped.get().toolR)
+                        .collider(ColliderPreset.DAGGER, biped.get().toolL, 3)
+                        .build());
+        TENRAI_AUTO_3 = WohAnimationBuilder.tenraiSplit(builder,
+                AnimationConfig.of("biped/combat/tenrai/auto_3")
+                        .phases(0.0F, 0.28F, 0.44F, 1.38F, 0.45F)
+                        .phases(0.46F, 0.52F, 0.57F, 1.38F, 0.58F)
+                        .phases(0.60F, 0.70F, 0.80F, 1.38F, 0.82F)
+                        .phases(0.85F, 0.90F, 0.98F, 1.38F, 3.20F)
+                        .hit(EpicFightSounds.BLADE_HIT)
+                        .swing(EpicFightSounds.WHOOSH_ROD)
+                        .particle(EpicFightParticles.HIT_BLADE)
+                        .collider(WOMWeaponColliders.STAFF, biped.get().toolR)
+                        .build());
+        TENRAI_AUTO_4 = WohAnimationBuilder.tenraiSplit(builder,
+                AnimationConfig.of("biped/combat/tenrai/auto_4")
+                        .phases(0.0F, 0.28F, 0.58F, 1.18F, 0.60F)
+                        .phases(0.62F, 0.65F, 0.69F, 1.18F, 0.70F)
+                        .phases(0.72F, 0.75F, 0.86F, 1.18F, 0.88F)
+                        .phases(0.90F, 0.95F, 0.98F, 1.18F, 1.95F)
+                        .hit(EpicFightSounds.BLADE_HIT)
+                        .hit(EpicFightSounds.BLUNT_HIT, 3)
+                        .swing(EpicFightSounds.WHOOSH_ROD)
+                        .swing(EpicFightSounds.WHOOSH, 3)
+                        .particle(EpicFightParticles.HIT_BLADE)
+                        .particle(EpicFightParticles.HIT_BLUNT, 3)
+                        .collider(WOMWeaponColliders.STAFF, biped.get().toolR)
+                        .collider(ColliderPreset.DAGGER, biped.get().toolL, 3)
+                        .build());
+        TENRAI_AUTO_5 = WohAnimationBuilder.tenraiSplit(builder,
+                AnimationConfig.of("biped/combat/tenrai/auto_5")
+                        .convert(0.32F)
+                        .phases(0.0F, 0.28F, 0.35F, 1.12F, 0.40F)
+                        .phases(0.42F, 0.45F, 0.50F, 1.12F, 2.35F)
+                        .hit(EpicFightSounds.BLADE_HIT)
+                        .swing(EpicFightSounds.WHOOSH_ROD)
+                        .particle(EpicFightParticles.HIT_BLADE)
+                        .collider(WOMWeaponColliders.STAFF, biped.get().toolR)
+                        .build());
         TENRAI_DASH = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_dash",
+                "biped/combat/old/tenrai/tenrai_dash",
                 2,
                 0.1F,
                 0.1F,
@@ -222,7 +148,7 @@ public class TenraiAnimations {
                 -1F
         );
         TENRAI_AIRSLASH = WOHAnimationUtils.createAirAttackAnimation(builder,
-                "biped/combat/tenrai/tenrai_airslash",
+                "biped/combat/old/tenrai/tenrai_airslash",
                 2,
                 0.1F,
                 0.1F,
@@ -245,7 +171,7 @@ public class TenraiAnimations {
         );
         TENRAI_SKILL_AUTO_1 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_skill_auto_1",
+                "biped/combat/old/tenrai/tenrai_skill_auto_1",
                 2,
                 0.1F,
                 0.1F,
@@ -267,7 +193,7 @@ public class TenraiAnimations {
         );
         TENRAI_SKILL_AUTO_2 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_skill_auto_2",
+                "biped/combat/old/tenrai/tenrai_skill_auto_2",
                 2,
                 0.1F,
                 0.1F,
@@ -289,7 +215,7 @@ public class TenraiAnimations {
         );
         TENRAI_SKILL_AUTO_3 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_skill_auto_3",
+                "biped/combat/old/tenrai/tenrai_skill_auto_3",
                 2,
                 0.1F,
                 0.1F,
@@ -311,7 +237,7 @@ public class TenraiAnimations {
         );
         TENRAI_SKILL_AUTO_4 = WOHAnimationUtils.createAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_skill_auto_4",
+                "biped/combat/old/tenrai/tenrai_skill_auto_4",
                 4,
                 0.1F,
                 0.1F,
@@ -355,7 +281,7 @@ public class TenraiAnimations {
         );
         TENRAI_SKILL_COMBO_1 = WOHAnimationUtils.createTenraiSplitAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_skill_combo_1",
+                "biped/combat/tenrai/skill_combo_1",
                 2,
                 0.1F,
                 0.1F,
@@ -377,7 +303,7 @@ public class TenraiAnimations {
         );
         TENRAI_SKILL_COMBO_2 = WOHAnimationUtils.createTenraiSplitAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_skill_combo_2",
+                "biped/combat/tenrai/skill_combo_2",
                 2,
                 0.1F,
                 0.1F,
@@ -399,7 +325,7 @@ public class TenraiAnimations {
         );
         TENRAI_SKILL_COMBO_3 = WOHAnimationUtils.createTenraiSplitAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_skill_combo_3",
+                "biped/combat/tenrai/skill_combo_3",
                 3,
                 0.1F,
                 0.1F,
@@ -421,7 +347,7 @@ public class TenraiAnimations {
         );
         TENRAI_SKILL_COMBO_4 = WOHAnimationUtils.createTenraiSplitAttackAnimation(builder,
                 WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/tenrai/tenrai_skill_combo_4",
+                "biped/combat/tenrai/skill_combo_4",
                 4,
                 0.1F,
                 0.1F,

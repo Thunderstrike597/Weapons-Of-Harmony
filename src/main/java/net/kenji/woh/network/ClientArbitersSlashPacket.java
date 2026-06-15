@@ -1,7 +1,6 @@
 package net.kenji.woh.network;
 
 import net.kenji.woh.api.basegameassets.HybridHoldableSkill;
-import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.WohSkills;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;

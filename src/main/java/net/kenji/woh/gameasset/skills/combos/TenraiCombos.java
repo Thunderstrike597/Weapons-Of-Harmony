@@ -12,7 +12,9 @@ import com.p1nero.invincible.skill.ComboBasicAttack;
 import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.api.basegameassets.ExtendedComboBasicAttack;
 import net.kenji.woh.api.basegameassets.condition.InAirCondition;
+import net.kenji.woh.api.basegameassets.condition.SkillActivatedCondition;
 import net.kenji.woh.api.basegameassets.skills.BaseComboBuilder;
 import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.gameasset.skills.TenraiSkillInnate;
@@ -51,116 +53,63 @@ public class TenraiCombos extends BaseComboBuilder {
                 .setStunTypeModifier(StunType.HOLD)
                 .setDamageMultiplier(ValueModifier.multiplier(0.5F))
                 .setCanBeInterrupt(false)
-                .addTimeEvent(new TimeStampedEvent(0.05F,((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaInEvent(entityPatch))));
-
-
-
-        ComboNode basic1 = createTenraiComboNode(TenraiAnimations.TENRAI_AUTO_2).addTimeEvent(new TimeStampedEvent(0.05F, ((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch)))).setPlaySpeed(0.8F);
-        ComboNode basic2 = createTenraiComboNode(TenraiAnimations.TENRAI_AUTO_3).addTimeEvent(new TimeStampedEvent(0.05F,((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch)))).setPlaySpeed(0.9F);
-        ComboNode basic3 = createTenraiComboNode(TenraiAnimations.TENRAI_AUTO_4).addTimeEvent(new TimeStampedEvent(0.05F,((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch))));
-        ComboNode basic4 = createTenraiComboNode(TenraiAnimations.TENRAI_AUTO_5).addTimeEvent(new TimeStampedEvent(0.05F,((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch))));
-        ComboNode basic5 = createTenraiComboNode(TenraiAnimations.TENRAI_AUTO_6).addTimeEvent(new TimeStampedEvent(0.05F,((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch))));
-
-        ComboNode skillCombo1 = createTenraiComboNode(TenraiAnimations.TENRAI_SKILL_COMBO_1).addCondition(new PressedTimeCondition(5));
-        ComboNode skillCombo2 = createTenraiComboNode(TenraiAnimations.TENRAI_SKILL_COMBO_2).addCondition(new PressedTimeCondition(5));
-        ComboNode skillCombo3 = createTenraiComboNode(TenraiAnimations.TENRAI_SKILL_COMBO_3).addCondition(new PressedTimeCondition(5));
-        ComboNode skillCombo4 = createTenraiComboNode(TenraiAnimations.TENRAI_SKILL_COMBO_4).addCondition(new PressedTimeCondition(5));
-
-        ComboNode leftDodge = createTenraiDodgeComboNode(CorruptAnimations.WOLFDODGE_LEFT, basic1).addCondition(new LeftCondition());
-        ComboNode rightDodge = createTenraiDodgeComboNode(CorruptAnimations.WOLFDODGE_RIGHT, basic1).addCondition(new RightCondition());
-
-
-        /// root
-        createMovementCombo(root, basicAttack, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo1));
-        /// root decision
-        ComboNode rootDecision = createMovementCombo(basicAttack, basic1, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo2));
-
-        /// basic > basic+
-        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo3));
-        createMovementCombo(basic2, basic3, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo4));
-        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo3));
-        createMovementCombo(basic4, basic5, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo2));
-        /// left > left+
-        createMovementCombo(leftDodge, basic1, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo3));
-        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo4));
-        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo2));
-        createMovementCombo(basic4, basic5, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo3));
-        ///right > right+
-        createMovementCombo(rightDodge, basic1, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo3));
-        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo4));
-        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo3));
-        createMovementCombo(basic4, basic5, new ComboNodeWrapper(leftDodge, rightDodge, skillCombo2));
-        ///jump > jump+
-
-        basic5.key1(rootDecision);
-        skillCombo1.key1(rootDecision);
-        skillCombo2.key1(rootDecision);
-        skillCombo3.key1(rootDecision);
-        skillCombo4.key1(rootDecision);
-
-
-
-
-        return registryWorker.build("tenrai_combo_skill", ComboBasicAttack::new, ComboBasicAttack
-                .createComboBasicAttack()
-                .setCombo(root)
-                .setMaxProtectTime(22)
-                .setMaxPressTime(5)
-                .setReserveTime(16)
-                .setShouldDrawGui(true).setSkillTextureLocation(ResourceLocation.fromNamespaceAndPath(EpicFightMod.MODID, String.format("textures/gui/skills/weapon_innate/relentless_combo.png"))));
-    }
-    public static Skill buildSplitTenraiSkills(SkillBuildEvent.ModRegistryWorker registryWorker) {
-
-        ComboNode root = ComboNode.create();
-        ComboNode basicAttack = ComboNode.createNode(TenraiAnimations.TENRAI_AUTO_1)
+                .addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, true));
+        ComboNode basicSkillAttack = ComboNode.createNode(TenraiAnimations.TENRAI_SKILL_AUTO_1)
                 .setStunTypeModifier(StunType.HOLD)
                 .setDamageMultiplier(ValueModifier.multiplier(0.5F))
                 .setCanBeInterrupt(false)
-                .addTimeEvent(new TimeStampedEvent(0.05F,((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaInEvent(entityPatch))));
+                .addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, false));
 
 
-        ComboNode basic1 = createTenraiComboNode(TenraiAnimations.TENRAI_SKILL_AUTO_1).addTimeEvent(new TimeStampedEvent(0.05F, ((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch)))).setPlaySpeed(0.8F);
-        ComboNode basic2 = createTenraiComboNode(TenraiAnimations.TENRAI_SKILL_AUTO_2).addTimeEvent(new TimeStampedEvent(0.05F,((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch)))).setPlaySpeed(0.9F);
-        ComboNode basic3 = createTenraiComboNode(TenraiAnimations.TENRAI_SKILL_AUTO_3).addTimeEvent(new TimeStampedEvent(0.05F,((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch))));
-        ComboNode basic4 = createTenraiComboNode(TenraiAnimations.TENRAI_SKILL_AUTO_4).addTimeEvent(new TimeStampedEvent(0.05F,((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch))));
 
-        ComboNode tenraiDash = createTenraiComboNode(TenraiAnimations.TENRAI_DASH).addCondition(new SprintingCondition());
-        ComboNode tenraiAirSlash = createTenraiComboNode(TenraiAnimations.TENRAI_AIRSLASH).addCondition(new InAirCondition());
+
+        ComboNode basic1 = createTenraiComboNode(TenraiAnimations.TENRAI_AUTO_2).addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, true)).setPlaySpeed(0.8F);
+        ComboNode basic2 = createTenraiComboNode(TenraiAnimations.TENRAI_AUTO_3).addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, true)).setPlaySpeed(0.9F);
+        ComboNode basic3 = createTenraiComboNode(TenraiAnimations.TENRAI_AUTO_4).addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, true));
+        ComboNode basic4 = createTenraiComboNode(TenraiAnimations.TENRAI_AUTO_5).addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, true));
+
+        ComboNode basicSkill1 = createTenraiComboNode(TenraiAnimations.TENRAI_SKILL_AUTO_2).addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, false)).setPlaySpeed(0.8F);
+        ComboNode basicSkill2 = createTenraiComboNode(TenraiAnimations.TENRAI_SKILL_AUTO_3).addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, false)).setPlaySpeed(0.8F);
+        ComboNode basicSkill3 = createTenraiComboNode(TenraiAnimations.TENRAI_SKILL_AUTO_4).addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, false)).setPlaySpeed(0.8F);
+
 
         ComboNode leftDodge = createTenraiDodgeComboNode(CorruptAnimations.WOLFDODGE_LEFT, basic1).addCondition(new LeftCondition());
         ComboNode rightDodge = createTenraiDodgeComboNode(CorruptAnimations.WOLFDODGE_RIGHT, basic1).addCondition(new RightCondition());
 
 
-
         /// root
-        createMovementCombo(root, basicAttack, new ComboNodeWrapper(leftDodge, rightDodge, tenraiDash, tenraiAirSlash));
+        createMovementCombo(root, basicAttack, new ComboNodeWrapper(leftDodge, rightDodge, basicSkillAttack));
         /// root decision
-        ComboNode rootDecision = createMovementCombo(basicAttack, basic1, new ComboNodeWrapper(leftDodge, rightDodge, tenraiDash, tenraiAirSlash));
+        ComboNode rootDecision = createMovementCombo(basicAttack, basic1, new ComboNodeWrapper(leftDodge, rightDodge, basicSkillAttack));
 
         /// basic > basic+
-        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, tenraiDash, tenraiAirSlash));
-        createMovementCombo(basic2, basic3, new ComboNodeWrapper(leftDodge, rightDodge, tenraiDash, tenraiAirSlash));
-        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, tenraiDash, tenraiAirSlash));
+        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, basicSkillAttack));
+        createMovementCombo(basic2, basic3, new ComboNodeWrapper(leftDodge, rightDodge, basicSkillAttack));
+        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, basicSkillAttack));
         /// left > left+
-        createMovementCombo(leftDodge, basic1, new ComboNodeWrapper(leftDodge, rightDodge, tenraiDash, tenraiAirSlash));
-        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, tenraiDash, tenraiAirSlash));
-        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, tenraiDash, tenraiAirSlash));
+        createMovementCombo(leftDodge, basic1, new ComboNodeWrapper(leftDodge, rightDodge, basicSkillAttack));
+        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, basicSkillAttack));
+        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, basicSkillAttack));
         ///right > right+
-        createMovementCombo(rightDodge, basic1, new ComboNodeWrapper(leftDodge, rightDodge, tenraiDash, tenraiAirSlash));
-        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, tenraiDash, tenraiAirSlash));
-        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, tenraiDash, tenraiAirSlash));
+        createMovementCombo(rightDodge, basic1, new ComboNodeWrapper(leftDodge, rightDodge, basicSkillAttack));
+        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, basicSkillAttack));
+        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, basicSkillAttack));
         ///jump > jump+
 
-        basic4.key1(rootDecision);
+        createMovementCombo(basicSkillAttack, basicSkill1, new ComboNodeWrapper(leftDodge, rightDodge));
+        createMovementCombo(basicSkill1, basicSkill2, new ComboNodeWrapper(leftDodge, rightDodge));
+        createMovementCombo(basicSkill2, basicSkill3, new ComboNodeWrapper(leftDodge, rightDodge));
 
-        return registryWorker.build("tenrai_split_combo_skill", ComboBasicAttack::new, ComboBasicAttack
+        return registryWorker.build("tenrai_combo_skill", (builder) -> new ExtendedComboBasicAttack(builder, root), ExtendedComboBasicAttack
                 .createComboBasicAttack()
                 .setCombo(root)
                 .setMaxProtectTime(22)
                 .setMaxPressTime(5)
                 .setReserveTime(16)
-                .setShouldDrawGui(true).setSkillTextureLocation(ResourceLocation.fromNamespaceAndPath(EpicFightMod.MODID, String.format("textures/gui/skills/weapon_innate/relentless_combo.png"))));
+                .setShouldDrawGui(false).setSkillTextureLocation(ResourceLocation.fromNamespaceAndPath(EpicFightMod.MODID, String.format("textures/gui/skills/weapon_innate/relentless_combo.png"))));
     }
+
+
 
     private static ComboNode createTenraiComboNode(AnimationManager.AnimationAccessor<? extends StaticAnimation> animation){
         ComboNode node = ComboNode.createNode(animation);

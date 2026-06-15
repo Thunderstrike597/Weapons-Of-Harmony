@@ -2,13 +2,15 @@ package net.kenji.woh.api.manager;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.DualSkillWeaponCapability;
-import net.kenji.woh.mixins.ControlEngineAccessor;
+import net.kenji.woh.api.basegameassets.HybridHoldableSkill;
+import net.kenji.woh.api.interfaces.IHybridSkill;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import yesman.epicfight.api.client.input.action.InputAction;
+import org.jline.utils.Log;
 import yesman.epicfight.client.ClientEngine;
 import yesman.epicfight.client.events.engine.ControlEngine;
 import yesman.epicfight.client.input.EpicFightKeyMappings;
@@ -17,7 +19,6 @@ import yesman.epicfight.network.EpicFightNetworkManager;
 import yesman.epicfight.network.client.CPSkillRequest;
 import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.skill.SkillSlots;
-import yesman.epicfight.skill.modules.HoldableSkill;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
@@ -44,29 +45,30 @@ public class DualSkillInputHandler {
         if (!(cap instanceof DualSkillWeaponCapability dualCap)) return;
 
 
-        SkillContainer chargeContainer = playerPatch.getSkill(dualCap.getSecondarySkill(playerPatch.getOriginal().getMainHandItem()));
+        SkillContainer container = playerPatch.getSkill(dualCap.getSecondarySkill(playerPatch.getOriginal().getMainHandItem()));
 
 
-        if (chargeContainer == null) return;
+        if (container == null) return;
 
-        if (!(chargeContainer.getSkill() instanceof HoldableSkill holdableSkill)) return;
+        if (!(container.getSkill() instanceof IHybridSkill skill)) return;
 
 
         // Only redirect if charge skill is not yet activated
         // Once activated, combos take over the key normally
-        if (chargeContainer.isActivated()) return;
+        if (container.isActivated()) return;
 
 
         // Redirect: send HOLD_START to WEAPON_PASSIVE instead of WEAPON_INNATE
-        CPSkillRequest holdPacket = new CPSkillRequest(SkillSlots.WEAPON_PASSIVE, CPSkillRequest.WorkType.HOLD_START);
+        CPSkillRequest holdPacket = new CPSkillRequest(dualCap.getSecondarySkillSlot(), CPSkillRequest.WorkType.HOLD_START);
         EpicFightNetworkManager.sendToServer(holdPacket);
+        KeyMapping keyMapping = skill.getKeyMapping();
+
 
         // Tell ControlEngine to track the hold on WEAPON_PASSIVE
         // so its ChargeableSkill release/tick logic works correctly
-        ControlEngine controlEngine = ClientEngine.getInstance().controlEngine;
-        //((ControlEngineAccessor)controlEngine).invokeReserveKey(SkillSlots.WEAPON_PASSIVE, InputAction.fromKeyMapping(holdableSkill.getKeyMapping()));
-        controlEngine.setHoldingKey(SkillSlots.WEAPON_PASSIVE, holdableSkill.getKeyMapping());
-        //also Tried -> holdableSkill.holdTick(chargeContainer);;
 
+        ControlEngine controlEngine = ClientEngine.getInstance().controlEngine;
+        controlEngine.setHoldingKey(dualCap.getSecondarySkillSlot(), keyMapping);
+        Log.info("Logging Hybrid Skill!");
     }
 }

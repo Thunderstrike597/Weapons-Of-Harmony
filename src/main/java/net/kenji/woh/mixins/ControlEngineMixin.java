@@ -1,11 +1,12 @@
 package net.kenji.woh.mixins;
 
-import net.kenji.woh.api.basegameassets.HybridHoldableSkill;
-import net.kenji.woh.gameasset.skills.ArbitersSlashSkill;
+import net.kenji.woh.api.DualSkillWeaponCapability;
+import net.kenji.woh.api.interfaces.IHybridSkill;
+import net.kenji.woh.gameasset.skills.WohSkillSlot;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.InteractionHand;
 import org.jetbrains.annotations.NotNull;
-import org.jline.utils.Log;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -61,10 +62,11 @@ public abstract class ControlEngineMixin {
     @Inject(method = "inputTick", at = @At("HEAD"), remap = false)
     private void woh$redirectLongPressToCharge(CallbackInfo ci) {
         if (!weaponInnatePressToggle) return;
+        if(!(this.playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND) instanceof DualSkillWeaponCapability weaponCapability)) return;
 
-        SkillContainer passiveContainer = playerPatch.getSkill(SkillSlots.WEAPON_PASSIVE);
+        SkillContainer passiveContainer = playerPatch.getSkill(weaponCapability.getSecondarySkillSlot());
         if (passiveContainer == null || passiveContainer.isEmpty()) return;
-        if (!(passiveContainer.getSkill() instanceof HybridHoldableSkill hybridHoldableSkill)) return;
+        if (!(passiveContainer.getSkill() instanceof IHybridSkill hybridSkill)) return;
         if (passiveContainer.isActivated()) return;
 
         if (!InputManager.isBoundToSamePhysicalInput(
@@ -79,15 +81,14 @@ public abstract class ControlEngineMixin {
 
         if (weaponInnatePressCounter > ClientConfig.longPressCounter) {
             EpicFightNetworkManager.sendToServer(
-                    new CPSkillRequest(SkillSlots.WEAPON_PASSIVE, CPSkillRequest.WorkType.HOLD_START));
+                    new CPSkillRequest(weaponCapability.getSecondarySkillSlot(), hybridSkill instanceof HoldableSkill ? CPSkillRequest.WorkType.HOLD_START : CPSkillRequest.WorkType.CAST));
             ControlEngine controlEngine = (ControlEngine)(Object) this;
-            controlEngine.setHoldingKey(SkillSlots.WEAPON_PASSIVE, hybridHoldableSkill.getKeyMapping());
+            controlEngine.setHoldingKey(weaponCapability.getSecondarySkillSlot(), hybridSkill.getKeyMapping());
 
             weaponInnatePressToggle = false;
             weaponInnatePressCounter = 0;
 
-            hybridHoldableSkill.wasHoldingSkill = true;
-
+            hybridSkill.setWasHoldingSkill(true);
         }
     }
 
@@ -106,8 +107,8 @@ public abstract class ControlEngineMixin {
     @Inject(method = "handleSeparateWeaponInnateSkill", at = @At("HEAD"), cancellable = true, remap = false)
     private void woh$handleSeparateWeaponInnateSkill(CallbackInfo ci) {
         ControlEngine self = (ControlEngine)(Object) this;
-        SkillContainer passiveContainer = this.playerPatch.getSkill(SkillSlots.WEAPON_PASSIVE);
-
+        if(!(this.playerPatch.getHoldingItemCapability(InteractionHand.MAIN_HAND) instanceof DualSkillWeaponCapability weaponCapability)) return;
+        SkillContainer passiveContainer = this.playerPatch.getSkill(weaponCapability.getSecondarySkillSlot());
         if (passiveContainer != null && passiveContainer.getSkill() instanceof HoldableSkill holdableSkill) {
             // If charge skill is already activated, don't intercept — let combo work normally
             if (passiveContainer.isActivated()) return;
@@ -117,7 +118,7 @@ public abstract class ControlEngineMixin {
                     && !this.isCurrentHoldingAction(EpicFightInputAction.WEAPON_INNATE_SKILL)) {
                 if (!InputManager.isBoundToSamePhysicalInput(EpicFightInputAction.ATTACK, EpicFightInputAction.WEAPON_INNATE_SKILL)) {
                     if (!this.player.isSpectator()) {
-                        this.reserveKey(SkillSlots.WEAPON_PASSIVE, (InputAction) EpicFightInputAction.WEAPON_INNATE_SKILL);
+                        this.reserveKey(weaponCapability.getSecondarySkillSlot(), (InputAction) EpicFightInputAction.WEAPON_INNATE_SKILL);
                     }
                 }
             }

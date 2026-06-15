@@ -5,7 +5,7 @@ import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.skill.SkillCategory;
 
 public enum WohSkillCategories implements SkillCategory {
-    CONSTANT(true, true, false);
+    WEAPON_SECONDARY(true, true, false);
 
     final boolean shouldSave;
     final boolean shouldSyncronize;

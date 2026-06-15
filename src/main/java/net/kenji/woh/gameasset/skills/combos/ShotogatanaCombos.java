@@ -130,7 +130,7 @@ public class ShotogatanaCombos extends BaseComboBuilder {
                 .setMaxProtectTime(22)
                 .setMaxPressTime(20)
                 .setReserveTime(16)
-                .setShouldDrawGui(true).setSkillTextureLocation(ResourceLocation.fromNamespaceAndPath(EpicFightMod.MODID, String.format("textures/gui/skills/weapon_innate/relentless_combo.png"))));
+                .setShouldDrawGui(false).setSkillTextureLocation(ResourceLocation.fromNamespaceAndPath(EpicFightMod.MODID, String.format("textures/gui/skills/weapon_innate/relentless_combo.png"))));
     }
 
 

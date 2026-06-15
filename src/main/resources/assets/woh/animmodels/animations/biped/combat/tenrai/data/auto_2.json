@@ -1,0 +1,15 @@
+{
+  "trail_effects": [
+    {
+      "begin_pos": [0.0, 0.0, 1.0],
+      "end_pos": [0.0, 0.0, -2],
+      "lifetime": 6,
+      "start_time": 0.05,
+      "end_time": 0.50,
+      "interpolations": 6,
+      "joint": "Tool_R",
+      "item_skin_hand": "main_hand",
+      "texture_path": "woh:textures/particle/swing_trail.png"
+    }
+  ]
+}

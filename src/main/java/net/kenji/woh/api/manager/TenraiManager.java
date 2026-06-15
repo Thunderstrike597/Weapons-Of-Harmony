@@ -5,9 +5,12 @@ import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.gameasset.skills.TenraiSkillInnate;
 import net.kenji.woh.item.custom.weapon.Shotogatana;
 import net.kenji.woh.item.custom.weapon.Tenrai;
+import net.kenji.woh.network.SplitStatePacket;
+import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.registry.animation.TenraiAnimations;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -15,6 +18,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.skill.SkillContainer;
@@ -31,26 +35,14 @@ public class TenraiManager {
     public static Map<UUID, Boolean> renderSplitMap = new HashMap<>();
 
     public static void setWeaponSplit(LivingEntity player, boolean split){
-        if(!(player.getMainHandItem().getItem() instanceof Tenrai)){
-            if(player.getMainHandItem().getTag() != null){
-                player.getMainHandItem().getTag().remove("is_tenrai_split");
-                player.getMainHandItem().getTag().remove("tenrai_split_counter");
-
-            }
-            return;
-        }
-        player.getMainHandItem().getOrCreateTag().putBoolean("is_tenrai_split", split);
+        UUID playerID = player.getUUID();
+        TenraiManager.renderSplitMap.put(playerID, split);
+        if(player instanceof ServerPlayer serverPlayer)
+            WohPacketHandler.sendToPlayer(new SplitStatePacket(playerID, split), serverPlayer);
     }
     public static boolean getWeaponSplit(LivingEntity player){
-        if(!(player.getMainHandItem().getItem() instanceof Tenrai)){
-            if(player.getMainHandItem().getTag() != null){
-                player.getMainHandItem().getTag().remove("is_tenrai_split");
-                player.getMainHandItem().getTag().remove("tenrai_split_counter");
-
-            }
-            return false;
-        }
-        return player.getMainHandItem().getOrCreateTag().getBoolean("is_tenrai_split");
+        UUID playerID = player.getUUID();
+        return TenraiManager.renderSplitMap.getOrDefault(playerID, false);
     }
 
     public static void resetWeaponCounter(LivingEntity player){
@@ -77,6 +69,7 @@ public class TenraiManager {
         }
         PlayerPatch<?> playerPatch = EpicFightCapabilities.getPlayerPatch(player);
         if (playerPatch == null) return;
+        if (event.player.level().isClientSide()) return;
 
         AnimationPlayer animPlayer = playerPatch.getAnimator().getPlayerFor(null);
         if (playerPatch.getSkill(WohSkills.SPLIT_TENRAI) == null) return;

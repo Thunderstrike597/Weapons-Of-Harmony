@@ -19,7 +19,6 @@
     "ControlEngineAccessor",
     "AttackAnimationMixin",
     "EpicFightShaderMixin",
-    "InputMixin",
     "InputManagerMixin"
   ],
   "injectors": {
