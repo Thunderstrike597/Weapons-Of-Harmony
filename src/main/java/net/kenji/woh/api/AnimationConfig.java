@@ -33,6 +33,7 @@ public class AnimationConfig {
     public final float eventFirstTime;
     public final float eventSecondTime;
     public final boolean ignoreFallDamage;
+    public final float movementMultiplier;
     public final float slashAngle;
 
 
@@ -56,6 +57,7 @@ public class AnimationConfig {
         this.eventFirstTime = b.unsheatheTime;
         this.eventSecondTime = b.sheathTime;
         this.ignoreFallDamage = b.ignoreFallDamage;
+        this.movementMultiplier = b.movementMultiplier;
         this.slashAngle = b.slashAngle;
     }
 
@@ -68,7 +70,7 @@ public class AnimationConfig {
         private int phaseCount = 1;
         private float speed = 0.1F;
         private float convertTime = 0.1F;
-
+        public float movementMultiplier = 1;
         // Phase timing rows — transposed to parallel arrays at build()
         private final List<float[]> phaseRows = new ArrayList<>();
         private float[] start, antic, contact, recovery, end;
@@ -117,6 +119,11 @@ public class AnimationConfig {
             this.swingSound = new Supplier[]{s};
             return this;
         }
+        public Builder movementMultiplier(float value){
+            this.movementMultiplier = value;
+            return this;
+        }
+
 
         @SuppressWarnings("unchecked")
         public Builder swing(Supplier<SoundEvent> s, int phaseIndex) {

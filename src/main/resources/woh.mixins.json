@@ -12,7 +12,8 @@
     "KatanaAttackAnimationMixin",
     "CorruptAnimationsMixin",
     "ShieldMixin",
-    "PhaseMixin"
+    "PhaseMixin",
+    "CapabilityItemGuardMixin"
   ],
   "client": [
     "ControlEngineMixin",

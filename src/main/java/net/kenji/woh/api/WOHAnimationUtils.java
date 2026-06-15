@@ -577,7 +577,8 @@ public class WOHAnimationUtils {
                         stunType,
                         colliders,
                         attackHand,
-                        false
+                        false,
+                        1.0F
                 ));
                 break;
             case BASIC_ATTACK_JUMP:
@@ -599,7 +600,8 @@ public class WOHAnimationUtils {
                         stunType,
                         colliders,
                         attackHand,
-                        true
+                        true,
+                        1.0F
                 ));
                 break;
             default:
@@ -637,6 +639,7 @@ public class WOHAnimationUtils {
             Collider[] colliders,
             AttackHand[] attackHand,
             StunType stunType,
+            float multiplier,
             float absStart,
             float absEnd
     ) {
@@ -661,7 +664,8 @@ public class WOHAnimationUtils {
                         stunType,
                         colliders,
                         attackHand,
-                        false
+                        false,
+                        multiplier
                 ));
                 break;
             case BASIC_ATTACK_JUMP:
@@ -683,7 +687,8 @@ public class WOHAnimationUtils {
                         stunType,
                         colliders,
                         attackHand,
-                        true
+                        true,
+                        multiplier
                 ));
                 break;
             default:
@@ -879,7 +884,8 @@ public class WOHAnimationUtils {
                             stunType,
                             colliders,
                             attackHand,
-                            false
+                            false,
+                            1.0F
                     ));
                     break;
                 case BASIC_ATTACK_JUMP:
@@ -901,7 +907,8 @@ public class WOHAnimationUtils {
                             stunType,
                             colliders,
                             attackHand,
-                            true
+                            true,
+                            1.0F
                     ));
                     break;
                 default:

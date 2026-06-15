@@ -39,7 +39,7 @@ public class WohAnimationBuilder {
         return WOHAnimationUtils.createTenraiSplitAttackAnimation(
                 builder, type, cfg.path, cfg.phaseCount, cfg.convertTime, cfg.speed, 0, 0,
                 cfg.start, cfg.antic, cfg.contact, cfg.recovery, cfg.end,
-                cfg.swingSound, cfg.hitSound, cfg.hitParticle, cfg.colliders, cfg.attackingHands, cfg.stunType, cfg.eventFirstTime, cfg.eventSecondTime
+                cfg.swingSound, cfg.hitSound, cfg.hitParticle, cfg.colliders, cfg.attackingHands, cfg.stunType, cfg.movementMultiplier, cfg.eventFirstTime, cfg.eventSecondTime
         );
     }
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> generic(

@@ -47,7 +47,8 @@ public class WohAttackAnimation extends BasisAttackAnimation {
             StunType stunType,
             Collider[] colliders,
             AttackHand[] attackHand,
-            boolean ignoreFallDamage
+            boolean ignoreFallDamage,
+            float movementMultiplier
     ) {
         // Pass convertTime, path (from accessor), accessor, endAnimation, ignoreFallDamage, phases
         super(
@@ -68,12 +69,14 @@ public class WohAttackAnimation extends BasisAttackAnimation {
         if(attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP)
              this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true);
         else this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, false);
+        this.addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_BEGIN, WOHAnimationUtils.scaledRawCoord(movementMultiplier));
+        this.addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_TICK,  WOHAnimationUtils.scaledRawCoord(movementMultiplier));
 
 
     }
     public WohAttackAnimation(
             float convertTime,
-            AnimationManager.AnimationAccessor<? extends BasicAttackAnimation>  accessor,  // ADD THIS!
+            AnimationManager.AnimationAccessor<? extends BasicAttackAnimation>  accessor,
             WOHAnimationUtils.AttackAnimationType attackType,
             @Nullable AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,
             int phaseCount,

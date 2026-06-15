@@ -55,12 +55,14 @@ public class TenraiSkillInnate extends HybridInnateSkill {
         if (!container.isActivated()) {
             PlayerPatch<?> executor = container.getExecutor();
             AnimationPlayer animPlayer = executor.getAnimator().getPlayerFor(null);
-
+            if(container.getExecutor().getOriginal().isCreative())
+                return true;
             if (animPlayer == null) {
                 Log.info("Logging Skill CanExecute!!");
 
                 return super.checkExecuteCondition(container);
             }
+
             DynamicAnimation animation = animPlayer.getAnimation().get();
             if (animation.isBasicAttackAnimation() || animation instanceof AttackAnimation) {
                 return container.getStack() > 0;
@@ -152,7 +154,7 @@ public class TenraiSkillInnate extends HybridInnateSkill {
                 executor.playAnimationSynchronized(next, 0.0F);
             }
         }
-        else if(container.getStack() >= container.getSkill().getMaxStack() - 1) {
+        else if(container.getStack() >= container.getSkill().getMaxStack() - 1 || container.isActivated() || container.getExecutor().getOriginal().isCreative()) {
             if (executor.getSkill(this).isActivated()) {
                 this.cancelOnServer(container, args);
             } else {

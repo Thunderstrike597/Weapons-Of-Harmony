@@ -68,15 +68,6 @@ public class CapabilityItemMixin {
                     }
                 }
             }
-            if(playerPatch.getOriginal().getOffhandItem().getItem() instanceof ArbitersShield) {
-                if (mutableMap.get(LivingMotions.BLOCK_SHIELD) == null || mutableMap.get(LivingMotions.BLOCK_SHIELD).get() == Animations.EMPTY_ANIMATION || mutableMap.get(LivingMotions.BLOCK_SHIELD).get() == Animations.BIPED_BLOCK) {
-                    mutableMap.put(LivingMotions.BLOCK_SHIELD, GenericAnimations.ARBITERS_SHIELD_BLOCK);
-                }
-            }
-            else if(mutableMap.get(LivingMotions.BLOCK_SHIELD) == null || mutableMap.get(LivingMotions.BLOCK_SHIELD).get() == Animations.EMPTY_ANIMATION) {
-                Log.info("Logging anim shield put!");
-                mutableMap.put(LivingMotions.BLOCK_SHIELD, Animations.BIPED_BLOCK);
-            }
 
             cir.setReturnValue(mutableMap);
         }

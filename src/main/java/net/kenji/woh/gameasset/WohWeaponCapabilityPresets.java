@@ -19,6 +19,7 @@ import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.gameasset.EpicFightSounds;
+import yesman.epicfight.skill.SkillSlot;
 import yesman.epicfight.skill.SkillSlots;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -294,7 +295,8 @@ public class WohWeaponCapabilityPresets {
                 .category(WohWeaponCategories.TENRAI)
                 .styleProvider((playerPatch) -> {
                     if(playerPatch instanceof PlayerPatch<?> patch) {
-                        if (patch.getSkill(SkillSlots.WEAPON_INNATE).isActivated())
+                        SkillSlot skillSlot = EpicFightCapabilities.getItemStackCapability(patch.getOriginal().getMainHandItem()) instanceof DualSkillWeaponCapability weaponCap ? weaponCap.getSecondarySkillSlot() : SkillSlots.WEAPON_INNATE;
+                        if (patch.getSkill(skillSlot).isActivated())
                             return WohStyles.ABILITY_ACTIVE;
                     }
                     return CapabilityItem.Styles.TWO_HAND;
