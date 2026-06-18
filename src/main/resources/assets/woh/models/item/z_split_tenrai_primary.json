@@ -2,13 +2,13 @@
   "loader": "forge:separate_transforms",
   "base": {
     "loader": "forge:obj",
-    "model": "woh:models/item/obj/split_tenrai_primary.obj",
+    "model": "woh:models/item/obj/voxel_split_tenrai_primary.obj",
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {
-        "translation": [4.75, -4.5, 0],
+        "translation": [4.75, -5, 0],
         "rotation": [91.5, 0, 0],
-        "scale": [0.6, 0.75, 0.575]
+        "scale": [0.6, 0.75, 0.525]
       },
       "firstperson_righthand": {
         "translation": [13, -7.5, 0],

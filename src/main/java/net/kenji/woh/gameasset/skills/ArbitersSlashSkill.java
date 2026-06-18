@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.basegameassets.HybridHoldableSkill;
+import net.kenji.woh.api.item_overrides.WeaponModelOverrides;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
@@ -125,6 +126,8 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
     public static class ClientSubscribeEvents {
         @SubscribeEvent
         public static void onClientLogin(ClientPlayerNetworkEvent.LoggingIn event) {
+            WeaponModelOverrides.setItemTextureVariant(event.getPlayer().getMainHandItem(), "");
+
             WohPacketHandler.sendToServer(new ArbitersSlashSetupPacket(ArbitersSlashSkill.slashAngleMap));
         }
         @SubscribeEvent
@@ -158,8 +161,9 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
         if(holdCounter > 0){
             holdCounter--;
         }
+        tickHoldCooldown();
         if(!container.isActivated() && !didActivate.getOrDefault(container.getExecutor().getOriginal().getUUID(), false)){
-            container.getExecutor().getOriginal().getMainHandItem().getOrCreateTag().remove("weapon_variant");
+            WeaponModelOverrides.setItemTextureVariant(container.getExecutor().getOriginal().getMainHandItem(), "");
         }
         if(scheduleDeactivate) {
             if (container.getExecutor() instanceof ServerPlayerPatch serverPlayerPatch) {
@@ -203,14 +207,15 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
                     BlockPos pos = container.getExecutor().getOriginal().blockPosition();
                     serverLevel.playSound(null, pos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
                 }
-                if(chargingAmount >= getMinChargingTicks())
-                    didActivate.put(container.getExecutor().getOriginal().getUUID(), true);
+
+                didActivate.put(container.getExecutor().getOriginal().getUUID(), true);
 
                 container.activate();
                 container.getExecutor().resetHolding();
-                container.getExecutor().getOriginal().getMainHandItem().getOrCreateTag().putString("weapon_variant", "arbiters_blade_glow_ms");
+                setMaxHoldCooldown();
+                WeaponModelOverrides.setItemTextureVariant(container.getExecutor().getOriginal().getMainHandItem(), "arbiters_blade_glow");
                 if(container.getExecutor().getOriginal() instanceof ServerPlayer serverPlayer)
-                    WohPacketHandler.sendToPlayer(new ClientArbitersSlashPacket(false, "arbiters_blade_glow_ms"), serverPlayer);
+                    WohPacketHandler.sendToPlayer(new ClientArbitersSlashPacket(false, "arbiters_blade_glow"), serverPlayer);
                 return; // Important: exit early
             }
 

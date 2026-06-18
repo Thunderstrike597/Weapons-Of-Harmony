@@ -2,7 +2,7 @@
   "loader": "forge:separate_transforms",
   "base": {
     "loader": "forge:obj",
-    "model": "woh:models/item/obj/tenrai.obj",
+    "model": "woh:models/item/obj/voxel_tenrai.obj",
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {

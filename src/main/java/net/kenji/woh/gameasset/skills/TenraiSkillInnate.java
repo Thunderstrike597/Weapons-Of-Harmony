@@ -2,7 +2,7 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.kenji.woh.api.basegameassets.HybridInnateSkill;
+import net.kenji.woh.api.basegameassets.HybridSkill;
 import net.kenji.woh.api.manager.TenraiManager;
 import net.kenji.woh.network.ClientTenraiSkillActivatePacket;
 import net.kenji.woh.network.WohPacketHandler;
@@ -32,24 +32,25 @@ import yesman.epicfight.world.capabilities.item.CapabilityItem;
 
 import java.util.*;
 
-public class TenraiSkillInnate extends HybridInnateSkill {
+public class TenraiSkillInnate extends HybridSkill {
 
     public static Map<UUID, Float> storedResource = new HashMap<>();
     public final Map<AnimationManager.AnimationAccessor<? extends StaticAnimation>, AnimationManager.AnimationAccessor<? extends AttackAnimation>> comboAnimation = Maps.newHashMap();
 
 
-    public TenraiSkillInnate(SkillBuilder<? extends WeaponInnateSkill> builder) {
+    public TenraiSkillInnate(SkillBuilder<? extends Skill> builder) {
         super(builder, 1.0F);
         this.maxDuration = 420;
         this.consumption = 2;
         this.maxStackSize = 3;
     }
-    public TenraiSkillInnate(SkillBuilder<? extends WeaponInnateSkill> builder, float stackChargeTime) {
+    public TenraiSkillInnate(SkillBuilder<? extends Skill> builder, float stackChargeTime) {
         super(builder, stackChargeTime);
         this.maxDuration = 420;
         this.consumption = 2;
         this.maxStackSize = 3;
     }
+
     @Override
     public boolean canExecute(SkillContainer container) {
         if (!container.isActivated()) {
@@ -117,6 +118,12 @@ public class TenraiSkillInnate extends HybridInnateSkill {
     }
 
     @Override
+    public void updateContainer(SkillContainer container) {
+        super.updateContainer(container);
+        tickHoldCooldown();
+    }
+
+    @Override
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
 
@@ -158,6 +165,7 @@ public class TenraiSkillInnate extends HybridInnateSkill {
             if (executor.getSkill(this).isActivated()) {
                 this.cancelOnServer(container, args);
             } else {
+                setMaxHoldCooldown();
                 TenraiManager.resetWeaponCounter(executor.getOriginal());
                 if(container.getExecutor() instanceof ServerPlayerPatch serverPlayerPatch)
                     WohPacketHandler.sendToPlayer(new ClientTenraiSkillActivatePacket(true), serverPlayerPatch.getOriginal());

@@ -11,4 +11,5 @@ public interface IHybridSkill {
     boolean getWasHoldingSkill();
     void sendSkillActivateToClient(boolean value, ServerPlayer player);
     float getStackChargeTime();
+    boolean canHoldInnate();
 }

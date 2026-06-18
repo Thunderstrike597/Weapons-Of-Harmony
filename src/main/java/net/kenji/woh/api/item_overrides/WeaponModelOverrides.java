@@ -1,5 +1,6 @@
 package net.kenji.woh.api.item_overrides;
 
+import net.kenji.woh.WeaponsOfHarmony;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -19,6 +20,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class WeaponModelOverrides extends ItemOverrides {
+    private static final String MODEL_OVERRIDE_TAG = "weapon_model_override";
+    private static final String TEXTURE_OVERRIDE_TAG = "weapon_texture_override";
 
     private final Map<ResourceLocation, BakedModel> modelCache = new HashMap<>();
 
@@ -27,16 +30,19 @@ public class WeaponModelOverrides extends ItemOverrides {
     private final ModelBaker baker;
     private final Function<Material, TextureAtlasSprite> spriteGetter;
     private final ModelState modelState;
-    private final ResourceLocation modelLocation;
+    private final ResourceLocation guiModelLocation;
+
+    private final ResourceLocation defaultObjLocation;
 
     public WeaponModelOverrides(IGeometryBakingContext context, ModelBaker baker,
                                 Function<Material, TextureAtlasSprite> spriteGetter,
-                                ModelState modelState, ResourceLocation modelLocation) {
+                                ModelState modelState, ResourceLocation guiModelLocation, ResourceLocation defaultObjLocation) {
         this.context = context;
         this.baker = baker;
         this.spriteGetter = spriteGetter;
         this.modelState = modelState;
-        this.modelLocation = modelLocation;
+        this.guiModelLocation = guiModelLocation;
+        this.defaultObjLocation = defaultObjLocation;
     }
 
     @Override
@@ -44,33 +50,42 @@ public class WeaponModelOverrides extends ItemOverrides {
     public BakedModel resolve(BakedModel baseModel, ItemStack stack,
                               @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
 
-        String variant = getVariantFromStack(stack);
-
+        String variant = getModelVariantFromStack(stack);
+        String mltVariant = getTextureVariantFromStack(stack);
         // No tag set — return the default base model as-is
-        if (variant.isEmpty()) {
+        if (variant.isEmpty() && mltVariant.isEmpty()) {
             return baseModel;
         }
 
-        ResourceLocation modelId = ResourceLocation.fromNamespaceAndPath("woh", "models/item/obj/variants/" + variant + ".obj");
-        return modelCache.computeIfAbsent(modelId, this::bakeObjModel);
+        ResourceLocation modelLoc = ResourceLocation.fromNamespaceAndPath(WeaponsOfHarmony.MODID, "models/item/obj/variants/" + variant + ".obj");
+        ResourceLocation modelId = variant.isEmpty() ? this.defaultObjLocation : modelLoc;
+        String mltId = mltVariant.isEmpty() ? null : mltVariant;
+        return modelCache.computeIfAbsent(modelId, (location) -> bakeObjModel(location, mltId));
     }
-    private BakedModel bakeObjModel(ResourceLocation objPath) {
+    private BakedModel bakeObjModel(ResourceLocation objPath, @Nullable String mltVariant) {
+        String mtlOverride = (mltVariant == null) ? null
+                : WeaponsOfHarmony.MODID + ":models/item/obj/variants/mtl/" + mltVariant + ".mtl";
+        Log.info("Attempting mtl override at: " + mtlOverride); // confirm exact path
         ObjModel objModel = ObjLoader.INSTANCE.loadModel(
-                new ObjModel.ModelSettings(
-                        objPath,
-                        true,   // flip_v — match your JSON setting
-                        true,
-                        true,
-                        true,
-                        null
-                )
+                new ObjModel.ModelSettings(objPath, true, true, true, true, mtlOverride)
         );
-        return objModel.bake(context, baker, spriteGetter, modelState, ItemOverrides.EMPTY, modelLocation);
+        return objModel.bake(context, baker, spriteGetter, modelState, ItemOverrides.EMPTY, guiModelLocation);
+    }
+    public static void setItemTextureVariant(ItemStack stack, String variant){
+        stack.getOrCreateTag().putString(TEXTURE_OVERRIDE_TAG, variant);
+    }
+    public static void setItemModelVariant(ItemStack stack, String variant){
+        stack.getOrCreateTag().putString(MODEL_OVERRIDE_TAG, variant);
     }
 
-    private String getVariantFromStack(ItemStack stack) {
+    private String getModelVariantFromStack(ItemStack stack) {
         // Read from NBT / DataComponents / capability
         CompoundTag tag = stack.getOrCreateTag();
-        return tag.getString("weapon_variant"); // fallback to default if empty
+        return tag.getString(MODEL_OVERRIDE_TAG); // fallback to default if empty
+    }
+    private String getTextureVariantFromStack(ItemStack stack) {
+        // Read from NBT / DataComponents / capability
+        CompoundTag tag = stack.getOrCreateTag();
+        return tag.getString(TEXTURE_OVERRIDE_TAG); // fallback to default if empty
     }
 }

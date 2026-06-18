@@ -25,7 +25,8 @@ public class InAirCondition implements Condition<PlayerPatch<?>> {
         return new CompoundTag();
     }
 
-    private static Map<UUID, Boolean> wasInAir = new HashMap<>();
+    private static final Map<UUID, Boolean> wasInAir = new HashMap<>();
+
     @Mod.EventBusSubscriber(
             modid = WeaponsOfHarmony.MODID,
             bus = Mod.EventBusSubscriber.Bus.FORGE,

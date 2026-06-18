@@ -24,14 +24,14 @@ import java.util.List;
         bus = Mod.EventBusSubscriber.Bus.FORGE,
         value = Dist.CLIENT)
 public class CooldownCounterCondition implements Condition<PlayerPatch<?>>, ICooldown {
-    public final int cooldown;
+    public int cooldown;
     public final ComboNode comboAnim;
     public int currentCooldown = 0;
 
     public static List<CooldownCounterCondition> conditions = new ArrayList<>();
 
-    public CooldownCounterCondition(ComboNode comboNode, int cooldown){
-        this.cooldown = cooldown;
+    public CooldownCounterCondition(ComboNode comboNode, double cooldown){
+        this.cooldown = (int)cooldown * 20;
         this.comboAnim = comboNode;
         conditions.add(this);
     }
@@ -68,8 +68,9 @@ public class CooldownCounterCondition implements Condition<PlayerPatch<?>>, ICoo
 
     @Override
     public void depleteCooldown() {
-        if(currentCooldown > 0)
+        if(currentCooldown > 0) {
             currentCooldown--;
+        }
     }
 
     @Override

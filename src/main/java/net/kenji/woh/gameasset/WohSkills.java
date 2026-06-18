@@ -66,7 +66,7 @@ public class WohSkills {
                         .setResource(Skill.Resource.COOLDOWN)
         ));
         skills.add(SPLIT_TENRAI = modRegistry.build("split_tenrai", (builder) -> new TenraiSkillInnate(builder, 8.0F),
-                WeaponInnateSkill.createWeaponInnateBuilder()
+                TenraiSkillInnate.createBuilder()
                         .setActivateType(Skill.ActivateType.DURATION)
                         .setCategory(WohSkillCategories.WEAPON_SECONDARY)
                         .setResource(Skill.Resource.COOLDOWN)

@@ -73,7 +73,7 @@ public class WeaponGeometry implements IUnbakedGeometry<WeaponGeometry> {
             }
         }
 
-        WeaponModelOverrides customOverrides = new WeaponModelOverrides(context, baker, spriteGetter, modelState, modelLocation);
+        WeaponModelOverrides customOverrides = new WeaponModelOverrides(context, baker, spriteGetter, modelState, modelLocation, this.defaultObjPath);
         return new SwordBakedModel(baseModel, customOverrides, perspectives);
     }
 

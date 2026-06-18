@@ -20,8 +20,8 @@ public class ArbitersBlade extends HolsterWeaponBase {
 
 
     static Vec3Pair holsterSize = new Vec3Pair(
-            0.8F, 0.75F, 0.75F,
-            0.8F, 0.75F, 0.75F);
+            0.7F, 0.65F, 0.65F,
+            0.7F, 0.65F, 0.65F);
 
     static QuaternionFPair holsterRotation = new QuaternionFPair(
             -1597.5F, -1387.8457F, 290.4004F,

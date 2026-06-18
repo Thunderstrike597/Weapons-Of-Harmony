@@ -26,7 +26,7 @@ import yesman.epicfight.world.capabilities.item.CapabilityItem;
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class DualSkillInputHandler {
 
-    @SubscribeEvent
+
     public static void onKeyInput(InputEvent.Key event) {
 
         Minecraft mc = Minecraft.getInstance();

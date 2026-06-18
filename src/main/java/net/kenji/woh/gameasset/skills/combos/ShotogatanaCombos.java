@@ -81,7 +81,7 @@ public class ShotogatanaCombos extends BaseComboBuilder {
                 .addCondition(new DownCondition());
 
 
-        downCombo1.addCondition(new CooldownCounterCondition(downCombo1, 185));
+        downCombo1.addCondition(new CooldownCounterCondition(downCombo1, 9.25));
 
         ComboNode jumpAttack1 = createShotogatanaAirComboNode(CorruptAnimations.YAMATO_AIR1, true).addCondition(new InAirCondition()).addTimeEvent(new TimeStampedEvent(0.1F,((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch))));
         ComboNode jumpAttack2 = createShotogatanaAirComboNode(CorruptAnimations.YAMATO_AIR2, false).addCondition(new InAirCondition()).addTimeEvent(new TimeStampedEvent(0.1F, ((entityPatch, target, invinciblePlayer) -> WOHAnimationUtils.katanaOutEvent(entityPatch))));

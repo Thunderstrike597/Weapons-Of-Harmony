@@ -49,7 +49,6 @@ public abstract class ControlEngineMixin {
 
     @Shadow
     public abstract void lockHotkeys();
-    // existing shadows...
 
     // New shadows needed
     @Shadow private boolean weaponInnatePressToggle;
@@ -67,6 +66,8 @@ public abstract class ControlEngineMixin {
         SkillContainer passiveContainer = playerPatch.getSkill(weaponCapability.getSecondarySkillSlot());
         if (passiveContainer == null || passiveContainer.isEmpty()) return;
         if (!(passiveContainer.getSkill() instanceof IHybridSkill hybridSkill)) return;
+        if(hybridSkill.canHoldInnate())
+
 
         if (!InputManager.isBoundToSamePhysicalInput(
                 EpicFightInputAction.WEAPON_INNATE_SKILL, EpicFightInputAction.ATTACK)) return;

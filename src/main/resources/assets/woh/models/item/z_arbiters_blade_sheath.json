@@ -2,13 +2,13 @@
   "loader": "forge:separate_transforms",
   "base": {
     "loader": "forge:obj",
-    "model": "woh:models/item/obj/holster/sheath/arbiters_sheath_ms.obj",
+    "model": "woh:models/item/obj/holster/sheath/voxel_arbiters_sheath_ms.obj",
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {
         "translation": [6, -4, 8],
         "rotation": [0, 0, 0],
-        "scale": [1, 1, 0.875]
+        "scale": [0.5, 0.8, 0.75]
       },
       "firstperson_righthand": {
         "translation": [13, -6, 0],
