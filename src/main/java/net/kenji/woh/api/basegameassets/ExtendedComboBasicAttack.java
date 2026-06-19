@@ -6,6 +6,14 @@ import com.p1nero.invincible.skill.ComboBasicAttack;
 public class ExtendedComboBasicAttack extends ComboBasicAttack {
 
     private final ComboNode root;
+    private boolean wasChanged = false;
+
+    public boolean getWasChanged(){
+        return wasChanged;
+    }
+    public void setWasChanged(boolean value){
+        wasChanged = value;
+    }
 
     public ExtendedComboBasicAttack(Builder builder, ComboNode root) {
         super(builder);

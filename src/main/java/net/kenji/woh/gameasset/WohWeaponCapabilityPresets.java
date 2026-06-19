@@ -32,8 +32,7 @@ import java.util.function.Function;
 public class WohWeaponCapabilityPresets {
 
     public static final Function<Item, CapabilityItem.Builder> SHOTOGATANA = (item) -> {
-        WeaponCapability.Builder builder = WeaponCapability.builder()
-                .category(WohWeaponCategories.SHOTOGATANA)
+        DualSkillWeaponCapability.Builder builder = (DualSkillWeaponCapability.Builder)DualSkillWeaponCapability.builder()                .category(WohWeaponCategories.SHOTOGATANA)
                 .styleProvider((playerPatch) -> {
                     ItemStack stack = playerPatch.getOriginal().getMainHandItem();
                             boolean isSheathed = stack.getItem() instanceof Shotogatana && ShotogatanaManager.getWeaponSheathed(playerPatch.getOriginal());
@@ -72,11 +71,9 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, Animations.BIPED_HOLD_TACHI)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, Animations.BIPED_HOLD_TACHI)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.LONGSWORD_GUARD)
-
                 .innateSkill(CapabilityItem.Styles.SHEATH, (itemstack) -> WohSkills.SHOTOGATANA_COMBO)
-
                 .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WohSkills.SHOTOGATANA_COMBO);
-
+        builder.secondarySkill((itemStack) -> WohSkills.SHOTOGATANA_SKILL);
         return builder;
     };
 

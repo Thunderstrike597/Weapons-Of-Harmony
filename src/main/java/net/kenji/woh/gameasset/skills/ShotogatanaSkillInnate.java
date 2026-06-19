@@ -2,15 +2,24 @@ package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.p1nero.invincible.api.skill.ComboNode;
+import com.p1nero.invincible.capability.InvincibleCapabilities;
+import com.p1nero.invincible.capability.InvinciblePlayer;
+import net.corruptdog.cdm.gameasset.CorruptAnimations;
+import net.kenji.woh.api.basegameassets.HybridSkill;
 import net.kenji.woh.api.interfaces.ITranslatableSkill;
+import net.kenji.woh.api.manager.ComboBasicAttackCounterManager;
+import net.kenji.woh.api.manager.TenraiManager;
 import net.kenji.woh.network.ClientShotogatanaSkillPacket;
 import net.kenji.woh.network.ClientTenraiSkillActivatePacket;
 import net.kenji.woh.network.WohPacketHandler;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
+import net.kenji.woh.registry.animation.TenraiAnimations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
 import org.jline.utils.Log;
@@ -21,8 +30,7 @@ import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.gameasset.EpicFightSkills;
-import yesman.epicfight.skill.SkillBuilder;
-import yesman.epicfight.skill.SkillContainer;
+import yesman.epicfight.skill.*;
 import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
@@ -33,35 +41,64 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class ShotogatanaSkillInnate extends WeaponInnateSkill implements ITranslatableSkill {
+public class ShotogatanaSkillInnate extends HybridSkill {
 
     public static Map<UUID, Float> storedResource = new HashMap<>();
-    public final int MAX_HOLD_COUNTER = 60;
-    public int holdCounter = 0;
+    public final Map<Integer, AnimationManager.AnimationAccessor<? extends AttackAnimation>> comboAnimation = Maps.newHashMap();
 
-    public final Map<AnimationManager.AnimationAccessor<? extends StaticAnimation>, AnimationManager.AnimationAccessor<? extends AttackAnimation>> comboAnimation = Maps.newHashMap();
 
-    private int previousStack;
-
-    public ShotogatanaSkillInnate(SkillBuilder builder) {
-        super(builder);
+    public ShotogatanaSkillInnate(SkillBuilder<? extends Skill> builder) {
+        super(builder, 1.0F);
         this.maxDuration = 420;
-        this.consumption = 20;
-        this.maxStackSize = 1;
+        this.consumption = 2;
+        this.maxStackSize = 3;
     }
+    public ShotogatanaSkillInnate(SkillBuilder<? extends Skill> builder, float stackChargeTime) {
+        super(builder, stackChargeTime);
+        this.maxDuration = 420;
+        this.consumption = 2;
+        this.maxStackSize = 3;
+    }
+
     @Override
     public boolean canExecute(SkillContainer container) {
         if (!container.isActivated()) {
-            return super.checkExecuteCondition(container);
+            PlayerPatch<?> executor = container.getExecutor();
+            AnimationPlayer animPlayer = executor.getAnimator().getPlayerFor(null);
+            if(container.getExecutor().getOriginal().isCreative())
+                return true;
+            if (animPlayer == null) {
+                Log.info("Logging Skill CanExecute!!");
+
+                return super.checkExecuteCondition(container);
+            }
+
+            DynamicAnimation animation = animPlayer.getAnimation().get();
+            if (animation.isBasicAttackAnimation() || animation instanceof AttackAnimation) {
+                return container.getStack() > 0;
+            }
+            /*else{
+                return container.getStack() >= container.getSkill().getMaxStack();
+            }*/
         }
         return true;
     }
+
+
+
+    @Override
+    public void sendSkillActivateToClient(boolean value, ServerPlayer serverPlayer) {
+        WohPacketHandler.sendToPlayer(new ClientTenraiSkillActivatePacket(value), serverPlayer);
+    }
+
     @Override
     public ResourceLocation getSkillTexture() {
         return EpicFightSkills.RELENTLESS_COMBO.getSkillTexture();
     }
 
+    public ItemStack lastMainHandItem = ItemStack.EMPTY;
 
+    boolean isActivated;
     @Override
     public String getSkillName() {
         return "Shotogatana Skill";
@@ -87,6 +124,12 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill implements ITransl
     }
 
     @Override
+    public void updateContainer(SkillContainer container) {
+        super.updateContainer(container);
+        tickHoldCooldown();
+    }
+
+    @Override
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
 
@@ -109,63 +152,46 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill implements ITransl
     }
 
     @Override
-    public void updateContainer(SkillContainer container) {
-        super.updateContainer(container);
-        if (!container.isActivated()) {
-            PlayerPatch<?> executor = container.getExecutor();
-            AnimationPlayer animPlayer = executor.getAnimator().getPlayerFor(null);
-            if(container.getStack() != maxStackSize) {
-
-                if (animPlayer == null) {
-                    return;
-                }
-                DynamicAnimation animation = animPlayer.getAnimation().get();
-                if (animation.isBasicAttackAnimation() || animation instanceof AttackAnimation) {
-                    AssetAccessor<? extends DynamicAnimation> current =
-                            animPlayer.getAnimation();
-                    AssetAccessor<? extends AttackAnimation> next = this.comboAnimation.get(current.get().getAccessor());
-                    if (next != null) {
-                        this.previousStack = container.getStack();
-                        container.setStack(maxStackSize);
-                    }
-                } else {
-                    container.setStack(this.previousStack);
-                }
-            }
-        }
-    }
-
-    @Override
     public void executeOnServer(SkillContainer container, FriendlyByteBuf args) {
         ServerPlayerPatch executor = container.getServerExecutor();
         AnimationPlayer animPlayer = executor.getAnimator().getPlayerFor(null);
         if(animPlayer == null)
             return;
         DynamicAnimation animation = animPlayer.getAnimation().get();
-        if(animation.isBasicAttackAnimation() || animation instanceof AttackAnimation) {
-            AssetAccessor<? extends DynamicAnimation> current =
-                    animPlayer.getAnimation();
-            AssetAccessor<? extends AttackAnimation> next = this.comboAnimation.get(current.get().getAccessor());
-            Log.info("EXECUTING ATTACK ANIM: " + next);
-            if (next != null) {
-                executor.playAnimationSynchronized(next, 0.0F);
+        InvinciblePlayer invinciblePlayer = InvincibleCapabilities.getPlayerCap(executor.getOriginal());
+        SkillContainer basicAttackContainer = executor.getSkill(EpicFightSkills.BASIC_ATTACK);
+        ComboNode node = invinciblePlayer.getCurrentLogicNode();
+        if(node == null)return;
+        int comboCounter = ComboBasicAttackCounterManager.getInvincibleComboCounter(executor.getOriginal());
+        AssetAccessor<? extends AttackAnimation> next = this.comboAnimation.get(comboCounter);
+        if(next == null){
+            for(int i = this.comboAnimation.size(); i > 0; i--){
+                if(this.comboAnimation.get(i) != null){
+                    next = this.comboAnimation.get(i);
+                    break;
+                }
             }
-            executor.playSound(SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F);
         }
-        else {
+
+        if (next != null) {
+            executor.playAnimationSynchronized(next, 0.0F);
+        }
+
+        /*else if(container.getStack() >= container.getSkill().getMaxStack() - 1 || container.isActivated() || container.getExecutor().getOriginal().isCreative()) {
             if (executor.getSkill(this).isActivated()) {
                 this.cancelOnServer(container, args);
             } else {
-                //TenraiManager.pauseRenderSplitMap.put(executor.getOriginal().getUUID(), 40);
+                setMaxHoldCooldown();
+                TenraiManager.resetWeaponCounter(executor.getOriginal());
                 if(container.getExecutor() instanceof ServerPlayerPatch serverPlayerPatch)
-                    WohPacketHandler.sendToPlayer(new ClientShotogatanaSkillPacket(true), executor.getOriginal());
+                    WohPacketHandler.sendToPlayer(new ClientTenraiSkillActivatePacket(true), serverPlayerPatch.getOriginal());
 
                 super.executeOnServer(container, args);
                 executor.getSkill(this).activate();
                 executor.modifyLivingMotionByCurrentItem(false);
-                executor.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_UNSHEATH, 0.15F);
+                executor.playAnimationSynchronized(TenraiAnimations.TENRAI_SKILL_ACTIVATE, 0.15F);
             }
-        }
+        }*/
     }
 
     @Override
@@ -178,7 +204,7 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill implements ITransl
                 .withStyle(ChatFormatting.AQUA));
         if(!getSkillTooltipExtra().isEmpty())
             list.add(Component.translatable(traslatableText + ".tooltip.extra", this.maxDuration)
-                .withStyle(ChatFormatting.RED).append(String.valueOf(this.maxDuration / 20)));
+                    .withStyle(ChatFormatting.RED).append(String.valueOf(this.maxDuration / 20)));
         return list;
     }
 
@@ -190,14 +216,12 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill implements ITransl
         // First check the base animation conditions
         ServerPlayerPatch executor = container.getServerExecutor();
 
-        WohPacketHandler.sendToPlayer(new ClientShotogatanaSkillPacket(false), executor.getOriginal());
-        //TenraiManager.pauseRenderSplitMap.put(executor.getOriginal().getUUID(), 40);
-
+        TenraiManager.resetWeaponCounter(executor.getOriginal());
 
         executor.getSkill(this).deactivate();
         super.cancelOnServer(container, args);
         executor.modifyLivingMotionByCurrentItem(false);
-        executor.playAnimationSynchronized(ShotogatanaAnimations.SHOTOGATANA_SHEATH, 0.15F);
+        executor.playAnimationSynchronized(TenraiAnimations.TENRAI_SKILL_DEACTIVATE, 0.15F);
         if(executor.getSkill(this) != null) {
             setConsumptionSynchronize(container,0);
             setStackSynchronize(container, 0);
@@ -207,26 +231,33 @@ public class ShotogatanaSkillInnate extends WeaponInnateSkill implements ITransl
     public void executeOnClient(SkillContainer container, FriendlyByteBuf args) {
         // First check the base animation conditions
         ServerPlayerPatch executor = container.getServerExecutor();
-        //TenraiManager.pauseRenderSplitMap.put(executor.getOriginal().getUUID(), 40);
-
+        TenraiManager.resetWeaponCounter(executor.getOriginal());
         super.executeOnClient(container, args);
+        Log.info("Logging EXECUTE On CLIENT");
         executor.getSkill(this).activate();
     }
     @Override
     public void cancelOnClient(SkillContainer container, FriendlyByteBuf args) {
         // First check the base animation conditions
         ServerPlayerPatch executor = container.getServerExecutor();
-        //TenraiManager.pauseRenderSplitMap.put(executor.getOriginal().getUUID(), 40);
-
+        TenraiManager.resetWeaponCounter(executor.getOriginal());
         super.cancelOnClient(container, args);
+        Log.info("Logging Cancel On CLIENT");
         executor.getSkill(this).deactivate();
     }
-    @Override
-    public WeaponInnateSkill registerPropertiesToAnimation() {
-        this.comboAnimation.clear();
-        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_2, ShotogatanaAnimations.SHOTOGATANA_SKILL_COMBO_2);
-        this.comboAnimation.put(ShotogatanaAnimations.SHOTOGATANA_AUTO_3, ShotogatanaAnimations.SHOTOGATANA_SKILL_COMBO_3);
 
-        return this;
+    private void addAnimationCombo(AnimationManager.AnimationAccessor<? extends AttackAnimation> animation){
+        this.comboAnimation.put(this.comboAnimation.size(), animation);
+    }
+    @Override
+    public Skill registerPropertiesToAnimation() {
+        this.comboAnimation.clear();
+        addAnimationCombo(CorruptAnimations.YAMATO_JUDGEMENT_CUT);
+        addAnimationCombo(CorruptAnimations.YAMATO_JUDGEMENT_CUT);
+        addAnimationCombo(CorruptAnimations.YAMATO_JUDGEMENT_CUT);
+
+        addAnimationCombo(ShotogatanaAnimations.SHOTOGATANA_SKILL_COMBO_2);
+
+        return super.registerPropertiesToAnimation();
     }
 }

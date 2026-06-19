@@ -1,6 +1,6 @@
 {
 	"loader": "forge:obj",
-    "model": "woh:models/item/obj/holster/sheath/shotogatana_sheath.obj",
+    "model": "woh:models/item/obj/holster/sheath/voxel_shotogatana_sheath.obj",
     "flip_v": true,
 	"display":
 	{

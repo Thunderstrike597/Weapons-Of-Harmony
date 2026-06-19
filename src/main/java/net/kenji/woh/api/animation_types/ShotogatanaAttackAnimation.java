@@ -46,7 +46,7 @@ public class ShotogatanaAttackAnimation extends BasicAttackAnimation {
 
     private static Map<UUID, Boolean> queFallReset = new HashMap<>();
 
-    public ShotogatanaAttackAnimation(float convertTime, float speed, AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> accessor, float unsheatheTime, float sheathTime, int phaseCount, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean moveVertical) {
+    public ShotogatanaAttackAnimation(float convertTime, float speed, AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> accessor, float unsheatheTime, float sheathTime, int phaseCount, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean moveVertical, float movementMultiplier) {
         super(convertTime, accessor, Armatures.BIPED, buildPhases(phaseCount, start ,antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, colliderJoints));
         this.unsheatheTime = unsheatheTime;
         this.sheathTime = sheathTime;
@@ -56,13 +56,13 @@ public class ShotogatanaAttackAnimation extends BasicAttackAnimation {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
                 .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false);
         this.addProperty(AnimationProperty.AttackAnimationProperty.MOVE_VERTICAL, moveVertical);
-        this.addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_BEGIN, WOHAnimationUtils.scaledRawCoord(2F));
-        this.addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_TICK,  WOHAnimationUtils.scaledRawCoord(2F));
+        this.addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_BEGIN, WOHAnimationUtils.scaledRawCoord(movementMultiplier));
+        this.addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_TICK,  WOHAnimationUtils.scaledRawCoord(movementMultiplier));
         this.ignoreFallDamage = false;
         this.isAirAttack = false;
     }
 
-    public ShotogatanaAttackAnimation(float convertTime, float speed, AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> accessor, float unsheatheTime, float sheathTime, int phaseCount, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean ignoreFallDamage, float[] inAirTime) {
+    public ShotogatanaAttackAnimation(float convertTime, float speed, AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> accessor, float unsheatheTime, float sheathTime, int phaseCount, float[] start , float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, StunType stunType, Collider[] colliders, Joint[] colliderJoints, boolean ignoreFallDamage, float[] inAirTime, float movementMultiplier) {
         super(convertTime, accessor, Armatures.BIPED, buildPhases(phaseCount,start ,antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, colliderJoints));
         this.unsheatheTime = unsheatheTime;
         this.sheathTime = sheathTime;
@@ -73,6 +73,7 @@ public class ShotogatanaAttackAnimation extends BasicAttackAnimation {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
                 .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false)
                 .addProperty(AnimationProperty.AttackAnimationProperty.NO_GRAVITY_TIME, TimePairList.create(inAirTime));
+
         this.ignoreFallDamage = ignoreFallDamage;
         this.isAirAttack = true;
     }

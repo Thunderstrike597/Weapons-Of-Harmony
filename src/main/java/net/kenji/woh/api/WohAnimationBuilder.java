@@ -22,7 +22,7 @@ public class WohAnimationBuilder {
                 cfg.start, cfg.antic, cfg.contact, cfg.recovery, cfg.end,
                 cfg.swingSound, cfg.hitSound, cfg.hitParticle,
                 cfg.colliders, cfg.colliderJoints, cfg.stunType,
-                cfg.eventFirstTime, cfg.eventSecondTime
+                cfg.eventFirstTime, cfg.eventSecondTime, cfg.movementMultiplier
         );
     }
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> tenraiSplit(

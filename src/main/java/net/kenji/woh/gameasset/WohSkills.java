@@ -38,7 +38,7 @@ public class WohSkills {
         skills.add(SHOTOGATANA_SKILL = modRegistry.build("shotogatana_two_hand_stance", ShotogatanaSkillInnate::new,
                 ShotogatanaSkillInnate.createBuilder()
                         .setActivateType(Skill.ActivateType.DURATION)
-                        .setCategory(SkillCategories.WEAPON_INNATE)
+                        .setCategory(WohSkillCategories.WEAPON_SECONDARY)
                         .setResource(Skill.Resource.COOLDOWN)
         ));
         skills.add(FAN_STANCE = modRegistry.build("throw_stance", TessenAimSkill::new,

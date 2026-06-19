@@ -438,7 +438,8 @@ public class WOHAnimationUtils {
             Joint[] colliderJoints,
             StunType stunType,
             float unsheatheTime,
-            float sheathTime
+            float sheathTime,
+            float movementMultiplier
     ) {
         AnimationManager.AnimationAccessor<BasicAttackAnimation> animation = null;
         switch(type) {
@@ -446,14 +447,14 @@ public class WOHAnimationUtils {
                 animation = builder.nextAccessor(path, accessor -> new ShotogatanaAttackAnimation(convertTime, speed,
                         accessor, unsheatheTime, sheathTime, phaseCount,
                         start, antic, contact, recovery, end,
-                        swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, false
+                        swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, false, movementMultiplier
                 ));
                 break;
             case BASIC_ATTACK_JUMP:
                 animation = builder.nextAccessor(path, accessor -> new ShotogatanaAttackAnimation(convertTime, speed,
                         accessor, unsheatheTime, sheathTime, phaseCount,
                         start, antic, contact, recovery, end,
-                        swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, true
+                        swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, true, movementMultiplier
                 ));
                 break;
         }
@@ -482,51 +483,6 @@ public class WOHAnimationUtils {
                         AnimationEvent.InTimeEvent.create(unsheatheTime, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
                 });
             }
-            return anim;
-        };
-        DEFERRED_SETUP.add(setupSupplier);
-        return animation;
-    }
-    public static AnimationManager.AnimationAccessor<BasicAttackAnimation> createShotogatanaAirAttackAnimation(
-            AnimationManager.AnimationBuilder builder,
-            String path,
-            int phaseCount,
-            float speed,
-            float convertTime,
-            float[] start,
-            float[] antic,
-            float[] contact,
-            float[] recovery,
-            float[] end,
-            Supplier<SoundEvent>[] swingSound,
-            Supplier<SoundEvent>[] hitSound,
-            RegistryObject<HitParticleType>[] hitParticle,
-            Collider[] colliders,
-            Joint[] colliderJoints,
-            StunType stunType,
-            float[] airTime,
-            boolean ignoreFallDamage,
-            float unsheatheTime,
-            float sheathTime
-    ) {
-        AnimationManager.AnimationAccessor<BasicAttackAnimation> animation = null;
-
-        animation = builder.nextAccessor(path, accessor -> new ShotogatanaAttackAnimation(convertTime, speed,
-                accessor, unsheatheTime, sheathTime, phaseCount,
-                start, antic, contact, recovery, end,
-                swingSound, hitSound, hitParticle, stunType, colliders, colliderJoints, ignoreFallDamage, airTime
-        ));
-
-        AnimationManager.AnimationAccessor<? extends AttackAnimation> finalAnimation = animation;
-
-        Supplier<StaticAnimation> setupSupplier = () -> {
-            AttackAnimation anim = finalAnimation.get();
-
-            anim.addEvents(new AnimationEvent[]{
-                    AnimationEvent.InTimeEvent.create(unsheatheTime, ReusableEvents.UNSHEATH_E0, AnimationEvent.Side.BOTH),
-                    AnimationEvent.InTimeEvent.create(sheathTime, ReusableEvents.SHEATH_E0, AnimationEvent.Side.BOTH)
-            });
-
             return anim;
         };
         DEFERRED_SETUP.add(setupSupplier);

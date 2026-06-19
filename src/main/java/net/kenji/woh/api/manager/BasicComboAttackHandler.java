@@ -25,8 +25,7 @@ public class BasicComboAttackHandler {
            InvinciblePlayer invinciblePlayer = InvincibleCapabilities.getPlayerCap(patch.getOriginal());
            if(!invinciblePlayer.getCurrentLogicNode().hasNext()){
                invinciblePlayer.setCurrentLogicNode(comboBasicAttack.getRoot());
-
-               Log.info("Setting Current Logic Node!");
+               comboBasicAttack.setWasChanged(true);
            }
         }
     }
