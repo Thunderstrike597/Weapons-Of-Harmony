@@ -57,7 +57,7 @@ public class WohAnimationBuilder {
         return WOHAnimationUtils.createAttackAnimation(
                 builder, type, cfg.path, cfg.phaseCount, cfg.convertTime, cfg.speed, 0, 0,
                 cfg.start, cfg.antic, cfg.contact, cfg.recovery, cfg.end,
-                cfg.swingSound, cfg.hitSound, cfg.hitParticle, cfg.colliders, cfg.attackingHands, cfg.stunType, -1, -1
+                cfg.swingSound, cfg.hitSound, cfg.hitParticle, cfg.colliders, cfg.attackingHands, cfg.stunType, cfg.movementMultiplier,-1, -1
         );
     }
 

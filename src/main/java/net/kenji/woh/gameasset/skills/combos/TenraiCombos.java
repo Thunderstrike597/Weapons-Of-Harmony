@@ -76,35 +76,39 @@ public class TenraiCombos extends BaseComboBuilder {
         ComboNode backAttack = createTenraiDodgeComboNode(TenraiAnimations.TENRAI_AUTO_3, basic1).addCondition(new DownCondition());
         backAttack.addCondition(new CooldownCounterCondition(backAttack, 6.75F));
 
-        ComboNode dash1 = createTenraiComboNode(TenraiAnimations.TENRAI_AUTO_1).addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, true)).addCondition(new SprintingCondition()).setPlaySpeed(0.8F);
-        ComboNode dash2 = createTenraiComboNode(TenraiAnimations.TENRAI_AUTO_5).addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, true)).addCondition(new SprintingCondition()).setPlaySpeed(0.8F);
+        ComboNode dash1 = createTenraiComboNode(TenraiAnimations.TENRAI_DASH).addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, true)).addCondition(new SprintingCondition()).setPlaySpeed(1);
+        ComboNode dash2 = createTenraiComboNode(TenraiAnimations.TENRAI_AUTO_5).addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, true)).addCondition(new SprintingCondition()).setPlaySpeed(1);
+
+        ComboNode skillDash = createTenraiComboNode(TenraiAnimations.TENRAI_SKILL_DASH).addCondition(new SkillActivatedCondition(WohSkills.SPLIT_TENRAI, false)).addCondition(new SprintingCondition()).setPlaySpeed(1F);
 
 
         /// root
-        createMovementCombo(root, basicAttack, new ComboNodeWrapper(leftDodge, rightDodge, basicSkillAttack, dash1));
+        createMovementCombo(root, basicAttack, new ComboNodeWrapper(leftDodge, rightDodge, dash1, skillDash, basicSkillAttack));
         /// root decision
-        ComboNode rootDecision = createMovementCombo(basicAttack, basic1, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1));
+        ComboNode rootDecision = createMovementCombo(basicAttack, basic1, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, dash1, basicSkillAttack, dash1, skillDash));
 
         /// basic > basic+
-        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1));
-        createMovementCombo(basic2, basic3, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1));
-        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1));
+        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1, skillDash));
+        createMovementCombo(basic2, basic3, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1, skillDash));
+        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1, skillDash));
         /// left > left+
-        createMovementCombo(leftDodge, basic1, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1));
-        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1));
-        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1));
+        createMovementCombo(leftDodge, basic1, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1, skillDash));
+        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1, skillDash));
+        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1, skillDash));
         ///right > right+
-        createMovementCombo(rightDodge, basic1, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1));
-        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1));
-        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1));
+        createMovementCombo(rightDodge, basic1, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1, skillDash));
+        createMovementCombo(basic1, basic2, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1, skillDash));
+        createMovementCombo(basic3, basic4, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, basicSkillAttack, dash1, skillDash));
         ///jump > jump+
 
-        createMovementCombo(basicSkillAttack, basicSkill1, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, dash1));
-        createMovementCombo(basicSkill1, basicSkill2, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, dash1));
-        createMovementCombo(basicSkill2, basicSkill3, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, dash1));
 
         /// dash > dash++
-        createMovementCombo(dash1, dash2, new ComboNodeWrapper(leftDodge, rightDodge, backAttack));
+        createMovementCombo(dash1, dash2, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, skillDash));
+
+
+        createMovementCombo(basicSkillAttack, basicSkill1, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, skillDash));
+        createMovementCombo(basicSkill1, basicSkill2, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, skillDash));
+        createMovementCombo(basicSkill2, basicSkill3, new ComboNodeWrapper(leftDodge, rightDodge, backAttack, skillDash));
 
 
         return registryWorker.build("tenrai_combo_skill", (builder) -> new ExtendedComboBasicAttack(builder, root), ExtendedComboBasicAttack

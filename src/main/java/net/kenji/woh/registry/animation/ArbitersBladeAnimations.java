@@ -70,6 +70,7 @@ public class ArbitersBladeAnimations {
                         .hit(EpicFightSounds.BLADE_HIT)
                         .particle(EpicFightParticles.HIT_BLADE)
                         .collider(ColliderPreset.LONGSWORD, biped.get().toolR)
+                        .movementMultiplier(2.25F)
                         .build()
         );
         ARBITERS_BLADE_AUTO_2 = WohAnimationBuilder.generic(builder,
@@ -80,6 +81,7 @@ public class ArbitersBladeAnimations {
                         .hit(EpicFightSounds.BLADE_HIT)
                         .particle(EpicFightParticles.HIT_BLADE)
                         .collider(ColliderPreset.LONGSWORD, biped.get().toolR)
+                        .movementMultiplier(2.25F)
                         .build()
         );
         ARBITERS_BLADE_AUTO_3 = WohAnimationBuilder.generic(builder,
@@ -91,6 +93,7 @@ public class ArbitersBladeAnimations {
                         .hit(EpicFightSounds.BLADE_HIT)
                         .particle(EpicFightParticles.HIT_BLADE)
                         .collider(ColliderPreset.LONGSWORD, biped.get().toolR)
+                        .movementMultiplier(2.25F)
                         .build()
         );
         ARBITERS_BLADE_AUTO_4 = WohAnimationBuilder.generic(builder,
@@ -105,6 +108,7 @@ public class ArbitersBladeAnimations {
                         .particle(EpicFightParticles.HIT_BLUNT, 1)
                         .collider(ColliderPreset.LONGSWORD, biped.get().toolR, 0)
                         .collider(ColliderPreset.DAGGER, biped.get().toolL, 1)
+                        .movementMultiplier(2F)
                         .build()
         );
         ARBITERS_BLADE_SPIN_ATTACK_RIGHT = WohAnimationBuilder.generic(builder,

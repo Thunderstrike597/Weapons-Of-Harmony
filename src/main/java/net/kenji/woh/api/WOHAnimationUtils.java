@@ -575,6 +575,93 @@ public class WOHAnimationUtils {
         DEFERRED_SETUP.add(setupSupplier);
         return animation;
     }
+    public static AnimationManager.AnimationAccessor<BasicAttackAnimation> createAttackAnimation(
+            AnimationManager.AnimationBuilder builder,
+            AttackAnimationType type,
+            String path,
+            int phaseCount,
+            float convertTime,
+            float attackSpeed,
+            float attackDamage,
+            float impact,
+            float[] start,
+            float[] antic,
+            float[] contact,
+            float[] recovery,
+            float[] end,
+            Supplier<SoundEvent>[] swingSound,
+            Supplier<SoundEvent>[] hitSound,
+            RegistryObject<HitParticleType>[] hitParticle,
+            Collider[] colliders,
+            AttackHand[] attackHand,
+            StunType stunType,
+            float movementMultiplier,
+            float normalizedStart,
+            float normalizedEnd
+    ) {
+        AnimationManager.AnimationAccessor<BasicAttackAnimation> animation;
+        switch(type) {
+            case BASIC_ATTACK, BASIC_ATTACK_SHEATH:
+                animation = builder.nextAccessor(path, accessor -> new WohAttackAnimation(
+                        convertTime,        // convertTime first
+                        accessor,           // PASS THE ACCESSOR!
+                        type,
+                        null,               // endAnimation
+                        phaseCount,
+                        attackSpeed,
+                        start,
+                        antic,
+                        contact,
+                        recovery,
+                        end,
+                        swingSound,
+                        hitSound,
+                        hitParticle,
+                        stunType,
+                        colliders,
+                        attackHand,
+                        false,
+                        movementMultiplier
+                ));
+                break;
+            case BASIC_ATTACK_JUMP:
+                animation = builder.nextAccessor(path, accessor -> new WohAttackAnimation(
+                        convertTime,        // convertTime first
+                        accessor,           // PASS THE ACCESSOR!
+                        type,
+                        null,               // endAnimation
+                        phaseCount,
+                        attackSpeed,
+                        start,
+                        antic,
+                        contact,
+                        recovery,
+                        end,
+                        swingSound,
+                        hitSound,
+                        hitParticle,
+                        stunType,
+                        colliders,
+                        attackHand,
+                        true,
+                        movementMultiplier
+                ));
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown animation type: " + type);
+        }
+
+        AnimationManager.AnimationAccessor<? extends AttackAnimation> finalAnimation = animation;
+
+        Supplier<StaticAnimation> setupSupplier = () -> {
+            AttackAnimation anim = finalAnimation.get();
+
+            return anim;
+        };
+
+        DEFERRED_SETUP.add(setupSupplier);
+        return animation;
+    }
     public static AnimationManager.AnimationAccessor<BasicAttackAnimation> createTenraiSplitAttackAnimation(
             AnimationManager.AnimationBuilder builder,
             AttackAnimationType type,
