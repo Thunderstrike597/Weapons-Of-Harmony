@@ -6,7 +6,7 @@
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {
-        "translation": [4.75, -5, 0],
+        "translation": [4.75, -5, 7.25],
         "rotation": [91.5, 0, 0],
         "scale": [0.6, 0.75, 0.525]
       },

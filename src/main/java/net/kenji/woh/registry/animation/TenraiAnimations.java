@@ -58,8 +58,8 @@ public class TenraiAnimations {
 
         TENRAI_HOLD = builder.nextAccessor("biped/living/tenrai/hold", accessor -> new StaticAnimation(true, accessor, biped));
         TENRAI_SKILL_HOLD = builder.nextAccessor("biped/living/tenrai/skill_hold", accessor -> new StaticAnimation(true, accessor, biped));
-        TENRAI_SKILL_WALK = builder.nextAccessor("biped/living/tenrai/tenrai_skill_walk", accessor -> new StaticAnimation(true, accessor, biped));
-        TENRAI_SKILL_RUN = builder.nextAccessor("biped/living/tenrai/tenrai_skill_run", accessor -> new StaticAnimation(true, accessor, biped));
+        TENRAI_SKILL_WALK = builder.nextAccessor("biped/living/tenrai/skill_walk", accessor -> new StaticAnimation(true, accessor, biped));
+        TENRAI_SKILL_RUN = builder.nextAccessor("biped/living/tenrai/skill_run", accessor -> new StaticAnimation(true, accessor, biped));
 
         TENRAI_SKILL_ACTIVATE = WOHAnimationUtils.createSplitAnimation(builder,"biped/skill/tenrai/tenrai_skill_activate", 0.1f, 1.0F, -1,null);
         TENRAI_SKILL_DEACTIVATE = WOHAnimationUtils.createSplitAnimation(builder,"biped/skill/tenrai/tenrai_skill_deactivate", 0.1f, -1, 1.0F,null);

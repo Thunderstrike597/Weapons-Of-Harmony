@@ -53,6 +53,7 @@ public class ShotogatanaAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> SHOTOGATANA_AUTO_6;
 
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> SHOTOGATANA_SKILL_COMBO_2;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> SHOTOGATANA_SKILL_COMBO_3;
 
 
 
@@ -168,6 +169,18 @@ public class ShotogatanaAnimations {
                         .hit(EpicFightSounds.BLADE_HIT, 0)
                         .particle(EpicFightParticles.HIT_BLADE, 0)
                         .collider(WohColliderPreset.SHOTOGATANA, biped.get().toolR, 0)
+                        .sheathe(0.0F, 3.42F)
+                        .movementMultiplier(1.5F)
+                        .build()
+        );
+        SHOTOGATANA_SKILL_COMBO_3 = WohAnimationBuilder.shotogatana(builder,
+                AnimationConfig.of("biped/combat/shotogatana/skill_combo_3")
+                        .phases(0.0F, 0.38F, 0.44F, 1.28F, 0.48F)
+                        .phases(0.50F, 0.75F, 0.80F, 1.28F, 2.90F)
+                        .swing(EpicFightSounds.WHOOSH)
+                        .hit(EpicFightSounds.BLADE_HIT)
+                        .particle(EpicFightParticles.HIT_BLADE)
+                        .collider(WohColliderPreset.SHOTOGATANA, biped.get().toolR)
                         .sheathe(0.0F, 3.42F)
                         .movementMultiplier(1.5F)
                         .build()

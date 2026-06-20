@@ -257,6 +257,7 @@ public class ShotogatanaSkillInnate extends HybridSkill {
         addAnimationCombo(CorruptAnimations.YAMATO_JUDGEMENT_CUT);
 
         addAnimationCombo(ShotogatanaAnimations.SHOTOGATANA_SKILL_COMBO_2);
+        addAnimationCombo(ShotogatanaAnimations.SHOTOGATANA_SKILL_COMBO_3);
 
         return super.registerPropertiesToAnimation();
     }
