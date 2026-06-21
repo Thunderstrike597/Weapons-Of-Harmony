@@ -1,5 +1,7 @@
 package net.kenji.woh.registry.animation;
+import net.kenji.woh.api.AnimationConfig;
 import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.api.WohAnimationBuilder;
 import net.kenji.woh.gameasset.AttackHand;
 import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
@@ -32,8 +34,8 @@ public class GenericAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> KATAJUTSU_AUTO_2;
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> KATAJUTSU_AUTO_3;
 
-    public static AnimationManager.AnimationAccessor<? extends DashAttackAnimation> COMBAT_FIST_DASH;
-    public static AnimationManager.AnimationAccessor<? extends AirSlashAnimation> COMBAT_FIST_AIRKICK;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> COMBAT_FIST_DASH;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> COMBAT_FIST_AIRKICK;
 
 
     public static void build(AnimationManager.AnimationBuilder builder){
@@ -44,117 +46,61 @@ public class GenericAnimations {
         KATAJUTSU_IDLE = builder.nextAccessor("biped/living/katajutsu/katajutsu_idle", accessor -> new StaticAnimation(true,accessor, biped));
         ARBITERS_SHIELD_BLOCK = builder.nextAccessor("biped/living/generic/arbiters_shield_block", accessor -> new StaticAnimation(true, accessor, biped));
 
-        KATAJUTSU_AUTO_1 = WOHAnimationUtils.createAttackAnimation(builder,
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/katajutsu/katajutsu_auto_1",
-                1,
-                0.1F,
-                0.15F,
-                2F,
-                0.25F,
-                new float[]{0.0F},
-                new float[]{0.15F},
-                new float[]{0.23F},
-                new float[]{0.4F},
-                new float[]{0.62F},
-                new Supplier[]{EpicFightSounds.WHOOSH},
-                new Supplier[]{EpicFightSounds.BLUNT_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
-                new Collider[]{ColliderPreset.FIST},
-                new AttackHand[]{AttackHand.RIGHT_HAND},
-                StunType.SHORT,
-                -1,
-                -1
-        );
+        KATAJUTSU_AUTO_1 = WohAnimationBuilder.createAttackAnimation(builder,
+                AnimationConfig.of("biped/combat/katajutsu/katajutsu_auto_1")
+                        .speed(0.15F)
+                        .phases(0.0F, 0.15F, 0.23F, 0.4F, 0.62F)
+                        .hit(EpicFightSounds.BLUNT_HIT)
+                        .swing(EpicFightSounds.WHOOSH)
+                        .particle(EpicFightParticles.HIT_BLUNT)
+                        .collider(ColliderPreset.FIST, biped.get().toolR)
+                        .build());
 
-        KATAJUTSU_AUTO_2 = WOHAnimationUtils.createAttackAnimation(builder,
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/katajutsu/katajutsu_auto_2",
-                1,
-                0.1F,
-                0.15F,
-                2F,
-                0.25F,
-                new float[]{0.0F},
-                new float[]{0.1F},
-                new float[]{0.18F},
-                new float[]{0.38F},
-                new float[]{0.5F},
-                new Supplier[]{EpicFightSounds.WHOOSH},
-                new Supplier[]{EpicFightSounds.BLUNT_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
-                new Collider[]{ColliderPreset.FIST},
-                new AttackHand[]{AttackHand.LEFT_HAND},
-                StunType.SHORT,
-                -1,
-                -1
-        );
-        KATAJUTSU_AUTO_3 = WOHAnimationUtils.createAttackAnimation(builder,
-                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
-                "biped/combat/katajutsu/katajutsu_auto_3",
-                1,
-                0.1F,
-                0.15F,
-                2F,
-                0.25F,
-                new float[]{0.0F},
-                new float[]{0.25F},
-                new float[]{0.38F},
-                new float[]{0.60F},
-                new float[]{1.05F},
-                new Supplier[]{EpicFightSounds.WHOOSH},
-                new Supplier[]{EpicFightSounds.BLUNT_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
-                new Collider[]{ColliderPreset.FIST},
-                new AttackHand[]{AttackHand.RIGHT_LEG},
-                StunType.SHORT,
-                -1,
-                -1
-        );
-        COMBAT_FIST_DASH = WOHAnimationUtils.createDashAttackAnimation(builder,
-                WOHAnimationUtils.AttackAnimationType.DASH_ATTACK,
-                "biped/combat/generic/combat_fist_dash",
-                2,
-                0.05F,
-                1F,
-                2F,
-                0.4F,
-                new float[]{0.0F, 0.3F},
-                new float[]{0.05F, 0.38F},
-                new float[]{0.1F, 0.5F},
-                new float[]{0.15F, 0.95F},
-                new float[]{0.2F, 1F},
-                new Supplier[]{EpicFightSounds.WHOOSH, EpicFightSounds.WHOOSH},
-                new Supplier[]{EpicFightSounds.BLUNT_HIT, EpicFightSounds.BLUNT_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLUNT, EpicFightParticles.HIT_BLUNT},
-                new Collider[]{ColliderPreset.FIST, ColliderPreset.FIST},
-                new Joint[]{biped.get().toolL, biped.get().toolR},
-                StunType.LONG,
-                null,
-                -1,
-                -1
-        );
-        COMBAT_FIST_AIRKICK = WOHAnimationUtils.createAirAttackAnimation(builder,
-                "biped/combat/generic/combat_fist_airkick",
-                1,
-                0.1F,
-                1F,
-                2F,
-                1.2F,
-                new float[]{0.0F},
-                new float[]{0.1F},
-                new float[]{0.18F},
-                new float[]{0.25F},
-                new float[]{0.8F},
-                new Supplier[]{EpicFightSounds.WHOOSH_ROD},
-                new Supplier[]{EpicFightSounds.BLUNT_HIT},
-                new RegistryObject[]{EpicFightParticles.HIT_BLUNT},
-                StunType.SHORT,
-                new Collider[]{ColliderPreset.FIST},
-                new Joint[]{biped.get().toolR},
-                new float[]{0.0F, 0.45F},
-                -1,
-                -1
-        );
+        KATAJUTSU_AUTO_2 = WohAnimationBuilder.createAttackAnimation(builder,
+                AnimationConfig.of("biped/combat/katajutsu/katajutsu_auto_2")
+                        .speed(0.15F)
+                        .phases(0.0F, 0.1F, 0.18F, 0.38F, 0.5F)
+                        .hit(EpicFightSounds.BLUNT_HIT)
+                        .swing(EpicFightSounds.WHOOSH)
+                        .particle(EpicFightParticles.HIT_BLUNT)
+                        .collider(ColliderPreset.FIST, biped.get().toolL)
+                        .build());
+
+        KATAJUTSU_AUTO_3 = WohAnimationBuilder.createAttackAnimation(builder,
+                AnimationConfig.of("biped/combat/katajutsu/katajutsu_auto_3")
+                        .speed(0.15F)
+                        .phases(0.0F, 0.25F, 0.38F, 0.60F, 1.05F)
+                        .hit(EpicFightSounds.BLUNT_HIT)
+                        .swing(EpicFightSounds.WHOOSH)
+                        .particle(EpicFightParticles.HIT_BLUNT)
+                        .collider(ColliderPreset.FIST, biped.get().legR)
+                        .build());
+
+        COMBAT_FIST_DASH = WohAnimationBuilder.createAttackAnimation(builder,
+                AnimationConfig.of("biped/combat/generic/combat_fist_dash")
+                        .attackType(WOHAnimationUtils.AttackAnimationType.DASH_ATTACK)
+                        .convert(0.05F)
+                        .speed(1F)
+                        .phases(0.0F, 0.05F, 0.1F, 0.15F, 0.2F)
+                        .phases(0.3F, 0.38F, 0.5F, 0.95F, 1F)
+                        .stun(StunType.LONG)
+                        .hit(EpicFightSounds.BLUNT_HIT)
+                        .swing(EpicFightSounds.WHOOSH)
+                        .particle(EpicFightParticles.HIT_BLUNT)
+                        .collider(ColliderPreset.FIST, biped.get().toolL, 0)
+                        .collider(ColliderPreset.FIST, biped.get().toolR, 1)
+                        .build());
+
+        COMBAT_FIST_AIRKICK = WohAnimationBuilder.createAttackAnimation(builder,
+                AnimationConfig.of("biped/combat/generic/combat_fist_airkick")
+                        .attackType(WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP)
+                        .speed(1F)
+                        .phases(0.0F, 0.1F, 0.18F, 0.25F, 0.8F)
+                        .hit(EpicFightSounds.BLUNT_HIT)
+                        .swing(EpicFightSounds.WHOOSH_ROD)
+                        .particle(EpicFightParticles.HIT_BLUNT)
+                        .collider(ColliderPreset.FIST, biped.get().toolR)
+                        .airTime(0.0F, 0.45F)
+                        .build());
     }
 }

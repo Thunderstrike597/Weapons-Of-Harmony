@@ -34,28 +34,26 @@ import yesman.epicfight.world.entity.eventlistener.ComboCounterHandleEvent;
 
 import java.util.*;
 
-public class BasisAttackAnimation extends BasicAttackAnimation {
+public class BasisAttackAnimation extends AttackAnimation {
 
     public static final Map<UUID, Boolean> isAttacking = new HashMap<>();
     private static final Map<UUID, Boolean> isAttackEnding = new HashMap<>();
     private static final Map<UUID, Boolean> isInAttack = new HashMap<>();
 
-    private AnimationManager.AnimationAccessor<StaticAnimation> endAnimation;
     private boolean ignoreFallDamage = false;
     public WOHAnimationUtils.AttackAnimationType attackType = null;
     private boolean attackStart = false;
     private float slashAngle = -1f;
     private float movementEnd = -1;
     private boolean hasAttacked = false;
-    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, AssetAccessor<? extends Armature> armature, AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,Phase... phases) {
+    public BasisAttackAnimation(WOHAnimationUtils.AttackAnimationType attackType, float convertTime, String path, AssetAccessor<? extends Armature> armature, Phase... phases) {
         super(convertTime, path, armature, phases);
-        this.endAnimation = endAnimation;
         this.attackType = attackType;
     }
     public BasisAttackAnimation(
             WOHAnimationUtils.AttackAnimationType attackType,
             float convertTime,
-            AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> accessor,  // ADD THIS!
+            AnimationManager.AnimationAccessor<? extends AttackAnimation> accessor,  // ADD THIS!
             AssetAccessor<? extends HumanoidArmature> armature,
             AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,
             float slashAngle,
@@ -63,7 +61,6 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
             Phase... phases
     ) {
         super(convertTime, accessor, armature,phases);  // Pass accessor to BasicAttackAnimation
-        this.endAnimation = endAnimation;
         this.ignoreFallDamage = ignoreFallDamage;
         this.attackType = attackType;
         this.slashAngle = slashAngle;
@@ -72,14 +69,12 @@ public class BasisAttackAnimation extends BasicAttackAnimation {
     public BasisAttackAnimation(
             WOHAnimationUtils.AttackAnimationType attackType,
             float convertTime,
-            AnimationManager.AnimationAccessor<? extends BasicAttackAnimation> accessor,  // ADD THIS!
+            AnimationManager.AnimationAccessor<? extends AttackAnimation> accessor,  // ADD THIS!
             AssetAccessor<? extends HumanoidArmature> armature,
-            AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,
             boolean ignoreFallDamage,
             Phase... phases
     ) {
         super(convertTime, accessor, armature,phases);  // Pass accessor to BasicAttackAnimation
-        this.endAnimation = endAnimation;
         this.ignoreFallDamage = ignoreFallDamage;
         this.attackType = attackType;
     }

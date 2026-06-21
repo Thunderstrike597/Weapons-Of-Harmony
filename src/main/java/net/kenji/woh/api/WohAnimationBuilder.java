@@ -1,64 +1,51 @@
 package net.kenji.woh.api;
 
+import net.kenji.woh.api.animation_types.WohAttackAnimation;
 import yesman.epicfight.api.animation.AnimationManager;
+import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.animation.types.BasicAttackAnimation;
+import yesman.epicfight.api.animation.types.StaticAnimation;
+
+import java.util.function.Supplier;
 
 public class WohAnimationBuilder {
 
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> shotogatana(
-            AnimationManager.AnimationBuilder builder,
-            AnimationConfig cfg
-    ) {
-        return shotogatana(builder, WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK, cfg);
-    }
 
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> shotogatana(
+    public static AnimationManager.AnimationAccessor<AttackAnimation> createAttackAnimation(
             AnimationManager.AnimationBuilder builder,
-            WOHAnimationUtils.AttackAnimationType type,
-            AnimationConfig cfg
+            AnimationConfig config
     ) {
-        return WOHAnimationUtils.createShotogatanaAttackAnimation(
-                builder, type, cfg.path, cfg.phaseCount, cfg.speed, cfg.convertTime,
-                cfg.start, cfg.antic, cfg.contact, cfg.recovery, cfg.end,
-                cfg.swingSound, cfg.hitSound, cfg.hitParticle,
-                cfg.colliders, cfg.colliderJoints, cfg.stunType,
-                cfg.eventFirstTime, cfg.eventSecondTime, cfg.movementMultiplier
-        );
-    }
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> tenraiSplit(
-            AnimationManager.AnimationBuilder builder,
-            AnimationConfig cfg
-    ) {
-        return tenraiSplit(builder, WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK, cfg);
-    }
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> tenraiSplit(
-            AnimationManager.AnimationBuilder builder,
-            WOHAnimationUtils.AttackAnimationType type,
-            AnimationConfig cfg
-    ) {
-        return WOHAnimationUtils.createTenraiSplitAttackAnimation(
-                builder, type, cfg.path, cfg.phaseCount, cfg.convertTime, cfg.speed, 0, 0,
-                cfg.start, cfg.antic, cfg.contact, cfg.recovery, cfg.end,
-                cfg.swingSound, cfg.hitSound, cfg.hitParticle, cfg.colliders, cfg.attackingHands, cfg.stunType, cfg.movementMultiplier, cfg.eventFirstTime, cfg.eventSecondTime
-        );
-    }
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> generic(
-            AnimationManager.AnimationBuilder builder,
-            AnimationConfig cfg
-    ) {
-        return generic(builder, WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK, cfg);
-    }
+        AnimationManager.AnimationAccessor<AttackAnimation> animation;
 
-    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> generic(
-            AnimationManager.AnimationBuilder builder,
-            WOHAnimationUtils.AttackAnimationType type,
-            AnimationConfig cfg
-    ) {
-        return WOHAnimationUtils.createAttackAnimation(
-                builder, type, cfg.path, cfg.phaseCount, cfg.convertTime, cfg.speed, 0, 0,
-                cfg.start, cfg.antic, cfg.contact, cfg.recovery, cfg.end,
-                cfg.swingSound, cfg.hitSound, cfg.hitParticle, cfg.colliders, cfg.attackingHands, cfg.stunType, cfg.movementMultiplier,-1, -1
-        );
+        animation = builder.nextAccessor(config.path, accessor -> new WohAttackAnimation(accessor, config));;
+
+
+        AnimationManager.AnimationAccessor<? extends AttackAnimation> finalAnimation = animation;
+
+        Supplier<StaticAnimation> setupSupplier = () -> {
+            AttackAnimation anim = finalAnimation.get();
+
+            if (config.startEvent != null && config.endEvent != null) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(config.eventFirstTime, config.startEvent, AnimationEvent.Side.BOTH),
+                        AnimationEvent.InTimeEvent.create(config.eventSecondTime, config.endEvent, AnimationEvent.Side.BOTH)
+                });
+            } if (config.endEvent != null) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(config.eventSecondTime, config.endEvent, AnimationEvent.Side.BOTH)
+                });
+            } if (config.startEvent != null) {
+                anim.addEvents(new AnimationEvent[]{
+                        AnimationEvent.InTimeEvent.create(config.eventFirstTime, config.startEvent, AnimationEvent.Side.BOTH)
+                });
+            }
+
+            return anim;
+        };
+
+        WOHAnimationUtils.DEFERRED_SETUP.add(setupSupplier);
+        return animation;
     }
 
 }

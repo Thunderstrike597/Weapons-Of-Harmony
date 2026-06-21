@@ -51,7 +51,7 @@ public class ArbitersBladeAnimations {
 
         ARBITERS_BLADE_AIM = builder.nextAccessor("biped/skill/arbiters_blade/arbiters_blade_aim", accessor -> new StaticAnimation(true,accessor, biped));
 
-        ARBITERS_BLADE_SKILL_AIM_ATTACK = WohAnimationBuilder.generic(builder,
+        ARBITERS_BLADE_SKILL_AIM_ATTACK = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/arbiters_blade_aim_attack")
                         .phases(0.0F, 0.27F, 0.37F, 0.64F, 1.50F)
                         .speed(0.1F)
@@ -62,7 +62,7 @@ public class ArbitersBladeAnimations {
                         .build()
         );
 
-        ARBITERS_BLADE_AUTO_1 = WohAnimationBuilder.generic(builder,
+        ARBITERS_BLADE_AUTO_1 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/auto_1")
                         .phases(0.0F, 0.44F, 0.53F, 0.62F, 2.15F)
                         .speed(0.17F)
@@ -73,7 +73,7 @@ public class ArbitersBladeAnimations {
                         .movementMultiplier(2.25F)
                         .build()
         );
-        ARBITERS_BLADE_AUTO_2 = WohAnimationBuilder.generic(builder,
+        ARBITERS_BLADE_AUTO_2 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/auto_2")
                         .phases(0.0F, 0.39F, 0.49F, 0.68F, 2.0F)
                         .speed(0.13F)
@@ -84,7 +84,7 @@ public class ArbitersBladeAnimations {
                         .movementMultiplier(2.25F)
                         .build()
         );
-        ARBITERS_BLADE_AUTO_3 = WohAnimationBuilder.generic(builder,
+        ARBITERS_BLADE_AUTO_3 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/auto_3")
                         .phases(0.0F, 0.36F, 0.42F, 0.73F, 0.54F)
                         .phases(0.56F, 0.61F, 0.67F, 0.73F, 2.10F)
@@ -96,7 +96,7 @@ public class ArbitersBladeAnimations {
                         .movementMultiplier(2.25F)
                         .build()
         );
-        ARBITERS_BLADE_AUTO_4 = WohAnimationBuilder.generic(builder,
+        ARBITERS_BLADE_AUTO_4 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/auto_4")
                         .phases(0.0F, 0.39F, 0.48F, 1.46F, 0.75F)
                         .phases(0.84F, 0.96F, 1.04F, 1.46F, 3.0F)
@@ -111,7 +111,7 @@ public class ArbitersBladeAnimations {
                         .movementMultiplier(2F)
                         .build()
         );
-        ARBITERS_BLADE_SPIN_ATTACK_RIGHT = WohAnimationBuilder.generic(builder,
+        ARBITERS_BLADE_SPIN_ATTACK_RIGHT = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/right_spin_attack")
                         .phases(0.0F, 0.68F, 0.83F, 0.90F, 2.40F)
                         .speed(0.125F)
@@ -121,7 +121,7 @@ public class ArbitersBladeAnimations {
                         .collider(ColliderPreset.LONGSWORD, biped.get().toolR)
                         .build()
         );
-        ARBITERS_BLADE_SPIN_ATTACK_LEFT = WohAnimationBuilder.generic(builder,
+        ARBITERS_BLADE_SPIN_ATTACK_LEFT = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/left_spin_attack")
                         .phases(0.0F, 0.29F, 0.36F, 1.10F, 0.58F)
                         .phases(0.65F, 0.70F, 0.74F, 1.10F, 2.30F)
@@ -133,7 +133,7 @@ public class ArbitersBladeAnimations {
                         .build()
         );
 
-        ARBITERS_BLADE_SKILL_AUTO_1 = WohAnimationBuilder.generic(builder,
+        ARBITERS_BLADE_SKILL_AUTO_1 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/beam_slash_auto_1")
                         .convert(0.32F)
                         .phases(0.0F, 0.44F, 0.53F, 0.62F, 2.15F)
@@ -144,7 +144,7 @@ public class ArbitersBladeAnimations {
                         .collider(ColliderPreset.LONGSWORD, biped.get().toolR)
                         .build()
         );
-        ARBITERS_BLADE_SKILL_AUTO_2 = WohAnimationBuilder.generic(builder,
+        ARBITERS_BLADE_SKILL_AUTO_2 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/beam_slash_auto_2")
                         .phases(0.0F, 0.34F, 0.42F, 0.62F, 1.85F)
                         .speed(0.1F)
@@ -154,7 +154,7 @@ public class ArbitersBladeAnimations {
                         .collider(ColliderPreset.LONGSWORD, biped.get().toolR)
                         .build()
         );
-        ARBITERS_BLADE_SKILL_AUTO_3 = WohAnimationBuilder.generic(builder,
+        ARBITERS_BLADE_SKILL_AUTO_3 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/beam_slash_auto_3")
                         .phases(0.0F, 0.46F, 0.55F, 0.78F, 1.85F)
                         .speed(0.1F)

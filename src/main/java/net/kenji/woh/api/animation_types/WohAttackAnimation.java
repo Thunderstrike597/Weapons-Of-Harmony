@@ -1,6 +1,8 @@
 package net.kenji.woh.api.animation_types;
 
+import net.kenji.woh.api.AnimationConfig;
 import net.kenji.woh.api.WOHAnimationUtils;
+import net.kenji.woh.api.manager.AttackManager;
 import net.kenji.woh.gameasset.AttackHand;
 import net.kenji.woh.gameasset.animation_types.BasisAttackAnimation;
 import net.minecraft.sounds.SoundEvent;
@@ -11,171 +13,143 @@ import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
+import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.collider.Collider;
+import yesman.epicfight.api.utils.math.ValueModifier;
+import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.particle.HitParticleType;
+import yesman.epicfight.skill.BasicAttack;
+import yesman.epicfight.skill.SkillSlots;
+import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
+import yesman.epicfight.world.damagesource.ExtraDamageInstance;
 import yesman.epicfight.world.damagesource.StunType;
+import yesman.epicfight.world.entity.eventlistener.ComboCounterHandleEvent;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 public class WohAttackAnimation extends BasisAttackAnimation {
 
     public static AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
+    private static Map<UUID, Boolean> queFallReset = new HashMap<>();
 
     public static float convertTime = 0.1f;
-
-
-    public WohAttackAnimation(
-            float convertTime,
-            AnimationManager.AnimationAccessor<? extends BasicAttackAnimation>  accessor,  // ADD THIS!
-            WOHAnimationUtils.AttackAnimationType attackType,
-            @Nullable AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,
-            int phaseCount,
-            float attackSpeed,
-            float[] start,
-            float[] antic,
-            float[] contact,
-            float[] recovery,
-            float[] end,
-            Supplier<SoundEvent>[] swingSound,
-            Supplier<SoundEvent>[] hitSound,
-            RegistryObject<HitParticleType>[] hitParticle,
-            StunType stunType,
-            Collider[] colliders,
-            AttackHand[] attackHand,
-            boolean ignoreFallDamage,
-            float movementMultiplier
-    ) {
-        // Pass convertTime, path (from accessor), accessor, endAnimation, ignoreFallDamage, phases
+    public final boolean isAirAttack;
+    public final boolean ignoreFallDamage;
+    public final boolean useComboCounterReset;
+    public WohAttackAnimation(AnimationManager.AnimationAccessor<AttackAnimation> accessor, AnimationConfig config) {
         super(
-                attackType,
-                convertTime,
+                config.attackType,
+                config.convertTime,
                 accessor,            // Pass accessor to parent
                 biped,
-                endAnimation,
-                ignoreFallDamage,
-                buildPhases(phaseCount, start, antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, attackHand)
+                config.ignoreFallDamage,
+                buildPhases(config)
         );
 
-        this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType)
-                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, attackSpeed)
+        this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, config.stunType)
+                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, config.attackSpeed)
                 .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
                 .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, true);
         if(attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP)
              this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true);
         else this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, false);
-        this.addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_BEGIN, WOHAnimationUtils.scaledRawCoord(movementMultiplier));
-        this.addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_TICK,  WOHAnimationUtils.scaledRawCoord(movementMultiplier));
+        this.addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_BEGIN, WOHAnimationUtils.scaledRawCoord(config.movementMultiplier));
+        this.addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_TICK,  WOHAnimationUtils.scaledRawCoord(config.movementMultiplier));
+        if(config.airTime != null)
+            this.addProperty(AnimationProperty.AttackAnimationProperty.NO_GRAVITY_TIME,  config.airTime);
 
-
+        isAirAttack = config.attackType == WOHAnimationUtils.AttackAnimationType.AIR_ATTACK;
+        ignoreFallDamage = config.ignoreFallDamage;
+        useComboCounterReset = config.useComboCounterReset;
     }
-    public WohAttackAnimation(
-            float convertTime,
-            AnimationManager.AnimationAccessor<? extends BasicAttackAnimation>  accessor,
-            WOHAnimationUtils.AttackAnimationType attackType,
-            @Nullable AnimationManager.AnimationAccessor<StaticAnimation> endAnimation,
-            int phaseCount,
-            float attackSpeed,
-            float[] start,
-            float[] antic,
-            float[] contact,
-            float[] recovery,
-            float[] end,
-            Supplier<SoundEvent>[] swingSound,
-            Supplier<SoundEvent>[] hitSound,
-            RegistryObject<HitParticleType>[] hitParticle,
-            StunType stunType,
-            Collider[] colliders,
-            AttackHand[] attackHand,
-            boolean ignoreFallDamage,
-            float slashAngle,
-            float movementEnd
-    ) {
-        // Pass convertTime, path (from accessor), accessor, endAnimation, ignoreFallDamage, phases
-        super(
-                attackType,
-                convertTime,
-                accessor,            // Pass accessor to parent
-                biped,
-                endAnimation,
-                slashAngle,
-                movementEnd,
-                buildPhases(phaseCount, start, antic, contact, recovery, end, swingSound, hitSound, hitParticle, colliders, attackHand)
-        );
+    private static AttackAnimation.Phase[] buildPhases(AnimationConfig config) {
+        AttackAnimation.Phase[] phases = new AttackAnimation.Phase[config.phaseCount];
 
-        this.addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, stunType).addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, attackSpeed)
-                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.175F)
-                .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, true)
-                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
-                .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false);
-        if(attackType == WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK_JUMP)
-            this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, true);
-        else this.addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, false);
-
-
-    }
-    private static AttackAnimation.Phase[] buildPhases(int phaseCount, float[] start ,float[] antic, float[] contact, float[] recovery, float[] end, Supplier<SoundEvent>[] swingSound, Supplier<SoundEvent>[] hitSound, RegistryObject<HitParticleType>[] hitParticle, Collider[] colliders, AttackHand[] attackHand) {
-        AttackAnimation.Phase[] phases = new AttackAnimation.Phase[phaseCount];
-
-        for(int i = 0; i < phaseCount; i++) {
-            AttackHand hand = attackHand[0];
-            if(i < attackHand.length)
-                hand = attackHand[i];
-            else hand = attackHand[attackHand.length - 1];
-            Collider collider = colliders[0];
-            if(i < colliders.length)
-                collider = colliders[i];
-            else collider = colliders[attackHand.length - 1];
-
+        for(int i = 0; i < config.phaseCount; i++) {
+            AttackAnimation.JointColliderPair[] phaseColliders;
+            if (i < config.colliders.length) {
+                phaseColliders = config.colliders[i];
+            } else if (config.colliders.length > 0) {
+                phaseColliders = config.colliders[config.colliders.length - 1];
+            } else {
+                phaseColliders = new AttackAnimation.JointColliderPair[0];
+            }
             phases[i] = new AttackAnimation.Phase(
-                    start[i],
-                    antic[i],
-                    antic[i],
-                    contact[i],
-                    recovery[i],
-                    end[i],
+                    config.start[i],
+                    config.antic[i],
+                    config.antic[i],
+                    config.contact[i],
+                    config.recovery[i],
+                    config.end[i],
                     InteractionHand.MAIN_HAND,
-                    getThrownHand(hand, collider)
+                    phaseColliders
             );
-            if(i < hitSound.length)
-                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound[i].get());
-            else if(hitSound.length > 0)
-                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, hitSound[hitSound.length - 1].get());
-            if(i < swingSound.length)
-                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound[i].get());
-            else if(hitSound.length > 0)
-                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, swingSound[swingSound.length - 1].get());
-            if(i < hitParticle.length)
-                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle[i]);
-            else if(hitParticle.length > 0)
-                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, hitParticle[hitParticle.length - 1]);
+            if(i < config.hitSound.length)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, config.hitSound[i].get());
+            else if(config.hitSound.length > 0)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, config.hitSound[config.hitSound.length - 1].get());
+            if(i < config.swingSound.length)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, config.swingSound[i].get());
+            else if(config.hitSound.length > 0)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, config.swingSound[config.swingSound.length - 1].get());
+            if(i < config.hitParticle.length)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, config.hitParticle[i]);
+            else if(config.hitParticle.length > 0)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, config.hitParticle[config.hitParticle.length - 1]);
+            if(i < config.attackDamage.length)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.adder(config.attackDamage[i]));
+            else if(config.attackDamage.length > 0)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.adder(config.attackDamage[config.attackDamage.length - 1]));
+            if(i < config.impact.length)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.adder(config.impact[i]));
+            else if(config.impact.length > 0)
+                phases[i].addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.adder(config.impact[config.impact.length - 1]));
+
         }
 
         return phases;
     }
-
-    private static JointColliderPair[] getThrownHand(AttackHand throwType, Collider collider){
-        JointColliderPair[] pair = null;
-        if(throwType == AttackHand.RIGHT_HAND) return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)collider)};
-        if(throwType == AttackHand.LEFT_HAND) return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolL, (Collider)collider)};
-        if(throwType == AttackHand.HANDS){
-            return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)collider), JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolL, (Collider)collider)};
+    @Override
+    public void begin(LivingEntityPatch<?> entitypatch) {
+        if(this.useComboCounterReset) {
+            if (entitypatch instanceof PlayerPatch<?> playerPatch) {
+                AttackManager.isInAttack.put(playerPatch.getOriginal().getUUID(), true);
+            }
         }
-        if(throwType == AttackHand.TORSO){
-            return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).torso, (Collider)collider)};
-        }
-        if(throwType == AttackHand.RIGHT_LEG){
-            return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).legR, (Collider)collider)};
-        }
-        if(throwType == AttackHand.LEFT_LEG){
-            return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).legL, (Collider)collider)};
-        }
-        return new AttackAnimation.JointColliderPair[]{JointColliderPair.of(((HumanoidArmature)Armatures.BIPED.get()).toolR, (Collider)collider)};
+        super.begin(entitypatch);
     }
-
+    @Override
+    public void end(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> nextAnimation, boolean isEnd) {
+        if(this.useComboCounterReset) {
+            if (entitypatch instanceof PlayerPatch<?> playerPatch) {
+                AttackManager.isInAttack.remove(playerPatch.getOriginal().getUUID());
+            }
+            if (isEnd) {
+                if (entitypatch instanceof ServerPlayerPatch serverPlayerPatch) {
+                    BasicAttack.setComboCounterWithEvent(ComboCounterHandleEvent.Causal.TIME_EXPIRED, serverPlayerPatch, serverPlayerPatch.getSkill(SkillSlots.BASIC_ATTACK), Animations.EMPTY_ANIMATION.getAccessor(), 0);
+                }
+            }
+        }
+        super.end(entitypatch, nextAnimation, isEnd);
+    }
+    @Override
+    protected void attackTick(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> animation) {
+        super.attackTick(entitypatch, animation);
+        if(!this.isAirAttack) return;
+        if (entitypatch instanceof PlayerPatch<?> playerPatch) {
+            if (ignoreFallDamage)
+                queFallReset.put(playerPatch.getOriginal().getUUID(), true);
+        }
+    }
 }

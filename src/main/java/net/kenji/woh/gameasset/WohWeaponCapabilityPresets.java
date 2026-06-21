@@ -105,7 +105,6 @@ public class WohWeaponCapabilityPresets {
                         TessenAnimations.TESSEN_NEW_AUTO_1,
                         TessenAnimations.TESSEN_NEW_AUTO_2,
                         TessenAnimations.TESSEN_NEW_AUTO_3,
-                        TessenAnimations.TESSEN_AUTO_4,
                         TessenAnimations.TESSEN_NEW_DUAL_DASH, TessenAnimations.TESSEN_NEW_AIRSLASH)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
                         TessenAnimations.TESSEN_NEW_DUAL_AUTO_1,
@@ -163,16 +162,16 @@ public class WohWeaponCapabilityPresets {
                 .hitSound(EpicFightSounds.BLADE_HIT.get())
                 .collider(ColliderPreset.SWORD)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
-                        TsumeAnimations.TSUME_NEW_AUTO_1,
-                        TsumeAnimations.TSUME_NEW_AUTO_2,
-                        TsumeAnimations.TSUME_NEW_AUTO_3,
-                        TsumeAnimations.TSUME_NEW_AUTO_4,
+                        TsumeAnimations.TSUME_AUTO_1,
+                        TsumeAnimations.TSUME_AUTO_2,
+                        TsumeAnimations.TSUME_AUTO_3,
+                        TsumeAnimations.TSUME_AUTO_4,
                         CorruptAnimations.BLADE_RUSH1, TsumeAnimations.TSUME_NEW_AIRSLASH)
                 .newStyleCombo(WohStyles.ABILITY_ACTIVE,
-                        TsumeAnimations.TSUME_NEW_AUTO_1,
-                        TsumeAnimations.TSUME_NEW_AUTO_2,
-                        TsumeAnimations.TSUME_NEW_AUTO_3,
-                        TsumeAnimations.TSUME_NEW_AUTO_4,
+                        TsumeAnimations.TSUME_AUTO_1,
+                        TsumeAnimations.TSUME_AUTO_2,
+                        TsumeAnimations.TSUME_AUTO_3,
+                        TsumeAnimations.TSUME_AUTO_4,
                         CorruptAnimations.BLADE_RUSH1, TsumeAnimations.TSUME_NEW_AIRSLASH)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TsumeAnimations.TSUME_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TsumeAnimations.TSUME_WALK)

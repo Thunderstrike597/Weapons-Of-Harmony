@@ -2,28 +2,16 @@ package net.kenji.woh.registry.animation;
 import net.kenji.woh.api.AnimationConfig;
 import net.kenji.woh.api.WOHAnimationUtils;
 import net.kenji.woh.api.WohAnimationBuilder;
-import net.kenji.woh.api.animation_types.ShotogatanaAttackAnimation;
-import net.kenji.woh.gameasset.AttackHand;
 import net.kenji.woh.gameasset.WohColliderPreset;
-import net.kenji.woh.registry.WohSounds;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
-import yesman.epicfight.api.animation.Joint;
-import yesman.epicfight.api.animation.types.AirSlashAnimation;
 import yesman.epicfight.api.animation.types.AttackAnimation;
-import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
-import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.particle.EpicFightParticles;
-import yesman.epicfight.world.damagesource.StunType;
-
-import java.util.function.Supplier;
 
 
 public class ShotogatanaAnimations {
@@ -81,7 +69,7 @@ public class ShotogatanaAnimations {
         SHOTOGATANA_RUN = WOHAnimationUtils.createLivingAnimation(builder,"biped/living/shotogatana/shotogatana_run", true, 0.1f, -1f, -1, null);
 
 
-        SHOTOGATANA_AUTO_1 = WohAnimationBuilder.shotogatana(builder,
+        SHOTOGATANA_AUTO_1 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/shotogatana/auto_1")
                         .phases(0.0F, 0.33F, 0.41F, 0.56F, 1.75F)
                         .swing(EpicFightSounds.WHOOSH)
@@ -89,9 +77,10 @@ public class ShotogatanaAnimations {
                         .hit(EpicFightSounds.BLUNT_HIT)
                         .particle(EpicFightParticles.HIT_BLUNT)
                         .collider(WohColliderPreset.SHEATH, biped.get().toolL)
+                        .comboCounterAttackReset(true)
                         .build()
         );
-        SHOTOGATANA_AUTO_2 = WohAnimationBuilder.shotogatana(builder,
+        SHOTOGATANA_AUTO_2 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/shotogatana/auto_2")
                         .phases(0.0F, 0.28F, 0.33F, 0.53F, 1.70F)
                         .swing(EpicFightSounds.WHOOSH)
@@ -100,9 +89,10 @@ public class ShotogatanaAnimations {
                         .particle(EpicFightParticles.HIT_BLUNT)
                         .collider(ColliderPreset.DAGGER, biped.get().toolR)
                         .movementMultiplier(0.9F)
+                        .comboCounterAttackReset(true)
                         .build()
         );
-        SHOTOGATANA_AUTO_3 = WohAnimationBuilder.shotogatana(builder,
+        SHOTOGATANA_AUTO_3 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/shotogatana/auto_3")
                         .phases(0.0F, 0.40F, 0.48F, 0.68F, 1.70F)
                         .swing(EpicFightSounds.WHOOSH_SHARP)
@@ -110,33 +100,45 @@ public class ShotogatanaAnimations {
                         .hit(EpicFightSounds.BLADE_HIT)
                         .particle(EpicFightParticles.HIT_BLADE)
                         .collider(WohColliderPreset.SHOTOGATANA, biped.get().toolR)
-                        .sheathe(0.40F, 1.73F)
+                        .eventStartEnd(0.40F, 1.73F)
                         .movementMultiplier(2F)
+                        .comboCounterAttackReset(true)
+                        .startEvent(WOHAnimationUtils.ReusableEvents.UNSHEATH_E0)
+                        .endEvent(WOHAnimationUtils.ReusableEvents.SHEATH_E0)
+
                         .build()
         );
-        SHOTOGATANA_AUTO_4 = WohAnimationBuilder.shotogatana(builder,
+        SHOTOGATANA_AUTO_4 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/shotogatana/auto_4")
                         .phases(0.0F, 0.56F, 0.62F, 0.84F, 1.95F)
                         .swing(EpicFightSounds.WHOOSH)
                         .hit(EpicFightSounds.BLADE_HIT)
                         .particle(EpicFightParticles.HIT_BLADE)
                         .collider(WohColliderPreset.SHOTOGATANA, biped.get().toolR)
-                        .sheathe(0.0F, 1.58F)
+                        .eventStartEnd(0.0F, 1.58F)
                         .movementMultiplier(2F)
+                        .comboCounterAttackReset(true)
+                        .startEvent(WOHAnimationUtils.ReusableEvents.UNSHEATH_E0)
+                        .endEvent(WOHAnimationUtils.ReusableEvents.SHEATH_E0)
+
                         .build()
         );
-        SHOTOGATANA_AUTO_4_SPIN = WohAnimationBuilder.shotogatana(builder,
+        SHOTOGATANA_AUTO_4_SPIN = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/shotogatana/auto_spin_4")
                         .phases(0.0F, 0.62F, 0.70F, 0.84F, 1.20F)
                         .swing(EpicFightSounds.WHOOSH)
                         .hit(EpicFightSounds.BLADE_HIT)
                         .particle(EpicFightParticles.HIT_BLADE)
                         .collider(WohColliderPreset.SHOTOGATANA, biped.get().toolR)
-                        .sheathe(0.0F, 1.58F)
+                        .eventStartEnd(0.0F, 1.58F)
                         .movementMultiplier(2F)
+                        .comboCounterAttackReset(true)
+                        .startEvent(WOHAnimationUtils.ReusableEvents.UNSHEATH_E0)
+                        .endEvent(WOHAnimationUtils.ReusableEvents.SHEATH_E0)
+
                         .build()
         );
-        SHOTOGATANA_AUTO_5 = WohAnimationBuilder.shotogatana(builder,
+        SHOTOGATANA_AUTO_5 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/shotogatana/auto_5")
                         .phases(0.0F, 0.40F, 0.50F, 0.73F, 1.20F)
                         .phases(0.75F, 0.80F, 0.95F, 1.38F, 1.20F)
@@ -147,33 +149,45 @@ public class ShotogatanaAnimations {
                         .particle(EpicFightParticles.HIT_BLUNT, 1)
                         .collider(WohColliderPreset.SHOTOGATANA, biped.get().toolR, 0)
                         .collider(WohColliderPreset.SHEATH, biped.get().toolL, 1)
-                        .sheathe(0.0F, 2.22F)
+                        .eventStartEnd(0.0F, 2.22F)
                         .movementMultiplier(2F)
+                        .comboCounterAttackReset(true)
+                        .startEvent(WOHAnimationUtils.ReusableEvents.UNSHEATH_E0)
+                        .endEvent(WOHAnimationUtils.ReusableEvents.SHEATH_E0)
+
                         .build()
         );
-        SHOTOGATANA_AUTO_6 = WohAnimationBuilder.shotogatana(builder,
+        SHOTOGATANA_AUTO_6 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/shotogatana/auto_6")
                         .phases(0.0F, 0.54F, 0.61F, 1.58F, 1.52F)
                         .swing(EpicFightSounds.WHOOSH)
                         .hit(EpicFightSounds.BLADE_HIT, 0)
                         .particle(EpicFightParticles.HIT_BLADE, 0)
                         .collider(WohColliderPreset.SHOTOGATANA, biped.get().toolR, 0)
-                        .sheathe(0.0F, 1.50F)
+                        .eventStartEnd(0.0F, 1.50F)
                         .movementMultiplier(2F)
+                        .comboCounterAttackReset(true)
+                        .startEvent(WOHAnimationUtils.ReusableEvents.UNSHEATH_E0)
+                        .endEvent(WOHAnimationUtils.ReusableEvents.SHEATH_E0)
+
                         .build()
         );
-        SHOTOGATANA_SKILL_COMBO_2 = WohAnimationBuilder.shotogatana(builder,
+        SHOTOGATANA_SKILL_COMBO_2 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/shotogatana/skill_combo_2")
                         .phases(0.0F, 0.54F, 0.62F, 1.88F, 3.85F)
                         .swing(EpicFightSounds.WHOOSH)
                         .hit(EpicFightSounds.BLADE_HIT, 0)
                         .particle(EpicFightParticles.HIT_BLADE, 0)
                         .collider(WohColliderPreset.SHOTOGATANA, biped.get().toolR, 0)
-                        .sheathe(0.0F, 3.42F)
+                        .eventStartEnd(0.0F, 3.42F)
                         .movementMultiplier(1.5F)
+                        .comboCounterAttackReset(true)
+                        .startEvent(WOHAnimationUtils.ReusableEvents.UNSHEATH_E0)
+                        .endEvent(WOHAnimationUtils.ReusableEvents.SHEATH_E0)
+
                         .build()
         );
-        SHOTOGATANA_SKILL_COMBO_3 = WohAnimationBuilder.shotogatana(builder,
+        SHOTOGATANA_SKILL_COMBO_3 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/shotogatana/skill_combo_3")
                         .phases(0.0F, 0.38F, 0.44F, 1.28F, 0.48F)
                         .phases(0.50F, 0.75F, 0.80F, 1.28F, 2.90F)
@@ -181,8 +195,12 @@ public class ShotogatanaAnimations {
                         .hit(EpicFightSounds.BLADE_HIT)
                         .particle(EpicFightParticles.HIT_BLADE)
                         .collider(WohColliderPreset.SHOTOGATANA, biped.get().toolR)
-                        .sheathe(0.0F, 3.42F)
+                        .eventStartEnd(0.0F, 3.42F)
                         .movementMultiplier(1.5F)
+                        .comboCounterAttackReset(true)
+                        .startEvent(WOHAnimationUtils.ReusableEvents.UNSHEATH_E0)
+                        .endEvent(WOHAnimationUtils.ReusableEvents.SHEATH_E0)
+
                         .build()
         );
     }

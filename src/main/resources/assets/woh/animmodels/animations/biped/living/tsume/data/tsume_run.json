@@ -1,4 +1,11 @@
 {
   "layer":"COMPOSITE_LAYER",
-  "priority":"LOWEST"
+  "priority":"LOWEST",
+  "masks":
+  [
+    {
+      "livingmotion":"RUN",
+      "type":"root_upper_joints"
+    }
+  ]
 }

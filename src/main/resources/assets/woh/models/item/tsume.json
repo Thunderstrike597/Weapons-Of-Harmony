@@ -2,16 +2,16 @@
   "loader": "forge:separate_transforms",
   "base": {
     "loader": "forge:obj",
-    "model": "woh:models/item/obj/tsume.obj",
+    "model": "woh:models/item/obj/voxel_tsume.obj",
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {
-        "translation": [-4.95, 3.7, -2],
+        "translation": [-4.95, 3.7, -2.75],
         "rotation": [-86, -90, 0],
         "scale": [0.60, 0.70, 0.6]
       },
       "thirdperson_lefthand": {
-        "translation": [-4, 3.8, -2],
+        "translation": [-4, 3.8, -2.75],
         "rotation": [-86, -90, 0],
         "scale": [0.60, 0.70, 0.6]
       },
