@@ -41,10 +41,10 @@ public class GenericAnimations {
     public static void build(AnimationManager.AnimationBuilder builder){
         AssetAccessor<? extends HumanoidArmature> biped = Armatures.BIPED;
 
-        DEFEAT_IDLE = builder.nextAccessor("biped/living/generic/defeat_idle", accessor -> new StaticAnimation(true,accessor, biped));
-        DEFEAT_KNEEL = builder.nextAccessor("biped/living/generic/defeat_kneel", accessor -> new StaticAnimation(true,accessor, biped));
-        KATAJUTSU_IDLE = builder.nextAccessor("biped/living/katajutsu/katajutsu_idle", accessor -> new StaticAnimation(true,accessor, biped));
-        ARBITERS_SHIELD_BLOCK = builder.nextAccessor("biped/living/generic/arbiters_shield_block", accessor -> new StaticAnimation(true, accessor, biped));
+        DEFEAT_IDLE = builder.nextAccessor("biped/living/generic/defeat_idle", accessor -> new StaticAnimation(0.1F, true,accessor, biped));
+        DEFEAT_KNEEL = builder.nextAccessor("biped/living/generic/defeat_kneel", accessor -> new StaticAnimation(0.1F, true,accessor, biped));
+        KATAJUTSU_IDLE = builder.nextAccessor("biped/living/katajutsu/katajutsu_idle", accessor -> new StaticAnimation(0.1F, true,accessor, biped));
+        ARBITERS_SHIELD_BLOCK = builder.nextAccessor("biped/living/generic/arbiters_shield_block", accessor -> new StaticAnimation(0.1F, true, accessor, biped));
 
         KATAJUTSU_AUTO_1 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/katajutsu/katajutsu_auto_1")

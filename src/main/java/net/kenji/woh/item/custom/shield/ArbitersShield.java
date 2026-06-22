@@ -4,6 +4,7 @@ import net.kenji.woh.item.custom.base.HolsterShieldBase;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
@@ -13,6 +14,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.ShieldCapability;
 
 public class ArbitersShield extends HolsterShieldBase {
@@ -57,5 +61,13 @@ public class ArbitersShield extends HolsterShieldBase {
            return super.canAttackBlock(pState, pLevel, pPos, pPlayer);
        }
        return false;
+    }
+
+    @Override
+    public boolean shouldRenderInHand(PlayerPatch<?> playerPatch, Item item){
+        ItemStack holdingItem = playerPatch.getOriginal().getItemInHand(InteractionHand.MAIN_HAND);
+        if(super.shouldRenderInHand(playerPatch, item) || holdingItem.getItem() == item)
+            return (holdingItem.getItem() == item && playerPatch.isEpicFightMode()) || (playerPatch.getOriginal().isUsingItem() && playerPatch.getOriginal().getUseItem().getItem() == this);
+        return false;
     }
 }

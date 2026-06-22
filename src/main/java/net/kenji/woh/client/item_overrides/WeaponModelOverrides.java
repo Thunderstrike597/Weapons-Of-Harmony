@@ -1,6 +1,7 @@
-package net.kenji.woh.api.item_overrides;
+package net.kenji.woh.client.item_overrides;
 
 import net.kenji.woh.WeaponsOfHarmony;
+import net.kenji.woh.client.ItemOverrideManager;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -20,8 +21,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class WeaponModelOverrides extends ItemOverrides {
-    private static final String MODEL_OVERRIDE_TAG = "weapon_model_override";
-    private static final String TEXTURE_OVERRIDE_TAG = "weapon_texture_override";
 
     private final Map<ResourceLocation, BakedModel> modelCache = new HashMap<>();
 
@@ -71,21 +70,16 @@ public class WeaponModelOverrides extends ItemOverrides {
         );
         return objModel.bake(context, baker, spriteGetter, modelState, ItemOverrides.EMPTY, guiModelLocation);
     }
-    public static void setItemTextureVariant(ItemStack stack, String variant){
-        stack.getOrCreateTag().putString(TEXTURE_OVERRIDE_TAG, variant);
-    }
-    public static void setItemModelVariant(ItemStack stack, String variant){
-        stack.getOrCreateTag().putString(MODEL_OVERRIDE_TAG, variant);
-    }
+
 
     private String getModelVariantFromStack(ItemStack stack) {
         // Read from NBT / DataComponents / capability
         CompoundTag tag = stack.getOrCreateTag();
-        return tag.getString(MODEL_OVERRIDE_TAG); // fallback to default if empty
+        return tag.getString(ItemOverrideManager.MODEL_OVERRIDE_TAG); // fallback to default if empty
     }
     private String getTextureVariantFromStack(ItemStack stack) {
         // Read from NBT / DataComponents / capability
         CompoundTag tag = stack.getOrCreateTag();
-        return tag.getString(TEXTURE_OVERRIDE_TAG); // fallback to default if empty
+        return tag.getString(ItemOverrideManager.TEXTURE_OVERRIDE_TAG); // fallback to default if empty
     }
 }

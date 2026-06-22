@@ -1,5 +1,6 @@
 package net.kenji.woh.mixins;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.kenji.woh.api.WOHAnimationUtils;
 import net.kenji.woh.api.animation_types.ShotogatanaAttackAnimation;
 import net.kenji.woh.api.interfaces.IPhase;
@@ -10,13 +11,11 @@ import net.kenji.woh.item.custom.weapon.Odachi;
 import net.kenji.woh.item.custom.weapon.Shotogatana;
 import net.kenji.woh.registry.WohSounds;
 import net.kenji.woh.registry.animation.ShotogatanaAnimations;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundEvent;
 import org.jline.utils.Log;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -54,7 +53,7 @@ public class AttackAnimationMixin {
             }
             if (playerPatch.getOriginal().level().isClientSide()) {
                 Minecraft mc = Minecraft.getInstance();
-                AttackManager.resyncMovementKeys(mc);
+                resyncMovementKeys(mc);
             }
             WOHAnimationUtils.regainMovementEvent(entitypatch);
         }
@@ -128,6 +127,22 @@ public class AttackAnimationMixin {
                 }
             }
         }
+    }
+    @Unique
+    private static void resyncMovementKeys(Minecraft mc) {
+        long window = mc.getWindow().getWindow();
+
+        resync(mc.options.keyUp, window);
+        resync(mc.options.keyDown, window);
+        resync(mc.options.keyLeft, window);
+        resync(mc.options.keyRight, window);
+    }
+    @Unique
+    private static void resync(KeyMapping key, long window) {
+        InputConstants.Key input = key.getKey();
+        boolean physicallyDown = InputConstants.isKeyDown(window, input.getValue());
+
+        key.setDown(physicallyDown);
     }
 }
 

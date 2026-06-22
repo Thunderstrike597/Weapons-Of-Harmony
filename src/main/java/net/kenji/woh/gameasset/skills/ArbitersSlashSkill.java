@@ -1,15 +1,9 @@
 package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.basegameassets.HybridHoldableSkill;
-import net.kenji.woh.api.item_overrides.WeaponModelOverrides;
+import net.kenji.woh.client.ItemOverrideManager;
 import net.kenji.woh.api.manager.AimManager;
 import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.entities.custom.BeamSlashEntity;
@@ -21,8 +15,6 @@ import net.kenji.woh.registry.animation.ArbitersBladeAnimations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -44,7 +36,6 @@ import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.lwjgl.opengl.GL11;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
@@ -53,15 +44,12 @@ import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
-import yesman.epicfight.api.utils.math.Vec2f;
-import yesman.epicfight.client.gui.BattleModeGui;
 import yesman.epicfight.client.input.EpicFightKeyMappings;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.network.server.SPSkillExecutionFeedback;
 import yesman.epicfight.skill.SkillBuilder;
 import yesman.epicfight.skill.SkillContainer;
-import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
@@ -126,7 +114,7 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
     public static class ClientSubscribeEvents {
         @SubscribeEvent
         public static void onClientLogin(ClientPlayerNetworkEvent.LoggingIn event) {
-            WeaponModelOverrides.setItemTextureVariant(event.getPlayer().getMainHandItem(), "");
+            ItemOverrideManager.setItemTextureVariant(event.getPlayer().getMainHandItem(), "");
 
             WohPacketHandler.sendToServer(new ArbitersSlashSetupPacket(ArbitersSlashSkill.slashAngleMap));
         }
@@ -163,7 +151,7 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
         }
         tickHoldCooldown();
         if(!container.isActivated() && !didActivate.getOrDefault(container.getExecutor().getOriginal().getUUID(), false)){
-            WeaponModelOverrides.setItemTextureVariant(container.getExecutor().getOriginal().getMainHandItem(), "");
+            ItemOverrideManager.setItemTextureVariant(container.getExecutor().getOriginal().getMainHandItem(), "");
         }
         if(scheduleDeactivate) {
             if (container.getExecutor() instanceof ServerPlayerPatch serverPlayerPatch) {
@@ -213,7 +201,7 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
                 container.activate();
                 container.getExecutor().resetHolding();
                 setMaxHoldCooldown();
-                WeaponModelOverrides.setItemTextureVariant(container.getExecutor().getOriginal().getMainHandItem(), "arbiters_blade_glow");
+                ItemOverrideManager.setItemTextureVariant(container.getExecutor().getOriginal().getMainHandItem(), "arbiters_blade_glow");
                 if(container.getExecutor().getOriginal() instanceof ServerPlayer serverPlayer)
                     WohPacketHandler.sendToPlayer(new ClientArbitersSlashPacket(false, "arbiters_blade_glow"), serverPlayer);
                 return; // Important: exit early
@@ -442,18 +430,6 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
         container.getExecutor().playAnimationSynchronized(
                 ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_ACTIVATE_START, 0.1F
         );
-        if(getKeyMapping().isDown())
-            container.getExecutor().getEntityState().setState(EntityState.CAN_BASIC_ATTACK, false);
-    }
-
-    @Override
-    public void holdTick(SkillContainer container) {
-        if (container.isActivated()) return;
-
-        int current = container.getExecutor().getChargingAmount();
-        if (current < getMaxChargingTicks()) {
-            container.getExecutor().setChargingAmount(current + 1);
-        }
 
         container.getExecutor().getEntityState().setState(EntityState.CAN_BASIC_ATTACK, false);
     }

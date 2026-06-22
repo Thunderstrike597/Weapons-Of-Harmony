@@ -31,11 +31,11 @@ public class WohAnimationBuilder {
                         AnimationEvent.InTimeEvent.create(config.eventFirstTime, config.startEvent, AnimationEvent.Side.BOTH),
                         AnimationEvent.InTimeEvent.create(config.eventSecondTime, config.endEvent, AnimationEvent.Side.BOTH)
                 });
-            } if (config.endEvent != null) {
+            }else if (config.endEvent != null) {
                 anim.addEvents(new AnimationEvent[]{
                         AnimationEvent.InTimeEvent.create(config.eventSecondTime, config.endEvent, AnimationEvent.Side.BOTH)
                 });
-            } if (config.startEvent != null) {
+            }else if (config.startEvent != null) {
                 anim.addEvents(new AnimationEvent[]{
                         AnimationEvent.InTimeEvent.create(config.eventFirstTime, config.startEvent, AnimationEvent.Side.BOTH)
                 });

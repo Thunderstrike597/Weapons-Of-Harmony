@@ -6,7 +6,6 @@
   "mixins": [
     "CapabilityItemMixin",
     "WeaponCapabilityAccessor",
-    "SkillContainerMixin",
     "SkillContainerAccessor",
     "GuardSkillMixin",
     "KatanaAttackAnimationMixin",
@@ -20,6 +19,7 @@
     "ControlEngineAccessor",
     "AttackAnimationMixin",
     "EpicFightShaderMixin",
+    "SkillContainerMixin",
     "InputManagerMixin"
   ],
   "injectors": {

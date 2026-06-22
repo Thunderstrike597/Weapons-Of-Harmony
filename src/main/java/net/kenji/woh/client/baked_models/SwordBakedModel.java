@@ -1,12 +1,11 @@
 package net.kenji.woh.client.baked_models;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.kenji.woh.api.item_overrides.WeaponModelOverrides;
+import net.kenji.woh.client.item_overrides.WeaponModelOverrides;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.client.model.BakedModelWrapper;
-import org.jline.utils.Log;
 
 import java.util.Map;
 

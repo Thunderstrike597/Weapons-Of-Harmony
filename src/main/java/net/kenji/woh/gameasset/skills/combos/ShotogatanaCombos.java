@@ -3,7 +3,6 @@ package net.kenji.woh.gameasset.skills.combos;
 import com.p1nero.invincible.api.events.BaseEvent;
 import com.p1nero.invincible.api.events.TimeStampedEvent;
 import com.p1nero.invincible.api.skill.ComboNode;
-import com.p1nero.invincible.client.InputManager;
 import com.p1nero.invincible.conditions.*;
 import com.p1nero.invincible.skill.ComboBasicAttack;
 import net.corruptdog.cdm.gameasset.CorruptAnimations;
@@ -32,6 +31,7 @@ import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillContainer;
+import yesman.epicfight.skill.SkillSlots;
 import yesman.epicfight.world.damagesource.StunType;
 
 import java.util.ArrayList;
@@ -198,10 +198,9 @@ public class ShotogatanaCombos extends BaseComboBuilder {
             float end = anim.getTotalTime() - 0.1F;
             node.addTimeEvent(new TimeStampedEvent(end,
                     ((entityPatch, target, invinciblePlayer) -> {
-                        ComboBasicAttack comboAttack = InputManager.getComboBasicSkill();
-
-                        if(comboAttack != null){
-                            SkillContainer container = entityPatch.getSkill(WohSkills.SHOTOGATANA_COMBO);
+                        Skill skill = entityPatch.getSkill(SkillSlots.WEAPON_INNATE).getSkill();
+                        if (skill instanceof ComboBasicAttack comboAttack) {
+                            SkillContainer container = entityPatch.getSkill(WohSkills.ARBITERS_SLASH_COMBO);
 
                             if(container != null){
                                 comboAttack.executeNodeOnServer(container, followUpCombo, 1, 1);

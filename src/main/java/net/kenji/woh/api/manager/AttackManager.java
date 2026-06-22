@@ -1,7 +1,7 @@
 package net.kenji.woh.api.manager;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.p1nero.invincible.client.InputManager;
+
 import com.p1nero.invincible.client.InvincibleKeyMappings;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.interfaces.ICooldown;
@@ -57,7 +57,7 @@ import java.util.*;
             }
         }
     }
-    public static void resyncMovementKeys(Minecraft mc) {
+    private static void resyncMovementKeys(Minecraft mc) {
         long window = mc.getWindow().getWindow();
 
         resync(mc.options.keyUp, window);

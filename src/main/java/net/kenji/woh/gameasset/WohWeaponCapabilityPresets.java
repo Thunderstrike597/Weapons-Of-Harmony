@@ -78,7 +78,7 @@ public class WohWeaponCapabilityPresets {
     };
 
     public static final Function<Item, CapabilityItem.Builder> TESSEN = (item) -> {
-        WeaponCapability.Builder builder = WeaponCapability.builder()
+        DualSkillWeaponCapability.Builder builder = (DualSkillWeaponCapability.Builder)DualSkillWeaponCapability.builder()
                 .category(WohWeaponCategories.TESSEN)
                 .styleProvider((playerPatch) -> {
                             if (playerPatch instanceof PlayerPatch<?> patch) {
@@ -98,7 +98,6 @@ public class WohWeaponCapabilityPresets {
                         (entitypatch) ->
                                 EpicFightCapabilities.getItemStackCapability(entitypatch.getOriginal().getOffhandItem()).getWeaponCategory()
                                         == WohWeaponCategories.TESSEN)
-
                 .hitSound(EpicFightSounds.BLADE_HIT.get())
                 .collider(ColliderPreset.DAGGER)
                 .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
@@ -128,19 +127,33 @@ public class WohWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_NEW_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK_SHIELD, TessenAnimations.TESSEN_SKILL_HOLD)
+
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_NEW_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_NEW_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_DUAL_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK_SHIELD, TessenAnimations.TESSEN_SKILL_HOLD)
+
                 .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_SKILL_HOLD)
                 .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_SKILL_WALK)
                 .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_DUAL_RUN)
                 .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
+                .livingMotionModifier(WohStyles.THROWN_TWO_HAND, LivingMotions.BLOCK_SHIELD, TessenAnimations.TESSEN_SKILL_HOLD)
+
                 .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_SKILL_HOLD)
                 .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_SKILL_WALK)
                 .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
                 .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.BLOCK, TessenAnimations.TESSEN_SKILL_HOLD)
+                .livingMotionModifier(WohStyles.THROWN_ONE_HAND, LivingMotions.BLOCK_SHIELD, TessenAnimations.TESSEN_SKILL_HOLD)
+
                 .passiveSkill(WohSkills.FAN_STANCE);
+        builder.canUseShield(CapabilityItem.Styles.ONE_HAND, false);
+        builder.canUseShield(CapabilityItem.Styles.TWO_HAND, false);
+        builder.canUseShield(WohStyles.THROWN_TWO_HAND, false);
+        builder.canUseShield(WohStyles.THROWN_ONE_HAND, false);
+
+
         return builder;
     };
 

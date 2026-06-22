@@ -12,6 +12,7 @@ import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.skill.SkillSlot;
 import yesman.epicfight.skill.SkillSlots;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
@@ -19,22 +20,32 @@ import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 public class DualSkillWeaponCapability extends WeaponCapability {
 
     @Nullable
     private final Function<ItemStack, Skill> secondarySkillProvider;
+    protected final Map<Style, Boolean> canUseShieldMap;
 
     protected DualSkillWeaponCapability(Builder builder) {
         super(builder);
         this.secondarySkillProvider = builder.secondarySkillProvider;
+        this.canUseShieldMap = builder.canUseShieldMapProvider;
     }
 
     @Nullable
     public Skill getSecondarySkill(ItemStack itemStack) {
         return secondarySkillProvider != null ? secondarySkillProvider.apply(itemStack) : null;
     }
+
+    public boolean canUseShield(PlayerPatch<?> patch) {
+        Style style = this.getStyle(patch);
+        return canUseShieldMap.getOrDefault(style, true);
+    }
+
 
     public SkillSlot getSecondarySkillSlot(){
         return WohSkillSlot.WEAPON_SECONDARY_SKILL;
@@ -97,13 +108,19 @@ public class DualSkillWeaponCapability extends WeaponCapability {
 
         @Nullable
         Function<ItemStack, Skill> secondarySkillProvider;
+         Map<Style, Boolean> canUseShieldMapProvider = new HashMap<>();
 
         protected Builder() {
             this.constructor(b -> new DualSkillWeaponCapability((DualSkillWeaponCapability.Builder) b));
+
         }
 
         public Builder secondarySkill(Function<ItemStack, Skill> secondarySkill) {
             this.secondarySkillProvider = secondarySkill;
+            return this;
+        }
+        public Builder canUseShield(Style style, boolean canUseShield){
+            this.canUseShieldMapProvider.put(style, canUseShield);
             return this;
         }
 

@@ -1,7 +1,7 @@
 package net.kenji.woh.network;
 
 import net.kenji.woh.api.basegameassets.HybridHoldableSkill;
-import net.kenji.woh.api.item_overrides.WeaponModelOverrides;
+import net.kenji.woh.client.ItemOverrideManager;
 import net.kenji.woh.gameasset.WohSkills;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -50,7 +50,7 @@ public record ClientArbitersSlashPacket(boolean deactivate, String tagToSend) {
         SkillContainer container = playerPatch.getSkill(WohSkills.ARBITERS_SLASH);
         if(container == null)
             return;
-        WeaponModelOverrides.setItemTextureVariant(player.getMainHandItem(), packet.tagToSend);
+        ItemOverrideManager.setItemTextureVariant(player.getMainHandItem(), packet.tagToSend);
         if(packet.deactivate) {
             container.deactivate();
             if (container.getSkill() instanceof HybridHoldableSkill skill) {
