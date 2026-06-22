@@ -7,6 +7,7 @@ import net.minecraftforge.registries.RegistryObject;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.property.AnimationProperty;
+import yesman.epicfight.api.animation.property.MoveCoordFunctions;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
@@ -39,7 +40,9 @@ public class TessenThrowAttackAnimation extends AttackAnimation {
                 .addProperty(AnimationProperty.ActionAnimationProperty.MOVE_VERTICAL, useMovement)
                 .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false)
-                .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false);
+                .addProperty(AnimationProperty.ActionAnimationProperty.AFFECT_SPEED, false)
+                .addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_BEGIN, MoveCoordFunctions.RAW_COORD)
+                .addProperty(AnimationProperty.ActionAnimationProperty.COORD_SET_TICK, null);
         this.useMovement = useMovement;
         this.ignoreFallDamage = ignoreFallDamage;
     }

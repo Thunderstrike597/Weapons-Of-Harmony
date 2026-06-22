@@ -56,9 +56,9 @@ public class TessenAnimations {
     public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_NEW_SKILL_DUAL_AUTO_4;
 
 
-    public static AnimationManager.AnimationAccessor<? extends DashAttackAnimation> TESSEN_SKILL_DASH;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_SKILL_DASH;
 
-    public static AnimationManager.AnimationAccessor<? extends AirSlashAnimation> TESSEN_SKILL_AIRSLASH;
+    public static AnimationManager.AnimationAccessor<? extends AttackAnimation> TESSEN_SKILL_AIRSLASH;
 
 
 
@@ -326,6 +326,49 @@ public class TessenAnimations {
                 1.95F,
                 false
         );
-
+        TESSEN_SKILL_DASH = WOHAnimationUtils.createTessenThrowAttackAnimation(
+                builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/tessen/tessen_skill_dash",
+                8,
+                0.1F,
+                0.0F,
+                0.05F,
+                0.08F,
+                1.50F,
+                0.15F,
+                0.05F,
+                EpicFightSounds.WHOOSH_SMALL,
+                EpicFightSounds.BLADE_HIT,
+                EpicFightParticles.HIT_BLADE,
+                ColliderPreset.DUAL_SWORD,
+                AttackHand.HANDS,
+                StunType.SHORT,
+                0.48F,
+                1.50F,
+                true
+        );
+        TESSEN_SKILL_AIRSLASH = WOHAnimationUtils.createTessenThrowAttackAnimation(
+                builder,
+                WOHAnimationUtils.AttackAnimationType.BASIC_ATTACK,
+                "biped/combat/tessen/tessen_skill_airslash",
+                8,
+                0.1F,
+                0.0F,
+                0.05F,
+                0.08F,
+                0.12F,
+                0.15F,
+                0.05F,
+                EpicFightSounds.WHOOSH_SMALL,
+                EpicFightSounds.BLADE_HIT,
+                EpicFightParticles.HIT_BLADE,
+                ColliderPreset.DUAL_SWORD,
+                AttackHand.HANDS,
+                StunType.SHORT,
+                0.26F,
+                0.82F,
+                false
+        );
     }
 }

@@ -2,17 +2,17 @@
   "loader": "forge:separate_transforms",
   "base": {
     "loader": "forge:obj",
-    "model": "woh:models/item/obj/tessen.obj",
+    "model": "woh:models/item/obj/voxel_tessen.obj",
     "flip_v": true,
     "display": {
       "thirdperson_righthand": {
-        "translation": [5.75, -8, 7.5],
-        "rotation": [92, 0, 0],
+        "translation": [5, 4, -3.25],
+        "rotation": [-90, 0, 0],
         "scale": [0.75, 0.75, 0.75]
       },
       "thirdperson_lefthand": {
-        "translation": [-7, -8.5, 7],
-        "rotation": [90, 0, 0],
+        "translation": [-6.5, 4, -3.25],
+        "rotation": [-90, 0, 0],
         "scale": [0.75, 0.75, 0.75]
       },
       "firstperson_righthand": {

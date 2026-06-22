@@ -105,25 +105,25 @@ public class WohWeaponCapabilityPresets {
                         TessenAnimations.TESSEN_NEW_AUTO_1,
                         TessenAnimations.TESSEN_NEW_AUTO_2,
                         TessenAnimations.TESSEN_NEW_AUTO_3,
-                        TessenAnimations.TESSEN_NEW_DUAL_DASH, TessenAnimations.TESSEN_NEW_AIRSLASH)
+                        TessenAnimations.TESSEN_SKILL_DASH, TessenAnimations.TESSEN_NEW_AIRSLASH)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
                         TessenAnimations.TESSEN_NEW_DUAL_AUTO_1,
                         TessenAnimations.TESSEN_NEW_DUAL_AUTO_2,
                         TessenAnimations.TESSEN_NEW_DUAL_AUTO_3,
                         TessenAnimations.TESSEN_NEW_DUAL_AUTO_4,
-                        TessenAnimations.TESSEN_NEW_DUAL_DASH, TessenAnimations.TESSEN_NEW_DUAL_AIRSLASH)
+                        TessenAnimations.TESSEN_SKILL_DASH, TessenAnimations.TESSEN_SKILL_AIRSLASH)
                 .newStyleCombo(WohStyles.THROWN_TWO_HAND,
                         TessenAnimations.TESSEN_NEW_SKILL_AUTO_1,
                         TessenAnimations.TESSEN_NEW_SKILL_DUAL_AUTO_2,
                         TessenAnimations.TESSEN_NEW_SKILL_DUAL_AUTO_3,
                         TessenAnimations.TESSEN_NEW_SKILL_DUAL_AUTO_4,
-                        TessenAnimations.TESSEN_NEW_DUAL_DASH, TessenAnimations.TESSEN_NEW_DUAL_AIRSLASH)
+                        TessenAnimations.TESSEN_SKILL_DASH, TessenAnimations.TESSEN_SKILL_AIRSLASH)
                 .newStyleCombo(WohStyles.THROWN_ONE_HAND,
                         TessenAnimations.TESSEN_NEW_SKILL_AUTO_1,
                         TessenAnimations.TESSEN_NEW_SKILL_AUTO_2,
                         TessenAnimations.TESSEN_NEW_SKILL_AUTO_3,
                         TessenAnimations.TESSEN_NEW_SKILL_AUTO_4,
-                        TessenAnimations.TESSEN_NEW_DUAL_DASH, TessenAnimations.TESSEN_NEW_AIRSLASH)
+                        TessenAnimations.TESSEN_SKILL_DASH, TessenAnimations.TESSEN_NEW_AIRSLASH)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, TessenAnimations.TESSEN_NEW_HOLD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, TessenAnimations.TESSEN_NEW_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, TessenAnimations.TESSEN_RUN)
