@@ -1,10 +1,12 @@
 package net.kenji.woh.block.custom;
 
 import net.kenji.woh.block.custom.entity.SwordPedistoolBlockEntity;
+import net.kenji.woh.item.custom.weapon.ArbitersBlade;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -43,10 +45,19 @@ public class SwordPedistoolBlock extends BaseEntityBlock {
         if (!(be instanceof SwordPedistoolBlockEntity pedestal)) return InteractionResult.PASS;
 
         if (!pedestal.isSwordTaken()) {
-            ItemStack sword = pedestal.getDisplayedItem();
-            boolean success = player.addItem(sword);
-            if(success)
-                pedestal.takeSword();
+            boolean isSlotFree = player.getInventory().getFreeSlot() != -1;
+            if(isSlotFree) {
+                ItemStack swordStack = pedestal.takeSword();
+                boolean success = player.addItem(swordStack);
+                if(!success) {
+                    pedestal.placeSword(swordStack);
+                }
+            }
+            return InteractionResult.SUCCESS;
+        }
+        else if(player.getMainHandItem().getItem() instanceof ArbitersBlade){
+            pedestal.placeSword(player.getMainHandItem());
+            player.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
             return InteractionResult.SUCCESS;
         }
 

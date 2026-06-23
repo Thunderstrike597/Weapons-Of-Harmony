@@ -4,7 +4,7 @@
       "start_time": 0.33,
       "end_time": 0.55,
       "joint": "Tool_L",
-      "item_skin_hand": "off_hand"
+      "item_skin_hand": "main_hand"
     },
     {
       "start_time": 0.33,

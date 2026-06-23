@@ -16,19 +16,37 @@ import net.minecraft.world.level.block.state.BlockState;
 public class SwordPedistoolBlockEntity extends BlockEntity {
 
     public static final String SWORD_TAKEN_TAG = "arbiter_sword_taken";
-    private boolean swordTaken = false;
+    public static final String STORED_SWORD_TAG = "arbiter_sword_taken";
 
+    private boolean swordTaken = false;
+    private ItemStack storedSword;
 
     public SwordPedistoolBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.SWORD_PEDISTOOL_BE.get(), pos, state);
+        if(storedSword == null)
+            storedSword = WohItems.ARBITERS_BLADE.get().getDefaultInstance();
     }
 
     public boolean isSwordTaken() {
         return swordTaken;
     }
 
-    public void takeSword() {
+    public ItemStack takeSword() {
+        ItemStack finalStack = getDisplayedItem();
         swordTaken = true;
+        storedSword = null;
+        setChanged();
+
+        // Sync to clients
+        if (level != null && !level.isClientSide) {
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+        }
+
+        return finalStack;
+    }
+    public void placeSword(ItemStack stack) {
+        swordTaken = false;
+        storedSword = stack;
         setChanged();
 
         // Sync to clients
@@ -38,16 +56,25 @@ public class SwordPedistoolBlockEntity extends BlockEntity {
     }
 
 
+
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putBoolean(SWORD_TAKEN_TAG, swordTaken);
+        if(!swordTaken){
+            if(storedSword != null)
+                tag.put(STORED_SWORD_TAG, storedSword.serializeNBT());
+        }
     }
 
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
         swordTaken = tag.getBoolean(SWORD_TAKEN_TAG);
+        if(!swordTaken){
+            CompoundTag itemTag = tag.getCompound(STORED_SWORD_TAG);
+            storedSword = ItemStack.of(itemTag);
+        }
     }
 
     // Sync data to client
@@ -64,6 +91,7 @@ public class SwordPedistoolBlockEntity extends BlockEntity {
     }
 
     public ItemStack getDisplayedItem() {
-        return swordTaken ? ItemStack.EMPTY : WohItems.ARBITERS_BLADE.get().getDefaultInstance();
+        ItemStack finalStack = storedSword == null || storedSword == ItemStack.EMPTY ? WohItems.ARBITERS_BLADE.get().getDefaultInstance() : storedSword;
+        return swordTaken ? ItemStack.EMPTY : finalStack;
     }
 }

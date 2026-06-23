@@ -174,6 +174,7 @@ public class WohWeaponCapabilityPresets {
                                         == WohWeaponCategories.TSUME)
                 .hitSound(EpicFightSounds.BLADE_HIT.get())
                 .collider(ColliderPreset.SWORD)
+                .canBePlacedOffhand(false)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
                         TsumeAnimations.TSUME_AUTO_1,
                         TsumeAnimations.TSUME_AUTO_2,

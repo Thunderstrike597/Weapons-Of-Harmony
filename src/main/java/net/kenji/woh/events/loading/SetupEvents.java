@@ -10,6 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import org.jline.utils.Log;
+import reascer.wom.gameasset.animations.weapons.AnimsRuine;
 import yesman.epicfight.gameasset.Animations;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -32,6 +33,15 @@ public class SetupEvents {
             ArbitersSlashSkill.slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_1.get().toString(), -60);
             ArbitersSlashSkill.slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_2.get().toString(), -15);
             ArbitersSlashSkill.slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_3.get().toString(), -52);
+
+            ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.LONGSWORD_OLD_AUTO1.get().toString(), -52);
+            ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.LONGSWORD_OLD_AUTO2.get().toString(), -70);
+            ArbitersSlashSkill.slashAngleMap.put(AnimsRuine.RUINE_AUTO_1.get().toString(), 52);
+            ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.TACHI_TWOHAND_AUTO_4.get().toString(), 52);
+
+
+
+
         });
     }
 

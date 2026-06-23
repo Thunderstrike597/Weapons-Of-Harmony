@@ -35,13 +35,12 @@ public class SwordPedistoolRenderer implements BlockEntityRenderer<SwordPedistoo
         poseStack.pushPose();
 
         // Center + above block
-        poseStack.translate(0.66D, 1.1D, 0.49D);
+        poseStack.translate(0.545D, 1.15D, 0.506D);
 
-        // Rotate to point downward (yamato in stone pose)
         poseStack.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(180));  // Flip upside down
         poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(90));   // Optional: slight angle for visual interest
 
-        poseStack.scale(0.7F, 0.7F, 0.7F);
+        poseStack.scale(0.8F, 0.85F, 0.85F);
 
         int light = net.minecraft.client.renderer.LevelRenderer.getLightColor(
                 pedestal.getLevel(),
