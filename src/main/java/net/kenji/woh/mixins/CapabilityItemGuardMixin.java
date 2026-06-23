@@ -32,17 +32,13 @@ public class CapabilityItemGuardMixin {
     private void getCustomGuardMotion(LivingEntityPatch<?> patch, InteractionHand hand, CallbackInfoReturnable<Map<LivingMotion, AnimationManager.AnimationAccessor<? extends StaticAnimation>>> cir) {
         CapabilityItem self = (CapabilityItem) (Object)this;
         if(patch instanceof PlayerPatch<?> playerPatch) {
-            CapabilityItem capItem = EpicFightCapabilities.getItemStackCapability(patch.getOriginal().getMainHandItem());
-            Map<LivingMotion, AnimationManager.AnimationAccessor<? extends StaticAnimation>> mainHandMap = capItem.getLivingMotionModifier(patch, InteractionHand.MAIN_HAND);
 
             Map<LivingMotion, AnimationManager.AnimationAccessor<? extends StaticAnimation>> originalMap = cir.getReturnValue();
             Map<LivingMotion, AnimationManager.AnimationAccessor<? extends StaticAnimation>> mutableMap = new HashMap<>(originalMap);
-            AnimationManager.AnimationAccessor<? extends StaticAnimation> mainHandAccessor = mainHandMap.get(LivingMotions.BLOCK_SHIELD);
             AnimationManager.AnimationAccessor<? extends StaticAnimation> accessor = originalMap.get(LivingMotions.BLOCK_SHIELD);
             boolean isAlternativeBlockPresent = accessor != null && accessor.get() != Animations.BIPED_BLOCK && accessor.get() != Animations.EMPTY_ANIMATION;
-            boolean isAlternativeMainHandBlockPresent = mainHandAccessor != null && mainHandAccessor.get() != Animations.BIPED_BLOCK && mainHandAccessor.get() != Animations.EMPTY_ANIMATION;
 
-            if(!isAlternativeBlockPresent && !isAlternativeMainHandBlockPresent) {
+            if(!isAlternativeBlockPresent) {
                 if (playerPatch.getOriginal().getOffhandItem().getItem() instanceof ArbitersShield) {
                     if (accessor == null || accessor.get() == Animations.EMPTY_ANIMATION || accessor.get() == Animations.BIPED_BLOCK) {
                         mutableMap.put(LivingMotions.BLOCK_SHIELD, GenericAnimations.ARBITERS_SHIELD_BLOCK);
@@ -50,9 +46,6 @@ public class CapabilityItemGuardMixin {
                 } else if (accessor == null || accessor.get() == Animations.EMPTY_ANIMATION) {
                     mutableMap.put(LivingMotions.BLOCK_SHIELD, Animations.BIPED_BLOCK);
                 }
-            }
-            else if(isAlternativeMainHandBlockPresent){
-                mutableMap.put(LivingMotions.BLOCK_SHIELD, mainHandAccessor);
             }
             cir.setReturnValue(mutableMap);
         }
