@@ -19,8 +19,9 @@ public class ModBlocks {
                     () -> new SwordPedistoolBlock(
                             BlockBehaviour.Properties.of()
                                     .mapColor(MapColor.STONE)
-                                    .strength(3.5F)
+                                    .strength(2.5F)
                                     .noOcclusion()
+                                    .requiresCorrectToolForDrops()
                     ));
 
 

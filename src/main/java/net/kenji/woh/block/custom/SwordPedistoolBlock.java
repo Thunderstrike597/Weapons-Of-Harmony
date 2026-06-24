@@ -4,9 +4,11 @@ import net.kenji.woh.block.custom.entity.SwordPedistoolBlockEntity;
 import net.kenji.woh.item.custom.weapon.ArbitersBlade;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -16,6 +18,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 
 import javax.annotation.Nullable;
@@ -62,6 +65,20 @@ public class SwordPedistoolBlock extends BaseEntityBlock {
         }
 
         return InteractionResult.PASS;
+    }
+
+    @Override
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        BlockEntity be = level.getBlockEntity(pos);
+        if (!(be instanceof SwordPedistoolBlockEntity pedestal)) return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);;
+
+        if (!pedestal.isSwordTaken()) {
+            if(pedestal.getDisplayedItem() != null && !pedestal.getDisplayedItem().isEmpty()){
+                Block.popResource(level, pos, pedestal.getDisplayedItem());
+            }
+        }
+
+        return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
     }
 
     @Override
