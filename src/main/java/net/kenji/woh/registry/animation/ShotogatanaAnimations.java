@@ -71,7 +71,7 @@ public class ShotogatanaAnimations {
 
         SHOTOGATANA_AUTO_1 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/shotogatana/auto_1")
-                        .phases(0.0F, 0.33F, 0.41F, 0.56F, 1.75F)
+                        .phases(0.0F, 0.20F, 0.28F, 0.48F, 1.75F)
                         .swing(EpicFightSounds.WHOOSH)
                         .speed(0.1F)
                         .hit(EpicFightSounds.BLUNT_HIT)
@@ -82,7 +82,7 @@ public class ShotogatanaAnimations {
         );
         SHOTOGATANA_AUTO_2 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/shotogatana/auto_2")
-                        .phases(0.0F, 0.28F, 0.33F, 0.53F, 1.70F)
+                        .phases(0.0F, 0.17F, 0.23F, 0.45F, 1.40F)
                         .swing(EpicFightSounds.WHOOSH)
                         .speed(0.1F)
                         .hit(EpicFightSounds.BLUNT_HIT)

@@ -64,8 +64,8 @@ public class ArbitersBladeAnimations {
 
         ARBITERS_BLADE_AUTO_1 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/auto_1")
-                        .phases(0.0F, 0.44F, 0.53F, 0.62F, 2.15F)
-                        .speed(0.17F)
+                        .phases(0.0F, 0.18F, 0.35F, 0.56F, 2.0F)
+                        .speed(0.16F)
                         .swing(EpicFightSounds.WHOOSH)
                         .hit(EpicFightSounds.BLADE_HIT)
                         .particle(EpicFightParticles.HIT_BLADE)
@@ -75,7 +75,7 @@ public class ArbitersBladeAnimations {
         );
         ARBITERS_BLADE_AUTO_2 = WohAnimationBuilder.createAttackAnimation(builder,
                 AnimationConfig.of("biped/combat/arbiters_blade/auto_2")
-                        .phases(0.0F, 0.39F, 0.49F, 0.68F, 2.0F)
+                        .phases(0.0F, 0.35F, 0.42F, 0.68F, 1.90F)
                         .speed(0.13F)
                         .swing(EpicFightSounds.WHOOSH)
                         .hit(EpicFightSounds.BLADE_HIT)
