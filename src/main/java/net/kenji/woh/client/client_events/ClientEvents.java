@@ -8,8 +8,10 @@ import net.kenji.woh.client.enitity_models.ExiledRoninModel;
 import net.kenji.woh.client.entity_renderers.BeamSlashRenderer;
 import net.kenji.woh.client.entity_renderers.ExiledRoninRenderer;
 import net.kenji.woh.client.entity_renderers.ObjBeamSlashRenderer;
+import net.kenji.woh.client.entity_renderers.RoninSkeletonRenderer;
 import net.kenji.woh.client.layers.HolsteredItemLayer;
 import net.kenji.woh.client.layers.OffHandHolsteredItemLayer;
+import net.kenji.woh.client.patched_renderers.PatchedRoninSkeletonRenderer;
 import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.registry.WohItems;
 import net.kenji.woh.render.*;
@@ -83,7 +85,7 @@ public class ClientEvents {
     public static void onClientSetup(FMLClientSetupEvent event) {
       event.enqueueWork(() -> {
           EntityRenderers.register(WohEntities.EXILED_RONIN.get(), ExiledRoninRenderer::new);
-          EntityRenderers.register(WohEntities.RONIN_SKELETON.get(), SkeletonRenderer::new);
+          EntityRenderers.register(WohEntities.RONIN_SKELETON.get(), RoninSkeletonRenderer::new);
           EntityRenderers.register(WohEntities.WAR_FAN_PILLAGER.get(), PillagerRenderer::new);
           EntityRenderers.register(WohEntities.CLAWED_ZOMBIE_VILLAGER.get(), ZombieVillagerRenderer::new);
           BlockEntityRenderers.register(
@@ -122,5 +124,13 @@ public class ClientEvents {
                 playerRenderer.addCustomLayer(new HolsteredItemLayer(null, i));
             }
         }
+    }
+    @SubscribeEvent
+    public static void registerPatchedEntityRenderers(PatchedRenderersEvent.Add event) {
+        event.addPatchedEntityRenderer(WohEntities.RONIN_SKELETON.get(), entityType -> new PatchedRoninSkeletonRenderer(
+                        event.getContext(),
+                        entityType
+                )
+        );
     }
 }

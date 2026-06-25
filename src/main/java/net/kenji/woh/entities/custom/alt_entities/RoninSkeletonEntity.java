@@ -47,7 +47,10 @@ public class RoninSkeletonEntity extends Skeleton {
                 EquipmentSlot.LEGS,
                 new ItemStack(WohItems.RONIN_LEGGINGS.get())
         );
-
+        this.setItemSlot(
+                EquipmentSlot.FEET,
+                new ItemStack(WohItems.RONIN_BOOTS.get())
+        );
         this.setDropChance(EquipmentSlot.MAINHAND, 0.0f);
         this.setDropChance(EquipmentSlot.HEAD, 0.35f);
     }

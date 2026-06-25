@@ -4,8 +4,10 @@ import com.mojang.logging.LogUtils;
 import com.p1nero.invincible.gameassets.InvincibleConditions;
 import net.kenji.woh.block.ModBlockEntities;
 import net.kenji.woh.block.ModBlocks;
+import net.kenji.woh.client.client_events.ClientEvents;
 import net.kenji.woh.compat.combat_hotbar.CombatHotbarRenderCompat;
 import net.kenji.woh.entities.WohEntities;
+import net.kenji.woh.events.ModEventBusEvents;
 import net.kenji.woh.gameasset.*;
 import net.kenji.woh.gameasset.skills.WohSkillSlot;
 import net.kenji.woh.network.WohPacketHandler;
@@ -29,6 +31,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.WeaponCategoryIconRegisterEvent;
@@ -72,13 +75,21 @@ public class WeaponsOfHarmony {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WohConfigCommon.SPEC, "WeaponsOfHarmony-Common.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, WohConfigClient.SPEC, "WeaponsOfHarmony-Client.toml");
 
-
         modEventBus.addListener(WohAnimations::registerAnimations);
         modEventBus.addListener(WohSkills::buildSkillEvent);
         MinecraftForge.EVENT_BUS.addListener(this::addReloadListnerEvent);
         if(ModList.get().isLoaded("epic_fight_combat_hotbar")){
             CombatHotbarRenderCompat.Init();
         }
+
+        // modEventBus.addListener(ModEventBusEvents::registerPatchedEntities);
+        //modEventBus.addListener(ModEventBusEvents::commonSetup);
+
+
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            modEventBus.addListener(net.kenji.woh.client.client_events.ClientEvents::registerPatchedEntityRenderers);
+        }
+
     }
 
     private void commonSetup(final net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) {
