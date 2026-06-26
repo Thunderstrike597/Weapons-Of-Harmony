@@ -199,8 +199,7 @@ public class HolsteredItemLayer extends ModelRenderLayer<
             if (!renderStack.isEmpty()) {
                 Minecraft.getInstance().getItemRenderer().renderStatic(
                         renderStack,
-                        ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
-                        currentLightLevel,
+                        ItemDisplayContext.NONE,                        currentLightLevel,
                         OverlayTexture.NO_OVERLAY,
                         poseStack,
                         buffer,
