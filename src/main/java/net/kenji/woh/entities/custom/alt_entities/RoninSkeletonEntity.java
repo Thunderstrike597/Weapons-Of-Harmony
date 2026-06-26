@@ -14,6 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -53,6 +54,11 @@ public class RoninSkeletonEntity extends Skeleton {
         );
         this.setDropChance(EquipmentSlot.MAINHAND, 0.0f);
         this.setDropChance(EquipmentSlot.HEAD, 0.35f);
+    }
+
+    @Override
+    public float getScale() {
+        return 1.5F;
     }
 
     @Override

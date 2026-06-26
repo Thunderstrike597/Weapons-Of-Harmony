@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = WeaponsOfHarmony.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class SkeletonRoninEvents {
+public class RoninSkeletonEvents {
 
     private static Map<UUID, Float> defeatYRot = new HashMap<>();
     private static Map<UUID, Boolean> isTransition = new HashMap<>();
