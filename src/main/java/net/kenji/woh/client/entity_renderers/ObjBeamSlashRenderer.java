@@ -65,7 +65,7 @@ public class ObjBeamSlashRenderer<T extends Entity> extends EntityRenderer<T> {
             modelRenderer.renderModel(
                     poseStack.last(),
                     // Draw using the unified block sheet context
-                    buffer.getBuffer(RenderType.entityTranslucentEmissive(getTextureLocation(entity))),
+                    buffer.getBuffer(RenderType.translucent()),
                     null,
                     this.objModel,
                     1f, 1f, 1f,

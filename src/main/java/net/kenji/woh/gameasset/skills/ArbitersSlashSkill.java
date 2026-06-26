@@ -1,6 +1,7 @@
 package net.kenji.woh.gameasset.skills;
 
 import com.google.common.collect.Lists;
+import net.corruptdog.cdm.gameasset.CorruptAnimations;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.api.basegameassets.HybridHoldableSkill;
 import net.kenji.woh.client.ItemOverrideManager;
@@ -36,6 +37,7 @@ import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import reascer.wom.gameasset.animations.weapons.AnimsRuine;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.LivingMotions;
@@ -61,9 +63,13 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
     public static float travelSpeedMultiplier = 1.75f;
     private SkillContainer currentContainer;
 
+
     public static Map<String, Integer> slashAngleMap = new HashMap<>();
-    private static final Map<AttackAnimation, BeamSlashEntity> beamCastMap = new HashMap<>();
+    private static final Set<AttackAnimation> beamCastSet = new HashSet<>();
+    private static final Set<AttackAnimation> beamCleanedSet = new HashSet<>();
     private static final Map<UUID, Boolean> wasHoldingMap = new HashMap<>();
+
+    private ItemStack lastHeldItem = ItemStack.EMPTY;
 
     public final int MAX_HOLD_COUNTER = 60;
     public int holdCounter = 0;
@@ -72,6 +78,30 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
     private boolean isModifiedAnimation;
 
 
+    public static void setupBeamSlash(){
+        ArbitersSlashSkill.slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AIM_ATTACK.get().toString(), -45);
+
+        ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.LONGSWORD_OLD_AUTO1.get().toString(), getAngle(-45, false));
+        ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.LONGSWORD_OLD_AUTO2.get().toString(), getAngle(-45, true));
+        ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.LONGSWORD_OLD_AUTO3.get().toString(), getAngle(20, false));
+        ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.LONGSWORD_OLD_AUTO4.get().toString(), getAngle(45, false));
+        ArbitersSlashSkill.slashAngleMap.put(Animations.LONGSWORD_AUTO1.get().toString(), getAngle(-70, false));
+        ArbitersSlashSkill.slashAngleMap.put(Animations.LONGSWORD_AUTO2.get().toString(), getAngle(-45, false));
+        ArbitersSlashSkill.slashAngleMap.put(Animations.LONGSWORD_AUTO3.get().toString(), getAngle(70, false));
+        ArbitersSlashSkill.slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_1.get().toString(), getAngle(-60, false));
+        ArbitersSlashSkill.slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_2.get().toString(), getAngle(-15, true));
+        ArbitersSlashSkill.slashAngleMap.put(ArbitersBladeAnimations.ARBITERS_BLADE_SKILL_AUTO_3.get().toString(), getAngle(-52, false));
+
+        ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.LONGSWORD_OLD_AUTO1.get().toString(), getAngle(-52, true));
+        ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.LONGSWORD_OLD_AUTO2.get().toString(), getAngle(-70, false));
+        ArbitersSlashSkill.slashAngleMap.put(AnimsRuine.RUINE_AUTO_1.get().toString(), getAngle(52, false));
+        ArbitersSlashSkill.slashAngleMap.put(CorruptAnimations.TACHI_TWOHAND_AUTO_4.get().toString(), getAngle(52, true));
+    }
+
+    private static int getAngle(int angle, boolean isInverse) {
+        if (!isInverse) return angle;
+        return angle > 0 ? angle - 180 : angle + 180;
+    }
     public ArbitersSlashSkill(SkillBuilder builder) {
         super(builder, 1.0F);
         this.maxDuration = 350;
@@ -146,14 +176,14 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
     public void updateContainer(SkillContainer container) {
         // Handle charging phase (before activation)
         currentContainer = container;
-        if(holdCounter > 0){
+        if (holdCounter > 0) {
             holdCounter--;
         }
         tickHoldCooldown();
-        if(!container.isActivated() && !didActivate.getOrDefault(container.getExecutor().getOriginal().getUUID(), false)){
+        if (!container.isActivated() && !didActivate.getOrDefault(container.getExecutor().getOriginal().getUUID(), false)) {
             ItemOverrideManager.setItemTextureVariant(container.getExecutor().getOriginal().getMainHandItem(), "");
         }
-        if(scheduleDeactivate) {
+        if (scheduleDeactivate) {
             if (container.getExecutor() instanceof ServerPlayerPatch serverPlayerPatch) {
                 AnimationPlayer animPlayer = serverPlayerPatch.getServerAnimator().animationPlayer;
                 AssetAccessor<? extends DynamicAnimation> anim = animPlayer.getAnimation();
@@ -202,7 +232,7 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
                 container.getExecutor().resetHolding();
                 setMaxHoldCooldown();
                 ItemOverrideManager.setItemTextureVariant(container.getExecutor().getOriginal().getMainHandItem(), "arbiters_blade_glow");
-                if(container.getExecutor().getOriginal() instanceof ServerPlayer serverPlayer)
+                if (container.getExecutor().getOriginal() instanceof ServerPlayer serverPlayer)
                     WohPacketHandler.sendToPlayer(new ClientArbitersSlashPacket(false, "arbiters_blade_glow"), serverPlayer);
                 return; // Important: exit early
             }
@@ -218,7 +248,7 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
             //Log.info("REMAINING TICKS: "+ container.getRemainDuration());
 
             Player player = container.getExecutor().getOriginal();
-            if(!didActivate.getOrDefault(player.getUUID(), false)){
+            if (!didActivate.getOrDefault(player.getUUID(), false)) {
                 container.deactivate();
                 return;
             }
@@ -251,16 +281,18 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
             PlayerPatch<?> playerPatch = container.getExecutor();
             AnimationPlayer animPlayer = playerPatch.getAnimator().getPlayerFor(null);
 
-            if (playerPatch.getAnimator().getPlayerFor(null).getAnimation().get() instanceof AttackAnimation attackAnim) {
-                if(playerPatch.getOriginal().level() instanceof ServerLevel serverLevel) {
+            if (playerPatch.getOriginal().level() instanceof ServerLevel serverLevel) {
+                if (playerPatch.getAnimator().getPlayerFor(null).getAnimation().get() instanceof AttackAnimation attackAnim) {
+                    // remove any stale entries from previous anims (not the current one)
+                    beamCastSet.removeIf(a -> a != attackAnim);
+
                     float time = playerPatch.getAnimator().getPlayerFor(null).getElapsedTime();
-                    if (time >= (attackAnim.phases[0].contact + attackAnim.phases[0].start) * 0.5 && time < attackAnim.phases[0].recovery) {
-                       if(beamCastMap.get(attackAnim) == null){
+                    if (time >= (attackAnim.phases[0].contact + attackAnim.phases[0].start) * 0.5
+                            && time < attackAnim.phases[0].recovery) {
+                        if (!beamCastSet.contains(attackAnim)) {
+                            beamCastSet.add(attackAnim);
                             onBeamSlash(playerPatch, attackAnim.getAccessor(), serverLevel);
                         }
-                    }
-                    else if(time >= attackAnim.phases[0].recovery){
-                        beamCastMap.remove(attackAnim);
                     }
                 }
             }
@@ -268,10 +300,9 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
             // Decrement duration
             if (container.getRemainDuration() > 0) {
                 container.setDuration(container.getRemainDuration() - 1);
-            }
-            else{
+            } else {
                 container.deactivate();
-                if(container.getExecutor().getOriginal() instanceof ServerPlayer serverPlayer)
+                if (container.getExecutor().getOriginal() instanceof ServerPlayer serverPlayer)
                     WohPacketHandler.sendToPlayer(new ClientArbitersSlashPacket(true, ""), serverPlayer);
 
                 didActivate.put(player.getUUID(), false);
@@ -294,7 +325,6 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
                 spawnedEntity.setSlashAngle(slashAngle);
                 spawnedEntity.setCasterAndAnimation(playerPatch, basisAttackAnimation.get());
 
-                beamCastMap.put(basisAttackAnimation.get(), spawnedEntity);
 
                 SoundEvent cast1 = SoundEvents.TRIDENT_RIPTIDE_1;
                 SoundEvent cast2 = SoundEvents.TRIDENT_RIPTIDE_2;
@@ -411,9 +441,27 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
         container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.WALK, getAimAnimation());
         isModifiedAnimation = true;
     }
-    private void onAimRelease(SkillContainer container){
-        container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.IDLE, container.getExecutor().getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(container.getExecutor(), InteractionHand.MAIN_HAND).get(LivingMotions.IDLE));
-        container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.WALK, container.getExecutor().getHoldingItemCapability(InteractionHand.MAIN_HAND).getLivingMotionModifier(container.getExecutor(), InteractionHand.MAIN_HAND).get(LivingMotions.WALK));
+    private void onAimRelease(SkillContainer container) {
+        var cap = container.getExecutor().getHoldingItemCapability(InteractionHand.MAIN_HAND);
+        if (cap == null) {
+            isModifiedAnimation = false;
+            return;
+        }
+
+        var motionMap = cap.getLivingMotionModifier(container.getExecutor(), InteractionHand.MAIN_HAND);
+        if (motionMap == null) {
+            isModifiedAnimation = false;
+            return;
+        }
+
+        AssetAccessor<? extends StaticAnimation> idle = motionMap.get(LivingMotions.IDLE);
+        AssetAccessor<? extends StaticAnimation> walk = motionMap.get(LivingMotions.WALK);
+
+        if (idle != null)
+            container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.IDLE, idle);
+        if (walk != null)
+            container.getExecutor().getAnimator().addLivingAnimation(LivingMotions.WALK, walk);
+
         isModifiedAnimation = false;
     }
 
@@ -448,6 +496,7 @@ public class ArbitersSlashSkill extends HybridHoldableSkill {
 
     @Override
     public void resetHolding(SkillContainer container) {
+        if(container == null)return;
         if (!container.isActivated() && !getKeyMapping().isDown()) {
             container.getExecutor().setChargingAmount(0);
         }

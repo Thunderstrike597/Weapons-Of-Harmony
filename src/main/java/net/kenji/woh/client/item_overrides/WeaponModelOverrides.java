@@ -2,6 +2,7 @@ package net.kenji.woh.client.item_overrides;
 
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.client.ItemOverrideManager;
+import net.kenji.woh.client.baked_models.SwordBakedModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -9,6 +10,7 @@ import net.minecraft.client.resources.model.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
 import net.minecraftforge.client.model.obj.ObjLoader;
@@ -32,16 +34,18 @@ public class WeaponModelOverrides extends ItemOverrides {
     private final ResourceLocation guiModelLocation;
 
     private final ResourceLocation defaultObjLocation;
+    Map<ItemDisplayContext, BakedModel> perspectives;
 
     public WeaponModelOverrides(IGeometryBakingContext context, ModelBaker baker,
                                 Function<Material, TextureAtlasSprite> spriteGetter,
-                                ModelState modelState, ResourceLocation guiModelLocation, ResourceLocation defaultObjLocation) {
+                                ModelState modelState, ResourceLocation guiModelLocation, ResourceLocation defaultObjLocation, Map<ItemDisplayContext, BakedModel> perspectives) {
         this.context = context;
         this.baker = baker;
         this.spriteGetter = spriteGetter;
         this.modelState = modelState;
         this.guiModelLocation = guiModelLocation;
         this.defaultObjLocation = defaultObjLocation;
+        this.perspectives = perspectives;
     }
 
     @Override
@@ -64,11 +68,14 @@ public class WeaponModelOverrides extends ItemOverrides {
     private BakedModel bakeObjModel(ResourceLocation objPath, @Nullable String mltVariant) {
         String mtlOverride = (mltVariant == null) ? null
                 : WeaponsOfHarmony.MODID + ":models/item/obj/variants/mtl/" + mltVariant + ".mtl";
-        Log.info("Attempting mtl override at: " + mtlOverride); // confirm exact path
+
         ObjModel objModel = ObjLoader.INSTANCE.loadModel(
                 new ObjModel.ModelSettings(objPath, true, true, true, true, mtlOverride)
         );
-        return objModel.bake(context, baker, spriteGetter, modelState, ItemOverrides.EMPTY, guiModelLocation);
+        BakedModel baked = objModel.bake(context, baker, spriteGetter, modelState, ItemOverrides.EMPTY, guiModelLocation);
+
+        // Wrap with the same perspectives map so GUI context still works
+        return new SwordBakedModel(baked, this, perspectives);
     }
 
 
