@@ -131,9 +131,13 @@ public class TenraiSkillInnate extends HybridSkill {
 
         UUID playerId = serverPatch.getOriginal().getUUID();
 
-        Float stored = storedResource.get(playerId);
-        if (stored != null) {
-            setConsumptionSynchronize(container, stored);
+
+        if (container.getExecutor() instanceof ServerPlayerPatch serverPlayer
+                && serverPlayer.getOriginal().connection != null) {
+            Float stored = storedResource.get(playerId);
+            if (stored != null) {
+                setConsumptionSynchronize(container, stored);
+            }
         }
     }
     @Override

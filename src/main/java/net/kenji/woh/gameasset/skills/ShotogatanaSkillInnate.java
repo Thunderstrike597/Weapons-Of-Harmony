@@ -136,10 +136,12 @@ public class ShotogatanaSkillInnate extends HybridSkill {
         if (!(container.getExecutor() instanceof ServerPlayerPatch serverPatch)) return;
 
         UUID playerId = serverPatch.getOriginal().getUUID();
-
-        Float stored = storedResource.get(playerId);
-        if (stored != null) {
-            setConsumptionSynchronize(container, stored);
+        if (container.getExecutor() instanceof ServerPlayerPatch serverPlayer
+                && serverPlayer.getOriginal().connection != null) {
+            Float stored = storedResource.get(playerId);
+            if (stored != null) {
+                setConsumptionSynchronize(container, stored);
+            }
         }
     }
     @Override

@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.gameasset.WohSkills;
 import net.kenji.woh.item.custom.base.HolsterWeaponBase;
+import net.kenji.woh.item.custom.weapon.ArbitersBlade;
 import net.kenji.woh.registry.WohItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -66,7 +67,13 @@ public class ArbitersBladeRender extends RenderItemBase {
     public void renderItemInHand(ItemStack stack, LivingEntityPatch<?> entitypatch, InteractionHand hand, OpenMatrix4f[] poses, MultiBufferSource buffer, PoseStack poseStack, int packedLight, float partialTicks) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         BakedModel model = itemRenderer.getModel(stack, entitypatch.getOriginal().level(), entitypatch.getOriginal(), 0);
-
+        if(stack.getItem() instanceof ArbitersBlade arbitersBlade){
+            if(entitypatch instanceof PlayerPatch<?> playerPatch) {
+                if (!arbitersBlade.shouldRenderInHand(playerPatch)){
+                    return;
+                }
+            }
+        }
         // getModel() calls resolve() internally — but let's also call it explicitly
         // in case Epic Fight's pipeline skips it
         BakedModel resolvedModel = model.getOverrides().resolve(

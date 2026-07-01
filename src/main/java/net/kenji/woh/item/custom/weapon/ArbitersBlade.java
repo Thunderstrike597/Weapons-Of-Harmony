@@ -8,6 +8,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 public class ArbitersBlade extends HolsterWeaponBase {
 
@@ -49,5 +50,10 @@ public class ArbitersBlade extends HolsterWeaponBase {
     @Override
     public boolean overrideStackedOnOther(ItemStack pStack, Slot pSlot, ClickAction pAction, Player pPlayer) {
         return false;
+    }
+
+    @Override
+    public boolean shouldRenderInHand(PlayerPatch<?> playerPatch) {
+        return playerPatch.isEpicFightMode() && playerPatch.getOriginal().getMainHandItem().getItem() instanceof ArbitersBlade;
     }
 }

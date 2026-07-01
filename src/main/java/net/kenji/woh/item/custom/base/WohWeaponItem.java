@@ -8,6 +8,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.item.WeaponItem;
 
 import java.util.HashMap;
@@ -56,5 +57,8 @@ public class WohWeaponItem extends WeaponItem implements ITranslatableItem {
            );
            super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
        }
+    }
+    public boolean shouldRenderInHand(PlayerPatch<?> playerPatch){
+        return true;
     }
 }
