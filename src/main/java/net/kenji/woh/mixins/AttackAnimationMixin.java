@@ -7,6 +7,7 @@ import net.kenji.woh.api.interfaces.IPhase;
 import net.kenji.woh.api.manager.AttackManager;
 import net.kenji.woh.api.manager.ShotogatanaManager;
 import net.kenji.woh.gameasset.WohSkills;
+import net.kenji.woh.item.custom.base.WohWeaponItem;
 import net.kenji.woh.item.custom.weapon.Odachi;
 import net.kenji.woh.item.custom.weapon.Shotogatana;
 import net.kenji.woh.registry.WohSounds;
@@ -81,6 +82,9 @@ public class AttackAnimationMixin {
     public void onAttackTick(LivingEntityPatch<?> entitypatch, AssetAccessor<? extends DynamicAnimation> animation, CallbackInfo ci) {
         AttackAnimation attackAnimation = (AttackAnimation) (Object) this;
         if (entitypatch instanceof PlayerPatch<?> playerPatch) {
+            if (!(playerPatch.getOriginal().getMainHandItem().getItem() instanceof WohWeaponItem)) {
+                return;
+            }
             float time = playerPatch.getAnimator().getPlayerFor(attackAnimation.getAccessor()).getElapsedTime();
             UUID playerId = playerPatch.getOriginal().getUUID();
             AttackAnimation.Phase phase = attackAnimation.phases[attackAnimation.phases.length - 1];
