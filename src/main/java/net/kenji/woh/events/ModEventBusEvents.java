@@ -4,7 +4,6 @@ import net.kenji.woh.WeaponsOfHarmony;
 import net.kenji.woh.entities.WohEntities;
 import net.kenji.woh.entities.custom.ExiledRoninEntity;
 import net.kenji.woh.entities.custom.alt_entities.RoninSkeletonEntity;
-import net.kenji.woh.gameasset.mob_patch.RoninSkeletonPatch;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
@@ -40,7 +39,8 @@ public class ModEventBusEvents {
     }
     @SubscribeEvent
     public static void registerPatchedEntities(EntityPatchRegistryEvent event) {
-        event.getTypeEntry().put(WohEntities.RONIN_SKELETON.get(), (entity) -> RoninSkeletonPatch::new);
+        // Disabled: RoninSkeletonPatch breaks client-side entity construction.
+        // The Ronin skeleton is handled by data/woh/epicfight_mobpatch/ronin_skeleton.json instead.
     }
     @SubscribeEvent
     public static void commonSetup(FMLCommonSetupEvent event) {
